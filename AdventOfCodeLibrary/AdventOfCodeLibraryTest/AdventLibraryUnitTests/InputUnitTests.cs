@@ -27,7 +27,7 @@ namespace AdventLibraryUnitTests
         [Fact]
         public void TokenizeAndParse_HandleNewlineFile()
         {
-            var input = AdventLibrary.ParseInput.GetText("..\\..\\..\\TestData\\2020day1short.txt");
+            var input = AdventLibrary.ParseInput.GetTextFromFile("..\\..\\..\\TestData\\2020day1short.txt");
             var expected = new List<int> { 1721, 979, 366, 299, 675, 1456 };
             var result = AdventLibrary.ParseInput.TokenizeAndParseIntoList<int>(input, Environment.NewLine);
             Assert.Equal(expected, result);
@@ -36,7 +36,7 @@ namespace AdventLibraryUnitTests
         [Fact]
         public void HandleNewlineFile()
         {
-            var input = AdventLibrary.ParseInput.GetText("..\\..\\..\\TestData\\2020day1short.txt");
+            var input = AdventLibrary.ParseInput.GetTextFromFile("..\\..\\..\\TestData\\2020day1short.txt");
             var expected = new List<int> { 1721, 979, 366, 299, 675, 1456 };
             var result = AdventLibrary.ParseInput.ParseLinesAsType<int>(input);
             Assert.Equal(expected, result);
@@ -45,7 +45,7 @@ namespace AdventLibraryUnitTests
         [Fact]
         public void HandleCommaFile()
         {
-            var input = AdventLibrary.ParseInput.GetText("..\\..\\..\\TestData\\2020day1shortCommas.txt");
+            var input = AdventLibrary.ParseInput.GetTextFromFile("..\\..\\..\\TestData\\2020day1shortCommas.txt");
             var expected = new List<int> { 1721, 979, 366, 299, 675, 1456 };
             var result = AdventLibrary.ParseInput.ParseCommaSeperatedAsType<int>(input);
             Assert.Equal(expected, result);
@@ -54,7 +54,7 @@ namespace AdventLibraryUnitTests
         [Fact]
         public void HandleCommasAndNewLinesFile()
         {
-            var input = AdventLibrary.ParseInput.GetLines("..\\..\\..\\TestData\\2020day1shortCommasNewLines.txt");
+            var input = AdventLibrary.ParseInput.GetLinesFromFile("..\\..\\..\\TestData\\2020day1shortCommasNewLines.txt");
             var expected = new List<int> { 1721, 979, 366, 299, 675, 1456 };
 
             List<int> result = new List<int>();

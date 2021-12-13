@@ -1,0 +1,38 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using AdventLibrary;
+
+namespace aoc2021
+{
+    public class Day06: ISolver
+    {
+        private string _filePath;
+        private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
+
+        public Solution Solve(string filePath)
+        {
+            _filePath = filePath;
+            return new Solution(BothParts(80), BothParts(256));
+        }
+
+        private object BothParts(int n)
+        {
+            var counts = new long[9].ToList();
+            var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
+            var nums = AdventLibrary.StringParsing.GetNumbersFromString(lines.First());
+
+            foreach(var num in nums)
+            {
+                counts[num]++;
+            }
+
+            for (var i = 0; i < n; i++)
+            {
+                counts = AdventLibrary.ListTransforming.RotateListLeft<long>(counts, 1);
+                counts[6] = counts[6] + counts[8];
+            }
+            return counts.Sum();
+        }
+    }
+}

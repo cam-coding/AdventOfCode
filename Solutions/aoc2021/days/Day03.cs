@@ -9,14 +9,6 @@ namespace aoc2021
     {
         public Solution Solve(string filePath)
         {
-            /*
-            var letters = AdventLibrary.StringParsing.GetStringBetweenTwoCharacters(input, "a", "b");
-            var letters = AdventLibrary.StringParsing.GetLettersFromString(input);
-            var letters = AdventLibrary.StringParsing.GetLettersFromString(input);
-            var digits = AdventLibrary.StringParsing.GetDigitsFromString(input);
-            var sub = item.Substring(0, 1);
-            Console.WriteLine("");
-            */
             return new Solution(Part1(filePath), Part2(filePath));
         }
 
@@ -56,27 +48,27 @@ namespace aoc2021
         
         private object Part2(string filePath)
         {
+            var grid = AdventLibrary.ParseInput.ParseFileAsGrid(filePath);
             var strings = AdventLibrary.ParseInput.GetLinesFromFile(filePath);
-            var grid = AdventLibrary.TransformInput.ParseBoolGrid(strings, '1');
-            var width = grid.First().Count;
-            var length = grid.Count;
-            var gamma = string.Empty;
-            var epsilon = string.Empty;
+            var grid2 = AdventLibrary.TransformInput.ParseBoolGrid(strings, '1');
             var i = 0;
-
-            var o2 = grid;
+            var o2 = grid2.ToList();
             while (o2.Count > 1)
             {
-                o2 = GetOxygenRating(o2, i);
-                i++;
+                var half = Math.Ceiling((double)o2.Count/2);
+                var count = o2.Count(x => x[i]);
+                o2 = o2.Where(x => x[i] == count >= half).ToList();
+                i++; 
             }
 
-            var co2 = grid;
+            var co2 = grid2.ToList();
             i=0;
             while (co2.Count > 1)
             {
-                co2 = GetCarbonRating(co2, i);
-                i++;
+                var half = Math.Ceiling((double)co2.Count/2);
+                var count = co2.Count(x => x[i]);
+                co2 = co2.Where(x => x[i] == count < half).ToList();
+                i++; 
             }
 
             return ConvertBooleanListToInt(o2.First()) * ConvertBooleanListToInt(co2.First());
@@ -97,50 +89,6 @@ namespace aoc2021
                 }
             }
             return Convert.ToInt32(line, 2);
-        }
-
-        private List<List<bool>> GetOxygenRating(List<List<bool>> grid, int i)
-        {
-            var length = grid.Count;
-            var half = length/2;
-            var count = 0;
-
-            for (var j = 0; j < length; j++)
-            {
-                if (grid[j][i])
-                {
-                    count++;
-                }
-            }
-
-            if (count >= half)
-            {
-                return grid.Where(x => x[i]).ToList();
-            }
-
-            return grid.Where(x => !x[i]).ToList();
-        }
-
-        private List<List<bool>> GetCarbonRating(List<List<bool>> grid, int i)
-        {
-            var length = grid.Count;
-            var half = length/2;
-            var count = 0;
-
-            for (var j = 0; j < length; j++)
-            {
-                if (grid[j][i])
-                {
-                    count++;
-                }
-            }
-
-            if (count <= half)
-            {
-                return grid.Where(x => !x[i]).ToList();
-            }
-
-            return grid.Where(x => x[i]).ToList();
         }
     }
 }

@@ -41,7 +41,6 @@ namespace aoc2021
         private object Part2(string filePath)
         {
             var increased = 0;
-            var previous = 0;
             var numbers = AdventLibrary.ParseInput.GetNumbersFromFile(filePath);
             var groups = new int[numbers.Count];
             var i=0;

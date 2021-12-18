@@ -7,9 +7,6 @@ namespace aoc2021
 {
     public class Day08: ISolver
     {
-        private List<char> liney;
-        private List<string> permutations;
-        private List<HashSet<char>> analogNums;
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
         public Solution Solve(string filePath)
@@ -21,7 +18,6 @@ namespace aoc2021
         private object Part1()
         {
             var counter = 0;
-            var highest = Int64.MaxValue;
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
 			
 			foreach (var line in lines)
@@ -35,7 +31,6 @@ namespace aoc2021
         private object Part2()
         {
             var bigOleTotal = 0;
-            var highest = Int64.MaxValue;
             var solved = new string[10];
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
 			

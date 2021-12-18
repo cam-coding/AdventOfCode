@@ -21,7 +21,6 @@ namespace aoc2021
         private object Part1()
         {
             var counter = 0;
-            var highest = Int64.MaxValue;
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
 			
 			foreach (var line in lines)
@@ -35,7 +34,6 @@ namespace aoc2021
         private object Part2()
         {
             var bigOleTotal = 0;
-            var highest = Int64.MaxValue;
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
 			
 			foreach (var line in lines)

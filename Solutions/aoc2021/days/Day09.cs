@@ -53,7 +53,6 @@ namespace aoc2021
         
         private object Part2()
         {
-            var counter = 0;
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
             grid = new List<List<int>>();
             done = new List<Tuple<int, int>>();

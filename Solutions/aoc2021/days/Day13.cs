@@ -22,7 +22,10 @@ namespace aoc2021
 			
 			foreach (var line in lines)
 			{
-                if (string.IsNullOrWhiteSpace(line));
+                if (string.IsNullOrWhiteSpace(line))
+                {
+
+                }
                 else if (!line.Contains("fold"))
                 {
                     var tokens = line.Split(delimiterChars);
@@ -64,7 +67,10 @@ namespace aoc2021
 			
 			foreach (var line in lines)
 			{
-                if (string.IsNullOrWhiteSpace(line));
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    
+                }
                 else if (!line.Contains("fold"))
                 {
                     var tokens = line.Split(delimiterChars);

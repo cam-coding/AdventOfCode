@@ -232,6 +232,8 @@ namespace AdventLibraryUnitTests
             Assert.Equal(expected, actual);
         }
         #endregion ExclusiveLine
+
+        /*
         
         [Fact]
         public void GridHelper_RotateColumnDown_ReturnsExpected()
@@ -242,6 +244,6 @@ namespace AdventLibraryUnitTests
 
             var actual = AdventLibrary.GridHelper.RotateColumnDownWithWrap(start, 0);
             Assert.Equal(expected, actual);
-        }
+        } */
     }
 }

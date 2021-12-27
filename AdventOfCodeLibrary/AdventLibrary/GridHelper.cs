@@ -154,6 +154,32 @@ namespace AdventLibrary
             return neighbours;
         }
 
+        public static Tuple<int, int> MoveByOffsetWithWrap(int x, int y, int xOffset, int yOffset, int width, int height)
+        {
+            int newX = x + xOffset;
+            int newY = y + yOffset;
+
+            if (newX < 0)
+            {
+                newX = newX + width;
+            }
+            else if (newX >= width)
+            {
+                newX = newX - width;
+            }
+
+            if (newY < 0)
+            {
+                newY = newY + height;
+            }
+            else if (newY >= height)
+            {
+                newY = newY - height;
+            }
+
+            return new Tuple<int, int>(newX, newY);
+        }
+
         // rotate grid down up, left right for row and column
         /*
         public static int[,] RotateColumnDownWithWrap(int[,] grid, int column)

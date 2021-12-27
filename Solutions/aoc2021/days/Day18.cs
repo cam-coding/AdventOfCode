@@ -5,7 +5,7 @@ using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day10: ISolver
+    public class Day18: ISolver
     {
 		/*
 		var sub = item.Substring(0, 1);
@@ -31,7 +31,7 @@ namespace aoc2021
 			foreach (var line in lines)
 			{
                 var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+				var nums = StringParsing.GetNumbersFromString(line);
                 
 				foreach (var num in nums)
 				{
@@ -45,7 +45,7 @@ namespace aoc2021
                     }
                 }
 			}
-            return 0;
+            return total;
         }
         
         private object Part2()

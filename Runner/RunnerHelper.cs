@@ -28,7 +28,7 @@ namespace Runner
             if (args.Length == 0)
             {
                 year = "2021";
-                day = "17";
+                day = "23";
             }
             else if (args[0] == "true" || args[0] == "-t" )
             {
@@ -91,7 +91,7 @@ namespace Runner
 
         private async Task<string> GetFromServerAsync(string day, string year)
         {
-            var sessionCookie = System.IO.File.ReadAllText($"..\\AdventOfCodeLibrary\\AdventLibrary\\SessionCookie.txt");
+            var sessionCookie = System.IO.File.ReadAllText($"SessionCookie.txt");
 
             var inputResult = string.Empty;
             var baseAddress = new Uri("https://adventofcode.com");

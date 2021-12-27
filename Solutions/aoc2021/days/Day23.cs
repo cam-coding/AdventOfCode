@@ -5,7 +5,7 @@ using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day10: ISolver
+    public class Day23: ISolver
     {
 		/*
 		var sub = item.Substring(0, 1);

@@ -219,7 +219,7 @@ namespace aoc2021
 
         private List<int> RemoveOverlap(List<int> alpha, List<int> beta)
         {
-            
+            return null;
         }
     }
 }

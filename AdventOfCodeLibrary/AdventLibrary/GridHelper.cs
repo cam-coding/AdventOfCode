@@ -5,6 +5,26 @@ namespace AdventLibrary
 {
     public static class GridHelper
     {
+        public static List<List<int>> GenerateSquareGrid(int n)
+        {
+            return GenerateSquareGrid<int>(n, 0);
+        }
+        public static List<List<T>> GenerateSquareGrid<T>(int n, T value)
+        {
+            var grid = new List<List<T>>();
+
+            for (var i = 0; i < n; i++)
+            {
+                var listy = new List<T>();
+                for (var j = 0; j < n; j++)
+                {
+                    listy.Add(value);
+                }
+                grid.Add(listy);
+            }
+
+            return grid;
+        }
         public static List<Tuple<int,int>> GetPointsBetweenStartAndEndInclusive(List<int> nums)
         {
             return GetPointsBetweenStartAndEndInclusive(nums[0], nums[1], nums[2], nums[3]);
@@ -132,7 +152,30 @@ namespace AdventLibrary
             return points;
         }
 
-        public static List<Tuple<int,int>> GetAdjacent(List<List<int>> grid, int x, int y) 
+        public static List<Tuple<int,int>> GetAdjacentNeighbours(List<List<int>> grid, int x, int y) 
+        {
+            var adj = new List<Tuple<int,int>>()
+            { 
+                new Tuple<int, int>(0, -1),
+                new Tuple<int, int>(0, 1),
+                new Tuple<int, int>(1, 0),
+                new Tuple<int, int>(-1, 0),
+            };
+            List<Tuple<int, int>> neighbours = new List<Tuple<int, int>>();
+
+            for (int i = 0; i < 4; i++)
+            {
+                var newNeighbour = MoveByOffset(x, y, adj[i].Item1, adj[i].Item2, grid[0].Count, grid.Count, false);
+
+                if (!neighbours.Contains(newNeighbour) && (x != newNeighbour.Item1 || y != newNeighbour.Item2))
+                {
+                    neighbours.Add(newNeighbour);
+                }
+            }
+            return neighbours;
+        }
+
+        public static List<Tuple<int,int>> GetOrthoginalNeighbours(List<List<int>> grid, int x, int y) 
         {
             List<Tuple<int, int>> neighbours = new List<Tuple<int, int>>();
             int rowMin = x - 1 > 0 ? x - 1 : 0;
@@ -154,27 +197,85 @@ namespace AdventLibrary
             return neighbours;
         }
 
-        public static Tuple<int, int> MoveByOffsetWithWrap(int x, int y, int xOffset, int yOffset, int width, int height)
+        public static List<Tuple<int,int>> GetOrthoginalNeighbours2(List<List<int>> grid, int x, int y) 
+        {
+            List<Tuple<int, int>> neighbours = new List<Tuple<int, int>>();
+
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+                    if (i == x && j == y)
+                    {
+                        continue;
+                    }
+
+                    var newNeighbour = MoveByOffset(x, y, j, i, grid[0].Count, grid.Count, false);
+
+                    if (!neighbours.Contains(newNeighbour) && (x != newNeighbour.Item1 || y != newNeighbour.Item2))
+                    {
+                        neighbours.Add(newNeighbour);
+                    }
+                }
+            }
+            return neighbours;
+        }
+
+        /* Assume offset already applied*/
+        public static Tuple<int, int> MoveByOffset(int x, int y, int width, int height, bool wrap)
+        {
+            return MoveByOffset(x, y, 0, 0, width, height, wrap);
+        }
+
+        public static Tuple<int, int> MoveByOffset(int x, int y, int xOffset, int yOffset, int width, int height, bool wrap)
         {
             int newX = x + xOffset;
             int newY = y + yOffset;
 
             if (newX < 0)
             {
-                newX = newX + width;
+                if (wrap)
+                {
+                    newX = newX + width;
+                }
+                else
+                {
+                    newX = 0;
+                }
             }
             else if (newX >= width)
             {
-                newX = newX - width;
+                if (wrap)
+                {
+                    newX = newX - width;
+                }
+                else
+                {
+                    newX = width - 1;
+                }
             }
 
             if (newY < 0)
             {
-                newY = newY + height;
+                if (wrap)
+                {
+                    newY = newY + height;
+                }
+                else
+                {
+                    newY = 0;
+                }
             }
             else if (newY >= height)
             {
-                newY = newY - height;
+                if (wrap)
+                {
+                    newY = newY - height;
+                }
+                else
+                {
+                    newY = height - 1;
+                }
             }
 
             return new Tuple<int, int>(newX, newY);

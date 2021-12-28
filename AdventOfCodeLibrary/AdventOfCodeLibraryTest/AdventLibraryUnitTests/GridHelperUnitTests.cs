@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using System.Collections.Generic;
+using AdventLibrary;
 
 namespace AdventLibraryUnitTests
 {
@@ -232,6 +233,117 @@ namespace AdventLibraryUnitTests
             Assert.Equal(expected, actual);
         }
         #endregion ExclusiveLine
+        
+        #region Neighbours
+        /* check from top right and clockwise*/
+        [Fact]
+        public void GridHelper_GetAdjacent_Corner_ReturnsExpected()
+        {
+            var grid = GridHelper.GenerateSquareGrid(5);
+            var actual = GridHelper.GetAdjacentNeighbours(grid, 0, 0);
+            Assert.Contains(new Tuple<int,int>(0, 1), actual);
+            Assert.Contains(new Tuple<int,int>(1, 0), actual);
+            Assert.Equal(2, actual.Count);
+        }
+        
+        [Fact]
+        public void GridHelper_GetAdjacent_TopEdge_ReturnsExpected()
+        {
+            var grid = GridHelper.GenerateSquareGrid(5);
+            var actual = GridHelper.GetAdjacentNeighbours(grid, 1, 0);
+            Assert.Contains(new Tuple<int,int>(1, 1), actual);
+            Assert.Contains(new Tuple<int,int>(2, 0), actual);
+            Assert.Contains(new Tuple<int,int>(0, 0), actual);
+            Assert.Equal(3, actual.Count);
+        }
+        
+        [Fact]
+        public void GridHelper_GetAdjacent_SideEdge_ReturnsExpected()
+        {
+            var grid = GridHelper.GenerateSquareGrid(5);
+            var actual = GridHelper.GetAdjacentNeighbours(grid, 0, 1);
+            Assert.Contains(new Tuple<int,int>(1, 1), actual);
+            Assert.Contains(new Tuple<int,int>(0, 0), actual);
+            Assert.Contains(new Tuple<int,int>(0, 2), actual);
+            Assert.Equal(3, actual.Count);
+        }
+        
+        [Fact]
+        public void GridHelper_GetAdjacent_Middle_ReturnsExpected()
+        {
+            var grid = GridHelper.GenerateSquareGrid(5);
+            var actual = GridHelper.GetAdjacentNeighbours(grid, 1, 1);
+            Assert.Contains(new Tuple<int,int>(0, 1), actual);
+            Assert.Contains(new Tuple<int,int>(2, 1), actual);
+            Assert.Contains(new Tuple<int,int>(1, 0), actual);
+            Assert.Contains(new Tuple<int,int>(1, 2), actual);
+            Assert.Equal(4, actual.Count);
+        }
+
+        [Fact]
+        public void GridHelper_GetOrthoginal_Corner_ReturnsExpected()
+        {
+            var grid = GridHelper.GenerateSquareGrid(5);
+            var actual = GridHelper.GetOrthoginalNeighbours(grid, 0, 0);
+            Assert.Contains(new Tuple<int,int>(0, 1), actual);
+            Assert.Contains(new Tuple<int,int>(1, 1), actual);
+            Assert.Contains(new Tuple<int,int>(1, 0), actual);
+            Assert.Equal(3, actual.Count);
+        }
+        
+        [Fact]
+        public void GridHelper_GetOrthoginal_TopEdge_ReturnsExpected()
+        {
+            var grid = GridHelper.GenerateSquareGrid(5);
+            var actual = GridHelper.GetOrthoginalNeighbours(grid, 1, 0);
+            Assert.Contains(new Tuple<int,int>(2, 0), actual);
+            Assert.Contains(new Tuple<int,int>(2, 1), actual);
+            Assert.Contains(new Tuple<int,int>(1, 1), actual);
+            Assert.Contains(new Tuple<int,int>(0, 1), actual);
+            Assert.Contains(new Tuple<int,int>(0, 0), actual);
+            Assert.Equal(5, actual.Count);
+        }
+        
+        [Fact]
+        public void GridHelper_GetOrthoginal_SideEdge_ReturnsExpected()
+        {
+            var grid = GridHelper.GenerateSquareGrid(5);
+            var actual = GridHelper.GetOrthoginalNeighbours(grid, 0, 1);
+            Assert.Contains(new Tuple<int,int>(1, 0), actual);
+            Assert.Contains(new Tuple<int,int>(1, 1), actual);
+            Assert.Contains(new Tuple<int,int>(1, 2), actual);
+            Assert.Contains(new Tuple<int,int>(0, 2), actual);
+            Assert.Contains(new Tuple<int,int>(0, 0), actual);
+            Assert.Equal(5, actual.Count);
+        }
+        
+        [Fact]
+        public void GridHelper_GetOrthoginal_Middle_ReturnsExpected()
+        {
+            var grid = GridHelper.GenerateSquareGrid(5);
+            var actual = GridHelper.GetOrthoginalNeighbours(grid, 1, 1);
+            Assert.Contains(new Tuple<int,int>(2, 0), actual);
+            Assert.Contains(new Tuple<int,int>(2, 1), actual);
+            Assert.Contains(new Tuple<int,int>(2, 2), actual);
+            Assert.Contains(new Tuple<int,int>(1, 2), actual);
+            Assert.Contains(new Tuple<int,int>(0, 2), actual);
+            Assert.Contains(new Tuple<int,int>(0, 1), actual);
+            Assert.Contains(new Tuple<int,int>(0, 0), actual);
+            Assert.Contains(new Tuple<int,int>(1, 0), actual);
+            Assert.Equal(8, actual.Count);
+        }
+        #endregion Neighbours
+
+        private List<List<int>> GenerateEmptyGrid()
+        {
+            var listy = new List<List<int>>();
+            listy.Add(new List<int> { 0, 0, 0, 0});
+            listy.Add(new List<int> { 0, 0, 0, 0});
+            listy.Add(new List<int> { 0, 0, 0, 0});
+            listy.Add(new List<int> { 0, 0, 0, 0});
+
+            return listy;
+        }
 
         /*
         

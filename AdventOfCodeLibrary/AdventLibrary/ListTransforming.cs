@@ -16,6 +16,22 @@ namespace AdventLibrary
             return list[list.Count - 1];
         }
 
+        public static List<List<T>> Clone2dList<T>(this List<List<T>> original)
+        {
+            var listy2d = new List<List<T>>();
+            for (var y = 0; y < original.Count; y++)
+            {
+                var listy = new List<T>();
+                for (var x = 0; x < original[0].Count; x++)
+                {
+                    listy.Add(original[y][x]);
+                }
+                listy2d.Add(listy);
+            }
+            
+            return listy2d;
+        }
+
         public static List<T> RotateListLeft<T>(this List<T> list, int n)
         {
             var rotatedList = new List<T>();

@@ -69,6 +69,21 @@ namespace AdventLibrary
             }
             return grid;
         }
+        
+        public static List<List<char>> ParseFileAsCharGrid(string filePath)
+        {
+			var lines = GetLinesFromFile(filePath);
+            var grid = new List<List<char>>();
+            for (var i = 0; i < lines.Count; i++)
+            {
+                grid.Add(new List<char>());
+                for (var j = 0; j < lines[i].Length; j++)
+                {
+                    grid[i].Add(lines[i][j]);
+                }
+            }
+            return grid;
+        }
 
         public static Dictionary<string, List<string>> ParseFileAsGraph(string filePath)
         {

@@ -25,6 +25,8 @@ namespace aoc2021
         private object Part1()
         {
             var grid = AdventLibrary.ParseInput.ParseFileAsGrid(_filePath);
+            var dist = AdventLibrary.PathFinding.Dijkstra.Search(grid, new Tuple<int, int>(0,0));
+            var blah = dist[new Tuple<int, int>(grid.Count-1,grid[0].Count-1)];
             var betterGrid = MakeMyGrid(grid);
             var pather = new AStarSharp.Astar(betterGrid);
             var path = pather.FindPath(new Vector2(0,0), new Vector2(grid.Count-1,grid[0].Count-1));
@@ -65,12 +67,16 @@ namespace aoc2021
         {
             var grid = AdventLibrary.ParseInput.ParseFileAsGrid(_filePath);
             var grid2 = CreateLargerGrid(grid);
+            var dist = AdventLibrary.PathFinding.Dijkstra.Search(grid2, new Tuple<int, int>(0,0));
+            var blah2 = dist[new Tuple<int, int>(grid2.Count-1,grid2[0].Count-1)];
+            return blah2;
+            /*
             var betterGrid = MakeMyGrid(grid2);
             var pather = new AStarSharp.Astar(betterGrid);
             var path = pather.FindPath(new Vector2(grid2.Count-1,grid2[0].Count-1), new Vector2(0,0));
             var pathArray = path.ToArray();
             var blah = pathArray[pathArray.Count() - 1];
-            return path.Sum(x => x.Weight);
+            return path.Sum(x => x.Weight); */
         }
 
         private List<List<int>> CreateLargerGrid(List<List<int>> grid)

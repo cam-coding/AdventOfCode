@@ -281,6 +281,21 @@ namespace AdventLibrary
             return new Tuple<int, int>(newX, newY);
         }
 
+        public static Dictionary<Tuple<int,int>, List<Tuple<int,int>>> GridToAdjList(List<List<int>> grid)
+        {
+            var dict = new Dictionary<Tuple<int,int>, List<Tuple<int,int>>>();
+            for (var y = 0; y < grid.Count; y++)
+            {
+                for (var x = 0; x < grid[0].Count; x++)
+                {
+                    var cord = new Tuple<int,int>(x,y);
+                    dict.Add(cord, GetAdjacentNeighbours(grid, x, y));
+                }
+            }
+
+            return dict;
+        }
+
         // rotate grid down up, left right for row and column
         /*
         public static int[,] RotateColumnDownWithWrap(int[,] grid, int column)

@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
 
+/*
+* Taken from RedBlobGames https://www.redblobgames.com/pathfinding/a-star/implementation.html#python-dijkstra
+*/
+
 namespace AdventLibrary.PathFinding
 {
     // A* needs only a WeightedGraph and a location type L, and does *not*
@@ -79,7 +83,7 @@ namespace AdventLibrary.PathFinding
     }
 
 
-    public class PriorityQueue<T>
+    public class PriorityQueue2<T>
     {
         // I'm using an unsorted array for this example, but ideally this
         // would be a binary heap. There's an open issue for adding a binary
@@ -144,7 +148,7 @@ namespace AdventLibrary.PathFinding
 
         public AStarSearch(WeightedGraph<Location> graph, Location start, Location goal)
         {
-            var frontier = new PriorityQueue<Location>();
+            var frontier = new PriorityQueue2<Location>();
             frontier.Enqueue(start, 0);
 
             cameFrom[start] = start;

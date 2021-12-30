@@ -5,6 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Numerics;
 
+/*
+* Copied from https://github.com/davecusatis/A-Star-Sharp
+*/
+
 namespace AStarSharp
 {
     public class Node

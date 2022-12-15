@@ -5,7 +5,7 @@ using AdventLibrary;
 
 namespace aoc2022
 {
-    public class Day10: ISolver
+    public class Day11: ISolver
     {
 		/*
 		var sub = item.Substring(0, 1);
@@ -31,6 +31,7 @@ namespace aoc2022
 			foreach (var line in lines)
 			{
                 var tokens = line.Split(delimiterChars);
+                var nums1 = StringParsing.GetNumbersWithNegativesFromString(tokens[1]);
 				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
                 
 				foreach (var num in nums)

@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Reflection;
-using System.Security.Permissions;
+using System.IO;
 using System.Linq;
-using aoc2015;
+using System.Security.Permissions;
+using System.Reflection;
+using aoc2022;
 using AdventLibrary;
 
 namespace Runner
@@ -18,7 +19,7 @@ namespace Runner
             var solver = helper.GetSolver(day, year);
             var filePath = helper.GetInputPath(day, year);
             var testFilePath = helper.GetTestInputPath(day, year);
-            if (!testFilePath.Equals(String.Empty))
+            if (!testFilePath.Equals(String.Empty) && new FileInfo(testFilePath).Length != 0)
             {
                 Console.WriteLine("<<<<<TEST INPUT START>>>>>");
                 solver.Solve(testFilePath).Output();

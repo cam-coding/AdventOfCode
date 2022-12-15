@@ -32,7 +32,7 @@ namespace AdventLibrary
             return listy2d;
         }
 
-        public static List<T> RotateListLeft<T>(this List<T> list, int n)
+        public static List<T> RotateListLeft<T>(this List<T> list, int n = 1)
         {
             var rotatedList = new List<T>();
             for (int j = 0; j < n; j++)
@@ -46,7 +46,7 @@ namespace AdventLibrary
             return rotatedList;
         }
 
-        public static List<T> RotateListRight<T>(this List<T> list, int n)
+        public static List<T> RotateListRight<T>(this List<T> list, int n = 1)
         {
             var rotatedList = new List<T>();
             for (int i = 0; i < n; i++)

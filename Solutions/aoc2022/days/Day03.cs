@@ -5,7 +5,7 @@ using AdventLibrary;
 
 namespace aoc2022
 {
-    public class Day10: ISolver
+    public class Day03: ISolver
     {
 		/*
 		var sub = item.Substring(0, 1);
@@ -22,30 +22,25 @@ namespace aoc2022
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var numbers = ParseInput.GetNumbersFromFile(_filePath);
-            var nodes = ParseInput.ParseFileAsGraph(_filePath);
-            var grid = ParseInput.ParseFileAsGrid(_filePath);
-            var total = 1000000;
 			var counter = 0;
 			
 			foreach (var line in lines)
 			{
-                var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
-                
-				foreach (var num in nums)
-				{
-				}
+                var half = line.Length / 2;
+                var half1 = line.Substring(0, half);
+                var half2 = line.Substring(half, half);
 
-                for (var i = 0; i < 0; i++)
+                for (var i = 0; i < half; i++)
                 {
-                    for (var j = 0; j < 0; j++)
+                    if (half2.Contains(half1[i]))
                     {
-                        
+                        var value = half1[i];
+                        counter += value - 38;
                     }
+                    
                 }
 			}
-            return 0;
+            return counter;
         }
         
         private object Part2()

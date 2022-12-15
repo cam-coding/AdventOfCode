@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Security.Permissions;
 using System.Threading.Tasks;
-using aoc2015;
+using aoc2022;
 using AdventLibrary;
 
 namespace Runner
@@ -19,16 +19,17 @@ namespace Runner
         public RunnerHelper()
         {
             _assemblies = new Dictionary<string, Assembly>();
-            _assemblies.Add("2015", typeof(aoc2015.Day01).Assembly);
+            // _assemblies.Add("2015", typeof(aoc2015.Day01).Assembly);
             _assemblies.Add("2021", typeof(aoc2021.Day01).Assembly);
+            _assemblies.Add("2022", typeof(aoc2022.Day01).Assembly);
         }
 
         public void GetDateAndYear(string[] args, out string day, out string year)
         {
             if (args.Length == 0)
             {
-                year = "2021";
-                day = "15";
+                year = "2022";
+                day = "06";
             }
             else if (args[0] == "true" || args[0] == "-t" )
             {
@@ -62,9 +63,10 @@ namespace Runner
 
         public string GetTestInputPath(string day, string year)
         {
-            if (File.Exists($"..\\TestInput\\{year}\\Day{day}Test.txt"))
+            var fileName = $"..\\TestInput\\{year}\\Day{day}Test.txt";
+            if (File.Exists(fileName))
             {
-                return$"..\\TestInput\\{year}\\Day{day}Test.txt";
+                return fileName;
             }
             return string.Empty;
         }

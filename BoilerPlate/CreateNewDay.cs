@@ -38,6 +38,7 @@ namespace CreateNewDay
                 baseDir = "..\\..\\..\\..\\";
             }
 
+            CreateTestInputFile(baseDir);
             var solutionsDir = baseDir + $"Solutions\\";
             if (!Directory.Exists(solutionsDir))
             {
@@ -57,15 +58,43 @@ namespace CreateNewDay
             return targetFile;
         }
 
+        private static void CreateTestInputFile(string baseDir)
+        {
+            var yearDir = baseDir + $"TestInput\\{Year}\\";
+            Directory.CreateDirectory(yearDir);
+            var targetFile = yearDir + $"Day{Day}Test.txt";
+            if (!File.Exists(targetFile))
+            {
+                using (File.Create(targetFile));
+            }
+            /*
+            var inputDir = baseDir + $"TestInput\\";
+            if (!Directory.Exists(inputDir))
+            {
+                Directory.CreateDirectory(inputDir);
+            }
+            var yearDir = inputDir + $"{Year}\\";
+            if (!Directory.Exists(yearDir))
+            {
+                Directory.CreateDirectory(yearDir);
+            }
+            var targetFile = daysDir + $"Day{Day}Test.txt";
+            if (!File.Exists(targetFile))
+            {
+                using (File.Create(targetFile));
+            }*/
+        }
+
         public static void FillFile(string filePath)
         {
             var part1 = $@"using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary;
+using AdventLibrary.Helpers;
 ";
             var nameSpace = $"namespace aoc{Year}";
-            var className = $"  public class Day{Day}: ISolver";
+            var className = $"    public class Day{Day}: ISolver";
             var part2 = @"  {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };

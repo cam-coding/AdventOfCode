@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
-namespace aoc2021
+namespace aoc2022
 {
-    public class Day10: ISolver
-    {
+  public class Day07: ISolver
+  {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
         public Solution Solve(string filePath)

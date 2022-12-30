@@ -10,6 +10,7 @@
     <ProjectReference Include="..\Solutions\aoc2015\aoc2015.csproj" />
     <ProjectReference Include="..\Solutions\aoc2021\aoc2021.csproj" />
     <ProjectReference Include="..\Solutions\aoc2022\aoc2022.csproj" />
+    <ProjectReference Include="..\BoilerPlate\BoilerPlate.csproj" />
   </ItemGroup>
 
 </Project>

@@ -20,7 +20,7 @@ namespace Runner
         {
             _assemblies = new Dictionary<string, Assembly>();
             // _assemblies.Add("2015", typeof(aoc2015.Day01).Assembly);
-            _assemblies.Add("2021", typeof(aoc2021.Day01).Assembly);
+            // _assemblies.Add("2021", typeof(aoc2021.Day01).Assembly);
             _assemblies.Add("2022", typeof(aoc2022.Day01).Assembly);
         }
 

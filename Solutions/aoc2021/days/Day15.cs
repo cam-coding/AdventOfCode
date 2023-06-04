@@ -31,36 +31,6 @@ namespace aoc2021
             var pather = new AStarSharp.Astar(betterGrid);
             var path = pather.FindPath(new Vector2(0,0), new Vector2(grid.Count-1,grid[0].Count-1));
             return path.Sum(x => x.Weight);
-            /*
-            var blah = grid.Count/2;
-            Tuple<int,int> toople = null;
-            var weight = int.MaxValue;
-            var myDict = new Dictionary<Tuple<int,int>, int>();
-            for (var k = 0; k < 2; k++)
-            {
-                for (var m = 0; m < 2; m++)
-                {
-                    var currentWeight = 0;
-                    for (var i = blah*k; i < blah*(k+1); i++)
-                    {
-                        for (var j = blah*m; j < blah*(m+1); j++)
-                        {
-                            currentWeight = currentWeight + grid[i][j];
-                        }
-                    }
-                    myDict.Add(new Tuple<int, int>(k, m), currentWeight);
-                    if (currentWeight < weight)
-                    {
-                        weight = currentWeight;
-                        toople = new Tuple<int, int>(k, m);
-                    }
-                }
-            }
-            var graph = GetGraphFromGrid(grid);
-            var total = 1000000;
-			var counter = 0;
-            return 0;
-            */
         }
         
         private object Part2()
@@ -71,6 +41,7 @@ namespace aoc2021
             var blah2 = dist[new Tuple<int, int>(grid2.Count-1,grid2[0].Count-1)];
             return blah2;
             /*
+            This used the Astar stuff that didn't really work...
             var betterGrid = MakeMyGrid(grid2);
             var pather = new AStarSharp.Astar(betterGrid);
             var path = pather.FindPath(new Vector2(grid2.Count-1,grid2[0].Count-1), new Vector2(0,0));

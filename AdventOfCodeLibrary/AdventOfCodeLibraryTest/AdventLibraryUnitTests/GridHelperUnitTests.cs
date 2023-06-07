@@ -344,18 +344,71 @@ namespace AdventLibraryUnitTests
 
             return listy;
         }
-
-        /*
         
         [Fact]
         public void GridHelper_RotateColumnDown_ReturnsExpected()
         {
-            var expected = new int[,]{ { 7, 2, 3, 4 }, { 5, 6, 1, 8 }, { 9, 10, 11, 12 }, { 13, 14, 15, 16 } };
+            var start = new int[,]{ { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }};
               
-            var start = new int[,]{ { 13, 2, 3, 4 }, { 7, 6, 1, 8 }, { 5, 10, 11, 12 }, { 9, 14, 15, 16 } };
+            var expected = new int[,]{ { 9, 2, 3, 4 }, { 1, 6, 7, 8 }, { 5, 10, 11, 12 }};
 
             var actual = AdventLibrary.GridHelper.RotateColumnDownWithWrap(start, 0);
             Assert.Equal(expected, actual);
-        } */
+        }
+
+        [Fact]
+        public void GridHelper_RotateColumnUp_ReturnsExpected()
+        {
+            var start = new int[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
+
+            var expected = new int[,] { { 5, 2, 3, 4 }, { 9, 6, 7, 8 }, { 1, 10, 11, 12 } };
+
+            var actual = AdventLibrary.GridHelper.RotateColumnUpWithWrap(start, 0);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GridHelper_RotateGridDown_ReturnsExpected()
+        {
+            var start = new int[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
+
+            var expected = new int[,] { { 9, 10, 11, 12 }, { 1, 2, 3, 4 }, { 5, 6, 7, 8 } };
+
+            var actual = AdventLibrary.GridHelper.RotateGridDownWithWrap(start);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GridHelper_RotateGridUp_ReturnsExpected()
+        {
+            var start = new int[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
+
+            var expected = new int[,] { { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, { 1, 2, 3, 4 } };
+
+            var actual = AdventLibrary.GridHelper.RotateGridUpWithWrap(start);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GridHelper_RotateRowRight_ReturnsExpected()
+        {
+            var start = new int[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
+
+            var expected = new int[,] { { 4, 1, 2, 3 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
+
+            var actual = AdventLibrary.GridHelper.RotateRowRightWithWrap(start, 0);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GridHelper_RotateRowLeft_ReturnsExpected()
+        {
+            var start = new int[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
+
+            var expected = new int[,] { { 2, 3, 4, 1 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
+
+            var actual = AdventLibrary.GridHelper.RotateRowLeftWithWrap(start, 0);
+            Assert.Equal(expected, actual);
+        }
     }
 }

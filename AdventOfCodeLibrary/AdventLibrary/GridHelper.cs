@@ -296,20 +296,100 @@ namespace AdventLibrary
             return dict;
         }
 
-        // rotate grid down up, left right for row and column
-        /*
-        public static int[,] RotateColumnDownWithWrap(int[,] grid, int column)
+        /* assume we have an array like
+         * 1  2  3  4
+         * 5  6  7  8
+         * 9 10 11 12
+         * grid[row, column]
+         * GetLength(0) would be 3. for the 3 rows
+         * GetLength(1) is the 2nd dimension for the 4 columns.
+         Should make a whole doc with notes on this for reference*/
+        public static T[,] RotateColumnDownWithWrap<T>(T[,] grid, int column)
         {
-            int[,] newGrid = new int[,] {};
-            Array.Copy(grid, newGrid, grid.Length);
-            var temp  = grid[grid.GetLength(0)-1, column];
-            for (int i = 1; i < grid.GetLength(0); i++)
+            var length = grid.GetLength(0);
+            var temp = grid[length-1, column];
+            for (var j = length-1; j > 0; j--)
             {
-                newGrid[i, column] = grid[i-1, column];
+                grid[j, column] = grid[j - 1, column];
             }
-            newGrid[0, column] = temp;
-            return newGrid;
+            grid[0, column] = temp;
+            return grid;
         }
-        */
+
+        public static T[,] RotateColumnUpWithWrap<T>(T[,] grid, int column)
+        {
+            var length = grid.GetLength(0);
+            var temp = grid[0, column];
+            for (var j = 0; j < length-1; j++)
+            {
+                grid[j, column] = grid[j + 1, column];
+            }
+            grid[length-1, column] = temp;
+            return grid;
+        }
+
+        public static T[,] RotateGridDownWithWrap<T>(T[,] grid)
+        {
+            for (var i = 0; i < grid.GetLength(1); i++)
+            {
+                grid = RotateColumnDownWithWrap(grid, i);
+            }
+            return grid;
+        }
+
+        public static T[,] RotateGridUpWithWrap<T>(T[,] grid)
+        {
+            for (var i = 0; i < grid.GetLength(1); i++)
+            {
+                grid = RotateColumnUpWithWrap(grid, i);
+            }
+            return grid;
+        }
+
+        /* assume we have an array like
+         * 1  2  3  4
+         * 5  6  7  8
+         * 9 10 11 12
+         * grid[row, column]
+         * GetLength(0) would be 3. for the 3 rows
+         * GetLength(1) is the 2nd dimension for the 4 columns */
+        public static T[,] RotateRowRightWithWrap<T>(T[,] grid, int row)
+        {
+            var length = grid.GetLength(1);
+            var temp = grid[row, length-1];
+            for (var j = length-1; j > 0; j--)
+            {
+                grid[row, j] = grid[row, j-1];
+            }
+            grid[row, 0] = temp;
+            return grid;
+        }
+
+        public static T[,] RotateRowLeftWithWrap<T>(T[,] grid, int row)
+        {
+            var length = grid.GetLength(1);
+            var temp = grid[row, 0];
+            for (var j = 0; j < length-1; j++)
+            {
+                grid[row, j] = grid[row, j+1];
+            }
+            grid[row, length - 1] = temp;
+            return grid;
+        }
+
+        public static void PrintGrid<T>(T[,] grid)
+        {
+            var rows = grid.GetLength(0);
+            var columns = grid.GetLength(1);
+
+            for (var i = 0; i < rows; i++)
+            {
+                for (var j = 0; j < columns; j++)
+                {
+                    Console.Write(grid[i,j]);
+                }
+                Console.WriteLine();
+            }
+        }
     }
 }

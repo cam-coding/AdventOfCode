@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AdventLibrary": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

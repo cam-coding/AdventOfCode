@@ -1,0 +1,7 @@
+Write more unit tests.
+
+Write DFS and BFS into a generic helper.
+
+line/num parser shouldn't throw
+
+Implement the attempt guesser

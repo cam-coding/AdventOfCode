@@ -5,10 +5,10 @@ namespace AdventLibrary
 {
     public class StackSolverClass
     {
-        private Dictionary<char, char> _pairs;
-        private Dictionary<char, int> _counts;
-        private List<char> _leftoverStack;
-        private string _inputString;
+        private readonly Dictionary<char, char> _pairs;
+        private readonly Dictionary<char, int> _counts;
+        private readonly List<char> _leftoverStack;
+        private readonly string _inputString;
         public StackSolverClass(string inputStack, char[] pairs)
         {
             _inputString = inputStack;

@@ -20,5 +20,12 @@ namespace AdventLibrary
 
             return true;
         }
+
+        public static string ReverseString(string str)
+        {
+            char[] charArray = str.ToCharArray();
+            Array.Reverse(charArray);
+            return new string(charArray);
+        }
     }
 }

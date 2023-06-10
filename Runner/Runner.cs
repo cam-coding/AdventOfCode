@@ -1,23 +1,17 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Security.Permissions;
-using System.Reflection;
-using aoc2022;
-using AdventLibrary;
+using System.Threading.Tasks;
 
 namespace Runner
 {
     class Runner
     {
-        static string aoc = new string("aoc");
-
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var helper = new RunnerHelper();
             helper.GetDateAndYear(args, out string day, out string year);
             var solver = helper.GetSolver(day, year);
-            var filePath = helper.GetInputPath(day, year);
+            var filePath = await helper.GetInputPath(day, year);
             var testFilePath = helper.GetTestInputPath(day, year);
             if (!testFilePath.Equals(String.Empty) && new FileInfo(testFilePath).Length != 0)
             {

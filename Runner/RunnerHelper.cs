@@ -1,27 +1,31 @@
+using AdventLibrary;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Reflection;
-using System.Security.Permissions;
 using System.Threading.Tasks;
-using aoc2016;
-using AdventLibrary;
 
 namespace Runner
 {
     public class RunnerHelper
     {
-        private Dictionary<string, Assembly> _assemblies;
+        private readonly Dictionary<string, Assembly> _assemblies;
+        private readonly string _pathAdjustment;
         public RunnerHelper()
         {
-            _assemblies = new Dictionary<string, Assembly>();
-            _assemblies.Add("2016", typeof(aoc2016.Day01).Assembly);
-            // _assemblies.Add("2021", typeof(aoc2021.Day01).Assembly);
-            // _assemblies.Add("2022", typeof(aoc2022.Day01).Assembly);
+            _assemblies = new Dictionary<string, Assembly>
+            {
+                { "2016", typeof(aoc2016.Day01).Assembly },
+                { "2021", typeof(aoc2021.Day01).Assembly },
+                { "2022", typeof(aoc2022.Day01).Assembly }
+            };
+
+            _pathAdjustment = Directory.GetCurrentDirectory() + "\\";
+            if (_pathAdjustment.EndsWith("bin\\Debug\\net6.0\\"))
+            {
+                _pathAdjustment = _pathAdjustment + "..\\..\\..\\";
+            }
         }
 
         public void GetDateAndYear(string[] args, out string day, out string year)
@@ -29,7 +33,7 @@ namespace Runner
             if (args.Length == 0)
             {
                 year = "2016";
-                day = "15";
+                day = "10";
             }
             else if (args[0] == "true" || args[0] == "-t" )
             {
@@ -50,50 +54,39 @@ namespace Runner
             return (ISolver)Activator.CreateInstance(type);
         }
 
-        public string GetInputPath(string day, string year)
+        public async Task<string> GetInputPath(string day, string year)
         {
-            if (File.Exists($"..\\Input\\{year}\\Day{day}.txt"))
+            if (!File.Exists(_pathAdjustment + $"..\\Input\\{year}\\Day{day}.txt"))
             {
-                return $"..\\Input\\{year}\\Day{day}.txt";
+                await GetFromServerAsync(day, year);
             }
 
-            var deleteMe = GetFromServerAsync(day, year).Result;
-            return $"..\\Input\\{year}\\Day{day}.txt";
+            return _pathAdjustment + $"..\\Input\\{year}\\Day{day}.txt";
         }
 
         public string GetTestInputPath(string day, string year)
         {
-            var fileName = $"..\\TestInput\\{year}\\Day{day}Test.txt";
-            if (File.Exists(fileName))
+            var fileName = _pathAdjustment + $"..\\TestInput\\{year}\\Day{day}Test.txt";
+            if (File.Exists(fileName) & !File.ReadAllText(fileName).Equals(string.Empty))
             {
                 return fileName;
             }
             return string.Empty;
         }
 
-        public string GetInput(string day, string year)
-        {
-            if (File.Exists($"..\\Input\\{year}\\Day{day}.txt"))
-            {
-                return AdventLibrary.ParseInput.GetTextFromFile($"..\\Input\\{year}\\Day{day}.txt");
-            }
-
-            return GetFromServerAsync(day, year).Result;
-        }
-
         public string GetTestInput(string day, string year)
         {
-            if (File.Exists($"..\\TestInput\\{year}\\Day{day}Test.txt"))
+            if (File.Exists(_pathAdjustment + $"..\\TestInput\\{year}\\Day{day}Test.txt"))
             {
-                var input = AdventLibrary.ParseInput.GetTextFromFile($"..\\TestInput\\{year}\\Day{day}Test.txt");
+                var input = AdventLibrary.ParseInput.GetTextFromFile(_pathAdjustment + $"..\\TestInput\\{year}\\Day{day}Test.txt");
                 return input;
             }
             return string.Empty;
         }
 
-        private async Task<string> GetFromServerAsync(string day, string year)
+        private async Task GetFromServerAsync(string day, string year)
         {
-            var sessionCookie = System.IO.File.ReadAllText($"SessionCookie.txt");
+            var sessionCookie = File.ReadAllText(_pathAdjustment + "SessionCookie.txt");
 
             var inputResult = string.Empty;
             var baseAddress = new Uri("https://adventofcode.com");
@@ -107,8 +100,7 @@ namespace Runner
                 inputResult = await result.Content.ReadAsStringAsync();
             }
 
-            File.WriteAllText($"..\\Input\\{year}\\Day{day}.txt", inputResult);
-            return inputResult;
+            File.WriteAllText(_pathAdjustment + $"..\\Input\\{year}\\Day{day}.txt", inputResult);
         }
     }
 

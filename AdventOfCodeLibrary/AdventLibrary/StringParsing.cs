@@ -46,6 +46,12 @@ namespace AdventLibrary
             return numbers.ToList();
         }
 
+        public static List<long> GetLongNumbersFromString(string input)
+        {
+            var numbers = Regex.Split(input, @"\D+").ToList().Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => long.Parse(x));
+            return numbers.ToList();
+        }
+
         public static List<int> GetNumbersWithNegativesFromString(string input)
         {
             var numbers = Regex.Matches(input, @"-?[0-9]*?[0-9]+").ToList().

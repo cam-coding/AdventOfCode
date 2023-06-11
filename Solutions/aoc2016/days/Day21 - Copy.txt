@@ -1,0 +1,122 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using AdventLibrary;
+using AdventLibrary.Helpers;
+
+namespace aoc2016
+{
+    public class Day21: ISolver
+  {
+        private string _filePath;
+        private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
+        // private char[] password = { 'a', 'b', 'c', 'd', 'e' };
+        private char[] password = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
+        public Solution Solve(string filePath)
+        {
+            _filePath = filePath;
+            return new Solution(Part1(), Part2());
+        }
+
+        private object Part1()
+        {
+            var lines = ParseInput.GetLinesFromFile(_filePath);
+			
+			foreach (var line in lines)
+			{
+                var tokens = line.Split(delimiterChars);
+				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+
+                if (tokens[0].Equals("swap"))
+                {
+                    if (tokens[1].Equals("position"))
+                    {
+                        Swap(nums[0], nums[1]);
+                    }
+                    else
+                    {
+                        int posX = IndexOf(tokens[2][0]);
+                        int posY = IndexOf(tokens[5][0]);
+
+                        Swap(posX, posY);
+                    }
+                }
+                else if (tokens[0].Equals("rotate"))
+                {
+                    if (tokens[1].Equals("based"))
+                    {
+                        int posX = IndexOf(tokens[6][0]);
+                        if (posX >= 4)
+                        {
+                            posX++;
+                        }
+
+                        posX++;
+                        password = ArrayHelper.RotateArrayRight(password, posX);
+                    }
+                    else
+                    {
+                        if (tokens[1].Equals("left"))
+                        {
+                            password = ArrayHelper.RotateArrayLeft(password, nums[0]);
+                        }
+                        else
+                        {
+                            password = ArrayHelper.RotateArrayRight(password, nums[0]);
+                        }
+                    }
+                }
+                else if (tokens[0].Equals("reverse"))
+                {
+                    var start = nums[0];
+                    var end = nums[1];
+
+                    var stack = new Stack<char>();
+                    for (var i = start; i <= end; i++)
+                    {
+                        stack.Push(password[i]);
+                    }
+                    for (var i = start; i <= end; i++)
+                    {
+                        password[i] = stack.Pop();
+                    }
+                }
+                else if (tokens[0].Equals("move"))
+                {
+                    var listy = password.ToList();
+                    var indexX = nums[0];
+                    var indexY = nums[1];
+                    var temp = listy[indexX];
+                    listy.RemoveAt(indexX);
+                    listy.Insert(indexY, temp);
+                    password = listy.ToArray();
+                }
+			}
+            return new string(password);
+        }
+
+        private void Swap(int x, int y)
+        {
+            var temp = password[x];
+            password[x] = password[y];
+            password[y] = temp;
+        }
+
+        private int IndexOf(char x)
+        {
+            for (var i = 0; i < password.Length; i++)
+            {
+                if (password[i] == x)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        
+        private object Part2()
+        {
+            return 0;
+        }
+    }
+}

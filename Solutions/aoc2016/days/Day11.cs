@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Drawing;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
-using AdventLibrary.PathFinding;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace aoc2016
 {
@@ -23,6 +20,14 @@ namespace aoc2016
         {
             new List<Item>() { new Item('H', true), new Item('L', true), new Item('A', true)},
             new List<Item>() { new Item('H', false), new Item('A', false) },
+            new List<Item>() { new Item('L', false) },
+            new List<Item>(),
+        };
+
+        private readonly List<List<Item>> _testFloors3 = new List<List<Item>>()
+        {
+            new List<Item>() { new Item('H', true), new Item('L', true), new Item('A', true), new Item('B', true)},
+            new List<Item>() { new Item('H', false), new Item('A', false), new Item('B', false) },
             new List<Item>() { new Item('L', false) },
             new List<Item>(),
         };
@@ -50,12 +55,12 @@ namespace aoc2016
 
         private object Part1()
         {
-            var q = new PriorityQueue<State, int>();
+            var q = new Queue<State>();
             var qMaxSize = 0;
-            var totalObjects = _part1Floors.Sum(x => x.Count);
+            var totalObjects = _part2Floors.Sum(x => x.Count);
             var previousStates = new Dictionary<string, int>();
-            q.Enqueue(new State(_part1Floors, 0, 0), GetPriority(new State(_part1Floors, 0, 0)));
-            var best = 38;
+            q.Enqueue(new State(_part2Floors, 0, 0));
+            var best = 100;
             var counter = 0;
             var realCounter = 0;
 
@@ -86,10 +91,16 @@ namespace aoc2016
                         bestOfThisState = false;
                     }
                 }
-                if (bestOfThisState &&
-                    state.Count < best &&
-                    IsStateValid2(state) &&
-                    StillPossible(state, best))
+                if (!bestOfThisState)
+                {
+                    continue;
+                }
+                if (state.Count >= best)
+                {
+                    previousStates[stateHash] = 0;
+                    continue;
+                }
+                else if (StillPossible(state, best))
                 {
                     realCounter++;
                     if (state.Floors[3].Count == totalObjects)
@@ -101,24 +112,28 @@ namespace aoc2016
                     }
                     else
                     {
-                        // within each object on the current floor, try moving it
-                        for (var i = 0; i < state.Floors[currentFloor].Count; i++)
+                        var camList = new List<int>();
+                        for (var x = 0; x < state.Floors[currentFloor].Count; x++)
                         {
-                            // take that item out and add it to listy which goes into a different floor
-                            var temp = ListTransforming.Clone2dList(state.Floors);
-                            var removal = temp[currentFloor][i];
-                            temp[currentFloor].RemoveAt(i);
-                            for (var j = -1; j < temp[currentFloor].Count; j++)
-                            {
-                                var listy = new List<Item>() { removal };
-                                // try taking i on it's own (j=-1) & every combination of i + something else
-                                var newFloors = ListTransforming.Clone2dList(temp);
-                                if (j != -1)
-                                {
-                                    listy.Add(newFloors[state.Elevator][j]);
-                                    newFloors[state.Elevator].RemoveAt(j);
-                                }
+                            camList.Add(x);
+                        }
+                        var blah = GetKCombs(camList, 2);
+                        var blah3 = camList.Select(x => new List<int>() { x }).ToList();
+                        foreach (var item in blah)
+                        {
+                            blah3.Add(item.ToList());
+                        }
 
+                        foreach (var item in blah3)
+                        {
+                            var newFloors = ListTransforming.Clone2dList(state.Floors);
+                            foreach (var removal in item)
+                            {
+                                newFloors[currentFloor].Remove(state.Floors[currentFloor][removal]);
+                            }
+
+                            if (IsFloorValid(newFloors[currentFloor]))
+                            {
                                 // look at moving elevator up or down a floor
                                 var min = Math.Max(0, state.Elevator - 1);
                                 var max = Math.Min(3, state.Elevator + 1);
@@ -127,13 +142,15 @@ namespace aoc2016
                                     if (k != state.Elevator)
                                     {
                                         var newItem2 = new State(ListTransforming.Clone2dList(newFloors), state.Count + 1, k);
-                                        newItem2.Floors[k].InsertRange(0, listy);
-
-                                        if (newItem2.Floors.Sum(x => x.Count) > totalObjects)
+                                        foreach (var removal in item)
                                         {
-                                            Console.WriteLine("FAIL");
+                                            newItem2.Floors[k].Add(state.Floors[currentFloor][removal]);
                                         }
-                                        q.Enqueue(newItem2, GetPriority(newItem2));
+
+                                        if (IsFloorValid(newItem2.Floors[k]))
+                                        {
+                                            q.Enqueue(newItem2);
+                                        }
                                     }
                                 }
                             }
@@ -147,6 +164,14 @@ namespace aoc2016
         private object Part2()
         {
             return 0;
+        }
+
+        public  static IEnumerable<IEnumerable<T>> GetKCombs<T>(IEnumerable<T> list, int length) where T : IComparable
+        {
+            if (length == 1) return list.Select(t => new T[] { t });
+            return GetKCombs(list, length - 1)
+                .SelectMany(t => list.Where(o => o.CompareTo(t.Last()) > 0),
+                    (t1, t2) => t1.Concat(new T[] { t2 }));
         }
 
         public class State
@@ -230,28 +255,6 @@ namespace aoc2016
         {
             foreach (var floor in state.Floors)
             {
-                var chipHereAndHasGenerator = new List<bool>();
-                foreach (var obj in floor)
-                {
-                    // if there's a chip on the floor
-                    if (obj.IsChip)
-                    {
-                        chipHereAndHasGenerator.Add(floor.Any(x => x.Match(obj)));
-                    }
-                }
-                if (chipHereAndHasGenerator.Any(x => !x) && !chipHereAndHasGenerator.All(x => !x))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public bool IsStateValid2(State state)
-        {
-            foreach (var floor in state.Floors)
-            {
                 var chipWithoutGenerator = false;
                 var chipWithGenerator = false;
                 foreach (var obj in floor)
@@ -278,21 +281,31 @@ namespace aoc2016
             return true;
         }
 
-        public int GetPriority(State state)
+        public bool IsFloorValid(List<Item> floor)
         {
-            if (state.Count < 40)
+            var chipWithoutGenerator = false;
+            var chipWithGenerator = false;
+            foreach (var obj in floor)
             {
-                return state.Count;
+                // if there's a chip on the floor
+                if (obj.IsChip)
+                {
+                    if (floor.Any(x => x.Match(obj)))
+                    {
+                        chipWithGenerator = true;
+                    }
+                    else
+                    {
+                        chipWithoutGenerator = true;
+                    }
+                }
+            }
+            if (chipWithGenerator && chipWithoutGenerator)
+            {
+                return false;
             }
 
-            var priority = 0;
-
-            for (var i = 3; i >= 0; i--)
-            {
-                priority = priority + (state.Floors[i].Count * i);
-            }
-            priority = priority + state.Count;
-            return priority;
+            return true;
         }
 
         public bool StillPossible(State state, int best)
@@ -312,11 +325,6 @@ namespace aoc2016
             }
 
             return state.Count + minMoves < best;
-        }
-
-        public class MaxHeapCompare : IComparer<int>
-        {
-            public int Compare(int x, int y) => y.CompareTo(x);
         }
     }
 }

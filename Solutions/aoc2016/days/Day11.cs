@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Helpers;
@@ -9,8 +11,6 @@ namespace aoc2016
 {
     public class Day11 : ISolver
     {
-        private string _filePath;
-
         private readonly List<List<Item>> _testFloors = new List<List<Item>>()
         {
             new List<Item>() { new Item('H', true), new Item('L', true) },
@@ -19,7 +19,15 @@ namespace aoc2016
             new List<Item>(),
         };
 
-        private readonly List<List<Item>> _floors = new List<List<Item>>()
+        private readonly List<List<Item>> _testFloors2 = new List<List<Item>>()
+        {
+            new List<Item>() { new Item('H', true), new Item('L', true), new Item('A', true)},
+            new List<Item>() { new Item('H', false), new Item('A', false) },
+            new List<Item>() { new Item('L', false) },
+            new List<Item>(),
+        };
+
+        private readonly List<List<Item>> _part1Floors = new List<List<Item>>()
         {
             new List<Item>() { new Item('S', false), new Item('S', true), new Item('P', false), new Item('P', true) },
             new List<Item>() { new Item('T', false), new Item('R', false), new Item('R', true), new Item('C', false), new Item('C', true) },
@@ -37,21 +45,26 @@ namespace aoc2016
 
         public Solution Solve(string filePath)
         {
-            _filePath = filePath;
             return new Solution(Part1(), Part2());
         }
 
         private object Part1()
         {
             var q = new PriorityQueue<State, int>();
-            var totalObjects = _testFloors.Sum(x => x.Count);
+            var qMaxSize = 0;
+            var totalObjects = _part1Floors.Sum(x => x.Count);
             var previousStates = new Dictionary<string, int>();
-            q.Enqueue(new State(_testFloors, 0, 0), GetPriority(new State(_testFloors, 0, 0)));
-            var best = int.MaxValue;
+            q.Enqueue(new State(_part1Floors, 0, 0), GetPriority(new State(_part1Floors, 0, 0)));
+            var best = 38;
             var counter = 0;
+            var realCounter = 0;
 
             while (q.Count > 0)
             {
+                if (q.Count > qMaxSize)
+                {
+                    qMaxSize = q.Count;
+                }
                 counter++;
                 var state = q.Dequeue();
                 var currentFloor = state.Elevator;
@@ -74,10 +87,11 @@ namespace aoc2016
                     }
                 }
                 if (bestOfThisState &&
-                    state.Count < 12 &&
                     state.Count < best &&
-                    IsStateValid(state))
+                    IsStateValid2(state) &&
+                    StillPossible(state, best))
                 {
+                    realCounter++;
                     if (state.Floors[3].Count == totalObjects)
                     {
                         if (state.Count < best)
@@ -191,10 +205,6 @@ namespace aoc2016
                 }
                 if (this.Element == other.Element)
                 {
-                    if (this.IsChip == other.IsChip)
-                    {
-                        Console.WriteLine("SOMETHING IS TERRIBLY WRONG");
-                    }
                     return true;
                 }
                 return false;
@@ -238,17 +248,75 @@ namespace aoc2016
             return true;
         }
 
+        public bool IsStateValid2(State state)
+        {
+            foreach (var floor in state.Floors)
+            {
+                var chipWithoutGenerator = false;
+                var chipWithGenerator = false;
+                foreach (var obj in floor)
+                {
+                    // if there's a chip on the floor
+                    if (obj.IsChip)
+                    {
+                        if (floor.Any(x => x.Match(obj)))
+                        {
+                            chipWithGenerator = true;
+                        }
+                        else
+                        {
+                            chipWithoutGenerator = true;
+                        }
+                    }
+                }
+                if (chipWithGenerator && chipWithoutGenerator)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public int GetPriority(State state)
         {
+            if (state.Count < 40)
+            {
+                return state.Count;
+            }
+
             var priority = 0;
 
             for (var i = 3; i >= 0; i--)
             {
                 priority = priority + (state.Floors[i].Count * i);
             }
-
-            priority = priority + ((100 - state.Count) / 10);
+            priority = priority + state.Count;
             return priority;
+        }
+
+        public bool StillPossible(State state, int best)
+        {
+            if (best == int.MaxValue)
+            {
+                return true;
+            }
+
+            var items = 0;
+            var minMoves = 0;
+
+            for (var i = 0; i < 3; i++)
+            {
+                items = items + state.Floors[i].Count;
+                minMoves = minMoves + ((items + 2 - 1) / 2);
+            }
+
+            return state.Count + minMoves < best;
+        }
+
+        public class MaxHeapCompare : IComparer<int>
+        {
+            public int Compare(int x, int y) => y.CompareTo(x);
         }
     }
 }

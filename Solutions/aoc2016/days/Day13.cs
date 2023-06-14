@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Helpers;
+using AdventLibrary.PathFinding;
 
 namespace aoc2016
 {
@@ -22,56 +23,20 @@ namespace aoc2016
             var visited = new HashSet<(int,int)>();
             _solution = 100;
 
-            Queue<(int x, int y, int count)> q = new Queue<(int x, int y, int count)>();
-            q.Enqueue((1,1,0));
-            while (q.Count > 0)
-            {
-                var current = q.Dequeue();
-
-                if (visited.Contains((current.x,current.y)))
-                {
-                    continue;
-                }
-                
-                if (IsWall(current.x, current.y) ||
-                    current.count >= _solution ||
-                    current.x < 0 ||
-                    current.y < 0)
-                {
-                    continue;
-                }
-
-                visited.Add((current.x,current.y));
-
-                if (current.x == 31 && current.y == 39)
-                {
-                    if (current.count < _solution)
-                        _solution = current.count;
-                    continue;
-                    
-                }
-                else
-                {
-                    q.Enqueue((current.x+1, current.y, current.count + 1));
-                    q.Enqueue((current.x-1, current.y, current.count + 1));
-                    q.Enqueue((current.x, current.y+1, current.count + 1));
-                    q.Enqueue((current.x, current.y-1, current.count + 1));
-                }
-            }
-
-            return _solution;
+            var sol = BreadthFirstSearch.FindShortestPath(1, 1, 31, 39, IsOpen);
+            return sol;
         }
 
-        private bool IsWall(int x, int y)
+        private bool IsOpen(int x, int y)
         {
-            var num = (x*x) + (3*x) + (2*x*y) + y + (y*y);
+            var num = (x * x) + (3 * x) + (2 * x * y) + y + (y * y);
             num = num + 1362;
             var unum = Convert.ToUInt32(num);
             if (CountBits(unum) % 2 == 0)
             {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
 
         private int CountBits(uint value)
@@ -101,7 +66,7 @@ namespace aoc2016
                     continue;
                 }
                 
-                if (IsWall(current.x, current.y) ||
+                if (!IsOpen(current.x, current.y) ||
                     current.count > max ||
                     current.x < 0 ||
                     current.y < 0)

@@ -5,5 +5,3 @@ Write DFS and BFS into a generic helper.
 line/num parser shouldn't throw
 
 Implement the attempt guesser
-
-Move BoilerPlate.txt and just create file from that.

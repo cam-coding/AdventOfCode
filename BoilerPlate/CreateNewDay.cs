@@ -21,7 +21,7 @@ namespace CreateNewDay
             Day = args[1].PadLeft(2, '0');
 
             var filePath = CreateDirectoriesAndFile(args);
-            FillFile(filePath);
+            FillFile2(filePath);
         }
 
         public static string Year { get; set; }
@@ -67,86 +67,14 @@ namespace CreateNewDay
             {
                 using (File.Create(targetFile));
             }
-            /*
-            var inputDir = baseDir + $"TestInput\\";
-            if (!Directory.Exists(inputDir))
-            {
-                Directory.CreateDirectory(inputDir);
-            }
-            var yearDir = inputDir + $"{Year}\\";
-            if (!Directory.Exists(yearDir))
-            {
-                Directory.CreateDirectory(yearDir);
-            }
-            var targetFile = daysDir + $"Day{Day}Test.txt";
-            if (!File.Exists(targetFile))
-            {
-                using (File.Create(targetFile));
-            }*/
         }
 
-        public static void FillFile(string filePath)
+        public static void FillFile2(string destFile)
         {
-            var part1 = $@"using System;
-using System.Collections.Generic;
-using System.Linq;
-using AdventLibrary;
-using AdventLibrary.Helpers;
-";
-            var nameSpace = $"namespace aoc{Year}";
-            var className = $"    public class Day{Day}: ISolver";
-            var part2 = @"  {
-        private string _filePath;
-        private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
-        public Solution Solve(string filePath)
-        {
-            _filePath = filePath;
-            return new Solution(Part1(), Part2());
-        }
-
-        private object Part1()
-        {
-            var lines = ParseInput.GetLinesFromFile(_filePath);
-			var numbers = ParseInput.GetNumbersFromFile(_filePath);
-            var nodes = ParseInput.ParseFileAsGraph(_filePath);
-            var grid = ParseInput.ParseFileAsGrid(_filePath);
-            var total = 1000000;
-			var counter = 0;
-			
-			foreach (var line in lines)
-			{
-                var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
-                
-				foreach (var num in nums)
-				{
-				}
-
-                for (var i = 0; i < 0; i++)
-                {
-                    for (var j = 0; j < 0; j++)
-                    {
-                        
-                    }
-                }
-			}
-            return 0;
-        }
-        
-        private object Part2()
-        {
-            return 0;
-        }
-    }
-}";
-            using (StreamWriter writer = new StreamWriter(filePath))  
-            {  
-                writer.WriteLine(part1);
-                writer.WriteLine(nameSpace);
-                writer.WriteLine("{");
-                writer.WriteLine(className);
-                writer.WriteLine(part2);
-            } 
+            string text = File.ReadAllText("..\\..\\..\\BoilerPlate.txt");
+            text = text.Replace("{YEAR}", Year);
+            text = text.Replace("{DAY}", Day);
+            File.WriteAllText(destFile, text);
         }
     }
 }

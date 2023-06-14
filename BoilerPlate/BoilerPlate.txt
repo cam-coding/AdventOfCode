@@ -4,9 +4,9 @@ using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Helpers;
 
-namespace aoc2016
+namespace aoc{YEAR}
 {
-    public class Day23: ISolver
+    public class Day{DAY}: ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };

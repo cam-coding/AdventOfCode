@@ -22,7 +22,7 @@ namespace AdventLibrary
             for (var y = 0; y < original.Count; y++)
             {
                 var listy = new List<T>();
-                for (var x = 0; x < original[0].Count; x++)
+                for (var x = 0; x < original[y].Count; x++)
                 {
                     listy.Add(original[y][x]);
                 }

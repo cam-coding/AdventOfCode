@@ -99,7 +99,7 @@ namespace aoc2016
                 {
                     continue;
                 }
-                if (StillPossible(state, best))
+                if (state.Count < best)
                 {
                     statesTried++;
                     if (state.Floors[3].Count == _totalObjects)
@@ -117,7 +117,6 @@ namespace aoc2016
                         {
                             indexesOfCurrentFloor.Add(x);
                         }
-                        var pairs = GetKCombs(indexesOfCurrentFloor, 2);
 
                         // look at moving elevator up or down a floor
                         var lowest = state.Floors[0].Count == 0 ? 1 : 0;
@@ -131,25 +130,23 @@ namespace aoc2016
                             {
                                 var newFloors = ListTransforming.Clone2dList(state.Floors);
                                 newFloors[currentFloor].RemoveAt(index);
+                                newFloors[min].Add(state.Floors[currentFloor][index]);
 
-                                if (IsFloorValid(newFloors[currentFloor]))
+                                var newItem2 = new State(
+                                    newFloors,
+                                    state.Count + 1,
+                                    min);
+
+                                if (IsStateValid(newItem2) && IdealFloors(newFloors))
                                 {
-                                    var newItem2 = new State(
-                                        newFloors,
-                                        state.Count + 1,
-                                        min);
-                                    newItem2.Floors[min].Add(state.Floors[currentFloor][index]);
-
-                                    if (IsFloorValid(newItem2.Floors[min]) && IdealFloors(newFloors))
-                                    {
-                                        q.Enqueue(newItem2);
-                                    }
+                                    q.Enqueue(newItem2);
                                 }
                             }
                         }
 
                         if (max > currentFloor)
                         {
+                            var pairs = GetKCombs(indexesOfCurrentFloor, 2);
                             foreach (var pair in pairs)
                             {
                                 var newFloors = ListTransforming.Clone2dList(state.Floors);
@@ -157,22 +154,18 @@ namespace aoc2016
                                 {
                                     newFloors[currentFloor].Remove(state.Floors[currentFloor][removal]);
                                 }
-
-                                if (IsFloorValid(newFloors[currentFloor]))
+                                foreach (var removal in pair)
                                 {
-                                    var newItem2 = new State(
-                                        newFloors,
-                                        state.Count + 1,
-                                        max);
-                                    foreach (var removal in pair)
-                                    {
-                                        newItem2.Floors[max].Add(state.Floors[currentFloor][removal]);
-                                    }
+                                    newFloors[max].Add(state.Floors[currentFloor][removal]);
+                                }
+                                var newItem2 = new State(
+                                    newFloors,
+                                    state.Count + 1,
+                                    max);
 
-                                    if (IsFloorValid(newItem2.Floors[max]) && IdealFloors(newFloors))
-                                    {
-                                        q.Enqueue(newItem2);
-                                    }
+                                if (IsStateValid(newItem2) && IdealFloors(newFloors))
+                                {
+                                    q.Enqueue(newItem2);
                                 }
                             }
                         }
@@ -268,21 +261,6 @@ namespace aoc2016
                 }
                 return false;
             }
-            public bool IsSameItem(Item other)
-            {
-                if (this == other)
-                {
-                    return true;
-                }
-                if (this.Element == other.Element)
-                {
-                    if (this.IsChip == other.IsChip)
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
 
             public override string ToString()
             {
@@ -328,52 +306,6 @@ namespace aoc2016
             }
 
             return true;
-        }
-
-        public bool IsFloorValid(List<Item> floor)
-        {
-            var chipWithoutGenerator = false;
-            var chipWithGenerator = false;
-            foreach (var obj in floor)
-            {
-                // if there's a chip on the floor
-                if (obj.IsChip)
-                {
-                    if (floor.Any(x => x.Match(obj)))
-                    {
-                        chipWithGenerator = true;
-                    }
-                    else
-                    {
-                        chipWithoutGenerator = true;
-                    }
-                }
-            }
-            if (chipWithGenerator && chipWithoutGenerator)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public bool StillPossible(State state, int best)
-        {
-            if (best == int.MaxValue)
-            {
-                return true;
-            }
-
-            var items = 0;
-            var minMoves = 0;
-
-            for (var i = 0; i < 3; i++)
-            {
-                items = items + state.Floors[i].Count;
-                minMoves = minMoves + ((items + 2 - 1) / 2);
-            }
-
-            return state.Count + minMoves < best;
         }
     }
 }

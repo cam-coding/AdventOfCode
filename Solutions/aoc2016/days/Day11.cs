@@ -60,13 +60,22 @@ namespace aoc2016
 
         private object Part1()
         {
+            return GoTime(_part1Floors);
+        }
+
+        private object Part2()
+        {
+            return GoTime(_part2Floors);
+        }
+
+        private object GoTime(List<List<Item>> startingFloors)
+        {
             Stopwatch stopwatch = Stopwatch.StartNew();
             var q = new Queue<State>();
-            var startingPlaces = _part1Floors;
-            _totalObjects = startingPlaces.Sum(x => x.Count);
+            _totalObjects = startingFloors.Sum(x => x.Count);
             var previousStates = new Dictionary<string, int>();
             var startingState = new State(
-                startingPlaces,
+                startingFloors,
                 0,
                 0);
             q.Enqueue(startingState);
@@ -118,10 +127,11 @@ namespace aoc2016
                             indexesOfCurrentFloor.Add(x);
                         }
 
-                        // look at moving elevator up or down a floor
+                        // Don't go back to the first floor once it's emptied
                         var lowest = state.Floors[0].Count == 0 ? 1 : 0;
                         var min = Math.Max(lowest, currentFloor - 1);
-                        var highest = state.Floors[0].Count == 0 ? 3 : 1;
+                        // Don't tackle the 4th floor until the bottom is cleared out
+                        var highest = state.Floors[0].Count == 0 ? 3 : 2;
                         var max = Math.Min(highest, currentFloor + 1);
 
                         if (min < currentFloor)
@@ -177,11 +187,6 @@ namespace aoc2016
             return best;
         }
 
-        private object Part2()
-        {
-            return 0;
-        }
-
         private bool IdealFloors(List<List<Item>> floors)
         {
             if (floors[3].Count == 0 || floors[0].Count == 0)
@@ -221,14 +226,22 @@ namespace aoc2016
             public string GetHash()
             {
                 var str = string.Empty + Elevator;
+                var dict = new Dictionary<char, int>();
+                var counter = 0;
 
                 for (var i = 0; i < Floors.Count; i++)
                 {
                     var floorHash = new List<string>();
+
                     foreach (var obj in Floors[i])
                     {
+                        if (!dict.ContainsKey(obj.Element))
+                        {
+                            dict.Add(obj.Element, counter);
+                            counter++;
+                        }
                         var c = obj.IsChip ? 'C' : 'G';
-                        floorHash.Add(string.Empty + c + obj.Element);
+                        floorHash.Add(string.Empty + c + dict[obj.Element]);
                     }
                     floorHash.Sort();
                     str = str + string.Join("", floorHash) + i;

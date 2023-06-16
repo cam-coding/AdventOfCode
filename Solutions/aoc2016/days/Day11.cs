@@ -2,7 +2,9 @@ using AdventLibrary;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using static aoc2016.Day11;
 
 namespace aoc2016
@@ -58,27 +60,21 @@ namespace aoc2016
 
         private object Part1()
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
             var q = new Queue<State>();
-            var qMaxSize = 0;
-            _totalObjects = _part2Floors.Sum(x => x.Count);
+            var startingPlaces = _part1Floors;
+            _totalObjects = startingPlaces.Sum(x => x.Count);
             var previousStates = new Dictionary<string, int>();
             var startingState = new State(
-                _part2Floors,
+                startingPlaces,
                 0,
-                0,
-                false);
+                0);
             q.Enqueue(startingState);
-            var best = 100;
-            var counter = 0;
-            var realCounter = 0;
+            var best = int.MaxValue;
+            var statesTried = 0;
 
             while (q.Count > 0)
             {
-                if (q.Count > qMaxSize)
-                {
-                    qMaxSize = q.Count;
-                }
-                counter++;
                 var state = q.Dequeue();
                 var currentFloor = state.Elevator;
                 var stateHash = state.GetHash();
@@ -103,14 +99,9 @@ namespace aoc2016
                 {
                     continue;
                 }
-                if (state.Count >= best)
+                if (StillPossible(state, best))
                 {
-                    previousStates[stateHash] = 0;
-                    continue;
-                }
-                else if (StillPossible(state, best))
-                {
-                    realCounter++;
+                    statesTried++;
                     if (state.Floors[3].Count == _totalObjects)
                     {
                         if (state.Count < best)
@@ -121,36 +112,35 @@ namespace aoc2016
                     }
                     else
                     {
-                        var camList = new List<int>();
+                        var indexesOfCurrentFloor = new List<int>();
                         for (var x = 0; x < state.Floors[currentFloor].Count; x++)
                         {
-                            camList.Add(x);
+                            indexesOfCurrentFloor.Add(x);
                         }
-                        var pairs = GetKCombs(camList, 2);
+                        var pairs = GetKCombs(indexesOfCurrentFloor, 2);
 
                         // look at moving elevator up or down a floor
-                        var lowest = state.BottomFloorWasEmpty ? 1 : 0;
-                        var min = Math.Max(lowest, state.Elevator - 1);
-                        var max = Math.Min(3, state.Elevator + 1);
+                        var lowest = state.Floors[0].Count == 0 ? 1 : 0;
+                        var min = Math.Max(lowest, currentFloor - 1);
+                        var highest = state.Floors[0].Count == 0 ? 3 : 1;
+                        var max = Math.Min(highest, currentFloor + 1);
 
-                        if (min < state.Elevator)
+                        if (min < currentFloor)
                         {
-                            foreach (var single in camList)
+                            foreach (var index in indexesOfCurrentFloor)
                             {
                                 var newFloors = ListTransforming.Clone2dList(state.Floors);
-                                var temp = newFloors[currentFloor][single];
-                                newFloors[currentFloor].RemoveAt(single);
+                                newFloors[currentFloor].RemoveAt(index);
 
                                 if (IsFloorValid(newFloors[currentFloor]))
                                 {
                                     var newItem2 = new State(
-                                        ListTransforming.Clone2dList(newFloors),
+                                        newFloors,
                                         state.Count + 1,
-                                        min,
-                                        state.BottomFloorWasEmpty);
-                                    newItem2.Floors[min].Add(temp);
+                                        min);
+                                    newItem2.Floors[min].Add(state.Floors[currentFloor][index]);
 
-                                    if (IsFloorValid(newItem2.Floors[min]) && newFloors.Count(x => x.Count > 0) < 4)
+                                    if (IsFloorValid(newItem2.Floors[min]) && IdealFloors(newFloors))
                                     {
                                         q.Enqueue(newItem2);
                                     }
@@ -158,12 +148,12 @@ namespace aoc2016
                             }
                         }
 
-                        if (max > state.Elevator)
+                        if (max > currentFloor)
                         {
-                            foreach (var item in pairs)
+                            foreach (var pair in pairs)
                             {
                                 var newFloors = ListTransforming.Clone2dList(state.Floors);
-                                foreach (var removal in item)
+                                foreach (var removal in pair)
                                 {
                                     newFloors[currentFloor].Remove(state.Floors[currentFloor][removal]);
                                 }
@@ -171,16 +161,15 @@ namespace aoc2016
                                 if (IsFloorValid(newFloors[currentFloor]))
                                 {
                                     var newItem2 = new State(
-                                        ListTransforming.Clone2dList(newFloors),
+                                        newFloors,
                                         state.Count + 1,
-                                        max,
-                                        state.BottomFloorWasEmpty);
-                                    foreach (var removal in item)
+                                        max);
+                                    foreach (var removal in pair)
                                     {
                                         newItem2.Floors[max].Add(state.Floors[currentFloor][removal]);
                                     }
 
-                                    if (IsFloorValid(newItem2.Floors[max]) && newFloors.Count(x => x.Count > 0) < 4)
+                                    if (IsFloorValid(newItem2.Floors[max]) && IdealFloors(newFloors))
                                     {
                                         q.Enqueue(newItem2);
                                     }
@@ -190,6 +179,8 @@ namespace aoc2016
                     }
                 }
             }
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
             return best;
         }
 
@@ -198,39 +189,14 @@ namespace aoc2016
             return 0;
         }
 
-        /*
-        private void PrintHistory(List<State> history)
+        private bool IdealFloors(List<List<Item>> floors)
         {
-            foreach (var state in history)
+            if (floors[3].Count == 0 || floors[0].Count == 0)
             {
-                for (var i = 3; i > -1; i--)
-                {
-                    if (state.Elevator == i)
-                    {
-                        Console.Write('E');
-                    }
-                    else
-                    {
-                        Console.Write('#');
-                    }
-
-                    for (var j = 0; j < _totalObjects; j++)
-                    {
-                        if (j < state.Floors[i].Count)
-                        {
-                            Console.Write(state.Floors[i][j].ToString());
-                            Console.Write(" ");
-                        }
-                        else
-                        {
-                            Console.Write("...");
-                        }
-                    }
-                    Console.WriteLine();
-                }
-                Console.WriteLine();
+                return true;
             }
-        }*/
+            return false;
+        }
 
         public  static IEnumerable<IEnumerable<T>> GetKCombs<T>(IEnumerable<T> list, int length) where T : IComparable
         {
@@ -245,27 +211,22 @@ namespace aoc2016
             public State(
                 List<List<Item>> floors,
                 int count,
-                int elevator,
-                bool bottomFloorWasEmpty)
+                int elevator)
             {
                 Floors = floors;
                 Count = count;
                 Elevator = elevator;
-                BottomFloorWasEmpty = bottomFloorWasEmpty || Floors[0].Count == 0;
             }
 
             public List<List<Item>> Floors { get; private set; }
 
             public int Count { get; private set; }
 
-            public bool BottomFloorWasEmpty { get; private set; }
-
             // zero indexed
             public int Elevator { get; set; }
 
             public string GetHash()
             {
-                // past state/hash shouldn't care about order in floors
                 var str = string.Empty + Elevator;
 
                 for (var i = 0; i < Floors.Count; i++)

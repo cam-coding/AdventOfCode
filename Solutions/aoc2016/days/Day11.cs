@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using static aoc2016.Day11;
 
 namespace aoc2016
 {
@@ -48,6 +49,8 @@ namespace aoc2016
             new List<Item>(),
         };
 
+        private int _totalObjects;
+
         public Solution Solve(string filePath)
         {
             return new Solution(Part1(), Part2());
@@ -57,9 +60,15 @@ namespace aoc2016
         {
             var q = new Queue<State>();
             var qMaxSize = 0;
-            var totalObjects = _part2Floors.Sum(x => x.Count);
+            _totalObjects = _part2Floors.Sum(x => x.Count);
             var previousStates = new Dictionary<string, int>();
-            q.Enqueue(new State(_part2Floors, 0, 0));
+            var startingState = new State(
+                _part2Floors,
+                0,
+                0,
+                new List<State>(),
+                false);
+            q.Enqueue(startingState);
             var best = 100;
             var counter = 0;
             var realCounter = 0;
@@ -103,11 +112,12 @@ namespace aoc2016
                 else if (StillPossible(state, best))
                 {
                     realCounter++;
-                    if (state.Floors[3].Count == totalObjects)
+                    if (state.Floors[3].Count == _totalObjects)
                     {
                         if (state.Count < best)
                         {
                             best = state.Count;
+                            PrintHistory(state.History);
                         }
                     }
                     else
@@ -117,40 +127,65 @@ namespace aoc2016
                         {
                             camList.Add(x);
                         }
-                        var blah = GetKCombs(camList, 2);
-                        var blah3 = camList.Select(x => new List<int>() { x }).ToList();
-                        foreach (var item in blah)
+                        var pairs = GetKCombs(camList, 2);
+
+                        // look at moving elevator up or down a floor
+                        var lowest = state.BottomFloorWasEmpty ? 1 : 0;
+                        var min = Math.Max(lowest, state.Elevator - 1);
+                        var max = Math.Min(3, state.Elevator + 1);
+
+                        if (min < state.Elevator)
                         {
-                            blah3.Add(item.ToList());
+                            foreach (var single in camList)
+                            {
+                                var newFloors = ListTransforming.Clone2dList(state.Floors);
+                                var temp = newFloors[currentFloor][single];
+                                newFloors[currentFloor].RemoveAt(single);
+
+                                if (IsFloorValid(newFloors[currentFloor]))
+                                {
+                                    var newItem2 = new State(
+                                        ListTransforming.Clone2dList(newFloors),
+                                        state.Count + 1,
+                                        min,
+                                        state.History.ToList(),
+                                        state.BottomFloorWasEmpty);
+                                    newItem2.Floors[min].Add(temp);
+
+                                    if (IsFloorValid(newItem2.Floors[min]))
+                                    {
+                                        q.Enqueue(newItem2);
+                                    }
+                                }
+                            }
                         }
 
-                        foreach (var item in blah3)
+                        if (max > state.Elevator)
                         {
-                            var newFloors = ListTransforming.Clone2dList(state.Floors);
-                            foreach (var removal in item)
+                            foreach (var item in pairs)
                             {
-                                newFloors[currentFloor].Remove(state.Floors[currentFloor][removal]);
-                            }
-
-                            if (IsFloorValid(newFloors[currentFloor]))
-                            {
-                                // look at moving elevator up or down a floor
-                                var min = Math.Max(0, state.Elevator - 1);
-                                var max = Math.Min(3, state.Elevator + 1);
-                                for (var k = min; k <= max; k++)
+                                var newFloors = ListTransforming.Clone2dList(state.Floors);
+                                foreach (var removal in item)
                                 {
-                                    if (k != state.Elevator)
-                                    {
-                                        var newItem2 = new State(ListTransforming.Clone2dList(newFloors), state.Count + 1, k);
-                                        foreach (var removal in item)
-                                        {
-                                            newItem2.Floors[k].Add(state.Floors[currentFloor][removal]);
-                                        }
+                                    newFloors[currentFloor].Remove(state.Floors[currentFloor][removal]);
+                                }
 
-                                        if (IsFloorValid(newItem2.Floors[k]))
-                                        {
-                                            q.Enqueue(newItem2);
-                                        }
+                                if (IsFloorValid(newFloors[currentFloor]))
+                                {
+                                    var newItem2 = new State(
+                                        ListTransforming.Clone2dList(newFloors),
+                                        state.Count + 1,
+                                        max,
+                                        state.History.ToList(),
+                                        state.BottomFloorWasEmpty);
+                                    foreach (var removal in item)
+                                    {
+                                        newItem2.Floors[max].Add(state.Floors[currentFloor][removal]);
+                                    }
+
+                                    if (IsFloorValid(newItem2.Floors[max]))
+                                    {
+                                        q.Enqueue(newItem2);
                                     }
                                 }
                             }
@@ -166,6 +201,39 @@ namespace aoc2016
             return 0;
         }
 
+        private void PrintHistory(List<State> history)
+        {
+            foreach (var state in history)
+            {
+                for (var i = 3; i > -1; i--)
+                {
+                    if (state.Elevator == i)
+                    {
+                        Console.Write('E');
+                    }
+                    else
+                    {
+                        Console.Write('#');
+                    }
+
+                    for (var j = 0; j < _totalObjects; j++)
+                    {
+                        if (j < state.Floors[i].Count)
+                        {
+                            Console.Write(state.Floors[i][j].ToString());
+                            Console.Write(" ");
+                        }
+                        else
+                        {
+                            Console.Write("...");
+                        }
+                    }
+                    Console.WriteLine();
+                }
+                Console.WriteLine();
+            }
+        }
+
         public  static IEnumerable<IEnumerable<T>> GetKCombs<T>(IEnumerable<T> list, int length) where T : IComparable
         {
             if (length == 1) return list.Select(t => new T[] { t });
@@ -176,19 +244,31 @@ namespace aoc2016
 
         public class State
         {
-            public State(List<List<Item>> floors, int count, int elevator)
+            public State(
+                List<List<Item>> floors,
+                int count,
+                int elevator,
+                List<State> history,
+                bool bottomFloorWasEmpty)
             {
                 Floors = floors;
                 Count = count;
                 Elevator = elevator;
+                history.Add(this);
+                History = history;
+                BottomFloorWasEmpty = bottomFloorWasEmpty || Floors[0].Count == 0;
             }
 
             public List<List<Item>> Floors { get; private set; }
 
             public int Count { get; private set; }
 
+            public bool BottomFloorWasEmpty { get; private set; }
+
             // zero indexed
             public int Elevator { get; set; }
+
+            public List<State> History { get; private set; }
 
             public string GetHash()
             {
@@ -248,6 +328,21 @@ namespace aoc2016
                     }
                 }
                 return false;
+            }
+
+            public override string ToString()
+            {
+                var str = string.Empty + Element;
+
+                if (IsChip)
+                {
+                    str += 'M';
+                }
+                else
+                {
+                    str += 'G';
+                }
+                return str;
             }
         }
 

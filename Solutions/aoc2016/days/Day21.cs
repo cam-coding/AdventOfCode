@@ -1,19 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text.RegularExpressions;
 using AdventLibrary;
 using AdventLibrary.Helpers;
 
 namespace aoc2016
 {
     public class Day21: ISolver
-  {
+    {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
-        // private char[] password = { 'a', 'b', 'c', 'd', 'e' };
-        private char[] password = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
         public Solution Solve(string filePath)
         {
             _filePath = filePath;
@@ -22,218 +18,233 @@ namespace aoc2016
 
         private object Part1()
         {
-            string[] filelns = ParseInput.GetLinesFromFile(_filePath).ToArray();
+            var lines = ParseInput.GetLinesFromFile(_filePath);
+            var str = "abcdefgh";
+			
+			foreach (var line in lines)
+			{
+                var tokens = line.Split(delimiterChars);
+				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
 
-            char[] buffer = new char[input.Length];
-            Array.Copy(input.ToCharArray(), buffer, input.Length);
-            for (int i = 0; i < filelns.Length; i++)
-            {
-                string instruction = filelns[i];
-                scramble(ref buffer, instruction);
-                if (true)
+                if (tokens[0] == "swap" && nums.Count == 2)
                 {
-                    Console.Write(buffer);
-                    Console.WriteLine("->{0}:\t{1}", new string(buffer), instruction);
+                    str = SwapPos(str, nums[0], nums[1]);
+                }
+                else if (tokens[0] == "swap")
+                {
+                    str = SwapLetter(str, tokens[2][0], tokens[5][0]);
+                }
+                else if (tokens[0] == "rotate" && nums.Count == 1)
+                {
+                    if (tokens[1] == "left")
+                    {
+                        var value = str.ToArray();
+                        value = ArrayHelper.RotateArrayLeft(value, nums[0]);
+                        str = new string(value);
+                    }
+                    else if (tokens[1] == "right")
+                    {
+                        var value = str.ToArray();
+                        value = ArrayHelper.RotateArrayRight(value, nums[0]);
+                        str = new string(value);
+                    }
+                }
+                else if (tokens[0] == "rotate")
+                {
+                    str = RotateAround(str, tokens[6][0]);
+                }
+                else if (tokens[0] == "reverse")
+                {
+                    str = ReverseSubString(str, nums[0], nums[1]);
+                }
+                else if (tokens[0] == "move")
+                {
+                    str = MoveCharToPos(str, nums[0], nums[1]);
                 }
             }
-            return new string(buffer);
-            }
+            return str;
+        }
         
         private object Part2()
         {
-            return 0;
+            var lines = ParseInput.GetLinesFromFile(_filePath);
+            var str = "fbgdceah";
+
+            for (var i = lines.Count - 1; i >= 0; i--)
+            {
+                var line = lines[i];
+                var tokens = line.Split(delimiterChars);
+                var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+
+                if (tokens[0] == "swap" && nums.Count == 2)
+                {
+                    str = SwapPos(str, nums[0], nums[1]);
+                }
+                else if (tokens[0] == "swap")
+                {
+                    str = SwapLetter(str, tokens[2][0], tokens[5][0]);
+                }
+                else if (tokens[0] == "rotate" && nums.Count == 1)
+                {
+                    if (tokens[1] == "left")
+                    {
+                        var value = str.ToArray();
+                        value = ArrayHelper.RotateArrayRight(value, nums[0]);
+                        str = new string(value);
+                    }
+                    else if (tokens[1] == "right")
+                    {
+                        var value = str.ToArray();
+                        value = ArrayHelper.RotateArrayLeft(value, nums[0]);
+                        str = new string(value);
+                    }
+                }
+                else if (tokens[0] == "rotate")
+                {
+                    if (str.Length == 5)
+                    {
+                        str = UnRotateAround2(str, tokens[6][0]);
+                    }
+                    else
+                    {
+                        str = UnRotateAround(str, tokens[6][0]);
+                    }
+                }
+                else if (tokens[0] == "reverse")
+                {
+                    str = ReverseSubString(str, nums[0], nums[1]);
+                }
+                else if (tokens[0] == "move")
+                {
+                    str = MoveCharToPos(str, nums[1], nums[0]);
+                }
+            }
+
+            return str;
         }
 
-        const string input = "abcdefgh";
-        const string input2 = "fbgdceah";
-        static Regex reg = new Regex(@"^swap (position|letter) (\w|\d*) with \1 (\w|\d*)");
-        static Regex regRotate = new Regex(@"^rotate (left|right|based on position of letter) (\w|\d*)");
-        static Regex regRevOrMove = new Regex(@"^(reverse|move) positions? (\d*) (through|to position) (\d*)");
-
-        private static void scramble(ref char[] buffer, string instruction)
+        private string SwapPos(string input, int x, int y)
         {
-            Match match = reg.Match(instruction);
-            if (match.Success)
-            {
-                if (match.Groups[1].Value == "position")
-                {
-                    int from = int.Parse(match.Groups[2].Value);
-                    int to = int.Parse(match.Groups[3].Value);
-                    char temp = buffer[from]; buffer[from] = buffer[to]; buffer[to] = temp;
-                }
-                else
-                {
-                    char cfrom = match.Groups[2].Value[0];
-                    char cto = match.Groups[3].Value[0];
-                    for (int t = 0; t < buffer.Length; t++)
-                    {
-                        if (buffer[t] == cfrom) buffer[t] = cto;
-                        else if (buffer[t] == cto) buffer[t] = cfrom;
-                    }
-                }
-                return;
-            }
-            match = regRotate.Match(instruction);
-            if (match.Success)
-            {
-                int X = 0; string pattern = match.Groups[1].Value;
-                if (pattern.StartsWith("based"))
-                {
-                    X = Array.IndexOf(buffer, match.Groups[2].Value[0]);
-                    X += X > 3 ? 2 : 1;
-                    pattern = "right";
-                }
-                else
-                    X = int.Parse(match.Groups[2].Value);
-                X = X % buffer.Length;
-
-                if (X == 0)
-                {
-                    Console.WriteLine("Nothing! X is 0.");
-                    return;
-                }
-
-
-                if (pattern == "left")
-                {
-                    char[] newbuffer = new char[buffer.Length];
-                    Array.Copy(buffer, X, newbuffer, 0, buffer.Length - X);
-                    Array.Copy(buffer, 0, newbuffer, buffer.Length - X, X);
-                    buffer = newbuffer;
-                }
-                else
-                {
-                    char[] newbuffer = new char[buffer.Length];
-                    Array.Copy(buffer, 0, newbuffer, X, buffer.Length - X);
-                    Array.Copy(buffer, buffer.Length - X, newbuffer, 0, X);
-                    buffer = newbuffer;
-                }
-                return;
-            }
-
-            match = regRevOrMove.Match(instruction);
-            if (match.Success)
-            {
-                string pattern = match.Groups[1].Value;
-                int from = int.Parse(match.Groups[2].Value);
-                int to = int.Parse(match.Groups[4].Value);
-
-                if (pattern == "reverse")
-                {
-                    int l = to - from;
-                    for (int t = 0; t <= l / 2; t++)
-                    {
-                        //SWAP t <-> 2L-t:
-                        char temp = buffer[from + t]; buffer[from + t] = buffer[to - t]; buffer[to - t] = temp;
-                    }
-                }
-                else
-                {
-                    char fromx = buffer[from];
-                    if (from < to)
-                        Array.Copy(buffer, from + 1, buffer, from, to - from);
-                    else
-                        Array.Copy(buffer, to, buffer, to + 1, from - to);
-                    buffer[to] = fromx;
-                }
-
-            }
+            var value = input.ToArray();
+            value[x] = input[y];
+            value[y] = input[x];
+            return new string(value);
         }
 
-        private static void unscramble(ref char[] buffer, string instruction)
+        private string SwapLetter(string input, char x, char y)
         {
-            Match match = reg.Match(instruction);
-            if (match.Success)
-            {
-                if (match.Groups[1].Value == "position")
-                {
-                    //CHANGED from part 1:
-                    int from = int.Parse(match.Groups[3].Value);
-                    int to = int.Parse(match.Groups[2].Value);
-                    char temp = buffer[from]; buffer[from] = buffer[to]; buffer[to] = temp;
-                }
-                else
-                {
-                    char cfrom = match.Groups[2].Value[0];
-                    char cto = match.Groups[3].Value[0];
-                    for (int t = 0; t < buffer.Length; t++)
-                    {
-                        if (buffer[t] == cfrom) buffer[t] = cto;
-                        else if (buffer[t] == cto) buffer[t] = cfrom;
-                    }
-                }
+            var pos1 = input.IndexOf(x);
+            var pos2 = input.IndexOf(y);
+            return SwapPos(input, pos1, pos2);
+        }
 
-                return;
+        private string RotateAround(string input, char x)
+        {
+            var value = input.ToArray();
+            var pos1 = input.IndexOf(x);
+            var rotations = 1 + pos1;
+            if (pos1 >= 4)
+            {
+                rotations = rotations + 1;
             }
-            match = regRotate.Match(instruction);
-            if (match.Success)
+            value = ArrayHelper.RotateArrayRight(value, rotations);
+            return new string(value);
+        }
+
+        private string ReverseSubString(string input, int x, int y)
+        {
+            if (x == y)
             {
-                int X = 0; string pattern = match.Groups[1].Value;
-                if (pattern.StartsWith("based"))
-                {
-                    X = Array.IndexOf(buffer, match.Groups[2].Value[0]);
-                    //CHANGED from part 1:
-                    if (X % 2 == 0)
-                        X = ((X + buffer.Length) / 2 + 1);
-                    else
-                        X = (X / 2) + 1;
-
-                    pattern = "right";
-                }
-                else
-                    X = int.Parse(match.Groups[2].Value);
-                X = X % buffer.Length;
-
-                if (X == 0)
-                    return;
-
-                //CHANGED from part 1:
-                if (pattern == "right")
-                {
-                    char[] newbuffer = new char[buffer.Length];
-                    Array.Copy(buffer, X, newbuffer, 0, buffer.Length - X);
-                    Array.Copy(buffer, 0, newbuffer, buffer.Length - X, X);
-                    buffer = newbuffer;
-                }
-                else
-                {
-                    char[] newbuffer = new char[buffer.Length];
-                    Array.Copy(buffer, 0, newbuffer, X, buffer.Length - X);
-                    Array.Copy(buffer, buffer.Length - X, newbuffer, 0, X);
-                    buffer = newbuffer;
-                }
-                return;
+                return input;
             }
 
-            match = regRevOrMove.Match(instruction);
-            if (match.Success)
+            var min = Math.Min(x, y);
+            var max = Math.Max(y, x);
+            var value = input.ToArray();
+            var j = max;
+            for (var i = min; i <= max; i++)
             {
-                string pattern = match.Groups[1].Value;
-                int from = int.Parse(match.Groups[2].Value);
-                int to = int.Parse(match.Groups[4].Value);
-
-                if (pattern == "reverse")
-                {
-                    int l = to - from;
-                    for (int t = 0; t <= l / 2; t++)
-                    {
-                        char temp = buffer[from + t]; buffer[from + t] = buffer[to - t]; buffer[to - t] = temp;
-                    }
-                }
-                else
-                {
-                    //CHANGED from part 1:
-                    int temp = from; from = to; to = temp;
-                    char fromx = buffer[from];
-
-                    if (from < to)
-                        Array.Copy(buffer, from + 1, buffer, from, to - from);
-                    else
-                        Array.Copy(buffer, to, buffer, to + 1, from - to);
-                    buffer[to] = fromx;
-                }
-
+                value[i] = input[j];
+                j--;
             }
+            return new string(value);
+        }
+
+        private string MoveCharToPos(string input, int x, int y)
+        {
+            var value = input.ToList();
+            var temp = input[x];
+            value.RemoveAt(x);
+            value.Insert(y, temp);
+            return new string(value.ToArray());
+        }
+
+        private string UnRotateAround(string input, char x)
+        {
+            var value = input.ToArray();
+            var endingPos = input.IndexOf(x);
+            value = ArrayHelper.RotateArrayLeft(value, 1);
+            var currentPos = Array.IndexOf(value, x);
+
+            if (currentPos == 1)
+            {
+                value = ArrayHelper.RotateArrayLeft(value, 5);
+            }
+            else if (currentPos == 2)
+            {
+                value = ArrayHelper.RotateArrayLeft(value, 1);
+            }
+            else if (currentPos == 3)
+            {
+                value = ArrayHelper.RotateArrayLeft(value, 6);
+            }
+            else if (currentPos == 4)
+            {
+                value = ArrayHelper.RotateArrayLeft(value, 2);
+            }
+            else if (currentPos == 5)
+            {
+                value = ArrayHelper.RotateArrayLeft(value, 7);
+            }
+            else if (currentPos == 6)
+            {
+                value = ArrayHelper.RotateArrayLeft(value, 3);
+            }
+            else if (currentPos == 7)
+            {
+                value = ArrayHelper.RotateArrayLeft(value, 8);
+            }
+
+            return new string(value);
+        }
+
+        private string UnRotateAround2(string input, char x)
+        {
+            var value = input.ToArray();
+            var endingPos = input.IndexOf(x);
+            value = ArrayHelper.RotateArrayLeft(value, 1);
+            var currentPos = Array.IndexOf(value, x);
+
+
+
+            if (currentPos == 1)
+            {
+                value = ArrayHelper.RotateArrayLeft(value, 3);
+            }
+            else if (currentPos == 2)
+            {
+                value = ArrayHelper.RotateArrayLeft(value, 1);
+            }
+            else if (currentPos == 3)
+            {
+                Console.WriteLine("error!!");
+            }
+            else if (currentPos == 4)
+            {
+                value = ArrayHelper.RotateArrayLeft(value, 5);
+            }
+
+            return new string(value);
         }
     }
 }

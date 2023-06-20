@@ -1,33 +1,70 @@
+using AdventLibrary;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2016
 {
     public class Day25: ISolver
     {
-        private string _filePath;
-        private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
+        private List<bool> _historyBool;
+        private bool _valid;
+
         public Solution Solve(string filePath)
         {
-            _filePath = filePath;
             return new Solution(Part1(), Part2());
         }
 
         private object Part1()
         {
-            var lines = ParseInput.GetLinesFromFile(_filePath);
-            var bunny = new AssemBunny(lines);
-            bunny.Registers['a'] = 0;
-            bunny.RunInputHunt();
-            return bunny.Registers['a'];
+            // carved out the underlying program from the AssemBunny
+            var k = 0;
+            while (true)
+            {
+                var d = k + (170 * 15);
+                _valid = true;
+                var a = d;
+                _historyBool = new List<bool>();
+                while (a != 0 && _valid)
+                {
+                    var b = a % 2;
+                    a = a / 2;
+                    Output(b);
+                }
+                if (_valid)
+                {
+                    return k;
+                }
+                k++;
+            }
         }
         
         private object Part2()
         {
             return 0;
+        }
+        private void Output(int value1)
+        {
+            bool booly = Convert.ToBoolean(value1);
+            if (_historyBool.Count == 0)
+            {
+                _historyBool.Add(booly);
+            }
+            else
+            {
+                var last = ListTransforming.LastItem(_historyBool);
+                if (booly == last)
+                {
+                    _valid = false;
+                }
+                else
+                {
+                    _historyBool.Add(booly);
+                }
+            }
+            if (_historyBool.Count > 10)
+            {
+                Console.WriteLine("success");
+            }
         }
     }
 }

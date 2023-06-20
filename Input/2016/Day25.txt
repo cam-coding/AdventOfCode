@@ -1,0 +1,30 @@
+cpy a d
+cpy 15 c
+cpy 170 b
+mul b c d
+cpy 0 c
+cpy 0 b
+jnz 0 0
+jnz 0 0
+cpy d a
+jnz 0 0
+cpy a b
+cpy 0 a
+spc3 b a
+jnz 0 0
+cpy 0 b
+jnz 0 0
+jnz 0 0
+jnz 0 0
+jnz 0 0
+jnz 0 0
+cpy 2 b
+spc2 c b
+cpy 0 c
+jnz 0 0
+jnz 0 0
+jnz 0 0
+jnz 0 0
+out b
+jnz a -19
+jnz 1 -21

@@ -6,7 +6,7 @@ using AdventLibrary.Helpers;
 
 namespace aoc2016
 {
-    public class Day23: ISolver
+    public class Day25: ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -20,18 +20,14 @@ namespace aoc2016
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var bunny = new AssemBunny(lines);
-            bunny.Registers['a'] = 7;
-            bunny.RunInput();
+            bunny.Registers['a'] = 0;
+            bunny.RunInputHunt();
             return bunny.Registers['a'];
         }
         
         private object Part2()
         {
-            var lines = ParseInput.GetLinesFromFile(_filePath);
-            var bunny = new AssemBunny(lines);
-            bunny.Registers['a'] = 12;
-            bunny.RunInput();
-            return bunny.Registers['a'];
+            return 0;
         }
     }
 }

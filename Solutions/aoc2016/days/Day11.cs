@@ -138,7 +138,7 @@ namespace aoc2016
                         {
                             foreach (var index in indexesOfCurrentFloor)
                             {
-                                var newFloors = ListTransforming.Clone2dList(state.Floors);
+                                var newFloors = state.Floors.Clone2dList();
                                 newFloors[currentFloor].RemoveAt(index);
                                 newFloors[min].Add(state.Floors[currentFloor][index]);
 
@@ -159,7 +159,7 @@ namespace aoc2016
                             var pairs = GetKCombs(indexesOfCurrentFloor, 2);
                             foreach (var pair in pairs)
                             {
-                                var newFloors = ListTransforming.Clone2dList(state.Floors);
+                                var newFloors = state.Floors.Clone2dList();
                                 foreach (var removal in pair)
                                 {
                                     newFloors[currentFloor].Remove(state.Floors[currentFloor][removal]);

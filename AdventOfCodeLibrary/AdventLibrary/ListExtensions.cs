@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace AdventLibrary
 {
-    // Can I just extend list and add these?
-    public static class ListTransforming
+    // Extending base list class with some helper methods
+    public static class ListExtensions
     {
         public static List<T> AllExceptFirstItem<T>(this List<T> list)
         {
@@ -14,6 +14,22 @@ namespace AdventLibrary
         public static T LastItem<T>(this List<T> list)
         {
             return list[list.Count - 1];
+        }
+
+        public static bool AllItemsUnique<T>(this IList<T> input)
+        {
+            var tempDict = new HashSet<T>();
+            foreach (var item in input)
+            {
+                if (tempDict.Contains(item))
+                {
+                    return false;
+                }
+
+                tempDict.Add(item);
+            }
+
+            return true;
         }
 
         public static List<List<T>> Clone2dList<T>(this List<List<T>> original)

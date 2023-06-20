@@ -29,7 +29,7 @@ namespace aoc2021
 
             for (var i = 0; i < n; i++)
             {
-                counts = AdventLibrary.ListTransforming.RotateListLeft<long>(counts, 1);
+                counts = counts.RotateListLeft(1);
                 counts[6] = counts[6] + counts[8];
             }
             return counts.Sum();

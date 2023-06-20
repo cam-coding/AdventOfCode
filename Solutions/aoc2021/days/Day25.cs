@@ -27,7 +27,7 @@ namespace aoc2021
             while (moved)
             {
                 moved = false;
-                var newGrid = ListTransforming.Clone2dList<char>(grid);
+                var newGrid = grid.Clone2dList();
 
                 for (var i = 0; i < grid.Count; i++)
                 {
@@ -49,7 +49,7 @@ namespace aoc2021
                     }
                 }
                 
-                grid = ListTransforming.Clone2dList<char>(newGrid);
+                grid = newGrid.Clone2dList();
                 
                 for (var i = 0; i < grid.Count; i++)
                 {
@@ -68,7 +68,7 @@ namespace aoc2021
                     }
                 }
 
-                grid = ListTransforming.Clone2dList<char>(newGrid);
+                grid = newGrid.Clone2dList();
                 counter++;
             }
             return counter;

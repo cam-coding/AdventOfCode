@@ -34,13 +34,13 @@ namespace aoc2022
                 }
                 else
                 {
-                    if (ListHelper.AllItemsUnique(buffer))
+                    if (buffer.AllItemsUnique())
                     {
                         return i;
                     }
                     else
                     {
-                        buffer = ListTransforming.RotateListLeft(buffer);
+                        buffer = buffer.RotateListLeft();
                         buffer[3] = line[i];
                     }
                 }
@@ -64,13 +64,13 @@ namespace aoc2022
                 }
                 else
                 {
-                    if (ListHelper.AllItemsUnique(buffer))
+                    if (buffer.AllItemsUnique())
                     {
                         return i;
                     }
                     else
                     {
-                        buffer = ListTransforming.RotateListLeft(buffer);
+                        buffer = buffer.RotateListLeft();
                         buffer[13] = line[i];
                     }
                 }

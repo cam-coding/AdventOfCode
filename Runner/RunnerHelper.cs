@@ -16,6 +16,7 @@ namespace Runner
         {
             _assemblies = new Dictionary<string, Assembly>
             {
+                { "2015", typeof(aoc2015.Day01).Assembly },
                 { "2016", typeof(aoc2016.Day01).Assembly },
                 { "2021", typeof(aoc2021.Day01).Assembly },
                 { "2022", typeof(aoc2022.Day01).Assembly }
@@ -32,8 +33,8 @@ namespace Runner
         {
             if (args.Length == 0)
             {
-                year = "2016";
-                day = "25";
+                year = "2015";
+                day = "2";
             }
             else if (args[0] == "true" || args[0] == "-t" )
             {

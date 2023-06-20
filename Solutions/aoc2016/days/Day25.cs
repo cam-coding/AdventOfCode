@@ -51,7 +51,7 @@ namespace aoc2016
             }
             else
             {
-                var last = ListTransforming.LastItem(_historyBool);
+                var last = _historyBool.LastItem();
                 if (booly == last)
                 {
                     _valid = false;

@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Helpers;
 
-namespace aoc2022
+namespace aoc2015
 {
-    public class Day06: ISolver
+    public class Day03: ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -20,36 +19,35 @@ namespace aoc2022
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var line = lines[0];
-            var buffer = new List<char>();
-            
-            for (var i = 0; i < line.Count(); i++)
-            {
-                if (i < 4)
-                {
-                    buffer.Add(line[i]);
-                }
-                else
-                {
-                    if (buffer.AllItemsUnique())
-                    {
-                        return i;
-                    }
-                    else
-                    {
-                        buffer = buffer.RotateListLeft();
-                        buffer[3] = line[i];
-                    }
-                }
-            }
+			var numbers = ParseInput.GetNumbersFromFile(_filePath);
+            var nodes = ParseInput.ParseFileAsGraph(_filePath);
+            var grid = ParseInput.ParseFileAsGrid(_filePath);
+            var total = 1000000;
+			var counter = 0;
+			
+			foreach (var line in lines)
+			{
+                var tokens = line.Split(delimiterChars);
+				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+                
+				foreach (var num in nums)
+				{
+				}
 
-            Debug.WriteLine("Hello");
+                for (var i = 0; i < 0; i++)
+                {
+                    for (var j = 0; j < 0; j++)
+                    {
+                        
+                    }
+                }
+			}
             return 0;
         }
         
         private object Part2()
         {
-            return 1;
+            return 0;
         }
     }
 }

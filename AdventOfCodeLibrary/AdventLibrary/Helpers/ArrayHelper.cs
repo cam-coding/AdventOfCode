@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
 
-namespace AdventLibrary
+namespace AdventLibrary.Helpers
 {
     public static class ArrayHelper
     {
         public static List<T> ArrayToList<T>(T[,] array)
         {
             var list = new List<T>();
-            for(var i = 0; i < array.GetLength(0); i++)
+            for (var i = 0; i < array.GetLength(0); i++)
             {
-                for(var j = 0; j < array.GetLength(1); j++)
+                for (var j = 0; j < array.GetLength(1); j++)
                 {
-                    list.Add(array[i,j]);
+                    list.Add(array[i, j]);
                 }
             }
             return list;
@@ -40,7 +40,7 @@ namespace AdventLibrary
             {
                 current = current - array.Length;
             }
-            for (var i = 0; i <  newArray.Length; i++)
+            for (var i = 0; i < newArray.Length; i++)
             {
                 if (current == array.Length)
                 {

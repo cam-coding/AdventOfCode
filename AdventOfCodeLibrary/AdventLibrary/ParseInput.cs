@@ -20,7 +20,15 @@ namespace AdventLibrary
 
         public static List<int> GetNumbersFromFile(string fileName)
         {
-            return System.IO.File.ReadAllLines(fileName).ToList().Select(x => Int32.Parse(x)).ToList();
+            try
+            {
+                return System.IO.File.ReadAllLines(fileName).ToList().Select(x => Int32.Parse(x)).ToList();
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine("Input is something other than all numbers");
+            }
+            return null;
         }
 
         public static T ChangeType<T>(this string value)
@@ -89,6 +97,10 @@ namespace AdventLibrary
         {
             var nodes = new Dictionary<string, List<string>>();
 			var lines = GetLinesFromFile(filePath);
+            if (lines.Count < 2)
+            {
+                return null;
+            }
             foreach (var line in lines)
 			{
                 var tokens = line.Split(delimiterChars);

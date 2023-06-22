@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Helpers;
@@ -19,35 +20,76 @@ namespace aoc2015
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var numbers = ParseInput.GetNumbersFromFile(_filePath);
-            var nodes = ParseInput.ParseFileAsGraph(_filePath);
-            var grid = ParseInput.ParseFileAsGrid(_filePath);
-            var total = 1000000;
-			var counter = 0;
-			
-			foreach (var line in lines)
-			{
-                var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
-                
-				foreach (var num in nums)
-				{
-				}
 
-                for (var i = 0; i < 0; i++)
+            var password = lines[0];
+            password = "hxbxxyzz";
+
+            while (!IsValid(password))
+            {
+                password = RollString(password);
+            }
+            return password;
+        }
+
+        private string RollString(string password)
+        {
+            var arr = password.ToCharArray();
+            for (var j = password.Length-1; j >= 0; j--)
+            {
+                arr[j] = (char)(arr[j] + 1);
+                if (password[j] == 'i' ||
+                    password[j] == 'l' ||
+                    password[j] == 'o')
                 {
-                    for (var j = 0; j < 0; j++)
+                    arr[j] = (char)(arr[j] + 1);
+                }
+                if (arr[j] == 'z' + 1)
+                {
+                    arr[j] = 'a';
+                }
+                else
+                {
+                    return new string(arr);
+                }
+            }
+            return new string(arr);
+        }
+
+        private bool IsValid(string password)
+        {
+            var pairpos = -1;
+            var pairValid = StringHelper.CountPairs_NonOverlapping(password) >= 2;
+            var tripleValid = false;
+            for (var i = 0; i < password.Length; i++)
+            {
+                if (password[i] == 'i' ||
+                    password[i] == 'l' ||
+                    password[i] == 'o')
+                {
+                    return false;
+                }
+                if (i < password.Length - 2)
+                {
+                    if (password[i] == (password[i+1] - 1) &&
+                        password[i] == (password[i+2] - 2))
                     {
-                        
+                        tripleValid = true;
                     }
                 }
-			}
-            return 0;
+            }
+            return pairValid && tripleValid;
         }
         
         private object Part2()
         {
-            return 0;
+            var lines = ParseInput.GetLinesFromFile(_filePath);
+            var password = "hxbxxyzz";
+
+            while (!IsValid(password) || password.Equals("hxbxxyzz"))
+            {
+                password = RollString(password);
+            }
+            return password;
         }
     }
 }

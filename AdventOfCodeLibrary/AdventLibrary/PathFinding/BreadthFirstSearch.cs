@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventLibrary.PathFinding
 {
@@ -19,6 +20,25 @@ namespace AdventLibrary.PathFinding
 
     public static class BreadthFirstSearch
     {
+        public static List<T> BFS<T>(List<T> remaining, List<T> current, Func<List<List<T>>, List<T>> evaluationAction)
+        {
+            if (remaining.Count == 0)
+            {
+                return current;
+            }
+            var results = new List<List<T>>();
+            foreach (var location in remaining)
+            {
+                var newRemaining = remaining.ToList();
+                newRemaining.Remove(location);
+                var newCurrent = current.ToList();
+                newCurrent.Add(location);
+                var returnVal = BFS(newRemaining, newCurrent, evaluationAction);
+                results.Add(returnVal);
+            }
+            return evaluationAction(results);
+        }
+
         public static void Search(Graph<string> graph, string start, string end = "")
         {
             var frontier = new Queue<string>();

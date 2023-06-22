@@ -72,6 +72,23 @@ namespace AdventLibrary
             }
             return rotatedList;
         }
+
+        public static (int,int) GetNeighbours<T>(this List<T> list, int index)
+        {
+            var lastIndex = list.Count - 1;
+            if (index == 0)
+            {
+                return (lastIndex, 1);
+            }
+            else if (index == lastIndex)
+            {
+                return (lastIndex - 1, 0);
+            }
+            else
+            {
+                return (index - 1, index + 1);
+            }
+        }
     }
 
 }

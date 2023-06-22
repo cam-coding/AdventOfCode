@@ -1,5 +1,6 @@
 using AdventLibrary;
 using AdventLibrary.PathFinding;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,15 +21,57 @@ namespace aoc2015
         private object Part1()
         {
             Parse();
-            return BFS2(_listOfLocations, new List<string> { "dummy" });
-            //return BFS(_listOfLocations, "dummy", 0);
+            Func<List<List<string>>, List<string>> func = (results) =>
+            {
+                List<string> best = results[0];
+                var bestCount = int.MaxValue;
+                foreach (var result in results)
+                {
+                    var total = TotalDistance(result);
+                    if (total < bestCount)
+                    {
+                        best = result;
+                        bestCount = total;
+                    }
+                }
+                return best;
+            };
+            var result = BreadthFirstSearch.BFS(_listOfLocations, new List<string> { "dummy" }, func);
+            var total = TotalDistance(result);
+            return total;
         }
 
         private object Part2()
         {
             Parse();
-            return BFS2(_listOfLocations, new List<string> {  "dummy" }, false);
-            //return BFS(_listOfLocations, "dummy", 0, false);
+            Func<List<List<string>>, List<string>> func = (results) =>
+            {
+                List<string> best = results[0];
+                var bestCount = 0;
+                foreach (var result in results)
+                {
+                    var total = TotalDistance(result);
+                    if (total > bestCount)
+                    {
+                        best = result;
+                        bestCount = total;
+                    }
+                }
+                return best;
+            };
+            var result = BreadthFirstSearch.BFS(_listOfLocations, new List<string> { "dummy" }, func);
+            var total = TotalDistance(result);
+            return total;
+        }
+
+        private int TotalDistance(List<string> listy)
+        {
+            var total = 0;
+            for (var i = 0; i < listy.Count - 1; i++)
+            {
+                total += _distances[listy[i]].First(x => x.Item1.Equals(listy[i + 1])).Item2;
+            }
+            return total;
         }
 
         private void Parse()
@@ -69,48 +112,6 @@ namespace aoc2015
             {
                 _distances.Add(location1, new List<(string, int)> { (location2, distance) });
             }
-        }
-
-        private int BFS(List<string> remaining, string current, int distance, bool min = true)
-        {
-            if (remaining.Count == 0)
-            {
-                return distance;
-            }
-            var results = new List<int>();
-            foreach (var location in remaining)
-            {
-                var newRemaining = remaining.ToList();
-                newRemaining.Remove(location);
-                var returnVal = BFS(newRemaining, location, distance + _distances[current].First(x => x.Item1.Equals(location)).Item2, min);
-                results.Add(returnVal);
-            }
-            return min ? results.Min() : results.Max();
-        }
-
-        private int BFS2(List<string> remaining, List<string> current, bool min = true)
-        {
-            if (remaining.Count == 0)
-            {
-                var total = 0;
-
-                for (var i = 0; i < current.Count - 1; i++)
-                {
-                    total += _distances[current[i]].First(x => x.Item1.Equals(current[i + 1])).Item2;
-                }
-                return total;
-            }
-            var results = new List<int>();
-            foreach (var location in remaining)
-            {
-                var newRemaining = remaining.ToList();
-                newRemaining.Remove(location);
-                var newCurrent = current.ToList();
-                newCurrent.Add(location);
-                var returnVal = BFS2(newRemaining, newCurrent, min);
-                results.Add(returnVal);
-            }
-            return min ? results.Min() : results.Max();
         }
     }
 }

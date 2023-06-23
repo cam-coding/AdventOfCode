@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventLibrary
 {
@@ -88,6 +89,24 @@ namespace AdventLibrary
             {
                 return (index - 1, index + 1);
             }
+        }
+
+        // hard to decipher, here are clearer ones https://rosettacode.org/wiki/Combinations#C.2B.2B
+        // 1,2,3 -> (1,2) (1,3) (2,3)
+        public static IEnumerable<IEnumerable<T>> GetKCombinations<T>(this List<T> list, int length) where T : IComparable
+        {
+            if (length == 1) return list.Select(t => new T[] { t });
+            return GetKCombinations(list, length - 1)
+                .SelectMany(t => list.Where(o => o.CompareTo(t.Last()) > 0),
+                    (t1, t2) => t1.Concat(new T[] { t2 }));
+        }
+
+        // 1,2 -> (1,2) (2,1)
+        public static IEnumerable<IEnumerable<T>> GetPermutations<T>(this IEnumerable<T> values) where T : IComparable<T>
+        {
+            if (values.Count() == 1)
+                return new[] { values };
+            return values.SelectMany(v => GetPermutations(values.Where(x => x.CompareTo(v) != 0)), (v, p) => p.Prepend(v));
         }
     }
 

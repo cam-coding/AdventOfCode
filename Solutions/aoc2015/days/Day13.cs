@@ -47,27 +47,9 @@ namespace aoc2015
                 _arr[current, target] = value;
             }
 
-
-            Func<List<List<int>>, List<int>> func = (results) =>
-            {
-                List<int> best = results[0];
-                var bestCount = 0;
-                foreach (var result in results)
-                {
-                    var total = TotalHappiness(result);
-                    if (total > bestCount)
-                    {
-                        best = result;
-                        bestCount = total;
-                    }
-                }
-                return best;
-            };
-
-            var starting = guests.ToList();
-            starting.Remove(guests[0]);
-            var bestList = BreadthFirstSearch.BFS(starting, new List<int>() { guests[0] }, func);
-            return TotalHappiness(bestList);
+            var perms = guests.GetPermutations();
+            var best = perms.Max(x => TotalHappiness(x.ToList()));
+            return best;
         }
 
         private int TotalHappiness(List<int> people)
@@ -112,6 +94,12 @@ namespace aoc2015
                 var target = lookup2[tokens[10]];
                 _arr[current, target] = value;
             }
+
+            /* this way is slower but more straight forward
+            guests.Add(8);
+            var perms = guests.GetPermutations();
+            var best = perms.Max(x => TotalHappiness(x.ToList()));
+            return best;*/
 
 
             Func<List<List<int>>, List<int>> func = (results) =>

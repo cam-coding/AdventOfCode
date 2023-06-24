@@ -175,7 +175,7 @@ namespace AdventLibrary
             return neighbours;
         }
 
-        public static List<Tuple<int,int>> GetOrthoginalNeighbours(List<List<int>> grid, int x, int y) 
+        public static List<Tuple<int, int>> GetOrthoginalNeighbours<T>(List<List<T>> grid, int x, int y)
         {
             List<Tuple<int, int>> neighbours = new List<Tuple<int, int>>();
             int rowMin = x - 1 > 0 ? x - 1 : 0;

@@ -93,6 +93,28 @@ namespace AdventLibrary
             return grid;
         }
 
+        public static List<List<bool>> ParseFileAsBoolGrid(string filePath, char special)
+        {
+            var lines = GetLinesFromFile(filePath);
+            var grid = new List<List<bool>>();
+            for (var i = 0; i < lines.Count; i++)
+            {
+                grid.Add(new List<bool>());
+                for (var j = 0; j < lines[i].Length; j++)
+                {
+                    if (lines[i][j] == special)
+                    {
+                        grid[i].Add(true);
+                    }
+                    else
+                    {
+                        grid[i].Add(false);
+                    }
+                }
+            }
+            return grid;
+        }
+
         public static Dictionary<string, List<string>> ParseFileAsGraph(string filePath)
         {
             var nodes = new Dictionary<string, List<string>>();

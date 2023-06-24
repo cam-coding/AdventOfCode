@@ -1,5 +1,4 @@
 ﻿using AdventLibrary;
-using AdventLibrary.Helpers;
 using System.Collections.Generic;
 using Xunit;
 
@@ -14,11 +13,20 @@ namespace AdventLibraryUnitTests
             var result = starting.GetKCombinations(length);
             Assert.Equal(expected, result);
         }
+
         [Theory]
         [MemberData(nameof(PermutationsTestData))]
         public void GetPermutationsTest(List<int> starting, List<List<int>> expected)
         {
             var result = starting.GetPermutations();
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [MemberData(nameof(CombinationsWithRepetitionsData))]
+        public void GetCombinationsWithRepetitionTest(List<int> starting, List<List<int>> expected, int length)
+        {
+            var result = starting.GenerateCombinationsWithRepetition(length);
             Assert.Equal(expected, result);
         }
 
@@ -67,6 +75,7 @@ namespace AdventLibraryUnitTests
                 1
             };
         }
+
         public static IEnumerable<object[]> PermutationsTestData()
         {
             yield return new object[]
@@ -89,6 +98,39 @@ namespace AdventLibraryUnitTests
                 {
                     new List<int>() { 1},
                 },
+            };
+        }
+
+        public static IEnumerable<object[]> CombinationsWithRepetitionsData()
+        {
+            yield return new object[]
+            {
+                new List<int>() { 1, 2},
+                new List<List<int>>()
+                {
+                    new List<int>() { 1, 1},
+                    new List<int>() { 1, 2},
+                    new List<int>() { 2, 2},
+                },
+                2
+            };
+            yield return new object[]
+            {
+                new List<int>() { 1},
+                new List<List<int>>()
+                {
+                    new List<int>() { 1},
+                },
+                1
+            };
+            yield return new object[]
+            {
+                new List<int>() { 1},
+                new List<List<int>>()
+                {
+                    new List<int>() { 1, 1},
+                },
+                2
             };
         }
         #endregion TestData

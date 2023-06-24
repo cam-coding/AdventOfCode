@@ -2,7 +2,9 @@ using AdventLibrary;
 using AdventLibrary.PathFinding;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 
 namespace aoc2015
 {
@@ -95,12 +97,11 @@ namespace aoc2015
                 _arr[current, target] = value;
             }
 
-            /* this way is slower but more straight forward
+            /* this runs in double the time but more straight forward
             guests.Add(8);
             var perms = guests.GetPermutations();
             var best = perms.Max(x => TotalHappiness(x.ToList()));
             return best;*/
-
 
             Func<List<List<int>>, List<int>> func = (results) =>
             {

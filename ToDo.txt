@@ -5,3 +5,6 @@ Write DFS and BFS into a generic helper.
 line/num parser shouldn't throw
 
 Implement the attempt guesser
+
+maybe implement something for altering grids per iteration on an action?
+Build something to count items in a grid

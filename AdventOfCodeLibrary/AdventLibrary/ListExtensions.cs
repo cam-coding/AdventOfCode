@@ -108,6 +108,40 @@ namespace AdventLibrary
                 return new[] { values };
             return values.SelectMany(v => GetPermutations(values.Where(x => x.CompareTo(v) != 0)), (v, p) => p.Prepend(v));
         }
+
+        public static List<List<T>> GenerateCombinationsWithRepetition<T>(this List<T> combinationList, int k)
+        {
+            var combinations = new List<List<T>>();
+
+            if (k == 0)
+            {
+                var emptyCombination = new List<T>();
+                combinations.Add(emptyCombination);
+
+                return combinations;
+            }
+
+            if (combinationList.Count == 0)
+            {
+                return combinations;
+            }
+
+            T head = combinationList[0];
+            var copiedCombinationList = new List<T>(combinationList);
+
+            List<List<T>> subcombinations = GenerateCombinationsWithRepetition(copiedCombinationList, k - 1);
+
+            foreach (var subcombination in subcombinations)
+            {
+                subcombination.Insert(0, head);
+                combinations.Add(subcombination);
+            }
+
+            combinationList.RemoveAt(0);
+            combinations.AddRange(GenerateCombinationsWithRepetition(combinationList, k));
+
+            return combinations;
+        }
     }
 
 }

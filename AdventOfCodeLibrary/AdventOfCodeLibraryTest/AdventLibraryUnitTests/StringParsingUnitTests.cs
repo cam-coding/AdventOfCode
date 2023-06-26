@@ -23,20 +23,5 @@ namespace AdventLibraryUnitTests
             new object[] { new List<int>() { 579, 594, 579, 448}, "579,594 -> 579,448" },
             new object[] { new List<int>() { 10, 10, 20, 20}, "10:10, 20:20" },
         };
-
-        [Theory]
-        [InlineData(3, 2, false, "aabbcc")]
-        [InlineData(3, 2, false, "aabbaa")]
-        [InlineData(6, 1, false, "aaaaaa")]
-        [InlineData(3, 2, false, "aaaaaa")]
-        [InlineData(2, 3, false, "aaaaaa")]
-        [InlineData(1, 4, false, "aaaaaa")]
-        [InlineData(1, 2, true, "aaaa")]
-        [InlineData(1, 2, true, "abaa")]
-        public void GetGroups_ReturnsExpected(int expected, int size, bool unique, string input)
-        {
-            var result = AdventLibrary.StringHelper.CountGroups_NonOverlapping(input, size, unique);
-            Assert.Equal(expected, result);
-        }
     }
 }

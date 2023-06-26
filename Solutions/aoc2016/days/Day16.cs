@@ -23,7 +23,7 @@ namespace aoc2016
 
             while (str.Length < MaxLength)
             {
-                var b = AdventLibrary.StringHelper.ReverseString(str);
+                var b = AdventLibrary.StringExtensions.ReverseString(str);
                 char[] charArray = b.ToCharArray();
                 for (var i = 0; i < charArray.Length; i++)
                 {
@@ -56,7 +56,7 @@ namespace aoc2016
 
             while (str.Length < MaxLength)
             {
-                var b = AdventLibrary.StringHelper.ReverseString(str);
+                var b = AdventLibrary.StringExtensions.ReverseString(str);
                 char[] charArray = b.ToCharArray();
                 for (var i = 0; i < charArray.Length; i++)
                 {

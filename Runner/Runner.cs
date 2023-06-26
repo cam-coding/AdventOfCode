@@ -15,8 +15,9 @@ namespace Runner
             var testFilePath = helper.GetTestInputPath(day, year);
             if (!testFilePath.Equals(String.Empty) && new FileInfo(testFilePath).Length != 0)
             {
+                var testSolver = helper.GetSolver(day, year);
                 Console.WriteLine("<<<<<TEST INPUT START>>>>>");
-                solver.Solve(testFilePath).Output();
+                testSolver.Solve(testFilePath).Output();
                 Console.WriteLine("<<<<<TEST INPUT END>>>>>");
             }
             solver.Solve(filePath).Output();

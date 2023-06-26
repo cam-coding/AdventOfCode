@@ -58,7 +58,7 @@ namespace aoc2015
         private bool IsValid(string password)
         {
             var pairpos = -1;
-            var pairValid = StringHelper.CountPairs_NonOverlapping(password) >= 2;
+            var pairValid = StringExtensions.CountPairs_NonOverlapping(password) >= 2;
             var tripleValid = false;
             for (var i = 0; i < password.Length; i++)
             {

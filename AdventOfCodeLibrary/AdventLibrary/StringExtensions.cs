@@ -4,21 +4,47 @@ using System.Linq;
 
 namespace AdventLibrary
 {
-    public static class StringHelper
+    public static class StringExtensions
     {
-        public static string ReverseString(string str)
+        public static string ReverseString(this string str)
         {
             char[] charArray = str.ToCharArray();
             Array.Reverse(charArray);
             return new string(charArray);
         }
 
-        public static int CountPairs_NonOverlapping(string str)
+        public static List<int> GetIndexesOfSubstring(this string str, string substring)
+        {
+            var result = new List<int>();
+
+            for (var i = 0; i <= str.Length - substring.Length; i++)
+            {
+                if (str[i] == substring[0])
+                {
+                    var valid = true;
+                    for (var j = 1; j < substring.Length; j++)
+                    {
+                        if (str[j+i] != substring[j])
+                        {
+                            valid = false;
+                        }
+                    }
+                    if (valid)
+                    {
+                        result.Add(i);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public static int CountPairs_NonOverlapping(this string str)
         {
             return CountGroups_NonOverlapping(str, 2);
         }
 
-        public static int CountPairs_NonOverlapping_Unique(string str)
+        public static int CountPairs_NonOverlapping_Unique(this string str)
         {
             return CountGroups_NonOverlapping(str, 2, true);
         }

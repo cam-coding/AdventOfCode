@@ -39,6 +39,18 @@ namespace AdventLibrary
             return result;
         }
 
+        public static string ReplaceFirstInstanceOf(this string str, string find, string replacement)
+        {
+            var index = str.IndexOf(find);
+
+            if (index != -1 && !str.Equals(string.Empty))
+            {
+                return str.Remove(index, find.Length).Insert(index, replacement);
+            }
+
+            return str;
+        }
+
         public static int CountPairs_NonOverlapping(this string str)
         {
             return CountGroups_NonOverlapping(str, 2);

@@ -7,10 +7,17 @@ namespace AdventLibraryUnitTests
     public class ListExtensionsUnitTests
     {
         [Theory]
-        [MemberData(nameof(CombinationsTestData))]
+        [MemberData(nameof(GetKCombinationsTestData))]
         public void GetKCombinationsTest(List<int> starting, List<List<int>> expected, int length)
         {
             var result = starting.GetKCombinations(length);
+            Assert.Equal(expected, result);
+        }
+        [Theory]
+        [MemberData(nameof(Get0ToKCombinationsTestData))]
+        public void Get0ToKCombinationsTest(List<int> starting, List<List<int>> expected, int length)
+        {
+            var result = starting.Get0toKCombinations(length);
             Assert.Equal(expected, result);
         }
 
@@ -31,7 +38,7 @@ namespace AdventLibraryUnitTests
         }
 
         #region TestData
-        public static IEnumerable<object[]> CombinationsTestData()
+        public static IEnumerable<object[]> GetKCombinationsTestData()
         {
             yield return new object[]
             {
@@ -73,6 +80,37 @@ namespace AdventLibraryUnitTests
                     new List<int>() { 1},
                 },
                 1
+            };
+        }
+
+        public static IEnumerable<object[]> Get0ToKCombinationsTestData()
+        {
+            yield return new object[]
+            {
+                new List<int>() { 1, 2, 3},
+                new List<List<int>>()
+                {
+                    new List<int>(),
+                    new List<int>() { 1 },
+                    new List<int>() { 2 },
+                    new List<int>() { 3 },
+                    new List<int>() { 1, 2},
+                    new List<int>() { 1, 3},
+                    new List<int>() { 2, 3},
+                },
+                2
+            };
+            yield return new object[]
+            {
+                new List<int>() { 1, 2},
+                new List<List<int>>()
+                {
+                    new List<int>(),
+                    new List<int>() { 1 },
+                    new List<int>() { 2 },
+                    new List<int>() { 1, 2},
+                },
+                2
             };
         }
 

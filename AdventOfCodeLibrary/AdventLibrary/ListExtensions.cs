@@ -45,7 +45,7 @@ namespace AdventLibrary
                 }
                 listy2d.Add(listy);
             }
-            
+
             return listy2d;
         }
 
@@ -92,17 +92,28 @@ namespace AdventLibrary
         }
 
         // hard to decipher, here are clearer ones https://rosettacode.org/wiki/Combinations#C.2B.2B
-        // 1,2,3 -> (1,2) (1,3) (2,3)
+        // 1,2,3 and length 2 -> (1,2) (1,3) (2,3)
         public static IEnumerable<IEnumerable<T>> GetKCombinations<T>(this List<T> list, int length) where T : IComparable
         {
+            if (length == 0) return new List<IEnumerable<T>>();
             if (length == 1) return list.Select(t => new T[] { t });
             return GetKCombinations(list, length - 1)
                 .SelectMany(t => list.Where(o => o.CompareTo(t.Last()) > 0),
                     (t1, t2) => t1.Concat(new T[] { t2 }));
         }
 
-        // 1,2 -> (1,2) (2,1)
-        public static IEnumerable<IEnumerable<T>> GetPermutations<T>(this IEnumerable<T> values) where T : IComparable<T>
+        public static IEnumerable<IEnumerable<T>> Get0toKCombinations<T>(this List<T> list, int length) where T : IComparable
+        {
+            var result = new List<IEnumerable<T>>() { new List<T>() };
+            for (int i = 1; i <= length; i++)
+            {
+                result.AddRange(GetKCombinations(list, i).ToList());
+            }
+            return result;
+        }
+
+            // 1,2 -> (1,2) (2,1)
+            public static IEnumerable<IEnumerable<T>> GetPermutations<T>(this IEnumerable<T> values) where T : IComparable<T>
         {
             if (values.Count() == 1)
                 return new[] { values };

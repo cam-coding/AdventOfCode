@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
+using System;
 
 namespace aoc2015
 {
@@ -10,6 +7,8 @@ namespace aoc2015
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
+
+        private int best = int.MaxValue;
         public Solution Solve(string filePath)
         {
             _filePath = filePath;
@@ -18,36 +17,108 @@ namespace aoc2015
 
         private object Part1()
         {
-            var lines = ParseInput.GetLinesFromFile(_filePath);
-            var numbers = ParseInput.GetNumbersFromFile(_filePath);
-            var nodes = ParseInput.ParseFileAsGraph(_filePath);
-            var grid = ParseInput.ParseFileAsGrid(_filePath);
-            var total = 1000000;
-            var counter = 0;
+            var batlog = new BattleLogistcs(new HeroClass(), new BossClass(71, 10), false);
 
-            foreach (var line in lines)
-            {
-                var tokens = line.Split(delimiterChars);
-                var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
-
-                foreach (var num in nums)
-                {
-                }
-
-                for (var i = 0; i < 0; i++)
-                {
-                    for (var j = 0; j < 0; j++)
-                    {
-
-                    }
-                }
-            }
-            return 0;
+            return BFS(batlog, false);
         }
 
         private object Part2()
         {
-            return 0;
+            var batlog = new BattleLogistcs(new HeroClass(), new BossClass(71, 10), false);
+            return BFS(batlog, true);
+        }
+
+        private int BFS(BattleLogistcs logistics, bool hardMode)
+        {
+            if (logistics.Hero.ManaSpent > best)
+            {
+                return int.MaxValue;
+            }
+
+            if (logistics.Hero.Hp < 10 && logistics.Boss.Hp > 50)
+            {
+                return int.MaxValue;
+            }
+
+            if (hardMode && !logistics.IsBossTurn)
+            {
+                logistics.Hero.TakeDmg(1);
+                if (logistics.Hero.Hp <= 0)
+                {
+                    return int.MaxValue;
+                }
+            }
+
+            logistics.TurnStart();
+
+            if (logistics.IsBossDead())
+            {
+                return logistics.Hero.ManaSpent;
+            }
+
+            if (logistics.IsBossTurn)
+            {
+                logistics.BossAttacks();
+
+                if (logistics.Hero.Hp <= 0)
+                {
+                    return int.MaxValue;
+                }
+                logistics.TurnEnd();
+                if (hardMode && !logistics.IsBossTurn)
+                {
+                    logistics.Hero.TakeDmg(1);
+                    if (logistics.Hero.Hp <= 0)
+                    {
+                        return int.MaxValue;
+                    }
+                }
+                logistics.TurnStart();
+            }
+
+            if (logistics.IsBossDead())
+            {
+                return logistics.Hero.ManaSpent;
+            }
+
+            if (logistics.Hero.Mana > 52)
+            {
+                var nextStepMissle = logistics.Clone();
+                nextStepMissle.Missle();
+                nextStepMissle.TurnEnd();
+                best = Math.Min(best, BFS(nextStepMissle, hardMode));
+            }
+            if (logistics.Hero.Recharge == 0 && logistics.Hero.Mana > 228)
+            {
+                var nextStep = logistics.Clone();
+                nextStep.Recharge();
+                nextStep.TurnEnd();
+                best = Math.Min(best, BFS(nextStep, hardMode));
+            }
+            if (logistics.Hero.Poison == 0 && logistics.Hero.Mana > 172)
+            {
+                var nextStep = logistics.Clone();
+                nextStep.Poison();
+                nextStep.TurnEnd();
+                best = Math.Min(best, BFS(nextStep, hardMode));
+            }
+            if (logistics.Hero.Mana > 72)
+            {
+                var nextStepDrain = logistics.Clone();
+                nextStepDrain.Drain();
+                nextStepDrain.TurnEnd();
+                best = Math.Min(best, BFS(nextStepDrain, hardMode));
+            }
+
+            if (logistics.Hero.Shield == 0 && logistics.Hero.Mana > 112)
+            {
+                var nextStep = logistics.Clone();
+                nextStep.Shield();
+                nextStep.TurnEnd();
+                best = Math.Min(best, BFS(nextStep, hardMode));
+            }
+
+            return best;
         }
 
         private class BossClass
@@ -124,17 +195,13 @@ namespace aoc2015
 
             public void TakeDmg(int amount)
             {
-                if (Shield > 1)
+                if (Shield >= 1)
                 {
                     Hp -= Math.Max(1, amount - 7);
                 }
                 else
                 {
                     Hp -= Math.Max(1, amount);
-                }
-                if (Hp <= 0)
-                {
-                    throw new Exception("dead");
                 }
             }
 
@@ -147,7 +214,7 @@ namespace aoc2015
             {
                 if (Recharge > 0)
                 {
-                    Mana += 229;
+                    Mana += 101;
                     Recharge -= 1;
                 }
                 if (Shield > 0)
@@ -161,74 +228,35 @@ namespace aoc2015
             }
         }
 
-        private class Battle
-        {
-            public Battle()
-            {
-            }
-
-            public int BFS(BattleLogistcs logistics)
-            {
-                if (logistics.IsBossDead())
-                {
-                    return logistics.Hero.ManaSpent;
-                }
-
-                foreach (var action in GenerateActions(logistics))
-                {
-                    try
-                    {
-                        action.Invoke();
-                        var returnValue = BFS(logistics.Clone());
-
-                    }
-                }
-
-            }
-
-            private List<Action> GenerateActions(BattleLogistcs logistics)
-            {
-                var listy = new List<Action>();
-
-                if (logistics.Hero.Shield == 0)
-                {
-                    listy.Add(logistics.Shield);
-                }
-                if (logistics.Hero.Poison == 0)
-                {
-                    listy.Add(logistics.Poison);
-                }
-                if (logistics.Hero.Recharge == 0)
-                {
-                    listy.Add(logistics.Recharge);
-                }
-                listy.Add(logistics.Missle);
-                listy.Add(logistics.Drain);
-                return listy;
-            }
-        }
-
         private class BattleLogistcs
         {
-            public BattleLogistcs(HeroClass myHero, BossClass myBoss)
+            public BattleLogistcs(HeroClass myHero, BossClass myBoss, bool isBossTurn)
             {
                 Hero = myHero;
                 Boss = myBoss;
+                IsBossTurn = isBossTurn;
             }
 
             public BattleLogistcs Clone()
             {
-                return new BattleLogistcs(Hero.Clone(), Boss.Clone());
+                return new BattleLogistcs(Hero.Clone(), Boss.Clone(), IsBossTurn);
             }
 
             public HeroClass Hero { get; private set; }
 
             public BossClass Boss { get; private set; }
 
+            public bool IsBossTurn { get; private set; }
+
             public void TurnStart()
             {
                 HandlePoison();
                 Hero.HandleEffects();
+            }
+
+            public void TurnEnd()
+            {
+                IsBossTurn = !IsBossTurn;
             }
 
             public void BossAttacks()
@@ -246,7 +274,7 @@ namespace aoc2015
 
             public bool IsBossDead()
             {
-                return Boss.Hp > 0;
+                return Boss.Hp <= 0;
             }
 
             public void Missle()

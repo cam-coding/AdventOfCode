@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,11 +7,17 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AdventOfCodeLibrary\AdventLibrary\AdventLibrary.csproj" />
+    <ProjectReference Include="..\BoilerPlate\BoilerPlateLibrary\BoilerPlateLibrary.csproj" />
     <ProjectReference Include="..\Solutions\aoc2015\aoc2015.csproj" />
     <ProjectReference Include="..\Solutions\aoc2016\aoc2016.csproj" />
+    <ProjectReference Include="..\Solutions\aoc2017\aoc2017.csproj" />
+    <ProjectReference Include="..\Solutions\aoc2018\aoc2018.csproj" />
+    <ProjectReference Include="..\Solutions\aoc2019\aoc2019.csproj" />
+    <ProjectReference Include="..\Solutions\aoc2020\aoc2020.csproj" />
     <ProjectReference Include="..\Solutions\aoc2021\aoc2021.csproj" />
     <ProjectReference Include="..\Solutions\aoc2022\aoc2022.csproj" />
-    <ProjectReference Include="..\BoilerPlate\BoilerPlate.csproj" />
+    <ProjectReference Include="..\Solutions\aoc2023\aoc2023.csproj" />
+    <ProjectReference Include="..\BoilerPlate\BoilerPlateProgram.csproj" />
   </ItemGroup>
 
 </Project>

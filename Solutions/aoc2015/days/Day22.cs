@@ -182,7 +182,9 @@ namespace aoc2015
                         var returnValue = BFS(logistics.Clone());
 
                     }
+                    catch { }
                 }
+                return 1;
 
             }
 

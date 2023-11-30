@@ -113,7 +113,7 @@ namespace AdventLibrary
         }
 
             // 1,2 -> (1,2) (2,1)
-            public static IEnumerable<IEnumerable<T>> GetPermutations<T>(this IEnumerable<T> values) where T : IComparable<T>
+        public static IEnumerable<IEnumerable<T>> GetPermutations<T>(this IEnumerable<T> values) where T : IComparable<T>
         {
             if (values.Count() == 1)
                 return new[] { values };

@@ -1,34 +1,28 @@
-﻿using System;
-using System.Reflection;
-using System.Security.Permissions;
-using System.Linq;
-
-namespace CreateNewDay
+﻿namespace BoilerPlateLibrary
 {
-    class CreateNewDay
+    public class CreateNewDay
     {
-        static void Main(string[] args)
+        public CreateNewDay(string day, string year)
         {
-            if (args.Count() != 2)
+            if (day == null || year == null)
             {
-                Console.WriteLine("./BoilerPlate.exe {year} {day}");
-                Console.WriteLine(args[0]);
-                Console.WriteLine(args[1]);
-                return;
+                throw new ArgumentNullException();
             }
-            
-            Year = args[0];
-            Day = args[1].PadLeft(2, '0');
-
-            var filePath = CreateDirectoriesAndFile(args);
-            FillFile2(filePath);
+            Day = day;
+            Year = year;
         }
-
-        public static string Year { get; set; }
 
         public static string Day { get; set; }
 
-        public static string CreateDirectoriesAndFile(string[] args)
+        public static string Year { get; set; }
+
+        public void SetupFiles()
+        {
+            var filePath = CreateDirectoriesAndFile();
+            FillFileWithBoilerPlate(filePath);
+        }
+
+        public string CreateDirectoriesAndFile()
         {
             var currentDir = Path.GetFileName(Environment.CurrentDirectory);
             var baseDir = string.Empty;
@@ -58,7 +52,7 @@ namespace CreateNewDay
             return targetFile;
         }
 
-        private static void CreateTestInputFile(string baseDir)
+        private void CreateTestInputFile(string baseDir)
         {
             var yearDir = baseDir + $"TestInput\\{Year}\\";
             Directory.CreateDirectory(yearDir);
@@ -69,9 +63,9 @@ namespace CreateNewDay
             }
         }
 
-        public static void FillFile2(string destFile)
+        public void FillFileWithBoilerPlate(string destFile)
         {
-            string text = File.ReadAllText("..\\..\\..\\BoilerPlate.txt");
+            string text = File.ReadAllText("BoilerPlate.txt");
             text = text.Replace("{YEAR}", Year);
             text = text.Replace("{DAY}", Day);
             File.WriteAllText(destFile, text);

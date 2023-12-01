@@ -6,13 +6,15 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using BoilerPlateLibrary;
+using System.Linq;
 
 namespace Runner
 {
     public class RunnerHelper
     {
         private readonly Dictionary<string, Assembly> _assemblies;
-        private readonly string _pathAdjustment;
+        private readonly string _solutionRoot;
+
         public RunnerHelper()
         {
             _assemblies = new Dictionary<string, Assembly>
@@ -28,10 +30,14 @@ namespace Runner
                 { "2023", typeof(aoc2023.Day01).Assembly },
             };
 
-            _pathAdjustment = Directory.GetCurrentDirectory() + "\\";
-            if (_pathAdjustment.EndsWith("bin\\Debug\\net6.0\\"))
+            var directory = TryGetSolutionDirectoryInfo();
+            if (directory != null)
             {
-                _pathAdjustment = _pathAdjustment + "..\\..\\..\\";
+                _solutionRoot = directory.FullName;
+            }
+            else
+            {
+                throw new Exception("Couldn't find the solution root directory.");
             }
         }
 
@@ -61,8 +67,7 @@ namespace Runner
 
             // If type is null and file doesn't exist, create a file and crash
             // also ignore hot reload and close manually
-            var temp = _pathAdjustment + $"..\\Solutions\\aoc{year}\\days\\Day{day}.cs";
-            if (type == null && !File.Exists(_pathAdjustment + $"..\\Solutions\\aoc{year}\\Days\\Day{day}.cs"))
+            if (type == null && !File.Exists(_solutionRoot + $"\\Solutions\\aoc{year}\\Days\\Day{day}.cs"))
             {
                 var creator = new CreateNewDay(day, year);
                 creator.SetupFiles();
@@ -72,17 +77,17 @@ namespace Runner
 
         public async Task<string> GetInputPath(string day, string year)
         {
-            if (!File.Exists(_pathAdjustment + $"..\\Input\\{year}\\Day{day}.txt"))
+            if (!File.Exists(_solutionRoot + $"\\Input\\{year}\\Day{day}.txt"))
             {
                 await GetFromServerAsync(day, year);
             }
 
-            return _pathAdjustment + $"..\\Input\\{year}\\Day{day}.txt";
+            return _solutionRoot + $"\\Input\\{year}\\Day{day}.txt";
         }
 
         public string GetTestInputPath(string day, string year)
         {
-            var fileName = _pathAdjustment + $"..\\TestInput\\{year}\\Day{day}Test.txt";
+            var fileName = _solutionRoot + $"\\TestInput\\{year}\\Day{day}Test.txt";
             if (File.Exists(fileName) & !File.ReadAllText(fileName).Equals(string.Empty))
             {
                 return fileName;
@@ -92,9 +97,9 @@ namespace Runner
 
         public string GetTestInput(string day, string year)
         {
-            if (File.Exists(_pathAdjustment + $"..\\TestInput\\{year}\\Day{day}Test.txt"))
+            if (File.Exists(_solutionRoot + $"\\TestInput\\{year}\\Day{day}Test.txt"))
             {
-                var input = AdventLibrary.ParseInput.GetTextFromFile(_pathAdjustment + $"..\\TestInput\\{year}\\Day{day}Test.txt");
+                var input = AdventLibrary.ParseInput.GetTextFromFile(_solutionRoot + $"\\TestInput\\{year}\\Day{day}Test.txt");
                 return input;
             }
             return string.Empty;
@@ -102,7 +107,7 @@ namespace Runner
 
         private async Task GetFromServerAsync(string day, string year)
         {
-            var sessionCookie = File.ReadAllText(_pathAdjustment + "SessionCookie.txt");
+            var sessionCookie = File.ReadAllText(_solutionRoot + "\\Runner\\SessionCookie.txt");
 
             var inputResult = string.Empty;
             var baseAddress = new Uri("https://adventofcode.com");
@@ -116,7 +121,18 @@ namespace Runner
                 inputResult = await result.Content.ReadAsStringAsync();
             }
 
-            File.WriteAllText(_pathAdjustment + $"..\\Input\\{year}\\Day{day}.txt", inputResult);
+            File.WriteAllText(_solutionRoot + $"\\Input\\{year}\\Day{day}.txt", inputResult);
+        }
+
+        private DirectoryInfo TryGetSolutionDirectoryInfo(string currentPath = null)
+        {
+            var directory = new DirectoryInfo(
+                currentPath ?? Directory.GetCurrentDirectory());
+            while (directory != null && !directory.GetFiles("*.sln").Any())
+            {
+                directory = directory.Parent;
+            }
+            return directory;
         }
     }
 

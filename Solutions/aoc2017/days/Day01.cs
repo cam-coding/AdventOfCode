@@ -19,30 +19,23 @@ namespace aoc2017
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var numbers = ParseInput.GetNumbersFromFile(_filePath);
-            var nodes = ParseInput.ParseFileAsGraph(_filePath);
-            var grid = ParseInput.ParseFileAsGrid(_filePath);
             var total = 1000000;
 			var counter = 0;
-			
-			foreach (var line in lines)
-			{
-                var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
-                
-				foreach (var num in nums)
-				{
-				}
 
-                for (var i = 0; i < 0; i++)
+            var line = lines[0];
+
+            for (var j = 1; j < line.Length; j++)
+            {
+                if (line[j] == line[j-1])
                 {
-                    for (var j = 0; j < 0; j++)
-                    {
-                        
-                    }
+                    counter += line[j];
                 }
-			}
-            return 0;
+            }
+            if (line[line.Length-1] == line[0])
+            {
+                counter += line[line.Length - 1];
+            }
+            return counter;
         }
         
         private object Part2()

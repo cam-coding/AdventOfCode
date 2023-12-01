@@ -20,4 +20,10 @@
     <ProjectReference Include="..\Solutions\aoc2023\aoc2023.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="SessionCookie.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

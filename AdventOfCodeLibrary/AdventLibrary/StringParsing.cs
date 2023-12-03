@@ -27,19 +27,6 @@ namespace AdventLibrary
             return output;
         }
 
-        public static string GetNumbersFromString2(string input)
-        {
-            string output = "";
-            foreach (char c in input)
-            {
-                if (char.IsNumber(c))
-                {
-                    output += c;
-                }
-            }
-            return output;
-        }
-
         public static List<int> GetNumbersFromString(string input)
         {
             var numbers = Regex.Split(input, @"\D+").ToList().Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => int.Parse(x));
@@ -66,7 +53,7 @@ namespace AdventLibrary
             {
                 if (char.IsNumber(c))
                 {
-                    output.Add(int.Parse(c.ToString()));
+                    output.Add(c - '0');
                 }
             }
             return output;
@@ -91,6 +78,40 @@ namespace AdventLibrary
                 }
             }
             return true;
+        }
+
+        public static List<(int,int)> GetNumbersWithIndexesFromString(string input)
+        {
+            var result = new List<(int,int)>();
+            for (var i = 0; i < input.Length; i++)
+            {
+                if (char.IsDigit(input[i]))
+                {
+                    var currentNum = "";
+                    var start = i;
+                    while (i < input.Length && char.IsDigit(input[i]))
+                    {
+                        currentNum += (input[i]);
+                        i++;
+                    }
+                    result.Add((int.Parse(currentNum), start));
+                }
+            }
+            return result;
+        }
+
+        public static List<(int, int)> GetDigitsWithIndexesFromString(string input)
+        {
+            List<(int, int)> output = new List<(int, int)>();
+            for (var i = 0; i < input.Length; i++)
+            {
+                var c = input[i];
+                if (char.IsDigit(c))
+                {
+                    output.Add((c-'0', i));
+                }
+            }
+            return output;
         }
     }
 }

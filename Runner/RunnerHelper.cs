@@ -1,12 +1,11 @@
 using AdventLibrary;
+using BoilerPlateLibrary;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
-using BoilerPlateLibrary;
-using System.Linq;
 
 namespace Runner
 {
@@ -30,7 +29,7 @@ namespace Runner
                 { "2023", typeof(aoc2023.Day01).Assembly },
             };
 
-            var directory = TryGetSolutionDirectoryInfo();
+            var directory = DirectoryHelper.TryGetSolutionDirectoryInfo();
             if (directory != null)
             {
                 _solutionRoot = directory.FullName;
@@ -46,7 +45,7 @@ namespace Runner
             if (args.Length == 0)
             {
                 year = "2023";
-                day = "1";
+                day = "4";
             }
             else if (args[0] == "true" || args[0] == "-t" )
             {
@@ -65,12 +64,14 @@ namespace Runner
         {
             var type = _assemblies[year].GetType($"aoc{year}.Day{day}");
 
-            // If type is null and file doesn't exist, create a file and crash
+            // If type is null and file doesn't exist, create a file and exit
             // also ignore hot reload and close manually
             if (type == null && !File.Exists(_solutionRoot + $"\\Solutions\\aoc{year}\\Days\\Day{day}.cs"))
             {
-                var creator = new CreateNewDay(day, year);
+                var creator = new CreateNewDay(day, year, _solutionRoot);
                 creator.SetupFiles();
+                Console.WriteLine("Files have now been created, please run again");
+                Environment.Exit(0);
             }
             return (ISolver)Activator.CreateInstance(type);
         }
@@ -95,6 +96,7 @@ namespace Runner
             return string.Empty;
         }
 
+        // Not used atm, the solution grabs the input
         public string GetTestInput(string day, string year)
         {
             if (File.Exists(_solutionRoot + $"\\TestInput\\{year}\\Day{day}Test.txt"))
@@ -122,17 +124,6 @@ namespace Runner
             }
 
             File.WriteAllText(_solutionRoot + $"\\Input\\{year}\\Day{day}.txt", inputResult);
-        }
-
-        private DirectoryInfo TryGetSolutionDirectoryInfo(string currentPath = null)
-        {
-            var directory = new DirectoryInfo(
-                currentPath ?? Directory.GetCurrentDirectory());
-            while (directory != null && !directory.GetFiles("*.sln").Any())
-            {
-                directory = directory.Parent;
-            }
-            return directory;
         }
     }
 

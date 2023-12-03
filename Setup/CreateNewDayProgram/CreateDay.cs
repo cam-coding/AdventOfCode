@@ -1,7 +1,6 @@
-﻿using BoilerPlateLibrary;
-using Runner;
+﻿using SetupLibrary;
 
-namespace BoilerPlateProgram
+namespace CreateNewDayProgram
 {
     static class CreateNewDayProgram
     {
@@ -9,7 +8,7 @@ namespace BoilerPlateProgram
         {
             if (args.Count() != 2)
             {
-                Console.WriteLine("./BoilerPlate.exe {day} {year}");
+                Console.WriteLine("./CreateNewDayProgram.exe {day} {year}");
                 Console.WriteLine(args[0]);
                 Console.WriteLine(args[1]);
                 return;

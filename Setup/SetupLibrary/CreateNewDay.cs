@@ -1,6 +1,4 @@
-﻿using Runner;
-
-namespace BoilerPlateLibrary
+﻿namespace SetupLibrary
 {
     public class CreateNewDay
     {

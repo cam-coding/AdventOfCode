@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Runner
+namespace SetupLibrary
 {
     public static class DirectoryHelper
     {

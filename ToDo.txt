@@ -8,3 +8,17 @@ Implement the attempt guesser
 
 maybe implement something for altering grids per iteration on an action?
 Build something to count items in a grid
+
+
+
+/*Move things out of runner helper and into Setup Library
+ * Delete BoilerPlateLibrary
+ * Rename BoilerPlate folder
+ * */
+
+ 
+            // need library to make rectangle grid.
+            // need library to get nums and indexes
+            // maybe library to get all chars?
+            // need library to store answers tried
+            // maybe a Grid object I can return with things like width?

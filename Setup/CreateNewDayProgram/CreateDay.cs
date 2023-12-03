@@ -1,4 +1,5 @@
 ﻿using BoilerPlateLibrary;
+using Runner;
 
 namespace BoilerPlateProgram
 {
@@ -14,7 +15,13 @@ namespace BoilerPlateProgram
                 return;
             }
 
-            var creator = new CreateNewDay(args[0].PadLeft(2, '0'), args[1]);
+            var solutionRoot = DirectoryHelper.TryGetSolutionDirectoryInfo();
+            if (solutionRoot == null)
+            {
+                throw new Exception("Couldn't find the solution root directory.");
+            }
+
+            var creator = new CreateNewDay(args[0].PadLeft(2, '0'), args[1], solutionRoot.FullName);
             creator.SetupFiles();
         }
     }

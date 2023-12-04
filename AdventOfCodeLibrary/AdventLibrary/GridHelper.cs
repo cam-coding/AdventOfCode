@@ -5,6 +5,11 @@ namespace AdventLibrary
 {
     public static class GridHelper
     {
+        /* Grid's are in the form of grid[y][x] where  and 
+         * x is horizontal axis
+         * y is vertical
+         * Always reversed from common math notation of "x,y" coordinates
+         * */
         public static List<List<int>> GenerateSquareGrid(int n)
         {
             return GenerateSquareGrid<int>(n, 0);
@@ -25,6 +30,24 @@ namespace AdventLibrary
 
             return grid;
         }
+
+        public static List<List<T>> GenerateCustomGrid<T>(int width, int height, T value)
+        {
+            var grid = new List<List<T>>();
+
+            for (var i = 0; i < height; i++)
+            {
+                var listy = new List<T>();
+                for (var j = 0; j < width; j++)
+                {
+                    listy.Add(value);
+                }
+                grid.Add(listy);
+            }
+
+            return grid;
+        }
+
         public static List<Tuple<int,int>> GetPointsBetweenStartAndEndInclusive(List<int> nums)
         {
             return GetPointsBetweenStartAndEndInclusive(nums[0], nums[1], nums[2], nums[3]);

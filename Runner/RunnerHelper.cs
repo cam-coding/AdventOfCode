@@ -65,7 +65,6 @@ namespace Runner
             var type = _assemblies[year].GetType($"aoc{year}.Day{day}");
 
             // If type is null and file doesn't exist, create a file and exit
-            // also ignore hot reload and close manually
             if (type == null && !File.Exists(_solutionRoot + $"\\Solutions\\aoc{year}\\Days\\Day{day}.cs"))
             {
                 var creator = new CreateNewDay(day, year, _solutionRoot);

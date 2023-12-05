@@ -17,7 +17,7 @@ namespace AdventLibrary
             return tempStack;
         }
 
-        
+
         public static Stack<T> PushMultiple<T>(Stack<T> stack, List<T> values)
         {
             foreach (var value in values)
@@ -28,7 +28,7 @@ namespace AdventLibrary
             return stack;
         }
 
-        
+
         public static List<T> PopMultiple<T>(Stack<T> stack, int count)
         {
             var tempList = new List<T>();
@@ -81,7 +81,7 @@ namespace AdventLibrary
             {
                 taker.Push(tempStack.Pop());
             }
-            
+
             giverNew = giver;
             takerNew = taker;
         }

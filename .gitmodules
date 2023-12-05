@@ -1,0 +1,3 @@
+[submodule "AdventOfCodeInput"]
+	path = AdventOfCodeInput
+	url = https://github.com/cam-coding/AdventOfCodeInput.git

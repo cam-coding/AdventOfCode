@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2023
 {
@@ -20,7 +18,7 @@ namespace aoc2023
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             double total = 0;
-			
+
 			foreach (var line in lines)
 			{
                 var tokens = line.Split(delimiterChars);
@@ -28,9 +26,9 @@ namespace aoc2023
                 var ours = AdventLibrary.StringParsing.GetNumbersFromString(tokens[2]);
 
                 double counter = 0;
-                foreach (var item in ours)
+                foreach (var number in ours)
                 {
-                    if (winners.Contains(item))
+                    if (winners.Contains(number))
                     {
                         counter++;
                     }
@@ -42,11 +40,12 @@ namespace aoc2023
 			}
             return total;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             double total = 0;
+            long max = 0;
             var dict = new Dictionary<long, long>();
 
             for (var j = 0; j < lines.Count; j++)
@@ -56,6 +55,13 @@ namespace aoc2023
 
             for (var j = 0; j < lines.Count; j++)
             {
+                foreach (var value in dict.Values)
+                {
+                    if (value > max)
+                    {
+                        max = value;
+                    }
+                }
                 var tokens = lines[j].Split(delimiterChars);
                 var winners = AdventLibrary.StringParsing.GetNumbersFromString(tokens[1]);
                 var ours = AdventLibrary.StringParsing.GetNumbersFromString(tokens[2]);
@@ -68,19 +74,14 @@ namespace aoc2023
                         counter++;
                     }
                 }
+                var numberOfCurrentCard = dict[j];
+                total += numberOfCurrentCard;
                 if (counter > 0)
                 {
-                    var bigNum = 1 * dict[j];
-                    total += bigNum;
-                    //change
                     for (var i = 1; i <= counter; i++)
                     {
-                        dict[j + i] += dict[j];
+                        dict[j + i] += numberOfCurrentCard;
                     }
-                }
-                else
-                {
-                    total += dict[j];
                 }
             }
             return total;

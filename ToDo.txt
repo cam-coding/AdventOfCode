@@ -11,3 +11,6 @@ Build something to count items in a grid
 
 // need library to store answers tried
 // maybe a Grid object I can return with things like width?
+
+CreateNewDay should create any missing parts even if solution is there
+	aka testinput/input

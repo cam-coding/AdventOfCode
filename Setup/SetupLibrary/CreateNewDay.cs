@@ -11,6 +11,7 @@
             Day = day;
             Year = year;
             RepositoryRoot = solutionRoot;
+            InputRoot = solutionRoot + "\\AdventOfCodeInput";
         }
 
         public static string Day { get; set; }
@@ -18,6 +19,8 @@
         public static string Year { get; set; }
 
         public static string RepositoryRoot { get; set; }
+
+        public static string InputRoot { get; set; }
 
         public void SetupFiles()
         {
@@ -37,7 +40,7 @@
 
         private void CreateEmptyInputFile()
         {
-            var directoryPath = RepositoryRoot + $"\\Input\\{Year}\\";
+            var directoryPath = InputRoot + $"\\Input\\{Year}\\";
             Directory.CreateDirectory(directoryPath);
             var fullPath = directoryPath + $"Day{Day}.txt";
             DirectoryHelper.CreateEmptyFile(fullPath);
@@ -45,7 +48,7 @@
 
         private void CreateEmptyTestInputFile()
         {
-            var directoryPath = RepositoryRoot + $"\\TestInput\\{Year}\\";
+            var directoryPath = InputRoot + $"\\TestInput\\{Year}\\";
             Directory.CreateDirectory(directoryPath);
             var fullPath = directoryPath + $"Day{Day}Test.txt";
             DirectoryHelper.CreateEmptyFile(fullPath);
@@ -60,8 +63,3 @@
         }
     }
 }
-
-/*Move things out of runner helper and into Setup Library
- * Delete BoilerPlateLibrary
- * Rename BoilerPlate folder
- * */

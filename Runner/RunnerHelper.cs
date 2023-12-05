@@ -13,6 +13,7 @@ namespace Runner
     {
         private readonly Dictionary<string, Assembly> _assemblies;
         private readonly string _solutionRoot;
+        private readonly string _inputRoot;
 
         public RunnerHelper()
         {
@@ -33,6 +34,7 @@ namespace Runner
             if (directory != null)
             {
                 _solutionRoot = directory.FullName;
+                _inputRoot = _solutionRoot + "\\AdventOfCodeInput";
             }
             else
             {
@@ -45,7 +47,7 @@ namespace Runner
             if (args.Length == 0)
             {
                 year = "2023";
-                day = "4";
+                day = "1";
             }
             else if (args[0] == "true" || args[0] == "-t" )
             {
@@ -77,30 +79,31 @@ namespace Runner
 
         public async Task<string> GetInputPath(string day, string year)
         {
-            if (!File.Exists(_solutionRoot + $"\\Input\\{year}\\Day{day}.txt"))
+            var inputFile = _inputRoot + $"\\Input\\{year}\\Day{day}.txt";
+            if (!File.Exists(inputFile) || IsTextFileEmpty(inputFile))
             {
                 await GetFromServerAsync(day, year);
             }
 
-            return _solutionRoot + $"\\Input\\{year}\\Day{day}.txt";
+            return inputFile;
         }
 
         public string GetTestInputPath(string day, string year)
         {
-            var fileName = _solutionRoot + $"\\TestInput\\{year}\\Day{day}Test.txt";
-            if (File.Exists(fileName) & !File.ReadAllText(fileName).Equals(string.Empty))
+            var fileName = _inputRoot + $"\\TestInput\\{year}\\Day{day}Test.txt";
+            if (!File.Exists(fileName) || IsTextFileEmpty(fileName))
             {
-                return fileName;
+                return string.Empty;
             }
-            return string.Empty;
+            return fileName;
         }
 
         // Not used atm, the solution grabs the input
         public string GetTestInput(string day, string year)
         {
-            if (File.Exists(_solutionRoot + $"\\TestInput\\{year}\\Day{day}Test.txt"))
+            if (File.Exists(_inputRoot + $"\\TestInput\\{year}\\Day{day}Test.txt"))
             {
-                var input = AdventLibrary.ParseInput.GetTextFromFile(_solutionRoot + $"\\TestInput\\{year}\\Day{day}Test.txt");
+                var input = AdventLibrary.ParseInput.GetTextFromFile(_inputRoot + $"\\TestInput\\{year}\\Day{day}Test.txt");
                 return input;
             }
             return string.Empty;
@@ -122,7 +125,22 @@ namespace Runner
                 inputResult = await result.Content.ReadAsStringAsync();
             }
 
-            File.WriteAllText(_solutionRoot + $"\\Input\\{year}\\Day{day}.txt", inputResult);
+            File.WriteAllText(_inputRoot + $"\\Input\\{year}\\Day{day}.txt", inputResult);
+        }
+
+        private bool IsTextFileEmpty(string fileName)
+        {
+            var info = new FileInfo(fileName);
+            if (info.Length == 0)
+                return true;
+
+            // only if your use case can involve files with 1 or a few bytes of content.
+            if (info.Length < 6)
+            {
+                var content = File.ReadAllText(fileName);
+                return content.Length == 0;
+            }
+            return false;
         }
     }
 

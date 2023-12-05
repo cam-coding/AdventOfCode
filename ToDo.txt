@@ -14,3 +14,15 @@ Build something to count items in a grid
 
 CreateNewDay should create any missing parts even if solution is there
 	aka testinput/input
+
+Solutions should output time as well
+
+Algorithms needed:
+Chinese Remainder Theorem
+
+Automation:
+	Parse and grab example text
+	Submit via program running
+		submit when example is correct?
+	record submissions as json
+	don't submit anything that's lower than a "too low" answer

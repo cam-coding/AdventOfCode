@@ -15,3 +15,5 @@ Input is linked in a private sub repo/directory. So each clone requires the foll
 1. git clone <URL to solutions repo>
 2. git submodule init
 3. git submodule update
+4. cd AdventOfCodeInput
+5. git checkout main

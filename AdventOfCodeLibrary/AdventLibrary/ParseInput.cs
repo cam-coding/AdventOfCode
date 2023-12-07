@@ -64,20 +64,28 @@ namespace AdventLibrary
         // This could probably be generic
         public static List<List<int>> ParseFileAsGrid(string filePath)
         {
-			var lines = GetLinesFromFile(filePath);
-            var grid = new List<List<int>>();
-            for (var i = 0; i < lines.Count; i++)
+            try
             {
-                grid.Add(new List<int>());
-                var nums = StringParsing.GetDigitsFromString(lines[i]);
-                for (var j = 0; j < nums.Count; j++)
+                var lines = GetLinesFromFile(filePath);
+                var grid = new List<List<int>>();
+                for (var i = 0; i < lines.Count; i++)
                 {
-                    grid[i].Add(nums[j]);
+                    grid.Add(new List<int>());
+                    var nums = StringParsing.GetDigitsFromString(lines[i]);
+                    for (var j = 0; j < nums.Count; j++)
+                    {
+                        grid[i].Add(nums[j]);
+                    }
                 }
+                return grid;
             }
-            return grid;
+            catch (FormatException e)
+            {
+                Console.WriteLine("Input is something other than a grid");
+            }
+            return null;
         }
-        
+
         public static List<List<char>> ParseFileAsCharGrid(string filePath)
         {
 			var lines = GetLinesFromFile(filePath);
@@ -117,33 +125,41 @@ namespace AdventLibrary
 
         public static Dictionary<string, List<string>> ParseFileAsGraph(string filePath)
         {
-            var nodes = new Dictionary<string, List<string>>();
-			var lines = GetLinesFromFile(filePath);
-            if (lines.Count < 2)
+            try
             {
-                return null;
+                var nodes = new Dictionary<string, List<string>>();
+                var lines = GetLinesFromFile(filePath);
+                if (lines.Count < 2)
+                {
+                    return null;
+                }
+                foreach (var line in lines)
+                {
+                    var tokens = line.Split(delimiterChars);
+                    if (nodes.ContainsKey(tokens[0]))
+                    {
+                        nodes[tokens[0]].Add(tokens[1]);
+                    }
+                    else
+                    {
+                        nodes.Add(tokens[0], new List<string>() { tokens[1] });
+                    }
+                    if (nodes.ContainsKey(tokens[1]))
+                    {
+                        nodes[tokens[1]].Add(tokens[0]);
+                    }
+                    else
+                    {
+                        nodes.Add(tokens[1], new List<string>() { tokens[0] });
+                    }
+                }
+                return nodes;
             }
-            foreach (var line in lines)
-			{
-                var tokens = line.Split(delimiterChars);
-                if (nodes.ContainsKey(tokens[0]))
-                {
-                    nodes[tokens[0]].Add(tokens[1]);
-                }
-                else
-                {
-                    nodes.Add(tokens[0], new List<string>() { tokens[1] });
-                }
-                if (nodes.ContainsKey(tokens[1]))
-                {
-                    nodes[tokens[1]].Add(tokens[0]);
-                }
-                else
-                {
-                    nodes.Add(tokens[1], new List<string>() { tokens[0] });
-                }
-			}
-            return nodes;
+            catch (FormatException e)
+            {
+                Console.WriteLine("Input is something other than a graph");
+            }
+            return null;
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using AdventLibrary;
 
 namespace aoc2023
@@ -10,7 +11,16 @@ namespace aoc2023
         public Solution Solve(string filePath)
         {
             _filePath = filePath;
-            return new Solution(Part1(), Part2());
+
+            var timer = new Stopwatch();
+            timer.Start();
+            var solution = new Solution(
+                Part1(),
+                timer.Elapsed,
+                Part2(),
+                timer.Elapsed);
+            timer.Stop();
+            return solution;
         }
 
         private object Part1()

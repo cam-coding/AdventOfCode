@@ -4,6 +4,7 @@ Need something for grids and handling "anything beyond of the edges is x" where 
 
 Write DFS and BFS into a generic helper.
 
+\/\/\/\/\/\/
 line/num parser shouldn't throw
 
 maybe implement something for altering grids per iteration on an action?

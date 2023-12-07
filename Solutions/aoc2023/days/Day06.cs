@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using AdventLibrary;
 using AdventLibrary.Helpers;
 
@@ -13,11 +15,21 @@ namespace aoc2023
         public Solution Solve(string filePath)
         {
             _filePath = filePath;
-            return new Solution(Part1(), Part2());
+            var timer = new Stopwatch();
+            timer.Start();
+            var part1 = Part1();
+            var time1 = timer.Elapsed;
+            timer.Restart();
+            var part2 = Part2();
+            var time2 = timer.Elapsed;
+            timer.Stop();
+            return new Solution(part1, part2, time1, time2);
         }
 
         private object Part1()
         {
+            var timer = new Stopwatch();
+            timer.Start();
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var times = AdventLibrary.StringParsing.GetNumbersFromString(lines[0]);
             var distances = AdventLibrary.StringParsing.GetNumbersFromString(lines[1]);
@@ -33,44 +45,33 @@ namespace aoc2023
                     var left = time - j;
                     if (j*left > distance)
                     {
-                        counter++;   
+                        counter++;
                     }
                 }
                 total *= counter;
             }
+            timer.Stop();
             return total;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var times = AdventLibrary.StringParsing.GetNumbersFromString(lines[0]);
-            var totalTime = "";
-            foreach (var item in times)
-            {
-                totalTime += item;
-            }
-            var distances = AdventLibrary.StringParsing.GetNumbersFromString(lines[1]);
-            var totalDistance = "";
-            foreach (var item in distances)
-            {
-                totalDistance += item;
-            }
-            var total = 1;
-            var totDis = long.Parse(totalDistance);
-            var totTime = long.Parse(totalTime);
+            var times2 = AdventLibrary.StringParsing.GetNumbersFromStringAsStrings(lines[0]);
+            var times = long.Parse(StringParsing.ConcatListOfStrings(times2));
+            var distances2 = AdventLibrary.StringParsing.GetNumbersFromStringAsStrings(lines[1]);
+            var distances = long.Parse(StringParsing.ConcatListOfStrings(distances2));
 
             var counter = 0;
-            for (var j = 1; j < totTime; j++)
+            for (var j = 1; j < times; j++)
             {
-                var left = totTime - j;
-                if (j * left > totDis)
+                var remaining = times - j;
+                if (j * remaining > distances)
                 {
                     counter++;
                 }
             }
-            total *= counter;
-            return total;
+            return counter;
         }
     }
 }

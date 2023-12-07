@@ -45,6 +45,11 @@ namespace AdventLibrary
                             Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => int.Parse(x.Value));
             return numbers.ToList();
         }
+        public static List<string> GetNumbersFromStringAsStrings(string input)
+        {
+            var numbers = Regex.Split(input, @"\D+").Where(x => !string.IsNullOrWhiteSpace(x));
+            return numbers.ToList();
+        }
 
         public static List<int> GetDigitsFromString(string input)
         {
@@ -112,6 +117,23 @@ namespace AdventLibrary
                 }
             }
             return output;
+        }
+
+        public static string ConcatListOfStrings(List<string> list, char? sep = null)
+        {
+            if (sep == null)
+            {
+                return string.Join(string.Empty, list.ToArray());
+            }
+            else
+            {
+                return string.Join(sep.Value, list.ToArray());
+            }
+        }
+
+        public static string ConcatListOfStrings(List<string> list, string sep)
+        {
+            return ConcatListOfStrings(list, sep[0]);
         }
     }
 }

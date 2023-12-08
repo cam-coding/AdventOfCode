@@ -1,11 +1,8 @@
+using AdventLibrary;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using AdventLibrary;
-using AdventLibrary.Helpers;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace aoc2023
 {
@@ -31,16 +28,14 @@ namespace aoc2023
 			foreach (var line in lines)
 			{
                 var tokens = line.Split(delimiterChars);
-                var bid = tokens[1];
                 dict.Add(tokens[0], int.Parse(tokens[1]));
 			}
-            // var sorted = dict.OrderBy(item => item, new CustomStringComparer());
-            var blah = new SortedDictionary<string, int>(dict, new CustomStringComparer());
-            var tots = 1;
-            foreach (var item in blah)
+            var sortedHands = new SortedDictionary<string, int>(dict, new CustomStringComparer());
+            var i = 1;
+            foreach (var item in sortedHands)
             {
-                count += item.Value * tots;
-                tots++;
+                count += item.Value * i;
+                i++;
             }
             return count;
         }
@@ -48,7 +43,6 @@ namespace aoc2023
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var total = 1000000;
             var count = 0;
 
             var dict = new Dictionary<string, int>();
@@ -56,16 +50,15 @@ namespace aoc2023
             foreach (var line in lines)
             {
                 var tokens = line.Split(delimiterChars);
-                var bid = tokens[1];
                 dict.Add(tokens[0], int.Parse(tokens[1]));
             }
-            // var sorted = dict.OrderBy(item => item, new CustomStringComparer());
-            var blah = new SortedDictionary<string, int>(dict, new CustomStringComparer());
-            var tots = 1;
-            foreach (var item in blah)
+
+            var sortedHands = new SortedDictionary<string, int>(dict, new CustomStringComparer());
+            var i = 1;
+            foreach (var item in sortedHands)
             {
-                count += item.Value * tots;
-                tots++;
+                count += item.Value * i;
+                i++;
             }
             return count;
         }
@@ -73,25 +66,21 @@ namespace aoc2023
         private class CustomStringComparer : IComparer<string>
         {
             private Dictionary<char, int> lookup = new Dictionary<char, int>()
-        {
-            { 'A', 1 },
-            { 'K', 2 },
-            { 'Q', 3 },
-            { 'T', 4 },
-            { '9', 5 },
-            { '8', 6 },
-            { '7', 7 },
-            { '6', 8 },
-            { '5', 9 },
-            { '4', 10 },
-            { '3', 11 },
-            { '2', 12 },
-            { 'J', 13 },
-        };
-            private readonly IComparer<string> _baseComparer;
-            public CustomStringComparer()
             {
-            }
+                { 'A', 1 },
+                { 'K', 2 },
+                { 'Q', 3 },
+                { 'T', 4 },
+                { '9', 5 },
+                { '8', 6 },
+                { '7', 7 },
+                { '6', 8 },
+                { '5', 9 },
+                { '4', 10 },
+                { '3', 11 },
+                { '2', 12 },
+                { 'J', 13 },
+            };
 
             public int Compare(string x, string y)
             {
@@ -126,7 +115,7 @@ namespace aoc2023
             {
                 var jCount = str.Count(x => x == 'J');
                 var rank = 0;
-                var same = HowManyLettersSame2(str);
+                var same = HowManyLettersSame(str);
                 if (same[0] == 5)
                 {
                     rank = 1;
@@ -228,25 +217,7 @@ namespace aoc2023
                 return rank;
             }
 
-            private int HowManyLettersSame(string str)
-            {
-                var max = 0;
-                foreach (var c in str)
-                {
-                    var count = 0;
-                    for (var i = 0; i < str.Length; i++)
-                    {
-                        if (str[i] == c)
-                        {
-                            count++;
-                        }
-                    }
-                    max = Math.Max(max, count);
-                }
-                return max;
-            }
-
-            private List<int> HowManyLettersSame2(string str)
+            private List<int> HowManyLettersSame(string str)
             {
                 var max = 0;
                 var dict = new Dictionary<char, int>();
@@ -261,10 +232,12 @@ namespace aoc2023
                         dict.Add(c, 1);
                     }
                 }
-                var blah = dict.ToImmutableSortedDictionary().Values.ToList();
-                blah.Sort();
-                blah.Reverse();
-                return blah;
+                var letterCounts = dict.ToImmutableSortedDictionary().Values.ToList();
+                letterCounts.Sort();
+                letterCounts.Reverse();
+
+                // sorted high to low
+                return letterCounts;
             }
         }
     }

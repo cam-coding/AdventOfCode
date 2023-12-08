@@ -155,7 +155,7 @@ namespace AdventLibrary
                 }
                 return nodes;
             }
-            catch (FormatException e)
+            catch (Exception e)
             {
                 Console.WriteLine("Input is something other than a graph");
             }

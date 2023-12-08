@@ -27,3 +27,5 @@ Automation:
 		submit when example is correct?
 	record submissions as json
 	don't submit anything that's lower than a "too low" answer
+
+Continue on CardObjectStuff

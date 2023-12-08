@@ -6,6 +6,7 @@ namespace AdventLibraryUnitTests
 {
     public class ListExtensionsUnitTests
     {
+        private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t', '(', ')', '=' };
         [Theory]
         [MemberData(nameof(GetKCombinationsTestData))]
         public void GetKCombinationsTest(List<int> starting, List<List<int>> expected, int length)
@@ -34,6 +35,14 @@ namespace AdventLibraryUnitTests
         public void GetCombinationsWithRepetitionTest(List<int> starting, List<List<int>> expected, int length)
         {
             var result = starting.GenerateCombinationsWithRepetition(length);
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [MemberData(nameof(RealStringsTestData))]
+        public void GetRealStringsTest(List<string> starting, List<string> expected)
+        {
+            var result = starting.OnlyRealStrings(delimiterChars);
             Assert.Equal(expected, result);
         }
 
@@ -169,6 +178,21 @@ namespace AdventLibraryUnitTests
                     new List<int>() { 1, 1},
                 },
                 2
+            };
+        }
+
+        public static IEnumerable<object[]> RealStringsTestData()
+        {
+            yield return new object[]
+            {
+                new List<string>() { "a", "a ", "", " ", "\n"},
+                new List<string>() { "a", "a "},
+            };
+
+            yield return new object[]
+            {
+                new List<string>() { "(", ",", ":", "a"},
+                new List<string>() { "a"},
             };
         }
         #endregion TestData

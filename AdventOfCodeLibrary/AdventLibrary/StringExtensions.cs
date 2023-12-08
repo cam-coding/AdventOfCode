@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace AdventLibrary
 {
     public static class StringExtensions
     {
+        private static readonly Regex whiteSpaceRegex = new Regex(@"\s+");
+
         public static string ReverseString(this string str)
         {
             char[] charArray = str.ToCharArray();
@@ -100,6 +103,15 @@ namespace AdventLibrary
             }
 
             return dict.Values.Sum(x => x.Count);
+        }
+        public static string RemoveWhitespace(this string input)
+        {
+            return whiteSpaceRegex.Replace(input, string.Empty);
+        }
+
+        public static string ReplaceWhitespace(string input, string replacement)
+        {
+            return whiteSpaceRegex.Replace(input, replacement);
         }
     }
 }

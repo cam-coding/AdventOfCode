@@ -9,7 +9,7 @@ namespace aoc2023
     public class Day08: ISolver
     {
         private string _filePath;
-        private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t', '(', ')' };
+        private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t', '(', ')', '=' };
         public Solution Solve(string filePath)
         {
             _filePath = filePath;

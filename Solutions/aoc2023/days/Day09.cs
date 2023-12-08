@@ -24,8 +24,8 @@ namespace aoc2023
             var grid = ParseInput.ParseFileAsGrid(_filePath);
             var total = 1000000;
 			var counter = 0;
-			
-			foreach (var line in lines)
+
+            foreach (var line in lines)
 			{
                 var tokens = line.Split(delimiterChars);
 				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);

@@ -29,3 +29,20 @@ Automation:
 	don't submit anything that's lower than a "too low" answer
 
 Continue on CardObjectStuff
+
+
+\([^)]*\) parse anything inside parentheses https://adventofcode.com/2018/day/24/input
+
+Setup a user script that lets me click on code blocks to copy them in one click.
+
+look into union find?
+Matrixes
+bisest? bisect insertion?
+shunting yard algorithm fo sho https://en.wikipedia.org/wiki/Shunting_yard_algorithm
+parsing and running a small language - fo sho
+memoization/dynamic programming https://www.youtube.com/watch?v=cE88K2kFZn0
+
+
+
+what if the paths were more complex in a later day?
+How do the bag problem?

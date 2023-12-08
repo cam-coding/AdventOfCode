@@ -153,6 +153,17 @@ namespace AdventLibrary
 
             return combinations;
         }
+
+        public static List<string> OnlyRealStrings(this List<string> list)
+        {
+            return list.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+        }
+
+        public static List<string> OnlyRealStrings(this List<string> list, char[] delimiterChars)
+        {
+            var delimiterStrings = delimiterChars.Select(x => x.ToString());
+            return list.Where(x => !string.IsNullOrWhiteSpace(x) && !delimiterStrings.Any(y => y.Equals(x))).ToList();
+        }
     }
 
 }

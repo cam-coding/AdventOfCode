@@ -1,15 +1,36 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.InteropServices;
 using AdventLibrary;
 using AdventLibrary.Helpers;
+using AdventLibrary.PathFinding;
 
 namespace aoc2023
 {
     public class Day10: ISolver
     {
         private string _filePath;
-        private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
+        private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+
+        private Dictionary<(char, int, int), (int, int)> characters = new Dictionary<(char, int, int), (int, int)>()
+        {
+            {('|', 0, -1), (0,1)},
+            {('|', 0, 1), (0,-1)},
+            {('-', -1, 0), (1,0)},
+            {('-', 1, 0), (-1,0)},
+            {('J', 0, -1), (-1,0)},
+            {('J', -1, 0), (0,-1)},
+            {('L', 0, -1), (1,0)},
+            {('L', 1, 0), (0,-1)},
+            {('7', 0, 1), (-1,0)},
+            {('7', -1, 0), (0,1)},
+            {('F', 0, 1), (1,0)},
+            {('F', 1, 0), (0,1)},
+        };
+
         public Solution Solve(string filePath)
         {
             _filePath = filePath;
@@ -18,36 +39,422 @@ namespace aoc2023
 
         private object Part1()
         {
-            var lines = ParseInput.GetLinesFromFile(_filePath);
-			var numbers = ParseInput.GetNumbersFromFile(_filePath);
-            var nodes = ParseInput.ParseFileAsGraph(_filePath);
-            var grid = ParseInput.ParseFileAsGrid(_filePath);
+            var grid = ParseInput.ParseFileAsCharGrid(_filePath);
             var total = 1000000;
-			var counter = 0;
-			
-			foreach (var line in lines)
-			{
-                var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
-                
-				foreach (var num in nums)
-				{
-				}
-
-                for (var i = 0; i < 0; i++)
+            var counter = 0;
+            var startingX = 0;
+            var startingY = 0;
+            //GetLength(0) would be 3. for the 3 rows
+            //GetLength(1) is the 2nd dimension for the 4 columns.
+            for (var i = 0; i < grid.Count; i++)
+            {
+                for (var j = 0; j < grid[0].Count; j++)
                 {
-                    for (var j = 0; j < 0; j++)
+                    if (grid[i][j] == 'S')
                     {
-                        
+                        startingX = j;
+                        startingY = i;
                     }
                 }
-			}
-            return 0;
+            }
+
+            var maxLoop = 0;
+
+            var neighs = GridHelper.GetAdjacentNeighbours(grid, startingX, startingY);
+
+            foreach (var item in neighs)
+            {
+                var previousX = startingX;
+                var previousY = startingY;
+                var currentX = item.Item1;
+                var currentY = item.Item2;
+                var currentLoop = 0;
+                while (grid[currentY][currentX] != 'S')
+                {
+                    if (grid[currentY][currentX] == '.')
+                    {
+                        break;
+                    }
+                    var cha = grid[currentY][currentX];
+                    if (!characters.ContainsKey((cha, previousX - currentX, previousY - currentY)))
+                    {
+                        break;
+                    }
+                    var nextDest = characters[(cha, previousX - currentX, previousY - currentY)];
+                    previousX = currentX;
+                    previousY = currentY;
+                    currentX = previousX + nextDest.Item1;
+                    currentY = previousY + nextDest.Item2;
+                    currentLoop++;
+                }
+                if (grid[currentY][currentX] == 'S')
+                {
+                    currentLoop++;
+                }
+                maxLoop = Math.Max(currentLoop, maxLoop);
+            }
+            return maxLoop/2;
         }
-        
+
+        private object Part2attemp1()
+        {
+            var grid = ParseInput.ParseFileAsCharGrid(_filePath);
+            var total = 1000000;
+            var counter = 0;
+            var startingX = 0;
+            var startingY = 0;
+            //GetLength(0) would be 3. for the 3 rows
+            //GetLength(1) is the 2nd dimension for the 4 columns.
+            for (var i = 0; i < grid.Count; i++)
+            {
+                for (var j = 0; j < grid[0].Count; j++)
+                {
+                    if (grid[i][j] == 'S')
+                    {
+                        startingX = j;
+                        startingY = i;
+                    }
+                }
+            }
+
+            var maxLoop = 0;
+
+            var neighs = GridHelper.GetAdjacentNeighbours(grid, startingX, startingY);
+            var bestX = 0;
+            var bestY = 0;
+
+            foreach (var item in neighs)
+            {
+                var previousX = startingX;
+                var previousY = startingY;
+                var currentX = item.Item1;
+                var currentY = item.Item2;
+                var currentLoop = 0;
+                while (grid[currentY][currentX] != 'S')
+                {
+                    if (grid[currentY][currentX] == '.')
+                    {
+                        break;
+                    }
+                    var cha = grid[currentY][currentX];
+                    if (!characters.ContainsKey((cha, previousX - currentX, previousY - currentY)))
+                    {
+                        break;
+                    }
+                    var nextDest = characters[(cha, previousX - currentX, previousY - currentY)];
+                    previousX = currentX;
+                    previousY = currentY;
+                    currentX = previousX + nextDest.Item1;
+                    currentY = previousY + nextDest.Item2;
+                    currentLoop++;
+                }
+                if (grid[currentY][currentX] == 'S')
+                {
+                    currentLoop++;
+                }
+                if (currentLoop > maxLoop)
+                {
+                    bestX = item.Item1;
+                    bestY = item.Item2;
+                    maxLoop = Math.Max(currentLoop, maxLoop);
+                }
+            }
+            var previousX2 = startingX;
+            var previousY2 = startingY;
+            var currentX2 = bestX;
+            var currentY2 = bestY;
+            var hashy = new HashSet<(int, int)>();
+            while (grid[currentY2][currentX2] != 'S')
+            {
+                if (grid[currentY2][currentX2] == '.')
+                {
+                    break;
+                }
+                hashy.Add((currentX2, currentY2));
+                var cha = grid[currentY2][currentX2];
+                if (!characters.ContainsKey((cha, previousX2 - currentX2, previousY2 - currentY2)))
+                {
+                    break;
+                }
+                var nextDest = characters[(cha, previousX2 - currentX2, previousY2 - currentY2)];
+                previousX2 = currentX2;
+                previousY2 = currentY2;
+                currentX2 = previousX2 + nextDest.Item1;
+                currentY2 = previousY2 + nextDest.Item2;
+            }
+            var grid2 = grid.Clone2dList();
+            foreach (var item in hashy)
+            {
+                grid2[item.Item2][item.Item1] = '#';
+            }
+
+            var county = 0;
+            for (var i = 0; i < grid2.Count; i++)
+            {
+                for (var j = 0; j < grid2[0].Count; j++)
+                {
+                    if (grid2[i][j] != '#')
+                    {
+                        var neighs2 = GridHelper.GetAdjacentNeighbours(grid2, j, i);
+                        if (neighs2.All(x => grid2[x.Item2][x.Item1] == '#'))
+                        {
+                            county++;
+                            grid2[i][j] = '@';
+                        }
+                    }
+                }
+            }
+            if (grid2.Count > 50)
+            {
+                PrintGrid2(grid2);
+                Console.WriteLine("HELLO");
+                Console.WriteLine("HELLO");
+                Console.WriteLine("HELLO");
+                Console.WriteLine("HELLO");
+                Console.WriteLine("HELLO");
+                Console.WriteLine("HELLO");
+                PrintGrid2(grid);
+            }
+            GridHelper.PrintGrid(grid2);
+            return maxLoop / 2;
+        }
+
         private object Part2()
         {
-            return 0;
+            var grid = ParseInput.ParseFileAsCharGrid(_filePath);
+            var total = 1000000;
+            var counter = 0;
+            var startingX = 0;
+            var startingY = 0;
+            for (var i = 0; i < grid.Count; i++)
+            {
+                for (var j = 0; j < grid[0].Count; j++)
+                {
+                    if (grid[i][j] == 'S')
+                    {
+                        startingX = j;
+                        startingY = i;
+                    }
+                }
+            }
+
+            var maxLoop = 0;
+
+            var neighs = GridHelper.GetAdjacentNeighbours(grid, startingX, startingY);
+            var bestX = 0;
+            var bestY = 0;
+
+            foreach (var item in neighs)
+            {
+                var previousX = startingX;
+                var previousY = startingY;
+                var currentX = item.Item1;
+                var currentY = item.Item2;
+                var currentLoop = 0;
+                while (grid[currentY][currentX] != 'S')
+                {
+                    if (grid[currentY][currentX] == '.')
+                    {
+                        break;
+                    }
+                    var cha = grid[currentY][currentX];
+                    if (!characters.ContainsKey((cha, previousX - currentX, previousY - currentY)))
+                    {
+                        break;
+                    }
+                    var nextDest = characters[(cha, previousX - currentX, previousY - currentY)];
+                    previousX = currentX;
+                    previousY = currentY;
+                    currentX = previousX + nextDest.Item1;
+                    currentY = previousY + nextDest.Item2;
+                    currentLoop++;
+                }
+                if (grid[currentY][currentX] == 'S')
+                {
+                    currentLoop++;
+                }
+                if (currentLoop > maxLoop)
+                {
+                    bestX = item.Item1;
+                    bestY = item.Item2;
+                    maxLoop = Math.Max(currentLoop, maxLoop);
+                }
+            }
+            var previousX2 = startingX;
+            var previousY2 = startingY;
+            var currentX2 = bestX;
+            var currentY2 = bestY;
+            var theLoop = new HashSet<(int, int)>();
+            while (grid[currentY2][currentX2] != 'S')
+            {
+                if (grid[currentY2][currentX2] == '.')
+                {
+                    break;
+                }
+                theLoop.Add((currentX2, currentY2));
+                var cha = grid[currentY2][currentX2];
+                if (!characters.ContainsKey((cha, previousX2 - currentX2, previousY2 - currentY2)))
+                {
+                    break;
+                }
+                var nextDest = characters[(cha, previousX2 - currentX2, previousY2 - currentY2)];
+                previousX2 = currentX2;
+                previousY2 = currentY2;
+                currentX2 = previousX2 + nextDest.Item1;
+                currentY2 = previousY2 + nextDest.Item2;
+            }
+            theLoop.Add((currentX2, currentY2));
+            var grid2 = grid.Clone2dList();
+
+            //Make a new grid that is the size of the current grid + the in betweens
+            // aka 4x4 becomes a 7x7
+            var grid3 = new List<List<int>>();
+            for (var i = 0; i < 2*grid2.Count-1; i++)
+            {
+                var blah = Enumerable.Repeat(0, 2*grid[0].Count-1).ToList();
+                grid3.Add(blah);
+            }
+
+            for (var i = 0; i < grid2.Count; i++)
+            {
+                for (var j = 0; j < grid2[0].Count; j++)
+                {
+                    if (theLoop.Contains((j, i)))
+                    {
+                        // if the current spot is part of the loop, mark it's spot and the pieces it connects as blocked
+                        var cur = grid2[i][j];
+                        if (cur == '-' || cur == 'L' || cur == 'F' || cur == 'J' || cur == '|' || cur == '7' || cur == 'F' || cur == 'S')
+                        {
+                            grid3[i*2][j*2] = 10000;
+                        }
+                        if (cur == '-')
+                        {
+                            grid3[i * 2][j * 2-1] = 10000;
+                            grid3[i * 2][j * 2 + 1] = 10000;
+                        }
+                        if (cur == '|')
+                        {
+                            grid3[i * 2-1][j * 2] = 10000;
+                            grid3[i * 2+1][j * 2] = 10000;
+                        }
+                        if (cur == 'L')
+                        {
+                            grid3[i * 2-1][j * 2] = 10000;
+                            grid3[i * 2][j * 2+1] = 10000;
+                        }
+                        if (cur == 'J')
+                        {
+                            grid3[i * 2-1][j * 2] = 10000;
+                            grid3[i * 2][j * 2-1] = 10000;
+                        }
+                        if (cur == '7')
+                        {
+                            grid3[i * 2+1][j * 2] = 10000;
+                            grid3[i * 2][j * 2-1] = 10000;
+                        }
+                        if (cur == 'F')
+                        {
+                            grid3[i * 2+1][j * 2] = 10000;
+                            grid3[i * 2][j * 2+1] = 10000;
+                        }
+                    }
+                }
+            }
+
+            // Add some extra 0 spaces around the outside to help dijstras
+            var blah2 = Enumerable.Repeat(0, grid3[0].Count).ToList();
+            grid3.Insert(0, blah2);
+            var blah3 = Enumerable.Repeat(0, grid3[0].Count).ToList();
+            grid3.Add(blah3);
+            foreach (var item in grid3)
+            {
+                item.Insert(0, 0);
+                item.Add(0);
+            }
+
+            // just another way of visualizing the loop
+            foreach (var item in theLoop)
+            {
+                grid2[item.Item2][item.Item1] = '#';
+            }
+            PrintGrid3(grid3);
+            var myCount = 0;
+            // dijkstra's for every spot back to origin.
+            var distances = Dijkstra.Search(grid3, Tuple.Create(0, 0));
+            var myList = new List<(int, int)>();
+            for (var i = 0; i < grid2.Count; i++)
+            {
+                for (var j = 0; j < grid2[0].Count; j++)
+                {
+                    if (grid2[i][j] != '#')
+                    {
+                        // If it was to cross a wall, it's clear. Else the value should be 0
+                        // if it has to cross a wall that means it's surrounded
+                        if (distances[Tuple.Create(j*2+1,i*2+1)] >= 10000)
+                        {
+                            myCount++;
+                            myList.Add((i, j));
+                        }
+                    }
+                }
+            }
+            return myCount;
+        }
+
+        public static void PrintGrid2<T>(List<List<T>> grid)
+        {
+            var rows = grid.Count;
+            var columns = grid[0].Count;
+
+            for (var i = 62; i < 82; i++)
+            {
+                for (var j = 0; j < columns; j++)
+                {
+                    Console.Write(grid[i][j]);
+                }
+                Console.WriteLine();
+            }
+        }
+        public static void PrintGrid(List<List<char>> grid, List<List<int>> grid2)
+        {
+            var rows = grid.Count;
+            var columns = grid[0].Count;
+
+            for (var i = 0; i < rows; i++)
+            {
+                for (var j = 0; j < columns; j++)
+                {
+                    Console.Write(grid[i][j]);
+                }
+                Console.WriteLine();
+                Console.Write(",");
+                for (var j = 0; j < columns; j++)
+                {
+                    Console.Write(grid2[i][j]);
+                }
+                Console.WriteLine();
+            }
+        }
+        public static void PrintGrid3(List<List<int>> grid)
+        {
+            var rows = grid.Count;
+            var columns = grid[0].Count;
+
+            for (var i = 0; i < rows; i++)
+            {
+                for (var j = 0; j < columns; j++)
+                {
+                    if (grid[i][j] == 10000)
+                    {
+                        Console.Write(1);
+                    }
+                    else
+                    {
+                        Console.Write(grid[i][j]);
+                    }
+                }
+                Console.WriteLine();
+            }
         }
     }
 }

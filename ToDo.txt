@@ -4,6 +4,8 @@ Need something for grids and handling "anything beyond of the edges is x" where 
 
 Write DFS and BFS into a generic helper.
 
+Move transformInput into PArseInput file
+
 \/\/\/\/\/\/
 line/num parser shouldn't throw
 
@@ -46,3 +48,4 @@ memoization/dynamic programming https://www.youtube.com/watch?v=cE88K2kFZn0
 
 what if the paths were more complex in a later day?
 How do the bag problem?
+

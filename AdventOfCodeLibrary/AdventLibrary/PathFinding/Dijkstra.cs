@@ -56,7 +56,7 @@ namespace AdventLibrary.PathFinding
                     {
                         DistanceDictionary.Add(neighbour, Int32.MaxValue);
                     }
-                    var weight = grid[neighbour.Item1][neighbour.Item2];
+                    var weight = grid[neighbour.Item2][neighbour.Item1];
                     if (DistanceDictionary[current] + weight < DistanceDictionary[neighbour])
                     {
                         var neighbourDistance = DistanceDictionary[current] + weight;

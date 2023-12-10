@@ -175,7 +175,7 @@ namespace AdventLibrary
             return points;
         }
 
-        public static List<Tuple<int,int>> GetAdjacentNeighbours(List<List<int>> grid, int x, int y) 
+        public static List<Tuple<int,int>> GetAdjacentNeighbours<T>(List<List<T>> grid, int x, int y) 
         {
             var adj = new List<Tuple<int,int>>()
             { 
@@ -410,6 +410,20 @@ namespace AdventLibrary
                 for (var j = 0; j < columns; j++)
                 {
                     Console.Write(grid[i,j]);
+                }
+                Console.WriteLine();
+            }
+        }
+        public static void PrintGrid<T>(List<List<T>> grid)
+        {
+            var rows = grid.Count;
+            var columns = grid[0].Count;
+
+            for (var i = 0; i < rows; i++)
+            {
+                for (var j = 0; j < columns; j++)
+                {
+                    Console.Write(grid[i][j]);
                 }
                 Console.WriteLine();
             }

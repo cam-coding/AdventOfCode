@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using AdventLibrary;
+using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace AdventLibrary.Helpers
 {
@@ -95,5 +97,28 @@ namespace AdventLibrary.Helpers
 
             return a | b;
         }
+
+        public static (int, int) Fibonacci(int n)
+        {
+            if (n == 0)
+                return (0, 1);
+
+            var p = Fibonacci(n >> 1);
+            int c = p.Item1 * (2 * p.Item2 - p.Item1);
+            int d = p.Item1 * p.Item1 + p.Item2 * p.Item2;
+            if ((n & 1) == 1)
+            {
+                return (d, c + d);
+            }
+            else
+            {
+                return (c, d);
+            }
+        }
+
+        public struct Congruence
+        {
+            long a, m;
+        };
     }
 }

@@ -1,0 +1,5 @@
+Pin day's solution, day's test, runnerHelper, and boilerplate.
+Load in new boilerplate.
+Make sure everything builds.
+Put current day in boilerplate.
+Prep browser for puzzle and input.

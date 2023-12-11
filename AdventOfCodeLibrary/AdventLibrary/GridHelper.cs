@@ -5,10 +5,22 @@ namespace AdventLibrary
 {
     public static class GridHelper
     {
-        /* Grid's are in the form of grid[y][x] where  and 
+        /* Grid's are in the form of List<List<T>> aka grid[y][x] where  and 
          * x is horizontal axis
          * y is vertical
          * Always reversed from common math notation of "x,y" coordinates
+         * 0,0 is the top left corner and y increases as you go down.
+         * 
+         * in a 3 row, 4 column grid
+         * grid.Count == 3 number of rows.
+         * grid[0].Count == 4 number of columns
+         * */
+        /* The other form of Grids are in 2d Arrays aka arr[y,x]
+         * x is horizontal axis
+         * y is vertical
+         * in a 3 row, 4 column grid
+         * GetLength(0) would be 3. for the 3 rows
+         * GetLength(1) is the 2nd dimension for the 4 columns.
          * */
         public static List<List<int>> GenerateSquareGrid(int n)
         {
@@ -220,30 +232,6 @@ namespace AdventLibrary
             return neighbours;
         }
 
-        public static List<Tuple<int,int>> GetOrthoginalNeighbours2(List<List<int>> grid, int x, int y) 
-        {
-            List<Tuple<int, int>> neighbours = new List<Tuple<int, int>>();
-
-            for (int i = -1; i <= 1; i++)
-            {
-                for (int j = -1; j <= 1; j++)
-                {
-                    if (i == x && j == y)
-                    {
-                        continue;
-                    }
-
-                    var newNeighbour = MoveByOffset(x, y, j, i, grid[0].Count, grid.Count, false);
-
-                    if (!neighbours.Contains(newNeighbour) && (x != newNeighbour.Item1 || y != newNeighbour.Item2))
-                    {
-                        neighbours.Add(newNeighbour);
-                    }
-                }
-            }
-            return neighbours;
-        }
-
         /* Assume offset already applied*/
         public static Tuple<int, int> MoveByOffset(int x, int y, int width, int height, bool wrap)
         {
@@ -304,7 +292,7 @@ namespace AdventLibrary
             return new Tuple<int, int>(newX, newY);
         }
 
-        public static Dictionary<Tuple<int,int>, List<Tuple<int,int>>> GridToAdjList(List<List<int>> grid)
+        public static Dictionary<Tuple<int,int>, List<Tuple<int,int>>> GridToAdjList<T>(List<List<T>> grid)
         {
             var dict = new Dictionary<Tuple<int,int>, List<Tuple<int,int>>>();
             for (var y = 0; y < grid.Count; y++)
@@ -318,6 +306,8 @@ namespace AdventLibrary
 
             return dict;
         }
+
+        #region RotateGrids
 
         /* assume we have an array like
          * 1  2  3  4
@@ -339,6 +329,18 @@ namespace AdventLibrary
             return grid;
         }
 
+        public static List<List<T>> RotateColumnDownWithWrap<T>(List<List<T>> grid, int column)
+        {
+            var length = grid.Count;
+            var temp = grid[length - 1][column];
+            for (var j = length - 1; j > 0; j--)
+            {
+                grid[j][column] = grid[j - 1][column];
+            }
+            grid[0][column] = temp;
+            return grid;
+        }
+
         public static T[,] RotateColumnUpWithWrap<T>(T[,] grid, int column)
         {
             var length = grid.GetLength(0);
@@ -348,6 +350,17 @@ namespace AdventLibrary
                 grid[j, column] = grid[j + 1, column];
             }
             grid[length-1, column] = temp;
+            return grid;
+        }
+        public static List<List<T>> RotateColumnUpWithWrap<T>(List<List<T>> grid, int column)
+        {
+            var length = grid.Count;
+            var temp = grid[0][column];
+            for (var j = 0; j < length - 1; j++)
+            {
+                grid[j][column] = grid[j + 1][column];
+            }
+            grid[length - 1][column] = temp;
             return grid;
         }
 
@@ -360,9 +373,27 @@ namespace AdventLibrary
             return grid;
         }
 
+        public static List<List<T>> RotateGridDownWithWrap<T>(List<List<T>> grid)
+        {
+            for (var i = 0; i < grid[0].Count; i++)
+            {
+                grid = RotateColumnDownWithWrap(grid, i);
+            }
+            return grid;
+        }
+
         public static T[,] RotateGridUpWithWrap<T>(T[,] grid)
         {
             for (var i = 0; i < grid.GetLength(1); i++)
+            {
+                grid = RotateColumnUpWithWrap(grid, i);
+            }
+            return grid;
+        }
+
+        public static List<List<T>> RotateGridUpWithWrap<T>(List<List<T>> grid)
+        {
+            for (var i = 0; i < grid[0].Count; i++)
             {
                 grid = RotateColumnUpWithWrap(grid, i);
             }
@@ -387,6 +418,17 @@ namespace AdventLibrary
             grid[row, 0] = temp;
             return grid;
         }
+        public static List<List<T>> RotateRowRightWithWrap<T>(List<List<T>> grid, int row)
+        {
+            var length = grid[0].Count;
+            var temp = grid[row][length - 1];
+            for (var j = length - 1; j > 0; j--)
+            {
+                grid[row][j] = grid[row][j - 1];
+            }
+            grid[row][0] = temp;
+            return grid;
+        }
 
         public static T[,] RotateRowLeftWithWrap<T>(T[,] grid, int row)
         {
@@ -399,6 +441,20 @@ namespace AdventLibrary
             grid[row, length - 1] = temp;
             return grid;
         }
+
+        public static List<List<T>> RotateRowLeftWithWrap<T>(List<List<T>> grid, int row)
+        {
+            var length = grid[0].Count;
+            var temp = grid[row][0];
+            for (var j = 0; j < length - 1; j++)
+            {
+                grid[row][j] = grid[row][j + 1];
+            }
+            grid[row][length - 1] = temp;
+            return grid;
+        }
+
+        #endregion RotateGrids
 
         public static void PrintGrid<T>(T[,] grid)
         {

@@ -1,8 +1,10 @@
 Write more unit tests.
 
 Need something for grids and handling "anything beyond of the edges is x" where x is some value he sometimes gives.
+	Maybe just something to autowrap?
 
 Write DFS and BFS into a generic helper.
+change Dijstraka so it doesn't use the formal tuple object and just uses (int,int)
 
 Move transformInput into PArseInput file
 

@@ -96,129 +96,6 @@ namespace aoc2023
             return maxLoop/2;
         }
 
-        private object Part2attemp1()
-        {
-            var grid = ParseInput.ParseFileAsCharGrid(_filePath);
-            var total = 1000000;
-            var counter = 0;
-            var startingX = 0;
-            var startingY = 0;
-            //GetLength(0) would be 3. for the 3 rows
-            //GetLength(1) is the 2nd dimension for the 4 columns.
-            for (var i = 0; i < grid.Count; i++)
-            {
-                for (var j = 0; j < grid[0].Count; j++)
-                {
-                    if (grid[i][j] == 'S')
-                    {
-                        startingX = j;
-                        startingY = i;
-                    }
-                }
-            }
-
-            var maxLoop = 0;
-
-            var neighs = GridHelper.GetAdjacentNeighbours(grid, startingX, startingY);
-            var bestX = 0;
-            var bestY = 0;
-
-            foreach (var item in neighs)
-            {
-                var previousX = startingX;
-                var previousY = startingY;
-                var currentX = item.Item1;
-                var currentY = item.Item2;
-                var currentLoop = 0;
-                while (grid[currentY][currentX] != 'S')
-                {
-                    if (grid[currentY][currentX] == '.')
-                    {
-                        break;
-                    }
-                    var cha = grid[currentY][currentX];
-                    if (!characters.ContainsKey((cha, previousX - currentX, previousY - currentY)))
-                    {
-                        break;
-                    }
-                    var nextDest = characters[(cha, previousX - currentX, previousY - currentY)];
-                    previousX = currentX;
-                    previousY = currentY;
-                    currentX = previousX + nextDest.Item1;
-                    currentY = previousY + nextDest.Item2;
-                    currentLoop++;
-                }
-                if (grid[currentY][currentX] == 'S')
-                {
-                    currentLoop++;
-                }
-                if (currentLoop > maxLoop)
-                {
-                    bestX = item.Item1;
-                    bestY = item.Item2;
-                    maxLoop = Math.Max(currentLoop, maxLoop);
-                }
-            }
-            var previousX2 = startingX;
-            var previousY2 = startingY;
-            var currentX2 = bestX;
-            var currentY2 = bestY;
-            var hashy = new HashSet<(int, int)>();
-            while (grid[currentY2][currentX2] != 'S')
-            {
-                if (grid[currentY2][currentX2] == '.')
-                {
-                    break;
-                }
-                hashy.Add((currentX2, currentY2));
-                var cha = grid[currentY2][currentX2];
-                if (!characters.ContainsKey((cha, previousX2 - currentX2, previousY2 - currentY2)))
-                {
-                    break;
-                }
-                var nextDest = characters[(cha, previousX2 - currentX2, previousY2 - currentY2)];
-                previousX2 = currentX2;
-                previousY2 = currentY2;
-                currentX2 = previousX2 + nextDest.Item1;
-                currentY2 = previousY2 + nextDest.Item2;
-            }
-            var grid2 = grid.Clone2dList();
-            foreach (var item in hashy)
-            {
-                grid2[item.Item2][item.Item1] = '#';
-            }
-
-            var county = 0;
-            for (var i = 0; i < grid2.Count; i++)
-            {
-                for (var j = 0; j < grid2[0].Count; j++)
-                {
-                    if (grid2[i][j] != '#')
-                    {
-                        var neighs2 = GridHelper.GetAdjacentNeighbours(grid2, j, i);
-                        if (neighs2.All(x => grid2[x.Item2][x.Item1] == '#'))
-                        {
-                            county++;
-                            grid2[i][j] = '@';
-                        }
-                    }
-                }
-            }
-            if (grid2.Count > 50)
-            {
-                PrintGrid2(grid2);
-                Console.WriteLine("HELLO");
-                Console.WriteLine("HELLO");
-                Console.WriteLine("HELLO");
-                Console.WriteLine("HELLO");
-                Console.WriteLine("HELLO");
-                Console.WriteLine("HELLO");
-                PrintGrid2(grid);
-            }
-            GridHelper.PrintGrid(grid2);
-            return maxLoop / 2;
-        }
-
         private object Part2()
         {
             var grid = ParseInput.ParseFileAsCharGrid(_filePath);
@@ -362,10 +239,8 @@ namespace aoc2023
             }
 
             // Add some extra 0 spaces around the outside to help dijstras
-            var blah2 = Enumerable.Repeat(0, grid3[0].Count).ToList();
-            grid3.Insert(0, blah2);
-            var blah3 = Enumerable.Repeat(0, grid3[0].Count).ToList();
-            grid3.Add(blah3);
+            grid3.Add(Enumerable.Repeat(0, grid3[0].Count).ToList());
+            grid3.Insert(0, Enumerable.Repeat(0, grid3[0].Count).ToList());
             foreach (var item in grid3)
             {
                 item.Insert(0, 0);
@@ -377,7 +252,8 @@ namespace aoc2023
             {
                 grid2[item.Item2][item.Item1] = '#';
             }
-            PrintGrid3(grid3);
+
+            // PrintGrid3(grid3);
             var myCount = 0;
             // dijkstra's for every spot back to origin.
             var distances = Dijkstra.Search(grid3, Tuple.Create(0, 0));
@@ -401,40 +277,7 @@ namespace aoc2023
             return myCount;
         }
 
-        public static void PrintGrid2<T>(List<List<T>> grid)
-        {
-            var rows = grid.Count;
-            var columns = grid[0].Count;
-
-            for (var i = 62; i < 82; i++)
-            {
-                for (var j = 0; j < columns; j++)
-                {
-                    Console.Write(grid[i][j]);
-                }
-                Console.WriteLine();
-            }
-        }
-        public static void PrintGrid(List<List<char>> grid, List<List<int>> grid2)
-        {
-            var rows = grid.Count;
-            var columns = grid[0].Count;
-
-            for (var i = 0; i < rows; i++)
-            {
-                for (var j = 0; j < columns; j++)
-                {
-                    Console.Write(grid[i][j]);
-                }
-                Console.WriteLine();
-                Console.Write(",");
-                for (var j = 0; j < columns; j++)
-                {
-                    Console.Write(grid2[i][j]);
-                }
-                Console.WriteLine();
-            }
-        }
+        // making it easier to visualize
         public static void PrintGrid3(List<List<int>> grid)
         {
             var rows = grid.Count;

@@ -120,6 +120,15 @@ namespace AdventLibrary
             return values.SelectMany(v => GetPermutations(values.Where(x => x.CompareTo(v) != 0)), (v, p) => p.Prepend(v));
         }
 
+        public static List<T> FillWithValue<T>(this List<T> list, T value)
+        {
+            for (var i = 0; i < list.Count(); i++)
+            {
+                list[i] = value;
+            }
+            return list;
+        }
+
         public static List<List<T>> GenerateCombinationsWithRepetition<T>(this List<T> combinationList, int k)
         {
             var combinations = new List<List<T>>();

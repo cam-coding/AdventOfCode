@@ -1,12 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using AdventLibrary;
-using AdventLibrary.Helpers;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace aoc2023
 {
@@ -14,7 +9,7 @@ namespace aoc2023
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ':', '-', '>', '<', '+', '=', '\t' };
-        private Dictionary<(string, List<int>),long> dicty;
+        private Dictionary<DictKey, long> dicty;
         public Solution Solve(string filePath)
         {
             _filePath = filePath;
@@ -123,9 +118,9 @@ namespace aoc2023
                 var nums2 = StringParsing.GetNumbersFromString(newLine);
                 var tokens2 = newLine.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
 
-                dicty = new Dictionary<(string, List<int>), long>();
+                dicty = new Dictionary<DictKey, long>();
                 long temp = BackTrack4(tokens2[0], nums2);
-                // long temp = BackTrack3(tokens2[0], nums2, tokens2[0].Count(x => x == '?' || x == '#'), nums2.Sum());
+                // long temp2 = BackTrack3(tokens2[0], nums2, tokens2[0].Count(x => x == '?' || x == '#'), nums2.Sum());
                 // var temp = BackTrack2(tokens2[0].ToArray(), nums2, tokens2[0].Count(x => x == '?' || x == '#'), 0, new List<int>());
                 count += temp;
                 Console.WriteLine($"Finished line with nums {tokens[1]}. Added {temp} to the total");
@@ -138,12 +133,62 @@ namespace aoc2023
              * Use day 11 2016 logic.*/
         }
 
+        private class DictKey
+        {
+            private int _sums;
+            public DictKey(string str, List<int> nums)
+            {
+                Str = str;
+                Nums = nums;
+                _sums = Nums.Sum();
+            }
+
+            public string Str { get; set; }
+            public List<int> Nums { get; set; }
+
+            public override bool Equals(object other)
+            {
+                if (!(other is DictKey))
+                {
+                    return false;
+                }
+                var otherDictKey = (DictKey)other;
+                return Str.Equals(otherDictKey.Str) && Nums.SequenceEqual(otherDictKey.Nums);
+            }
+
+            public override int GetHashCode()
+            {
+                var blah = this.Str.GetHashCode();
+                var blah2 = Nums.GetHashCode();
+                return blah + _sums;
+            }
+        }
+
+        private class ListComparer<T> : IEqualityComparer<List<T>>
+        {
+            public bool Equals(List<T> x, List<T> y)
+            {
+                return x.SequenceEqual(y);
+            }
+
+            public int GetHashCode(List<T> obj)
+            {
+                int hashcode = 0;
+                foreach (T t in obj)
+                {
+                    hashcode ^= t.GetHashCode();
+                }
+                return hashcode;
+            }
+        }
+
         // str = "???????#????.#???????????#????.#???????????#????.#???????????#????.#???????"
         private long BackTrack4(string str, List<int> nums)
         {
-            if (dicty.ContainsKey((str,nums)))
+            var dictKey = new DictKey(str, nums);
+            if (dicty.ContainsKey(dictKey))
             {
-                return dicty[(str, nums)];
+                return dicty[dictKey];
             }
             if (!str.Contains('?'))
             {
@@ -159,7 +204,6 @@ namespace aoc2023
             {
                 return BackTrack4(str[1..], nums);
             }
-            /*
             // if you still have ?'s but all the groups are filled, there's 1 solution. All ? are .
             if (nums.Count == 0)
             {
@@ -173,7 +217,7 @@ namespace aoc2023
             if (length != -1 && length > nums[0])
             {
                 return 0;
-            }*/
+            }
             // check if memo
             for (var repeats = nums.Count / 2; repeats > 1; repeats--)
             {
@@ -183,9 +227,10 @@ namespace aoc2023
                     {
                         var newStr2 = str.Substring(0, str.Length/repeats);
                         var newNums2 = nums[0..(nums.Count/repeats)];
+                        var strLen = newStr2.Length;
                         var result = BackTrack4(newStr2, newNums2);
                         var total = (long)Math.Pow(result, repeats);
-                        dicty.TryAdd((str,nums),total);
+                        dicty.TryAdd(dictKey, total);
                         return total;
                     }
                 }
@@ -220,7 +265,7 @@ namespace aoc2023
             {
                 var blah = BackTrack4(currentString, nums[counter..].ToList());
                 // var blah2 = BackTrack4(str.Replace(currentString, string.Empty), nums[..counter].ToList());
-                dicty.Add((str,nums), blah);
+                dicty.Add(dictKey, blah);
                 return blah;
             }
 
@@ -230,7 +275,7 @@ namespace aoc2023
             var copy4 = string.Empty + str;
             copy4 = copy4.ReplaceFirstInstanceOf("?", "#");
             total2 += BackTrack4(copy4, nums);
-            dicty.Add((str,nums), total2);
+            dicty.Add(dictKey, total2);
             return total2;
         }
 

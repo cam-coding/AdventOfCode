@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using AdventLibrary;
 using AdventLibrary.Helpers;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace aoc2023
 {
@@ -17,6 +18,7 @@ namespace aoc2023
         public Solution Solve(string filePath)
         {
             _filePath = filePath;
+            var blah = Trimmer(".#.....######..#####.?????.######..#####.?????.######..#####.?????.######..#####.", new List<int>() { 1, 6, 5, 1, 6, 5, 1, 6, 5, 1, 6, 5, 1, 6, 5 });
             return new Solution(Part1(), Part2());
         }
 
@@ -24,7 +26,7 @@ namespace aoc2023
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
 			var count = 0;
-			
+
 			foreach (var line in lines)
 			{
                 var tokens = line.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
@@ -33,7 +35,8 @@ namespace aoc2023
 
                 var temp = BackTrack(tokens[0], nums);
                 count += temp;
-			}
+                // Console.WriteLine($"Finished line with nums {tokens[1]}. Added {temp} to the total");
+            }
             return count;
         }
 
@@ -93,9 +96,8 @@ namespace aoc2023
                 }
             }
             return true;
-            // return nums.SequenceEqual(groups);
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
@@ -122,7 +124,8 @@ namespace aoc2023
                 var nums2 = StringParsing.GetNumbersFromString(newLine);
                 var tokens2 = newLine.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
 
-                long temp = BackTrack3(tokens2[0], nums2, tokens2[0].Count(x => x == '?' || x == '#'), nums2.Sum());
+                long temp = BackTrack4(tokens2[0], nums2);
+                // long temp = BackTrack3(tokens2[0], nums2, tokens2[0].Count(x => x == '?' || x == '#'), nums2.Sum());
                 // var temp = BackTrack2(tokens2[0].ToArray(), nums2, tokens2[0].Count(x => x == '?' || x == '#'), 0, new List<int>());
                 count += temp;
                 Console.WriteLine($"Finished line with nums {tokens[1]}. Added {temp} to the total");
@@ -133,6 +136,93 @@ namespace aoc2023
              * This should remove the need to validate as we go, just validate on current move or something?
              * could try making groups work right as well.
              * Use day 11 2016 logic.*/
+        }
+
+        private long BackTrack4(string str, List<int> nums)
+        {
+            if (!str.Contains('?'))
+            {
+                if (Valid(str, nums))
+                {
+                    return 1;
+                }
+                return 0;
+            }
+            // check if memo
+            for (var repeats = 2; repeats < nums.Count / 2; repeats++)
+            {
+                if (RepeatingPattern(nums,repeats))
+                {
+                    if (RepeatingPattern(str.ToList(), repeats))
+                    {
+                        var newStr2 = str.Substring(0, str.Length/repeats);
+                        var newNums2 = nums[0..(nums.Count/repeats-1)];
+                        return (long)Math.Pow(BackTrack4(newStr2, newNums2), repeats);
+                        break;
+                    }
+                }
+            }
+
+            var trimmed = Trimmer(str, nums);
+            var newStr = trimmed.Item1;
+            var newNums = trimmed.Item2;
+
+            long total2 = 0;
+            var copy4 = string.Empty + newStr;
+            copy4 = copy4.ReplaceFirstInstanceOf("?", "#");
+            total2 += BackTrack4(copy4, newNums);
+            var copy3 = string.Empty + newStr;
+            copy3 = copy3.ReplaceFirstInstanceOf("?", ".");
+            total2 += BackTrack4(copy3, newNums);
+            return total2;
+        }
+
+        private (string, List<int>) Trimmer(string str, List<int> nums)
+        {
+            var currentString = str;
+            var indx1 = str.IndexOf("?");
+            var indx2 = str.IndexOf("#.");
+            var counter = 0;
+
+            while (indx2 != -1 && indx2 < indx1)
+            {
+                var toks = currentString.Split("#.", 2, StringSplitOptions.None);
+                var first = toks[0] + "#";
+                var second = "." + toks[1];
+                var count = first.Count(x => x == '#');
+                if (count != nums[counter])
+                {
+                    break;
+                }
+                else
+                {
+                    currentString = "." + toks[1];
+                    counter++;
+                    indx1 = currentString.IndexOf("?");
+                    indx2 = currentString.IndexOf("#.");
+                }
+            }
+            return (currentString, nums[counter..].ToList());
+        }
+
+        private bool RepeatingPattern<T>(List<T> listy, int repeats)
+        {
+            if (listy.Count % repeats != 0)
+            {
+                return false;
+            }
+            var patternLength = listy.Count / repeats;
+            for (var j = 0; j < patternLength; j++)
+            {
+                for (var k = 1; k < repeats; k++)
+                {
+                    if (!listy[j].Equals(listy[j + j * k]))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         private string RemovePeriods(string str)
@@ -157,6 +247,24 @@ namespace aoc2023
             if (start != 0 || end != (str.Length-1))
             {
                 return str.Substring(start, end - start + 1);
+            }
+            return str;
+        }
+
+        private string RemovePeriods2(string str)
+        {
+            var start = 0;
+
+            var i = 0;
+            while (str[i] == '.')
+            {
+                i++;
+            }
+            start = i;
+
+            if (start != 0)
+            {
+                return str.Substring(start);
             }
             return str;
         }

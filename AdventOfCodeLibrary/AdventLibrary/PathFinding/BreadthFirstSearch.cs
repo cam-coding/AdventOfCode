@@ -22,6 +22,26 @@ namespace AdventLibrary.PathFinding
 
     public static class BreadthFirstSearch
     {
+        public static void BFS_Generic()
+        {
+            Queue<List<(int, int)>> q = new Queue<List<(int, int)>>();
+            var visited = new HashSet<(int, int)>();
+            // (0,0) can be anything, just needs to be your root item.
+            q.Enqueue(new List<(int, int)>() { (0, 0) });
+            while (q.Count > 0)
+            {
+                var current = q.Dequeue(); // This will contain a list of all the points you visited on the way
+                var cur = current.Last(); // this is just the most recent point
+                if (current == null || visited.Contains(cur))
+                    continue;
+
+                //Get the next nodes/grids/etc to visit next
+                visited.Add(cur);
+
+                // do something with the current node
+            }
+        }
+
         public static List<T> BFS<T>(List<T> remaining, List<T> current, Func<List<List<T>>, List<T>> evaluationAction)
         {
             if (remaining.Count == 0)
@@ -124,26 +144,6 @@ namespace AdventLibrary.PathFinding
             }
 
             return solution;
-        }
-
-        public static void BFS_Generic()
-        {
-            Queue<List<(int, int)>> q = new Queue<List<(int, int)>>();
-            var visited = new HashSet<(int, int)>();
-            // (0,0) can be anything, just needs to be your root item.
-            q.Enqueue(new List<(int, int)>() { (0,0) });
-            while (q.Count > 0)
-            {
-                var current = q.Dequeue(); // This will contain a list of all the points you visited on the way
-                var cur = current.Last(); // this is just the most recent point
-                if (current == null || visited.Contains(cur))
-                    continue;
-
-                //Get the next nodes/grids/etc to visit next
-                visited.Add(cur);
-
-                // do something with the current node
-            }
         }
     }
 }

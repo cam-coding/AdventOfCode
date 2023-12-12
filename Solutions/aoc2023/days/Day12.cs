@@ -14,11 +14,10 @@ namespace aoc2023
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ':', '-', '>', '<', '+', '=', '\t' };
-        private int _possible;
+        private Dictionary<(string, List<int>),long> dicty;
         public Solution Solve(string filePath)
         {
             _filePath = filePath;
-            var blah = Trimmer(".#.....######..#####.?????.######..#####.?????.######..#####.?????.######..#####.", new List<int>() { 1, 6, 5, 1, 6, 5, 1, 6, 5, 1, 6, 5, 1, 6, 5 });
             return new Solution(Part1(), Part2());
         }
 
@@ -124,6 +123,7 @@ namespace aoc2023
                 var nums2 = StringParsing.GetNumbersFromString(newLine);
                 var tokens2 = newLine.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
 
+                dicty = new Dictionary<(string, List<int>), long>();
                 long temp = BackTrack4(tokens2[0], nums2);
                 // long temp = BackTrack3(tokens2[0], nums2, tokens2[0].Count(x => x == '?' || x == '#'), nums2.Sum());
                 // var temp = BackTrack2(tokens2[0].ToArray(), nums2, tokens2[0].Count(x => x == '?' || x == '#'), 0, new List<int>());
@@ -138,8 +138,13 @@ namespace aoc2023
              * Use day 11 2016 logic.*/
         }
 
+        // str = "???????#????.#???????????#????.#???????????#????.#???????????#????.#???????"
         private long BackTrack4(string str, List<int> nums)
         {
+            if (dicty.ContainsKey((str,nums)))
+            {
+                return dicty[(str, nums)];
+            }
             if (!str.Contains('?'))
             {
                 if (Valid(str, nums))
@@ -148,33 +153,103 @@ namespace aoc2023
                 }
                 return 0;
             }
+
+
+            if (str[0] == '.')
+            {
+                return BackTrack4(str[1..], nums);
+            }
+            /*
+            // if you still have ?'s but all the groups are filled, there's 1 solution. All ? are .
+            if (nums.Count == 0)
+            {
+                if (str.Contains('#'))
+                {
+                    return 0;
+                }
+                return 1;
+            }
+            var length = FindLengthOfFirstGroup(str);
+            if (length != -1 && length > nums[0])
+            {
+                return 0;
+            }*/
             // check if memo
-            for (var repeats = 2; repeats < nums.Count / 2; repeats++)
+            for (var repeats = nums.Count / 2; repeats > 1; repeats--)
             {
                 if (RepeatingPattern(nums,repeats))
                 {
                     if (RepeatingPattern(str.ToList(), repeats))
                     {
                         var newStr2 = str.Substring(0, str.Length/repeats);
-                        var newNums2 = nums[0..(nums.Count/repeats-1)];
-                        return (long)Math.Pow(BackTrack4(newStr2, newNums2), repeats);
-                        break;
+                        var newNums2 = nums[0..(nums.Count/repeats)];
+                        var result = BackTrack4(newStr2, newNums2);
+                        var total = (long)Math.Pow(result, repeats);
+                        dicty.TryAdd((str,nums),total);
+                        return total;
                     }
                 }
             }
 
-            var trimmed = Trimmer(str, nums);
-            var newStr = trimmed.Item1;
-            var newNums = trimmed.Item2;
-
+            var currentString = str;
+            var indx1 = str.IndexOf("?");
+            var indx2 = str.IndexOf("#.");
+            var counter = 0;
             long total2 = 0;
-            var copy4 = string.Empty + newStr;
-            copy4 = copy4.ReplaceFirstInstanceOf("?", "#");
-            total2 += BackTrack4(copy4, newNums);
-            var copy3 = string.Empty + newStr;
+
+            // trimming section
+            while (indx2 != -1 && indx2 < indx1)
+            {
+                var toks = currentString.Split("#.", 2, StringSplitOptions.None);
+                var first = toks[0] + "#";
+                var second = "." + toks[1];
+                var count = first.Count(x => x == '#');
+                if (count != nums[counter])
+                {
+                    return 0;
+                }
+                else
+                {
+                    currentString = "." + toks[1];
+                    counter++;
+                    indx1 = currentString.IndexOf("?");
+                    indx2 = currentString.IndexOf("#.");
+                }
+            }
+            if (counter != 0)
+            {
+                var blah = BackTrack4(currentString, nums[counter..].ToList());
+                // var blah2 = BackTrack4(str.Replace(currentString, string.Empty), nums[..counter].ToList());
+                dicty.Add((str,nums), blah);
+                return blah;
+            }
+
+            var copy3 = string.Empty + str;
             copy3 = copy3.ReplaceFirstInstanceOf("?", ".");
-            total2 += BackTrack4(copy3, newNums);
+            total2 += BackTrack4(copy3, nums);
+            var copy4 = string.Empty + str;
+            copy4 = copy4.ReplaceFirstInstanceOf("?", "#");
+            total2 += BackTrack4(copy4, nums);
+            dicty.Add((str,nums), total2);
             return total2;
+        }
+
+        private int FindLengthOfFirstGroup(string str)
+        {
+            var indx1 = str.IndexOf("?");
+            var indx2 = str.IndexOf("#");
+            if ((indx1 != -1 && indx1 < indx2) || indx2 == -1)
+            {
+                return -1;
+            }
+
+            var count = 0;
+            while (str[indx2] == '#')
+            {
+                indx2++;
+                count++;
+            }
+            return count;
         }
 
         private (string, List<int>) Trimmer(string str, List<int> nums)
@@ -205,6 +280,7 @@ namespace aoc2023
             return (currentString, nums[counter..].ToList());
         }
 
+        // listy = 12 count, repeats = 4
         private bool RepeatingPattern<T>(List<T> listy, int repeats)
         {
             if (listy.Count % repeats != 0)
@@ -216,7 +292,7 @@ namespace aoc2023
             {
                 for (var k = 1; k < repeats; k++)
                 {
-                    if (!listy[j].Equals(listy[j + j * k]))
+                    if (!listy[j].Equals(listy[j + patternLength * k]))
                     {
                         return false;
                     }

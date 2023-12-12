@@ -5,12 +5,12 @@ namespace AdventLibrary
 {
     public static class GridHelper
     {
-        /* Grid's are in the form of List<List<T>> aka grid[y][x] where  and 
+        /* Grid's are in the form of List<List<T>> aka grid[y][x] where  and
          * x is horizontal axis
          * y is vertical
          * Always reversed from common math notation of "x,y" coordinates
          * 0,0 is the top left corner and y increases as you go down.
-         * 
+         *
          * in a 3 row, 4 column grid
          * grid.Count == 3 number of rows.
          * grid[0].Count == 4 number of columns
@@ -64,7 +64,7 @@ namespace AdventLibrary
         {
             return GetPointsBetweenStartAndEndInclusive(nums[0], nums[1], nums[2], nums[3]);
         }
-        
+
         public static List<Tuple<int,int>> GetPointsBetweenStartAndEndInclusive(Tuple<int,int> start, Tuple<int,int> end)
         {
             return GetPointsBetweenStartAndEndInclusive(start.Item1, start.Item2, end.Item1, end.Item2);
@@ -187,10 +187,10 @@ namespace AdventLibrary
             return points;
         }
 
-        public static List<Tuple<int,int>> GetAdjacentNeighbours<T>(List<List<T>> grid, int x, int y) 
+        public static List<Tuple<int,int>> GetAdjacentNeighbours<T>(List<List<T>> grid, int x, int y)
         {
             var adj = new List<Tuple<int,int>>()
-            { 
+            {
                 new Tuple<int, int>(0, -1),
                 new Tuple<int, int>(0, 1),
                 new Tuple<int, int>(1, 0),
@@ -483,6 +483,102 @@ namespace AdventLibrary
                 }
                 Console.WriteLine();
             }
+        }
+
+        // Get distance using Pythagoras's theorem
+        //0,0 to 2,2 would be sqrt(8)/~2.82
+        // https://en.wikipedia.org/wiki/Chebyshev_distance#Properties
+        public static double EuclidianDistance((int,int) a, (int,int) b)
+        {
+            var x = Math.Pow(a.Item1 - b.Item1, 2);
+            var y = Math.Pow(a.Item2 - b.Item2, 2);
+            return Math.Pow(x + y, .5);
+        }
+
+        public static double EuclidianDistance((int, int, int) a, (int, int, int) b)
+        {
+            var x = Math.Pow(a.Item1 - b.Item1, 2);
+            var y = Math.Pow(a.Item2 - b.Item2, 2);
+            var z = Math.Pow(a.Item3 - b.Item3, 2);
+            return Math.Pow(x + y + z, .5);
+        }
+
+        //Manhattan/taxicab distance aka routing through the grid system
+        //distance between 0,0 and 2,2 would be 4.
+        // https://en.wikipedia.org/wiki/Chebyshev_distance#Properties
+        public static int TaxicabDistance((int, int) a, (int, int) b)
+        {
+            var x = Math.Abs(a.Item1 - b.Item1);
+            var y = Math.Abs(a.Item2 - b.Item2);
+            return x+y;
+        }
+
+        public static int TaxicabDistance((int, int, int) a, (int, int, int) b)
+        {
+            var x = Math.Abs(a.Item1 - b.Item1);
+            var y = Math.Abs(a.Item2 - b.Item2);
+            var z = Math.Abs(a.Item3 - b.Item3);
+            return x + y + z;
+        }
+
+        // Getting distance allowing diagonal moves
+        // distance 0,0 to 2,2 is 2.
+        // https://en.wikipedia.org/wiki/Chebyshev_distance#Properties
+        public static int ChebyshevDistance((int, int) a, (int, int) b)
+        {
+            var x = Math.Abs(a.Item1 - b.Item1);
+            var y = Math.Abs(a.Item2 - b.Item2);
+            return Math.Max(x,y);
+        }
+
+        public static int ChebyshevDistance((int, int, int) a, (int, int, int) b)
+        {
+            var x = Math.Abs(a.Item1 - b.Item1);
+            var y = Math.Abs(a.Item2 - b.Item2);
+            var z = Math.Abs(a.Item3 - b.Item3);
+            return Math.Min(x, Math.Max(y, z));
+        }
+
+        public static List<(int, int)> GetPointsWhere<T>(List<List<T>> grid, T value)
+        {
+            return GetPointsWhere(grid, x => x.Equals(value));
+        }
+
+            public static List<(int,int)> GetPointsWhere<T>(List<List<T>> grid, Predicate<T> pred)
+        {
+            var values = new List<(int, int)>();
+            for (var y = 0; y < grid.Count; y++)
+            {
+                for (var x = 0; x < grid[y].Count; x++)
+                {
+                    if (pred(grid[y][x]))
+                    {
+                        values.Add((y,x));
+                    }
+                }
+            }
+            return values;
+        }
+
+        public static int GetCountWhere<T>(List<List<T>> grid, T value)
+        {
+            return GetCountWhere(grid, x => x.Equals(value));
+        }
+
+            public static int GetCountWhere<T>(List<List<T>> grid, Predicate<T> pred)
+        {
+            var total = 0;
+            for (var y = 0; y < grid.Count; y++)
+            {
+                for (var x = 0; x < grid[y].Count; x++)
+                {
+                    if (pred(grid[y][x]))
+                    {
+                        total++;
+                    }
+                }
+            }
+            return total;
         }
     }
 }

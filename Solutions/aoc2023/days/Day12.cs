@@ -99,7 +99,7 @@ namespace aoc2023
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var count = 0;
+            long count = 0;
 
             foreach (var line in lines)
             {
@@ -122,9 +122,10 @@ namespace aoc2023
                 var nums2 = StringParsing.GetNumbersFromString(newLine);
                 var tokens2 = newLine.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
 
-                var temp = BackTrack3(tokens2[0], nums2);
+                long temp = BackTrack3(tokens2[0], nums2, tokens2[0].Count(x => x == '?' || x == '#'), nums2.Sum());
                 // var temp = BackTrack2(tokens2[0].ToArray(), nums2, tokens2[0].Count(x => x == '?' || x == '#'), 0, new List<int>());
                 count += temp;
+                Console.WriteLine($"Finished line with nums {tokens[1]}. Added {temp} to the total");
             }
             return count;
             /*Okay so I need to trim the string as I work my way down
@@ -134,8 +135,46 @@ namespace aoc2023
              * Use day 11 2016 logic.*/
         }
 
-        private int BackTrack3(string str, List<int> nums)
+        private string RemovePeriods(string str)
         {
+            var start = 0;
+            var end = str.Length-1;
+
+            var i = 0;
+            while (str[i] == '.')
+            {
+                i++;
+            }
+            start = i;
+
+            i = end;
+            while (str[i] == '.')
+            {
+                i--;
+            }
+            end = i;
+
+            if (start != 0 || end != (str.Length-1))
+            {
+                return str.Substring(start, end - start + 1);
+            }
+            return str;
+        }
+
+        private long BackTrack3(string str, List<int> nums, int possible, int needed)
+        {
+            if (needed > possible)
+            {
+                return 0;
+            }
+            if (needed == 0)
+            {
+                if (str.Contains('#'))
+                {
+                    return 0;
+                }
+                return 1;
+            }
             if (!str.Contains('?'))
             {
                 if (Valid(str, nums))
@@ -144,6 +183,7 @@ namespace aoc2023
                 }
                 return 0;
             }
+            str = RemovePeriods(str);
             var indx1 = str.IndexOf("?");
             var indx2 = str.IndexOf("#.");
             if (indx2 != -1 && indx2 < indx1)
@@ -161,19 +201,19 @@ namespace aoc2023
                     var newNums = nums[1..].ToList();
                     var copy3 = string.Empty + newStr;
                     copy3 = copy3.ReplaceFirstInstanceOf("?", ".");
-                    var total2 = BackTrack3(copy3, newNums);
+                    var total2 = BackTrack3(copy3, newNums, copy3.Count(x => x == '?' || x == '#'), newNums.Sum());
                     var copy4 = string.Empty + newStr;
                     copy4 = copy4.ReplaceFirstInstanceOf("?", "#");
-                    total2 += BackTrack3(copy4, newNums);
+                    total2 += BackTrack3(copy4, newNums, copy4.Count(x => x == '?' || x == '#'), newNums.Sum());
                     return total2;
                 }
             }
             var copy1 = string.Empty + str;
             copy1 = copy1.ReplaceFirstInstanceOf("?", ".");
-            var total = BackTrack3(copy1, nums);
+            var total = BackTrack3(copy1, nums, copy1.Count(x => x == '?' || x == '#'), nums.Sum());
             var copy2 = string.Empty + str;
             copy2 = copy2.ReplaceFirstInstanceOf("?", "#");
-            total += BackTrack3(copy2, nums);
+            total += BackTrack3(copy2, nums, copy2.Count(x => x == '?' || x == '#'), nums.Sum());
             return total;
         }
         private List<int> ValidSoFar(char[] str, List<int> nums, int current, int pos, out int newPos, List<int> groups)

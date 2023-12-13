@@ -9,7 +9,7 @@ namespace aoc2023
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ':', '-', '>', '<', '+', '=', '\t' };
-        private Dictionary<DictKey, long> dicty;
+        private Dictionary<DictKey, long> _dicty;
         public Solution Solve(string filePath)
         {
             _filePath = filePath;
@@ -19,7 +19,7 @@ namespace aoc2023
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var count = 0;
+			long count = 0;
 
 			foreach (var line in lines)
 			{
@@ -27,11 +27,59 @@ namespace aoc2023
 
 				var nums = StringParsing.GetNumbersFromString(line);
 
+                _dicty = new Dictionary<DictKey, long>();
                 var temp = BackTrack(tokens[0], nums);
-                count += temp;
+                var temp2 = BackTrack4(tokens[0], nums);
+                if (temp != temp2)
+                {
+                    Console.WriteLine("uhoh");
+                    _dicty = new Dictionary<DictKey, long>();
+                    var temp3 = BackTrack4(tokens[0], nums);
+                }
+                count += temp2;
                 // Console.WriteLine($"Finished line with nums {tokens[1]}. Added {temp} to the total");
             }
             return count;
+        }
+        private object Part2()
+        {
+            var lines = ParseInput.GetLinesFromFile(_filePath);
+            long count = 0;
+
+            foreach (var line in lines)
+            {
+                var tokens = line.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+
+                var nums = StringParsing.GetNumbersFromString(line);
+
+                var newLine = string.Empty;
+                for (var j = 0; j < 5; j++)
+                {
+                    newLine += tokens[0] + '?';
+                }
+                newLine = newLine[..^1];
+                newLine += ' ';
+                for (var j = 0; j < 5; j++)
+                {
+                    newLine += tokens[1] + ',';
+                }
+                newLine = newLine[..^1];
+                var nums2 = StringParsing.GetNumbersFromString(newLine);
+                var tokens2 = newLine.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+
+                _dicty = new Dictionary<DictKey, long>();
+                long temp = BackTrack4(tokens2[0], nums2);
+                // long temp2 = BackTrack3(tokens2[0], nums2, tokens2[0].Count(x => x == '?' || x == '#'), nums2.Sum());
+                // var temp = BackTrack2(tokens2[0].ToArray(), nums2, tokens2[0].Count(x => x == '?' || x == '#'), 0, new List<int>());
+                count += temp;
+                Console.WriteLine($"Finished line with nums {tokens[1]}. Added {temp} to the total");
+            }
+            return count;
+            /*Okay so I need to trim the string as I work my way down
+             * look for ### followed by a . and then trim that out. Trim that out of the nums list as well and move on
+             * This should remove the need to validate as we go, just validate on current move or something?
+             * could try making groups work right as well.
+             * Use day 11 2016 logic.*/
         }
 
         private int BackTrack(string str, List<int> nums)
@@ -92,46 +140,6 @@ namespace aoc2023
             return true;
         }
 
-        private object Part2()
-        {
-            var lines = ParseInput.GetLinesFromFile(_filePath);
-            long count = 0;
-
-            foreach (var line in lines)
-            {
-                var tokens = line.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
-
-                var nums = StringParsing.GetNumbersFromString(line);
-
-                var newLine = string.Empty;
-                for (var j = 0; j < 5; j++)
-                {
-                    newLine += tokens[0] + '?';
-                }
-                newLine = newLine[..^1];
-                newLine += ' ';
-                for (var j = 0; j < 5; j++)
-                {
-                    newLine += tokens[1] + ',';
-                }
-                newLine = newLine[..^1];
-                var nums2 = StringParsing.GetNumbersFromString(newLine);
-                var tokens2 = newLine.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
-
-                dicty = new Dictionary<DictKey, long>();
-                long temp = BackTrack4(tokens2[0], nums2);
-                // long temp2 = BackTrack3(tokens2[0], nums2, tokens2[0].Count(x => x == '?' || x == '#'), nums2.Sum());
-                // var temp = BackTrack2(tokens2[0].ToArray(), nums2, tokens2[0].Count(x => x == '?' || x == '#'), 0, new List<int>());
-                count += temp;
-                Console.WriteLine($"Finished line with nums {tokens[1]}. Added {temp} to the total");
-            }
-            return count;
-            /*Okay so I need to trim the string as I work my way down
-             * look for ### followed by a . and then trim that out. Trim that out of the nums list as well and move on
-             * This should remove the need to validate as we go, just validate on current move or something?
-             * could try making groups work right as well.
-             * Use day 11 2016 logic.*/
-        }
 
         private class DictKey
         {
@@ -186,9 +194,9 @@ namespace aoc2023
         private long BackTrack4(string str, List<int> nums)
         {
             var dictKey = new DictKey(str, nums);
-            if (dicty.ContainsKey(dictKey))
+            if (_dicty.ContainsKey(dictKey))
             {
-                return dicty[dictKey];
+                return _dicty[dictKey];
             }
             if (!str.Contains('?'))
             {
@@ -230,7 +238,7 @@ namespace aoc2023
                         var strLen = newStr2.Length;
                         var result = BackTrack4(newStr2, newNums2);
                         var total = (long)Math.Pow(result, repeats);
-                        dicty.TryAdd(dictKey, total);
+                        _dicty.TryAdd(dictKey, total);
                         return total;
                     }
                 }
@@ -249,7 +257,7 @@ namespace aoc2023
                 var first = toks[0] + "#";
                 var second = "." + toks[1];
                 var count = first.Count(x => x == '#');
-                if (count != nums[counter])
+                if (counter >= nums.Count || count != nums[counter])
                 {
                     return 0;
                 }
@@ -265,7 +273,7 @@ namespace aoc2023
             {
                 var blah = BackTrack4(currentString, nums[counter..].ToList());
                 // var blah2 = BackTrack4(str.Replace(currentString, string.Empty), nums[..counter].ToList());
-                dicty.Add(dictKey, blah);
+                _dicty.Add(dictKey, blah);
                 return blah;
             }
 
@@ -275,7 +283,7 @@ namespace aoc2023
             var copy4 = string.Empty + str;
             copy4 = copy4.ReplaceFirstInstanceOf("?", "#");
             total2 += BackTrack4(copy4, nums);
-            dicty.Add(dictKey, total2);
+            _dicty.Add(dictKey, total2);
             return total2;
         }
 

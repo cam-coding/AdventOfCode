@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventLibrary
 {
@@ -565,7 +566,7 @@ namespace AdventLibrary
             return GetCountWhere(grid, x => x.Equals(value));
         }
 
-            public static int GetCountWhere<T>(List<List<T>> grid, Predicate<T> pred)
+        public static int GetCountWhere<T>(List<List<T>> grid, Predicate<T> pred)
         {
             var total = 0;
             for (var y = 0; y < grid.Count; y++)
@@ -579,6 +580,33 @@ namespace AdventLibrary
                 }
             }
             return total;
+        }
+        public static List<string> GetColumns(this List<string> grid)
+        {
+            var result = GetColumns(grid.Select(x => x.ToList()).ToList());
+            return CharGridToStringList(result);
+        }
+
+        public static List<List<T>> GetColumns<T>(this List<List<T>> grid)
+        {
+            var columns = new List<List<T>>();
+            for (var i = 0; i < grid[0].Count; i++)
+            {
+                columns.Add(new List<T>());
+            }
+            for (var i = 0; i < grid.Count; i++)
+            {
+                for (var j = 0; j < grid[i].Count; j++)
+                {
+                    columns[j].Add(grid[i][j]);
+                }
+            }
+            return columns;
+        }
+
+        public static List<string> CharGridToStringList(List<List<char>> grid)
+        {
+            return grid.Select(x => x.Stringify()).ToList();
         }
     }
 }

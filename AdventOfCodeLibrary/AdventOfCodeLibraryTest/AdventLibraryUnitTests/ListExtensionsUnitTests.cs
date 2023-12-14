@@ -1,4 +1,5 @@
 ﻿using AdventLibrary;
+using AdventLibrary.Helpers;
 using System.Collections.Generic;
 using Xunit;
 
@@ -43,6 +44,33 @@ namespace AdventLibraryUnitTests
         public void GetRealStringsTest(List<string> starting, List<string> expected)
         {
             var result = starting.OnlyRealStrings(delimiterChars);
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [MemberData(nameof(StringifyTestData))]
+        public void StringifyTest<T>(List<T> starting, string expected)
+        {
+            var result = starting.Stringify();
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void StringifyEdgeCasesTest()
+        {
+            var list = new List<int> { 1, 2, 3 };
+            var list2 = new List<int> { 123 };
+            var array = new int[] { 1 ,2, 3 };
+            Assert.Equal(list.Stringify(), array.Stringify());
+
+            Assert.NotEqual(list.Stringify(), list2.Stringify());
+        }
+
+        [Theory]
+        [MemberData(nameof(CountDifferencesTestData))]
+        public void CountDifferencesTest<T>(List<T> list1, List<T> list2, int expected)
+        {
+            var result = list1.CountDifferences(list2);
             Assert.Equal(expected, result);
         }
 
@@ -193,6 +221,79 @@ namespace AdventLibraryUnitTests
             {
                 new List<string>() { "(", ",", ":", "a"},
                 new List<string>() { "a"},
+            };
+        }
+
+        public static IEnumerable<object[]> StringifyTestData()
+        {
+            yield return new object[]
+            {
+                new List<int>() { 1,2,3},
+                "1:2:3:",
+            };
+
+            yield return new object[]
+            {
+                new List<int>() { 123},
+                "123:",
+            };
+
+            yield return new object[]
+            {
+                new List<string>() { "a", "b", "c"},
+                "a:b:c:",
+            };
+        }
+
+        public static IEnumerable<object[]> CountDifferencesTestData()
+        {
+            yield return new object[]
+            {
+                new List<string>() { "a", "b ", "c"},
+                new List<string>() { "a", "b ", "c"},
+                0,
+            };
+
+            yield return new object[]
+            {
+                new List<int>() { 1, 2, 3},
+                new List<int>() { 1, 2, 3},
+                0,
+            };
+
+            yield return new object[]
+            {
+                new List<int>() { 1, 2, 3},
+                new List<int>() { 1, 2, 3, 4},
+                -1,
+            };
+
+            yield return new object[]
+            {
+                new List<int>() { 1, 2, 3},
+                new List<int>() { 1, 2, 4},
+                1,
+            };
+
+            yield return new object[]
+            {
+                new List<int>() { 1, 2, 3},
+                new List<int>() { 1, 5, 4},
+                2,
+            };
+
+            yield return new object[]
+            {
+                new List<int>() { 1, 2, 3},
+                new List<int>() { 6, 5, 4},
+                3,
+            };
+
+            yield return new object[]
+            {
+                new List<int>(),
+                new List<int>(),
+                0,
             };
         }
         #endregion TestData

@@ -173,6 +173,39 @@ namespace AdventLibrary
             var delimiterStrings = delimiterChars.Select(x => x.ToString());
             return list.Where(x => !string.IsNullOrWhiteSpace(x) && !delimiterStrings.Any(y => y.Equals(x))).ToList();
         }
+
+        public static int CountDifferences<T>(this List<T> list, List<T> list2)
+        {
+            if (list.Equals(list2))
+            {
+                return 0;
+            }
+
+            if (list.Count != list2.Count)
+            {
+                return -1;
+            }
+
+            var count = 0;
+            for (var i = 0; i < list.Count; i++)
+            {
+                if (!list[i].Equals(list2[i]))
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public static string Stringify<T>(this List<T> list)
+        {
+            var str = string.Empty;
+            foreach (var item in list)
+            {
+                str += item.ToString() + ":";
+            }
+            return str;
+        }
     }
 
 }

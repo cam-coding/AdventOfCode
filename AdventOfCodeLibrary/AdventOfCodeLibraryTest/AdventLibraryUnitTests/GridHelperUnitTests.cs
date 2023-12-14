@@ -193,7 +193,7 @@ namespace AdventLibraryUnitTests
             var actual = AdventLibrary.GridHelper.GetPointsBetweenStartAndEndExclusive(0, 0, 3, 3);
             Assert.Equal(expected, actual);
         }
-        
+
         [Fact]
         public void GridHelper_ExclusiveLine_DiagonalForwardUp_ReturnsExpected()
         {
@@ -206,7 +206,7 @@ namespace AdventLibraryUnitTests
             var actual = AdventLibrary.GridHelper.GetPointsBetweenStartAndEndExclusive(0, 3, 3, 0);
             Assert.Equal(expected, actual);
         }
-        
+
         [Fact]
         public void GridHelper_ExclusiveLine_DiagonalBackwardDown_ReturnsExpected()
         {
@@ -219,7 +219,7 @@ namespace AdventLibraryUnitTests
             var actual = AdventLibrary.GridHelper.GetPointsBetweenStartAndEndExclusive(3, 0, 0, 3);
             Assert.Equal(expected, actual);
         }
-        
+
         [Fact]
         public void GridHelper_ExclusiveLine_DiagonalBackwardUp_ReturnsExpected()
         {
@@ -233,7 +233,7 @@ namespace AdventLibraryUnitTests
             Assert.Equal(expected, actual);
         }
         #endregion ExclusiveLine
-        
+
         #region Neighbours
         /* check from top right and clockwise*/
         [Fact]
@@ -245,7 +245,7 @@ namespace AdventLibraryUnitTests
             Assert.Contains(new Tuple<int,int>(1, 0), actual);
             Assert.Equal(2, actual.Count);
         }
-        
+
         [Fact]
         public void GridHelper_GetAdjacent_TopEdge_ReturnsExpected()
         {
@@ -256,7 +256,7 @@ namespace AdventLibraryUnitTests
             Assert.Contains(new Tuple<int,int>(0, 0), actual);
             Assert.Equal(3, actual.Count);
         }
-        
+
         [Fact]
         public void GridHelper_GetAdjacent_SideEdge_ReturnsExpected()
         {
@@ -267,7 +267,7 @@ namespace AdventLibraryUnitTests
             Assert.Contains(new Tuple<int,int>(0, 2), actual);
             Assert.Equal(3, actual.Count);
         }
-        
+
         [Fact]
         public void GridHelper_GetAdjacent_Middle_ReturnsExpected()
         {
@@ -290,7 +290,7 @@ namespace AdventLibraryUnitTests
             Assert.Contains(new Tuple<int,int>(1, 0), actual);
             Assert.Equal(3, actual.Count);
         }
-        
+
         [Fact]
         public void GridHelper_GetOrthoginal_TopEdge_ReturnsExpected()
         {
@@ -303,7 +303,7 @@ namespace AdventLibraryUnitTests
             Assert.Contains(new Tuple<int,int>(0, 0), actual);
             Assert.Equal(5, actual.Count);
         }
-        
+
         [Fact]
         public void GridHelper_GetOrthoginal_SideEdge_ReturnsExpected()
         {
@@ -316,7 +316,7 @@ namespace AdventLibraryUnitTests
             Assert.Contains(new Tuple<int,int>(0, 0), actual);
             Assert.Equal(5, actual.Count);
         }
-        
+
         [Fact]
         public void GridHelper_GetOrthoginal_Middle_ReturnsExpected()
         {
@@ -344,12 +344,12 @@ namespace AdventLibraryUnitTests
 
             return listy;
         }
-        
+
         [Fact]
         public void GridHelper_RotateColumnDown_ReturnsExpected()
         {
             var start = new int[,]{ { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }};
-              
+
             var expected = new int[,]{ { 9, 2, 3, 4 }, { 1, 6, 7, 8 }, { 5, 10, 11, 12 }};
 
             var actual = AdventLibrary.GridHelper.RotateColumnDownWithWrap(start, 0);
@@ -408,6 +408,44 @@ namespace AdventLibraryUnitTests
             var expected = new int[,] { { 2, 3, 4, 1 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
 
             var actual = AdventLibrary.GridHelper.RotateRowLeftWithWrap(start, 0);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GridHelper_GetColumnsWithInts_ReturnsExpected()
+        {
+            var start = new List<List<int>>()
+            {
+                new List<int>(){ 1,2,3 },
+                new List<int>(){ 1,2,3 },
+                new List<int>(){ 1,2,3 },
+            };
+            var expected = new List<List<int>>()
+            {
+                new List<int>(){ 1,1,1 },
+                new List<int>(){ 2,2,2 },
+                new List<int>(){ 3,3,3 },
+            };
+            var actual = start.GetColumns();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GridHelper_GetColumnsWithChars_ReturnsExpected()
+        {
+            var start = new List<List<char>>()
+            {
+                new List<char>(){ '1','2','3' },
+                new List<char>(){ '1','2','3' },
+                new List<char>(){ '1','2','3' },
+            };
+            var expected = new List<List<char>>()
+            {
+                new List<char>(){ '1','1','1' },
+                new List<char>(){ '2','2','2' },
+                new List<char>(){ '3','3','3' },
+            };
+            var actual = start.GetColumns();
             Assert.Equal(expected, actual);
         }
     }

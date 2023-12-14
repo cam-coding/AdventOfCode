@@ -54,6 +54,16 @@ namespace AdventLibrary.Helpers
 
             return newArray;
         }
+
+        public static string Stringify<T>(this T[] array)
+        {
+            var str = string.Empty;
+            foreach (var item in array)
+            {
+                str += item.ToString() + ":";
+            }
+            return str;
+        }
     }
 
 }

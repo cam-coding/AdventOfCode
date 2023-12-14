@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2023
 {
@@ -19,42 +17,129 @@ namespace aoc2023
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var numbers = ParseInput.GetNumbersFromFile(_filePath);
-            var nodes = ParseInput.ParseFileAsGraph(_filePath);
-            var grid = ParseInput.ParseFileAsGrid(_filePath);
-            var total = 1000000;
 			var counter = 0;
-            
-            var ln1 = lines[0];
-            var ln2 = lines[1];
-            for (var i = 0; i < lines.Count; i++)
-            {
-                        
-            }
-			
+
+            var currentGrid = new List<string>();
+
 			foreach (var line in lines)
 			{
-                var tokens = line.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
-				var nums = StringParsing.GetNumbersFromString(line);
-                
-				foreach (var num in nums)
-				{
-				}
-
-                for (var i = 0; i < 0; i++)
+                if (string.IsNullOrWhiteSpace(line))
                 {
-                    for (var j = 0; j < 0; j++)
+                    counter += HandleGrid(currentGrid);
+                    currentGrid = new List<string>();
+                }
+                else
+                {
+                    currentGrid.Add(line);
+                }
+            }
+            counter += HandleGrid(currentGrid);
+            return counter;
+        }
+
+        private int HandleGrid(List<string> grid)
+        {
+            var cols = grid.GetColumns();
+            var mirror = FindMirror(grid);
+            if (mirror == -1)
+            {
+                mirror = FindMirror(cols);
+                return mirror + 1;
+            }
+            return (mirror + 1) * 100;
+        }
+
+        // mirror is between return and return + 1;
+        private int FindMirror(List<string> lines)
+        {
+            for (var i = 0; i < lines.Count-1; i++)
+            {
+                var valid = true;
+                for (var j = 0; j < lines.Count/2; j++)
+                {
+                    var bottom = i - j;
+                    var top = i + j + 1;
+                    if (bottom < 0 || top >= lines.Count)
                     {
-                        
+                        break;
+                    }
+                    if (!lines[bottom].Equals(lines[top]))
+                    {
+                        valid = false;
+                        break;
                     }
                 }
-			}
-            return 0;
+                if (valid)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
-        
+
+        private int FindMirror2(List<string> lines)
+        {
+            var winner = -1;
+            for (var i = 0; i < lines.Count - 1; i++)
+            {
+                var count = 0;
+                for (var j = 0; j < lines.Count / 2; j++)
+                {
+                    var bottom = i - j;
+                    var top = i + j + 1;
+                    if (bottom < 0 || top >= lines.Count)
+                    {
+                        break;
+                    }
+                    var differences = ListExtensions.CountDifferences<char>(lines[bottom].ToList(), lines[top].ToList());
+                    count += differences;
+                    if (differences > 1)
+                    {
+                        break;
+                    }
+                }
+                if (count == 1)
+                {
+                    winner = i;
+                }
+            }
+            return winner;
+        }
+
         private object Part2()
         {
-            return 0;
+            var lines = ParseInput.GetLinesFromFile(_filePath);
+            var counter = 0;
+            var currentGrid = new List<string>();
+
+            foreach (var line in lines)
+            {
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    counter += HandleGrid2(currentGrid);
+                    currentGrid = new List<string>();
+                }
+                else
+                {
+                    currentGrid.Add(line);
+                }
+
+            }
+            counter += HandleGrid2(currentGrid);
+            return counter;
+        }
+
+        private int HandleGrid2(List<string> grid)
+        {
+            var cols = grid.GetColumns();
+            var mirror = FindMirror2(grid);
+            var count = 0;
+            if (mirror == -1)
+            {
+                mirror = FindMirror2(cols);
+                return mirror + 1;
+            }
+            return count = (mirror + 1) * 100;
         }
     }
 }

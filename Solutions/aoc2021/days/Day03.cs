@@ -11,11 +11,9 @@ namespace aoc2021
         {
             return new Solution(Part1(filePath), Part2(filePath));
         }
-
         private object Part1(string filePath)
         {
-            var strings = AdventLibrary.ParseInput.GetLinesFromFile(filePath);
-            var grid = AdventLibrary.TransformInput.ParseBoolGrid(strings, '1');
+            var grid = ParseInput.ParseFileAsBoolGrid(filePath, '1');
             var width = grid.First().Count;
             var length = grid.Count;
             var half = length/2;
@@ -48,9 +46,7 @@ namespace aoc2021
         
         private object Part2(string filePath)
         {
-            var grid = AdventLibrary.ParseInput.ParseFileAsGrid(filePath);
-            var strings = AdventLibrary.ParseInput.GetLinesFromFile(filePath);
-            var grid2 = AdventLibrary.TransformInput.ParseBoolGrid(strings, '1');
+            var grid2 = ParseInput.ParseFileAsBoolGrid(filePath, '1');
             var i = 0;
             var o2 = grid2.ToList();
             while (o2.Count > 1)

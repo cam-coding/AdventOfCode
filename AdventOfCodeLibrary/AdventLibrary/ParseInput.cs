@@ -86,6 +86,56 @@ namespace AdventLibrary
             return null;
         }
 
+        // This could probably be generic
+        public static List<List<bool>> ParseFileAsBoolGrid(string filePath, char specialCharacter)
+        {
+            try
+            {
+                var lines = GetLinesFromFile(filePath);
+                var list = new List<List<bool>>();
+                foreach (var line in lines)
+                {
+                    var lineList = new List<bool>();
+                    foreach (var c in line)
+                    {
+                        lineList.Add(c.Equals(specialCharacter));
+                    }
+                    list.Add(lineList);
+                }
+                return list;
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine("Input is something other than a grid");
+            }
+            return null;
+        }
+
+        // This could probably be generic
+        public static List<List<int>> ParseFileAsBoolIntGrid(string filePath, char specialCharacter)
+        {
+            try
+            {
+                var lines = GetLinesFromFile(filePath);
+                var list = new List<List<int>>();
+                foreach (var line in lines)
+                {
+                    var lineList = new List<int>();
+                    foreach (var c in line)
+                    {
+                        lineList.Add(c.Equals(specialCharacter) ? 0 : 1);
+                    }
+                    list.Add(lineList);
+                }
+                return list;
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine("Input is something other than a grid");
+            }
+            return null;
+        }
+
         public static List<List<char>> ParseFileAsCharGrid(string filePath)
         {
 			var lines = GetLinesFromFile(filePath);
@@ -96,28 +146,6 @@ namespace AdventLibrary
                 for (var j = 0; j < lines[i].Length; j++)
                 {
                     grid[i].Add(lines[i][j]);
-                }
-            }
-            return grid;
-        }
-
-        public static List<List<bool>> ParseFileAsBoolGrid(string filePath, char special)
-        {
-            var lines = GetLinesFromFile(filePath);
-            var grid = new List<List<bool>>();
-            for (var i = 0; i < lines.Count; i++)
-            {
-                grid.Add(new List<bool>());
-                for (var j = 0; j < lines[i].Length; j++)
-                {
-                    if (lines[i][j] == special)
-                    {
-                        grid[i].Add(true);
-                    }
-                    else
-                    {
-                        grid[i].Add(false);
-                    }
                 }
             }
             return grid;

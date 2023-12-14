@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -205,6 +206,34 @@ namespace AdventLibrary
                 str += item.ToString() + ":";
             }
             return str;
+        }
+
+        public static string Stringify<T>(this List<List<T>> list)
+        {
+            var str = string.Empty;
+            foreach (var item in list)
+            {
+                str += item.Stringify();
+            }
+            return str;
+        }
+
+        public static int CycleDetection<T>(this List<T> list, int startIndex = 0)
+        {
+            var slow = startIndex;
+            var fast = slow + 1;
+            var cycleLength = 1;
+            while (fast < list.Count && !list[slow].Equals(list[fast]))
+            {
+                cycleLength++;
+                slow++;
+                fast += 2;
+            }
+            if (fast == list.Count)
+            {
+                return -1;
+            }
+            return cycleLength;
         }
     }
 

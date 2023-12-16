@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary;
+using AdventLibrary.CustomObjects;
 using AdventLibrary.Helpers;
 
 namespace aoc2023
@@ -10,6 +11,25 @@ namespace aoc2023
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+        private static Dictionary<(char, LocationTuple<int>), LocationTuple<int>> dict = new Dictionary<(char, LocationTuple<int>), LocationTuple<int>>()
+            {
+                { ('\\', GridWalker.Left), GridWalker.Up},
+                { ('\\', GridWalker.Right), GridWalker.Down},
+                { ('\\', GridWalker.Up), GridWalker.Left},
+                { ('\\', GridWalker.Down), GridWalker.Right},
+                { ('/', GridWalker.Left), GridWalker.Down},
+                { ('/', GridWalker.Right), GridWalker.Up},
+                { ('/', GridWalker.Up), GridWalker.Right},
+                { ('/', GridWalker.Down), GridWalker.Left},
+                { ('|', GridWalker.Left), GridWalker.Up},
+                { ('|', GridWalker.Right), GridWalker.Up},
+                { ('|', GridWalker.Up), GridWalker.Up},
+                { ('|', GridWalker.Down), GridWalker.Down},
+                { ('-', GridWalker.Left), GridWalker.Left},
+                { ('-', GridWalker.Right), GridWalker.Right},
+                { ('-', GridWalker.Up), GridWalker.Left},
+                { ('-', GridWalker.Down), GridWalker.Left},
+            };
         public Solution Solve(string filePath)
         {
             _filePath = filePath;
@@ -19,223 +39,7 @@ namespace aoc2023
         private object Part1()
         {
             var grid = ParseInput.ParseFileAsCharGrid(_filePath);
-            var energize = new HashSet<(int, int)>();
-            var beams = new List<Beams>();
-            var max = 0;
-            beams.Add(new Beams((0, -1),(0,0)));
-
-            for (var j = 0; j < 1000; j++)
-            {
-                var newBeams = new List<Beams>();
-                foreach (var item in beams)
-                {
-                    var newCurrent = item.Next;
-                    var y = newCurrent.Item1;
-                    var x = newCurrent.Item2;
-                    var oldY = item.Current.Item1;
-                    var oldX = item.Current.Item2;
-
-                    if (y < 0 || y >= grid.Count || x < 0 || x >= grid[y].Count)
-                    {
-                        item.Done = true;
-                    }
-                    else
-                    {
-                        energize.Add(newCurrent);
-                        if (grid[y][x] == '\\')
-                        {
-                            // left
-                            if (oldX < x)
-                            {
-                                // go down
-                                item.NewCurrent((y + 1, x));
-                            }
-                            // right
-                            else if (oldX > x)
-                            {
-                                // go up
-                                item.NewCurrent((y - 1, x));
-                            }
-                            // above
-                            else if (oldY < y)
-                            {
-                                // go right
-                                item.NewCurrent((y, x + 1));
-                            }
-                            // below
-                            else if (oldY > y)
-                            {
-                                // go left
-                                item.NewCurrent((y, x - 1));
-                            }
-                        }
-                        else if (grid[y][x] == '/')
-                        {
-                            // left
-                            if (oldX < x)
-                            {
-                                // go up
-                                item.NewCurrent((y - 1, x));
-                            }
-                            // right
-                            else if (oldX > x)
-                            {
-                                // go down
-                                item.NewCurrent((y + 1, x));
-                            }
-                            // above
-                            else if (oldY < y)
-                            {
-                                // go left
-                                item.NewCurrent((y, x - 1));
-                            }
-                            // below
-                            else if (oldY > y)
-                            {
-                                // go right
-                                item.NewCurrent((y, x + 1));
-                            }
-                        }
-                        else if (grid[y][x] == '.')
-                        {
-                            // left
-                            if (oldX < x)
-                            {
-                                // go right
-                                item.NewCurrent((y, x + 1));
-                            }
-                            // right
-                            else if (oldX > x)
-                            {
-                                // go left
-                                item.NewCurrent((y, x - 1));
-                            }
-                            // above
-                            else if (oldY < y)
-                            {
-                                // go down
-                                item.NewCurrent((y + 1, x));
-                            }
-                            // below
-                            else if (oldY > y)
-                            {
-                                // go up
-                                item.NewCurrent((y - 1, x));
-                            }
-                        }
-                        else if (grid[y][x] == '|')
-                        {
-                            // left
-                            if (oldX < x)
-                            {
-                                // go up
-                                item.NewCurrent((y - 1, x));
-                                // go down
-                                newBeams.Add(new Beams((y, x), (y + 1, x), item.History));
-                            }
-                            // right
-                            else if (oldX > x)
-                            {
-                                // go up
-                                item.NewCurrent((y - 1, x));
-                                // go down
-                                newBeams.Add(new Beams((y, x), (y + 1, x), item.History));
-                            }
-                            // above
-                            else if (oldY < y)
-                            {
-                                // go down
-                                item.NewCurrent((y + 1, x));
-                            }
-                            // below
-                            else if (oldY > y)
-                            {
-                                // go up
-                                item.NewCurrent((y - 1, x));
-                            }
-                        }
-                        else if (grid[y][x] == '-')
-                        {
-                            // left
-                            if (oldX < x)
-                            {
-                                // go right
-                                item.NewCurrent((y, x + 1));
-                            }
-                            // right
-                            else if (oldX > x)
-                            {
-                                // go left
-                                item.NewCurrent((y, x - 1));
-                            }
-                            // above
-                            else if (oldY < y)
-                            {
-                                // go left
-                                item.NewCurrent((y, x - 1));
-                                // go right
-                                newBeams.Add(new Beams((y, x), (y, x + 1), item.History));
-                            }
-                            // below
-                            else if (oldY > y)
-                            {
-                                // go left
-                                item.NewCurrent((y, x - 1));
-                                // go right
-                                newBeams.Add(new Beams((y, x), (y, x + 1), item.History));
-                            }
-                        }
-                    }
-                }
-                beams = beams.Where(x => !x.Done).ToList();
-                beams.AddRange(newBeams);
-                if (beams.Count == 0)
-                {
-                    j = 1000;
-                }
-            }
-            return energize.Count;
-        }
-
-        private class Beams
-        {
-            public Beams((int, int) current, (int, int) next)
-            {
-                Current = current;
-                History = new HashSet<((int, int), (int, int))>();
-                History.Add((current, next));
-                Next = next;
-                Done = false;
-            }
-            public Beams((int, int) current, (int, int) next, HashSet<((int, int), (int, int))> history)
-            {
-                Current = current;
-                History = history;
-                Next = next;
-                Done = false;
-            }
-
-            public (int, int) Current { get; set; }
-
-            public (int, int) Next { get; set; }
-
-            public HashSet<((int, int), (int, int))> History {get; set;}
-
-            public bool Done { get; set; }
-
-            public void NewCurrent((int,int) newNext)
-            {
-                if (History.Contains((Next, newNext)))
-                {
-                    Done = true;
-                }
-                else
-                {
-                    History.Add((Current, Next));
-                    Current = Next;
-                    Next = newNext;
-                }
-            }
+            return PewPew(grid, new GridWalker((0, -1), GridWalker.Right));
         }
         
         private object Part2()
@@ -244,194 +48,78 @@ namespace aoc2023
             var max = 0;
             for (var j = 0; j < grid[0].Count; j++)
             {
-                max = Math.Max(GoTime(grid, -1, j, 0, j),max);
-            }
-            for (var j = 0; j < grid[0].Count; j++)
-            {
-                max = Math.Max(GoTime(grid, grid.Count, j, grid.Count-1, j), max);
+                // go from every spot along the top and bottom
+                max = Math.Max(PewPew(grid, new GridWalker((-1, j), GridWalker.Down)), max);
+                max = Math.Max(PewPew(grid, new GridWalker((grid.Count, j), GridWalker.Up)), max);
             }
             for (var j = 0; j < grid.Count; j++)
             {
-                max = Math.Max(GoTime(grid, j, -1, j, 0), max);
-            }
-            for (var j = 0; j < grid.Count; j++)
-            {
-                max = Math.Max(GoTime(grid, j, grid[j].Count, j, grid[j].Count-1), max);
+                max = Math.Max(PewPew(grid, new GridWalker((j, -1), GridWalker.Right)), max);
+                max = Math.Max(PewPew(grid, new GridWalker((j, grid[j].Count), GridWalker.Left)), max);
             }
             return max;
         }
 
-        private int GoTime(List<List<char>> grid, int startY, int startX, int nextY, int nextX)
+        private int PewPew(List<List<char>> grid, GridWalker starting)
         {
-            var energize = new HashSet<(int, int)>();
-            var beams = new List<Beams>();
+            var energize = new HashSet<LocationTuple<int>>();
+            var beams = new List<GridWalker>();
             var max = 0;
-            beams.Add(new Beams((startY, startX), (nextY, nextX)));
+            // walk once because we start outside the grid
+            starting.Walk();
+            beams.Add(starting);
 
             for (var j = 0; j < 1000; j++)
             {
-                var newBeams = new List<Beams>();
+                var newBeams = new List<GridWalker>();
                 foreach (var item in beams)
                 {
-                    var newCurrent = item.Next;
-                    var y = newCurrent.Item1;
-                    var x = newCurrent.Item2;
-                    var oldY = item.Current.Item1;
-                    var oldX = item.Current.Item2;
+                    var y = item.Y;
+                    var x = item.X;
 
+                    // bounds check, I should just have a method to do this
                     if (y < 0 || y >= grid.Count || x < 0 || x >= grid[y].Count)
                     {
-                        item.Done = true;
+                        item.OutOfBounds = true;
                     }
                     else
                     {
-                        energize.Add(newCurrent);
-                        if (grid[y][x] == '\\')
+                        energize.Add(item.Current);
+
+                        // if we hit this we turn
+                        if (grid[y][x] == '\\' || grid[y][x] == '/')
                         {
-                            // left
-                            if (oldX < x)
-                            {
-                                // go down
-                                item.NewCurrent((y + 1, x));
-                            }
-                            // right
-                            else if (oldX > x)
-                            {
-                                // go up
-                                item.NewCurrent((y - 1, x));
-                            }
-                            // above
-                            else if (oldY < y)
-                            {
-                                // go right
-                                item.NewCurrent((y, x + 1));
-                            }
-                            // below
-                            else if (oldY > y)
-                            {
-                                // go left
-                                item.NewCurrent((y, x - 1));
-                            }
+                            item.Direction = dict[(grid[y][x], item.Direction)];
                         }
-                        else if (grid[y][x] == '/')
-                        {
-                            // left
-                            if (oldX < x)
-                            {
-                                // go up
-                                item.NewCurrent((y - 1, x));
-                            }
-                            // right
-                            else if (oldX > x)
-                            {
-                                // go down
-                                item.NewCurrent((y + 1, x));
-                            }
-                            // above
-                            else if (oldY < y)
-                            {
-                                // go left
-                                item.NewCurrent((y, x - 1));
-                            }
-                            // below
-                            else if (oldY > y)
-                            {
-                                // go right
-                                item.NewCurrent((y, x + 1));
-                            }
-                        }
-                        else if (grid[y][x] == '.')
-                        {
-                            // left
-                            if (oldX < x)
-                            {
-                                // go right
-                                item.NewCurrent((y, x + 1));
-                            }
-                            // right
-                            else if (oldX > x)
-                            {
-                                // go left
-                                item.NewCurrent((y, x - 1));
-                            }
-                            // above
-                            else if (oldY < y)
-                            {
-                                // go down
-                                item.NewCurrent((y + 1, x));
-                            }
-                            // below
-                            else if (oldY > y)
-                            {
-                                // go up
-                                item.NewCurrent((y - 1, x));
-                            }
-                        }
+                        // if we hit the next two we turn sometimes
                         else if (grid[y][x] == '|')
                         {
-                            // left
-                            if (oldX < x)
+                            if (item.Direction == GridWalker.Left || item.Direction == GridWalker.Right)
                             {
-                                // go up
-                                item.NewCurrent((y - 1, x));
-                                // go down
-                                newBeams.Add(new Beams((y, x), (y + 1, x), item.History));
-                            }
-                            // right
-                            else if (oldX > x)
-                            {
-                                // go up
-                                item.NewCurrent((y - 1, x));
-                                // go down
-                                newBeams.Add(new Beams((y, x), (y + 1, x), item.History));
-                            }
-                            // above
-                            else if (oldY < y)
-                            {
-                                // go down
-                                item.NewCurrent((y + 1, x));
-                            }
-                            // below
-                            else if (oldY > y)
-                            {
-                                // go up
-                                item.NewCurrent((y - 1, x));
+                                item.Direction = dict[(grid[y][x], item.Direction)];
+                                var newItem = new GridWalker(item);
+                                newItem.Direction = GridWalker.Down;
+                                newBeams.Add(newItem);
                             }
                         }
                         else if (grid[y][x] == '-')
                         {
-                            // left
-                            if (oldX < x)
+                            if (item.Direction == GridWalker.Up || item.Direction == GridWalker.Down)
                             {
-                                // go right
-                                item.NewCurrent((y, x + 1));
-                            }
-                            // right
-                            else if (oldX > x)
-                            {
-                                // go left
-                                item.NewCurrent((y, x - 1));
-                            }
-                            // above
-                            else if (oldY < y)
-                            {
-                                // go left
-                                item.NewCurrent((y, x - 1));
-                                // go right
-                                newBeams.Add(new Beams((y, x), (y, x + 1), item.History));
-                            }
-                            // below
-                            else if (oldY > y)
-                            {
-                                // go left
-                                item.NewCurrent((y, x - 1));
-                                // go right
-                                newBeams.Add(new Beams((y, x), (y, x + 1), item.History));
+                                item.Direction = dict[(grid[y][x], item.Direction)];
+                                var newItem = new GridWalker(item);
+                                newItem.Direction = GridWalker.Right;
+                                newBeams.Add(newItem);
                             }
                         }
+                        // everything else (and after we've turned) we walk
+                        item.Walk();
                     }
                 }
-                beams = beams.Where(x => !x.Done).ToList();
+                // Walk the new items once as well.
+                newBeams.ForEach(x => x.Walk());
+                // ignore the beams that are "finished"
+                beams = beams.Where(x => !x.Looping && !x.OutOfBounds).ToList();
                 beams.AddRange(newBeams);
                 if (beams.Count == 0)
                 {
@@ -439,29 +127,6 @@ namespace aoc2023
                 }
             }
             return energize.Count;
-        }
-
-        public static List<Tuple<int, int>> GetAdjacentNeighbours<T>(List<List<T>> grid, int x, int y)
-        {
-            var adj = new List<Tuple<int, int>>()
-            {
-                new Tuple<int, int>(0, -1),
-                new Tuple<int, int>(0, 1),
-                new Tuple<int, int>(1, 0),
-                new Tuple<int, int>(-1, 0),
-            };
-            List<Tuple<int, int>> neighbours = new List<Tuple<int, int>>();
-
-            for (int i = 0; i < 4; i++)
-            {
-                var newNeighbour = new Tuple<int,int>(y + adj[i].Item1, x + adj[i].Item2);
-
-                if (neighbours.Contains(newNeighbour) && (x != newNeighbour.Item1 || y != newNeighbour.Item2))
-                {
-                    neighbours.Add(newNeighbour);
-                }
-            }
-            return neighbours;
         }
     }
 }

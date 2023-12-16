@@ -6,15 +6,17 @@ namespace AdventLibrary.CustomObjects
 {
     public class GridWalker
     {
+        // These are static direction helpers.
         public static LocationTuple<int> Up = new LocationTuple<int>(-1, 0);
         public static LocationTuple<int> Down = new LocationTuple<int>(1, 0);
         public static LocationTuple<int> Left = new LocationTuple<int>(0, -1);
         public static LocationTuple<int> Right = new LocationTuple<int>(0, 1);
 
-        public GridWalker((int, int) current, LocationTuple<int> direction)
+        public GridWalker((int, int) current, LocationTuple<int> direction, int speed = 1)
         {
             Current = new LocationTuple<int>(current.Item1, current.Item2);
             Direction = direction;
+            Speed = speed;
 
             // hmm this assums you want to count the starting position.
             Path = new List<(LocationTuple<int>, LocationTuple<int>)>() { (Current, Direction) };
@@ -22,8 +24,6 @@ namespace AdventLibrary.CustomObjects
             Looping = false;
             OutOfBounds = false;
             Previous = Current - direction;
-
-            Speed = 1;
         }
 
         public GridWalker(GridWalker walker)

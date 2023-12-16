@@ -39,7 +39,7 @@ namespace aoc2023
         private object Part1()
         {
             var grid = ParseInput.ParseFileAsCharGrid(_filePath);
-            return PewPew(grid, new GridWalker((0, -1), GridWalker.Right));
+            return PewPew(grid, new GridWalker((0, 0), GridWalker.Right));
         }
         
         private object Part2()
@@ -49,13 +49,14 @@ namespace aoc2023
             for (var j = 0; j < grid[0].Count; j++)
             {
                 // go from every spot along the top and bottom
-                max = Math.Max(PewPew(grid, new GridWalker((-1, j), GridWalker.Down)), max);
-                max = Math.Max(PewPew(grid, new GridWalker((grid.Count, j), GridWalker.Up)), max);
+                max = Math.Max(PewPew(grid, new GridWalker((0, j), GridWalker.Down)), max);
+                max = Math.Max(PewPew(grid, new GridWalker((grid.Count-1, j), GridWalker.Up)), max);
             }
             for (var j = 0; j < grid.Count; j++)
             {
-                max = Math.Max(PewPew(grid, new GridWalker((j, -1), GridWalker.Right)), max);
-                max = Math.Max(PewPew(grid, new GridWalker((j, grid[j].Count), GridWalker.Left)), max);
+                // then left and right sides
+                max = Math.Max(PewPew(grid, new GridWalker((j, 0), GridWalker.Right)), max);
+                max = Math.Max(PewPew(grid, new GridWalker((j, grid[j].Count-1), GridWalker.Left)), max);
             }
             return max;
         }
@@ -65,8 +66,6 @@ namespace aoc2023
             var energize = new HashSet<LocationTuple<int>>();
             var beams = new List<GridWalker>();
             var max = 0;
-            // walk once because we start outside the grid
-            starting.Walk();
             beams.Add(starting);
 
             for (var j = 0; j < 1000; j++)

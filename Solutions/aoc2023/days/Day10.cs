@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.InteropServices;
 using AdventLibrary;
+using AdventLibrary.CustomObjects;
 using AdventLibrary.Helpers;
 using AdventLibrary.PathFinding;
 
@@ -31,6 +32,22 @@ namespace aoc2023
             {('F', 1, 0), (0,1)},
         };
 
+        private Dictionary<(char, LocationTuple<int>), LocationTuple<int>> characters2 = new Dictionary<(char, LocationTuple<int>), LocationTuple<int>>()
+        {
+            {('|', GridWalker.Up), GridWalker.Up},
+            {('|', GridWalker.Down), GridWalker.Down},
+            {('-', GridWalker.Left), GridWalker.Left},
+            {('-', GridWalker.Right), GridWalker.Right },
+            {('J', GridWalker.Right), GridWalker.Up },
+            {('J', GridWalker.Down), GridWalker.Left },
+            {('L', GridWalker.Down), GridWalker.Right },
+            {('L', GridWalker.Left), GridWalker.Up },
+            {('7', GridWalker.Right), GridWalker.Down },
+            {('7', GridWalker.Up), GridWalker.Left },
+            {('F', GridWalker.Left), GridWalker.Down },
+            {('F', GridWalker.Up), GridWalker.Right },
+        };
+
         public Solution Solve(string filePath)
         {
             _filePath = filePath;
@@ -40,12 +57,8 @@ namespace aoc2023
         private object Part1()
         {
             var grid = ParseInput.ParseFileAsCharGrid(_filePath);
-            var total = 1000000;
-            var counter = 0;
             var startingX = 0;
             var startingY = 0;
-            //GetLength(0) would be 3. for the 3 rows
-            //GetLength(1) is the 2nd dimension for the 4 columns.
             for (var i = 0; i < grid.Count; i++)
             {
                 for (var j = 0; j < grid[0].Count; j++)
@@ -59,39 +72,35 @@ namespace aoc2023
             }
 
             var maxLoop = 0;
-
-            var neighs = GridHelper.GetAdjacentNeighbours(grid, startingX, startingY);
-
-            foreach (var item in neighs)
+            var tests = new List<GridWalker>()
             {
-                var previousX = startingX;
-                var previousY = startingY;
-                var currentX = item.Item1;
-                var currentY = item.Item2;
+                new GridWalker((startingY, startingX), GridWalker.Up),
+                new GridWalker((startingY, startingX), GridWalker.Down),
+                new GridWalker((startingY, startingX), GridWalker.Left),
+                new GridWalker((startingY, startingX), GridWalker.Right),
+            };
+
+            foreach (var item in tests)
+            {
+                item.Walk();
+                item.OutOfBounds = !GridHelper.WithinGrid(grid, item.Current);
                 var currentLoop = 0;
-                while (grid[currentY][currentX] != 'S')
+                while (!item.Looping && !item.OutOfBounds)
                 {
-                    if (grid[currentY][currentX] == '.')
+                    if (grid[item.Y][item.X] == '.')
                     {
                         break;
                     }
-                    var cha = grid[currentY][currentX];
-                    if (!characters.ContainsKey((cha, previousX - currentX, previousY - currentY)))
+                    var cha = grid[item.Y][item.X];
+                    if (!characters2.ContainsKey((cha, item.Direction)))
                     {
                         break;
                     }
-                    var nextDest = characters[(cha, previousX - currentX, previousY - currentY)];
-                    previousX = currentX;
-                    previousY = currentY;
-                    currentX = previousX + nextDest.Item1;
-                    currentY = previousY + nextDest.Item2;
-                    currentLoop++;
+                    item.Direction = characters2[(cha, item.Direction)];
+                    item.Walk();
+                    item.OutOfBounds = !GridHelper.WithinGrid(grid, item.Current);
                 }
-                if (grid[currentY][currentX] == 'S')
-                {
-                    currentLoop++;
-                }
-                maxLoop = Math.Max(currentLoop, maxLoop);
+                maxLoop = Math.Max(item.UniqueLocationsVisited, maxLoop);
             }
             return maxLoop/2;
         }

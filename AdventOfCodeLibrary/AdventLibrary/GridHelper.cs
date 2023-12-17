@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AdventLibrary.CustomObjects;
 
 namespace AdventLibrary
 {
@@ -607,6 +608,24 @@ namespace AdventLibrary
         public static List<string> CharGridToStringList(List<List<char>> grid)
         {
             return grid.Select(x => x.Stringify()).ToList();
+        }
+
+        public static bool WithinGrid<T>(List<List<T>> grid, (int,int) coords)
+        {
+            return WithinGrid<T>(grid, coords.Item1, coords.Item2);
+        }
+
+        public static bool WithinGrid<T>(List<List<T>> grid, LocationTuple<int> coords)
+        {
+            return WithinGrid<T>(grid, coords.Item1, coords.Item2);
+        }
+
+        public static bool WithinGrid<T>(List<List<T>> grid, int y, int x)
+        {
+            return y >= 0 &&
+            y < grid.Count &&
+            x >= 0 &&
+            x < grid[y].Count;
         }
     }
 }

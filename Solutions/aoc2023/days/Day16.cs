@@ -77,7 +77,7 @@ namespace aoc2023
                     var x = item.X;
 
                     // bounds check, I should just have a method to do this
-                    if (y < 0 || y >= grid.Count || x < 0 || x >= grid[y].Count)
+                    if (!GridHelper.WithinGrid(grid, item.Current))
                     {
                         item.OutOfBounds = true;
                     }

@@ -28,8 +28,6 @@ Automation:
 
 Continue on CardObjectStuff
 
-Add a checkBounds() method to grid helper
-
 
 \([^)]*\) parse anything inside parentheses https://adventofcode.com/2018/day/24/input
 

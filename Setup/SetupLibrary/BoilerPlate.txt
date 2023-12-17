@@ -21,7 +21,7 @@ namespace aoc{YEAR}
             var lines = ParseInput.GetLinesFromFile(_filePath);
 			var numbers = ParseInput.GetNumbersFromFile(_filePath);
             var nodes = ParseInput.ParseFileAsGraph(_filePath);
-            var grid = ParseInput.ParseFileAsGrid(_filePath);
+            var grid = ParseInput.ParseFileAsCharGrid(_filePath);
             var total = 1000000;
 			var count = 0;
             

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary.CustomObjects;
+using AdventLibrary.PathFinding;
 
 namespace AdventLibrary
 {
@@ -626,6 +627,58 @@ namespace AdventLibrary
             y < grid.Count &&
             x >= 0 &&
             x < grid[y].Count;
+        }
+
+        /* Pretty clunky method but it works faily fast.
+         * 1. Assume you have a grid that has a loop/connected path going through it
+         * 2. Convert to a numerical grid where any of the special chars are 10000 else 0
+         *      This is basically putting "walls" in the grid
+         * 3. Wrap the outside in an extra layer to handle cases where things connect to the wall
+         * 4. Throw Dijkstra's at it.
+         * 5. Analyze the results, anything that has a weight of 0 doesn't cross a wall and is outside the interior.
+         *      Anything else must be in the interior.
+         * NOTE: this assume the loop fully encompases everything and doesn't use the edge of the graph as a wall.
+         *      This could probably be achieved by wrapping in another wall layer, and then wrapping in a 0 layer or something. */
+        public static List<List<T>> FillInterior<T>(List<List<T>> grid, T specialCharacter)
+        {
+            var numGrid = new List<List<int>>();
+            for (var i = 0; i < grid.Count; i++)
+            {
+                numGrid.Add(new List<int>());
+                for (var j = 0; j < grid[i].Count; j++)
+                {
+                    if (grid[i][j].Equals(specialCharacter))
+                    {
+                        numGrid[i].Add(10000);
+                    }
+                    else
+                    {
+                        numGrid[i].Add(0);
+                    }
+                }
+            }
+            numGrid.Add(Enumerable.Repeat(0, numGrid[0].Count).ToList());
+            numGrid.Insert(0, Enumerable.Repeat(0, numGrid[0].Count).ToList());
+            foreach (var item in numGrid)
+            {
+                item.Insert(0, 0);
+                item.Add(0);
+            }
+            var distances = Dijkstra.Search(numGrid, Tuple.Create(0, 0));
+            for (var i = 0; i < grid.Count; i++)
+            {
+                for (var j = 0; j < grid[i].Count; j++)
+                {
+                    if (!grid[i][j].Equals(specialCharacter))
+                    {
+                        if (distances[Tuple.Create(j + 1, i + 1)] >= 10000)
+                        {
+                            grid[i][j] = specialCharacter;
+                        }
+                    }
+                }
+            }
+            return grid;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace aoc2023
     public class Day18: ISolver
     {
         private string _filePath;
-        private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+        private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t', '(', ')' };
         public Solution Solve(string filePath)
         {
             _filePath = filePath;
@@ -85,44 +85,6 @@ namespace aoc2023
                 {
                     if (grid[i][j] != '#')
                     {
-                        /*
-                        var bools = new List<bool> { false, false, false ,false };
-                        for (var k = i; k >= 0; k--)
-                        {
-                            if (grid[k][j] == '#')
-                            {
-                                bools[0] = true;
-                                break;
-                            }
-                        }
-                        for (var k = i; k < grid.Count; k++)
-                        {
-                            if (grid[k][j] == '#')
-                            {
-                                bools[1] = true;
-                                break;
-                            }
-                        }
-                        for (var k = j; k >= 0; k--)
-                        {
-                            if (grid[i][k] == '#')
-                            {
-                                bools[2] = true;
-                                break;
-                            }
-                        }
-                        for (var k = j; k < grid[0].Count; k++)
-                        {
-                            if (grid[i][k] == '#')
-                            {
-                                bools[3] = true;
-                                break;
-                            }
-                        }
-                        if (bools.All(x => x))
-                        {
-                            grid[i][j] = '@';
-                        }*/
                         if (distances[Tuple.Create(j + 1, i + 1)] >= 10000)
                         {
                             grid[i][j] = '@';
@@ -145,12 +107,41 @@ namespace aoc2023
             PrintGrid2(grid);
             return count;
         }
-        
+
         private object Part2()
         {
-            return 0;
-        }
+            var dict = new Dictionary<string, LocationTuple<long>>()
+            {
+                { "0",GridWalker.RightLong},
+                { "1",GridWalker.DownLong},
+                { "2",GridWalker.LeftLong},
+                { "3",GridWalker.UpLong},
 
+            };
+            var lines = ParseInput.GetLinesFromFile(_filePath);
+            var listy = new List<LocationTuple<long>>();
+            var current = new LocationTuple<long>(0,0);
+            var edgeLength = 1;
+
+            // #70c710 into 461937 and Right
+            foreach (var line in lines)
+            {
+                var tokens = line.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+                var specialToken = tokens[^1];
+                var hex = specialToken.Substring(0, specialToken.Length - 1);
+                var hexNum = hex.ConvertToHex();
+                var dir = dict[specialToken[^1].ToString()];
+
+                var next = current + (dir * hexNum);
+                listy.Add(next);
+                current = next;
+                edgeLength += hexNum;
+            }
+            var area = MathHelper.ShoelaceArea(listy);
+            // https://en.wikipedia.org/wiki/Pick%27s_theorem
+            // area + "circumference" /2 + 1 = total area for this case
+            return area + edgeLength / 2 + 1;
+        }
 
         public static void PrintGrid2<T>(List<List<T>> grid)
         {

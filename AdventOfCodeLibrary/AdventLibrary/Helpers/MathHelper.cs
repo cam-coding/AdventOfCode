@@ -1,5 +1,9 @@
 ﻿using AdventLibrary;
+using AdventLibrary.CustomObjects;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 
@@ -116,9 +120,45 @@ namespace AdventLibrary.Helpers
             }
         }
 
-        public struct Congruence
+        public static double ShoelaceArea(List<LocationTuple<int>> points)
         {
-            long a, m;
-        };
+            int n = points.Count;
+            double a = 0.0;
+            for (int i = 0; i < n - 1; i++)
+            {
+                a += points[i].Item1 * points[i + 1].Item2 - points[i + 1].Item1 * points[i].Item2;
+            }
+            return Math.Abs(a + points[n - 1].Item1 * points[0].Item2 - points[0].Item1 * points[n - 1].Item2) / 2.0;
+        }
+
+        /* Calculate the area of a simple polygon using a set of coords
+         * https://en.wikipedia.org/wiki/Shoelace_formula
+         * */
+        public static long ShoelaceArea(List<LocationTuple<long>> points)
+        {
+            int n = points.Count;
+            long a = 0;
+            for (int i = 0; i < n - 1; i++)
+            {
+                a += points[i].Item1 * points[i + 1].Item2 - points[i + 1].Item1 * points[i].Item2;
+            }
+            return Math.Abs(a + points[n - 1].Item1 * points[0].Item2 - points[0].Item1 * points[n - 1].Item2) / 2;
+        }
+
+        public static long PicksAndShoelaceArea(List<LocationTuple<long>> points)
+        {
+            long edgeLength = 1;
+            var previous = points[^1];
+            foreach (var item in points)
+            {
+                edgeLength += Math.Abs(previous.Item1 - item.Item1) + Math.Abs(previous.Item2 - item.Item2);
+                previous = item;
+            }
+            var area = ShoelaceArea(points);
+
+            // https://en.wikipedia.org/wiki/Pick%27s_theorem
+            // area + "circumference" /2 + 1 = total area for this case
+            return area + edgeLength / 2 + 1;
+        }
     }
 }

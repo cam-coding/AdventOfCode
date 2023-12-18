@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace AdventLibrary.CustomObjects
 {
@@ -18,6 +19,19 @@ namespace AdventLibrary.CustomObjects
             { Down, Up },
             { Left, Right },
             { Right, Left },
+        };
+
+        public static LocationTuple<long> UpLong = new LocationTuple<long>(-1, 0);
+        public static LocationTuple<long> DownLong = new LocationTuple<long>(1, 0);
+        public static LocationTuple<long> LeftLong = new LocationTuple<long>(0, -1);
+        public static LocationTuple<long> RightLong = new LocationTuple<long>(0, 1);
+        public static List<LocationTuple<long>> DirectionsLong = new List<LocationTuple<long>>() { UpLong, DownLong, LeftLong, RightLong };
+        public static Dictionary<LocationTuple<long>, LocationTuple<long>> OppositesLong = new Dictionary<LocationTuple<long>, LocationTuple<long>>()
+        {
+            { UpLong, DownLong },
+            { DownLong, UpLong },
+            { LeftLong, RightLong },
+            { RightLong, LeftLong },
         };
 
         public GridWalker((int, int) current, LocationTuple<int> direction, int speed = 1)

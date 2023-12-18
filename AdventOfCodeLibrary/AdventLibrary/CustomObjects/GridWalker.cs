@@ -11,6 +11,14 @@ namespace AdventLibrary.CustomObjects
         public static LocationTuple<int> Down = new LocationTuple<int>(1, 0);
         public static LocationTuple<int> Left = new LocationTuple<int>(0, -1);
         public static LocationTuple<int> Right = new LocationTuple<int>(0, 1);
+        public static List<LocationTuple<int>> Directions = new List<LocationTuple<int>>() { Up, Down, Left, Right };
+        public static Dictionary<LocationTuple<int>, LocationTuple<int>> Opposites = new Dictionary<LocationTuple<int>, LocationTuple<int>>()
+        {
+            { Up, Down },
+            { Down, Up },
+            { Left, Right },
+            { Right, Left },
+        };
 
         public GridWalker((int, int) current, LocationTuple<int> direction, int speed = 1)
         {
@@ -30,8 +38,8 @@ namespace AdventLibrary.CustomObjects
         {
             Current = walker.Current;
             Direction = walker.Direction;
-            Path = walker.Path;
-            History = walker.History;
+            Path = new List<(LocationTuple<int>, LocationTuple<int>)>(walker.Path);
+            History = new HashSet<(LocationTuple<int>, LocationTuple<int>)>(walker.History);
             Looping = walker.Looping;
             OutOfBounds = walker.OutOfBounds;
             Previous = walker.Previous;

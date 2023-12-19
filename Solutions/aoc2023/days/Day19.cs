@@ -2,9 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
-using AdventLibrary.PathFinding;
-using AStarSharp;
 
 namespace aoc2023
 {
@@ -144,7 +141,6 @@ namespace aoc2023
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var dict = new Dictionary<string, string>();
-            var accepted = new List<Part>();
             var myBool = false;
             var nodes = new Dictionary<string, TreeNode>();
             foreach (var line in lines)
@@ -160,7 +156,6 @@ namespace aoc2023
                 }
                 else
                 {
-                    
                     foreach (var item in dict)
                     {
                         nodes.Add(item.Key, new TreeNode(item.Key));
@@ -178,37 +173,6 @@ namespace aoc2023
                 var node = nodes[item.Key];
 
                 var tokens = item.Value.Split(",").ToList().OnlyRealStrings(delimiterChars);
-                /*
-                var special = true;
-                foreach (var tok in tokens)
-                {
-                    var toks = tok.Split(':', '<', '>').ToList().OnlyRealStrings(delimiterChars);
-                    var lookup = toks[^1];
-                    if (!lookup.Equals("A"))
-                    {
-                        special = false;
-                    }
-                }
-                if (special)
-                {
-                    node.Connected.Add((nodes["A"], 'i', -1, -1));
-                    continue;
-                }
-                special = true;
-                foreach (var tok in tokens)
-                {
-                    var toks = tok.Split(':', '<', '>').ToList().OnlyRealStrings(delimiterChars);
-                    var lookup = toks[^1];
-                    if (!lookup.Equals("R"))
-                    {
-                        special = false;
-                    }
-                }
-                if (special)
-                {
-                    node.Connected.Add((nodes["R"], 'i', -1, -1));
-                    continue;
-                }*/
 
                 foreach (var tok in tokens)
                 {
@@ -240,28 +204,23 @@ namespace aoc2023
                 }
             }
             var trav = new TraversalUnit();
+            var myVal = (ulong)Calc(trav);
             _special = new List<ulong>();
-            var value = Traverse(trav, nodes["in"]);
+            var value = Traverse(trav, nodes["in"], Calc(trav));
 
             ulong total = 0;
             foreach (var item in _special)
             {
                 total += item;
             }
-            ulong answer2 = 4000;
-            answer2 *= 4000;
-            answer2 *= 4000;
-            answer2 *= 4000;
-            answer2 = answer2 - total;
-            var blah = (ulong)answer2;
+            ulong answer2 = myVal - total;
             return answer2;
         }
 
-        private long Traverse(TraversalUnit current, TreeNode node)
+        private long Traverse(TraversalUnit current, TreeNode node, long debug)
         {
             if (node.Connected.Count == 0)
             {
-                // var con = node.Connected.Keys.ToList()[0];
                 if (node.Key.Equals("A"))
                 {
                     return Calc(current);
@@ -273,7 +232,6 @@ namespace aoc2023
                 }
             }
             long total = 0;
-            var past = new List<(char, int, int)>();
             var currentRemain = new TraversalUnit(current);
             foreach (var item in node.Connected)
             {
@@ -283,97 +241,19 @@ namespace aoc2023
                 var min = item.Item3;
                 var max = item.Item4;
 
-                /*if (key.Equals("A"))
-                {
-                    var remain = new TraversalUnit(current);
-                    var remainTotal = 1;
-                    foreach (var old in past)
-                    {
-                        if (old.Item1 == 'a')
-                        {
-                            if (remain.MaxA != -1)
-                            {
-                                var temp = old.Item2 - 1;
-                                if (temp != 0)
-                                {
-                                    remainTotal *= temp;
-                                }
-                                temp = 4000 - old.Item3;
-                                if (temp != 0)
-                                {
-                                    remainTotal *= temp;
-                                }
-                            }
-                        }
-                        else if (old.Item1 == 'x')
-                        {
-                            if (remain.MaxX != -1)
-                            {
-                                var temp = old.Item2 - 1;
-                                if (temp != 0)
-                                {
-                                    remainTotal *= temp;
-                                }
-                                temp = 4000 - old.Item3;
-                                if (temp != 0)
-                                {
-                                    remainTotal *= temp;
-                                }
-                            }
-                        }
-                        else if (old.Item1 == 's')
-                        {
-                            if (remain.MaxS != -1)
-                            {
-                                var temp = old.Item2 - 1;
-                                if (temp != 0)
-                                {
-                                    remainTotal *= temp;
-                                }
-                                temp = 4000 - old.Item3;
-                                if (temp != 0)
-                                {
-                                    remainTotal *= temp;
-                                }
-                            }
-                        }
-                        else if (old.Item1 == 'm')
-                        {
-                            if (remain.MaxM != -1)
-                            {
-                                var temp = old.Item2 - 1;
-                                if (temp != 0)
-                                {
-                                    remainTotal *= temp;
-                                }
-                                temp = 4000 - old.Item3;
-                                if (temp != 0)
-                                {
-                                    remainTotal *= temp;
-                                }
-                            }
-                        }
-                    }
-                }
-                else */if (cr == 'i')
+                if (cr == 'i')
                 {
                     // var remain = HandlePast(current, past);
-                    var val = Traverse(currentRemain, nextNode);
-                    if (val != 0)
-                    {
-                        total += val;
-                    }
+                    var val = Traverse(currentRemain, nextNode, Calc(currentRemain));
+                    total += val;
                 }
                 else
                 {
-                    //past.Add(value);
-
-                    //var newy = HandlePast(current, past);
                     var newy = new TraversalUnit(currentRemain);
                     if (cr == 'a')
                     {
-                        newy.MinA = min;
-                        newy.MaxA = max;
+                        newy.MinA = Math.Max(min, currentRemain.MinA);
+                        newy.MaxA = Math.Min(max, currentRemain.MaxA);
                         if (max < currentRemain.MaxA)
                         {
                             currentRemain.MinA = max + 1;
@@ -385,8 +265,8 @@ namespace aoc2023
                     }
                     else if (cr == 'x')
                     {
-                        newy.MinX = min;
-                        newy.MaxX = max;
+                        newy.MinX = Math.Max(min, currentRemain.MinX);
+                        newy.MaxX = Math.Min(max, currentRemain.MaxX);
                         if (max < currentRemain.MaxX)
                         {
                             currentRemain.MinX = max + 1;
@@ -398,8 +278,8 @@ namespace aoc2023
                     }
                     else if (cr == 's')
                     {
-                        newy.MinS = min;
-                        newy.MaxS = max;
+                        newy.MinS = Math.Max(min, currentRemain.MinS);
+                        newy.MaxS = Math.Min(max, currentRemain.MaxS);
                         if (max < currentRemain.MaxS)
                         {
                             currentRemain.MinS = max + 1;
@@ -411,8 +291,8 @@ namespace aoc2023
                     }
                     else if (cr == 'm')
                     {
-                        newy.MinM = min;
-                        newy.MaxM = max;
+                        newy.MinM = Math.Max(min, currentRemain.MinM);
+                        newy.MaxM = Math.Min(max, currentRemain.MaxM);
                         if (max < currentRemain.MaxM)
                         {
                             currentRemain.MinM = max + 1;
@@ -423,89 +303,26 @@ namespace aoc2023
                         }
                     }
 
-                    var val = Traverse(newy, nextNode);
-                    if (val != 0)
-                    {
-                        total += val;
-                    }
+                    var val = Traverse(newy, nextNode, Calc(newy));
+                    total += val;
                 }
+            }
+            if (total > debug)
+            {
+                Console.WriteLine("error");
             }
             return total;
-            /*
-            if (total != 1)
-            {
-                return total;
-            }
-            return 0;*/
-        }
-
-        private TraversalUnit HandlePast(TraversalUnit current, List<(char, int, int)> past)
-        {
-            var remain = new TraversalUnit(current);
-            foreach (var old in past)
-            {
-                if (old.Item1 == 'a')
-                {
-                    if (remain.MaxA != -1)
-                    {
-                        if (old.Item3 < remain.MaxA)
-                        {
-                            remain.MinA = old.Item3 + 1;
-                        }
-                        else
-                        {
-                            remain.MaxA = old.Item2 + 1;
-                        }
-                    }
-                }
-                else if (old.Item1 == 'x')
-                {
-                    if (remain.MaxX != -1)
-                    {
-                        if (old.Item3 < remain.MaxX)
-                        {
-                            remain.MinX = old.Item3 + 1;
-                        }
-                        else
-                        {
-                            remain.MaxX = old.Item2 + 1;
-                        }
-                    }
-                }
-                else if (old.Item1 == 's')
-                {
-                    if (remain.MaxS != -1)
-                    {
-                        if (old.Item3 < remain.MaxS)
-                        {
-                            remain.MinS = old.Item3 + 1;
-                        }
-                        else
-                        {
-                            remain.MaxS = old.Item2 + 1;
-                        }
-                    }
-                }
-                else if (old.Item1 == 'm')
-                {
-                    if (remain.MaxM != -1)
-                    {
-                        if (old.Item3 < remain.MaxM)
-                        {
-                            remain.MinM = old.Item3 + 1;
-                        }
-                        else
-                        {
-                            remain.MaxM = old.Item2 + 1;
-                        }
-                    }
-                }
-            }
-            return remain;
         }
 
         private long Calc(TraversalUnit current)
         {
+            if (current.MaxA == -1 ||
+                current.MaxS == -1 ||
+                current.MaxM == -1 ||
+                current.MaxX == -1)
+            {
+                return 0;
+            }
             long val = 1;
             val = (long)Math.Max((current.MaxX - current.MinX + 1),1) *
                 (long)Math.Max((current.MaxA - current.MinA + 1), 1) *

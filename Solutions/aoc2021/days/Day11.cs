@@ -16,7 +16,7 @@ namespace aoc2021
         private int _counter2;
         private List<List<int>> grid;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
             return new Solution(Part1(), Part2());

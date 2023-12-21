@@ -10,7 +10,7 @@ namespace aoc2016
   {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t', '[', ']' };
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
             return new Solution(Part1(), Part2());

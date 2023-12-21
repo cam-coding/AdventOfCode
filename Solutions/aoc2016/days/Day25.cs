@@ -9,7 +9,7 @@ namespace aoc2016
         private List<bool> _historyBool;
         private bool _valid;
 
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             return new Solution(Part1(), Part2());
         }

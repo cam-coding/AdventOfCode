@@ -12,7 +12,7 @@ namespace aoc2015
         private Dictionary<string, List<(string, int)>> _distances = new Dictionary<string, List<(string, int)>>();
         private List<string> _listOfLocations = new List<string>();
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
             return new Solution(Part1(), Part2());

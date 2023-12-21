@@ -17,10 +17,10 @@ namespace Runner
             {
                 var testSolver = helper.GetSolver(day, year);
                 Console.WriteLine("<<<<<TEST INPUT START>>>>>");
-                testSolver.Solve(testFilePath).Output();
+                testSolver.Solve(testFilePath, true).Output();
                 Console.WriteLine("<<<<<TEST INPUT END>>>>>");
             }
-            solver.Solve(filePath).Output();
+            solver.Solve(filePath, false).Output();
         }
     }
 }

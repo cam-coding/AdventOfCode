@@ -8,7 +8,7 @@ namespace aoc2021
     public class Day05: ISolver
     {
         private string _filePath;
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
             /*

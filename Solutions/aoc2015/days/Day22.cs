@@ -9,7 +9,7 @@ namespace aoc2015
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
 
         private int best = int.MaxValue;
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
             return new Solution(Part1(), Part2());

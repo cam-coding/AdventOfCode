@@ -13,13 +13,13 @@ namespace aoc2023
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
         public Dictionary<bool,int> myTotals;
 
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
-            return new Solution(Part1(), Part2());
+            return new Solution(Part1(isTest), Part2(isTest));
         }
 
-        private object Part1()
+        private object Part1(bool isTest = false)
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var dict = new Dictionary<string, IModule>();
@@ -168,8 +168,8 @@ namespace aoc2023
             }
             return -1;
         }
-        
-        private object Part2()
+
+        private object Part2(bool isTest = false)
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var dict = new Dictionary<string, IModule>();
@@ -228,12 +228,16 @@ namespace aoc2023
 
             var button = dict["button"];
 
-            var hashy = new HashSet<string>();
-            var hashy2 = new HashSet<string>();
             var listy = new List<string>();
-            var iterations = 1000000;
+            var iterations = 10000;
             var trackingCounts = new List<(int, int)>();
-            var personalList = new List<string>();
+            var personalDict = new Dictionary<string, List<int>>()
+            {
+                { "mf", new List<int>() },
+                { "ss", new List<int>() },
+                { "fz", new List<int>() },
+                { "fh", new List<int>() },
+            };
             for (var i = 0; i < iterations; i++)
             {
                 var currentTotals = new Dictionary<bool, int>() { { false, 0 }, { true, 0 } };
@@ -245,6 +249,9 @@ namespace aoc2023
                     var nextRipple = new List<(IModule, bool, IModule)>();
                     foreach (var item in ripple)
                     {
+                        if (!isTest)
+                        {
+                        }
                         var result = item.Item1.Pulse(item.Item2, item.Item3);
                         if (result.Count > 0)
                         {
@@ -270,29 +277,6 @@ namespace aoc2023
                     }
                 }
                 key += currentTotals[false] + "" + currentTotals[true];
-                if (!hashy.Add(key))
-                {
-                    var cycleLength = IsCycle(listy);
-                    if (cycleLength != -1)
-                    {
-                        var cycleCounts = trackingCounts[..cycleLength];
-                        long falses = cycleCounts.Sum(x => x.Item1);
-                        long trues = cycleCounts.Sum(x => x.Item2);
-                        long totalCycles = iterations / cycleLength;
-                        long val = (falses * totalCycles) * (trues * totalCycles);
-                        return val;
-                        /*
-                        var divisor = i / cycleLength;
-                        var rem = iterations % cycleLength;
-                        var total = ((myTotals[false]/ divisor) * totalCycles) * ((myTotals[true] / divisor) * totalCycles);
-                        total += ((myTotals[false] / divisor) * rem) * ((myTotals[true]/divisor) * rem);
-                        return total;*/
-                    }
-                }
-                else
-                {
-                    personalList.Add("" + currentTotals[false] + "" + currentTotals[true]);
-                }
                 myTotals[false] += currentTotals[false];
                 myTotals[true] += currentTotals[true];
                 listy.Add(key);

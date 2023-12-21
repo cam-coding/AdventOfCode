@@ -53,7 +53,7 @@ namespace aoc2016
 
         private int _totalObjects;
 
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             return new Solution(Part1(), Part2());
         }

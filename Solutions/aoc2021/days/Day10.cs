@@ -9,7 +9,7 @@ namespace aoc2021
     {
         private string _filePath;
         private Dictionary<char, char> pairs;
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
             pairs = new Dictionary<char, char>();

@@ -8,7 +8,7 @@ namespace aoc2023
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
 

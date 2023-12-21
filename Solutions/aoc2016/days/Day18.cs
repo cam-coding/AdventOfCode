@@ -7,7 +7,7 @@ namespace aoc2016
     public class Day18: ISolver
   {
         private string _filePath;
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
             return new Solution(Part1(), Part2());

@@ -30,7 +30,7 @@ namespace aoc2023
                 { ('-', GridWalker.Up), GridWalker.Left},
                 { ('-', GridWalker.Down), GridWalker.Left},
             };
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
             return new Solution(Part1(), Part2());

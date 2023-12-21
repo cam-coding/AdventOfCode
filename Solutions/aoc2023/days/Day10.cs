@@ -48,7 +48,7 @@ namespace aoc2023
             {('F', GridWalker.Up), GridWalker.Right },
         };
 
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
             return new Solution(Part1(), Part2());

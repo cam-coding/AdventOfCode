@@ -7,7 +7,7 @@ namespace aoc2021
 {
     public class Day02: ISolver
     {
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             /*
             var letters = AdventLibrary.StringParsing.GetStringBetweenTwoCharacters(input, "a", "b");

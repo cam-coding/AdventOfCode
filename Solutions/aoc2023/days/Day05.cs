@@ -15,7 +15,7 @@ namespace aoc2023
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
         List<Dictionary<(long, long), (long, long)>> _dicts = new List<Dictionary<(long, long), (long, long)>>();
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
 

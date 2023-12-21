@@ -10,7 +10,7 @@ namespace aoc2023
     {
         private string _filePath;
         private char[] symbols = { '!', '@', '#', '$', '%', '^', '&', '*', '+', '/', '=', '-' };
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
 

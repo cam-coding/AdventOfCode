@@ -10,7 +10,7 @@ namespace aoc2016
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
         private char[] openDoors = { 'b', 'c', 'd', 'e', 'f' };
 
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
             return new Solution(Part1(), Part2());

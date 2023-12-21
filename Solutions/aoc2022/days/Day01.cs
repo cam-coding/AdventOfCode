@@ -7,7 +7,7 @@ namespace aoc2022
 {
     public class Day01: ISolver
     {
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             return new Solution(Part1(filePath), Part2(filePath));
         }

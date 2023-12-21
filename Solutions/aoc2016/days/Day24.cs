@@ -13,7 +13,7 @@ namespace aoc2016
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
         private char[] specialChars = { '0', '1', '2', '3', '4', '5', '6', '7' };
         private int[,] _arr = new int[8, 8];
-        public Solution Solve(string filePath)
+        public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
             return new Solution(Part1(), Part2());

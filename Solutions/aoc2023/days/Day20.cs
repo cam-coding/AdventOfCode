@@ -228,9 +228,7 @@ namespace aoc2023
 
             var button = dict["button"];
 
-            var listy = new List<string>();
-            var iterations = 10000;
-            var trackingCounts = new List<(int, int)>();
+            var iterations = 20000;
             var personalDict = new Dictionary<string, List<int>>()
             {
                 { "mf", new List<int>() },
@@ -238,19 +236,35 @@ namespace aoc2023
                 { "fz", new List<int>() },
                 { "fh", new List<int>() },
             };
-            for (var i = 0; i < iterations; i++)
+            for (var i = 1; i < iterations; i++)
             {
-                var currentTotals = new Dictionary<bool, int>() { { false, 0 }, { true, 0 } };
                 var ripple = button.Pulse(false, null);
-                currentTotals[false]++;
-                var key = string.Empty;
                 while (ripple.Count > 0)
                 {
+                    // recepient, value sent, sender
                     var nextRipple = new List<(IModule, bool, IModule)>();
                     foreach (var item in ripple)
                     {
+                        // this is the magic for part 2. RX attaches to 1 conjunction
+                        // which attaches to the 4 conjunctions in the dict. Look for cycles
+                        // in those and LCM
                         if (!isTest)
                         {
+                            if (item.Item1.Key.Equals("ql"))
+                            {
+                                if (personalDict.ContainsKey(item.Item3.Key))
+                                {
+                                    if (item.Item2)
+                                    {
+                                        personalDict[item.Item3.Key].Add(i);
+                                        if (personalDict.All(x => x.Value.Count >= 1))
+                                        {
+                                            var repeats = personalDict.Select(x => (long)x.Value[0]);
+                                            return MathHelper.LCM(repeats);
+                                        }
+                                    }
+                                }
+                            }
                         }
                         var result = item.Item1.Pulse(item.Item2, item.Item3);
                         if (result.Count > 0)
@@ -258,31 +272,10 @@ namespace aoc2023
                             nextRipple.AddRange(result);
                         }
                     }
-                    foreach (var item in ripple)
-                    {
-                        key = key + item.Item3.Key + ':' + item.Item2.ToString() + ';';
-                    }
-                    key += "$";
                     ripple = nextRipple;
-                    if (nextRipple.Count == 0)
-                    {
-                        if (ripple.Count == 1 && !ripple[0].Item2)
-                        {
-                            return i;
-                        }
-                    }
-                    foreach (var item in ripple)
-                    {
-                        currentTotals[item.Item2]++;
-                    }
                 }
-                key += currentTotals[false] + "" + currentTotals[true];
-                myTotals[false] += currentTotals[false];
-                myTotals[true] += currentTotals[true];
-                listy.Add(key);
-                trackingCounts.Add((currentTotals[false], currentTotals[true]));
             }
-            return myTotals[false] * myTotals[true];
+            return 0;
         }
 
         public interface IModule

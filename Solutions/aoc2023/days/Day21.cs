@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Helpers;
+using AdventLibrary.PathFinding;
 
 namespace aoc2023
 {
@@ -18,38 +20,35 @@ namespace aoc2023
 
         private object Part1()
         {
-            var lines = ParseInput.GetLinesFromFile(_filePath);
-			var numbers = ParseInput.GetNumbersFromFile(_filePath);
-            var nodes = ParseInput.ParseFileAsGraph(_filePath);
-            var grid = ParseInput.ParseFileAsGrid(_filePath);
-            var total = 1000000;
-			var counter = 0;
+            var grid = ParseInput.ParseFileAsCharGrid(_filePath);
             
-            var ln1 = lines[0];
-            var ln2 = lines[1];
-            for (var i = 0; i < lines.Count; i++)
+            var numGrid = new List<List<int>>();
+            (int, int) starting = (0,0);
+            for (var i = 0; i < grid.Count; i++)
             {
-                        
-            }
-			
-			foreach (var line in lines)
-			{
-                var tokens = line.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
-				var nums = StringParsing.GetNumbersFromString(line);
-                
-				foreach (var num in nums)
-				{
-				}
-
-                for (var i = 0; i < 0; i++)
+                numGrid.Add(new List<int>());
+                for (var j = 0; j < grid[i].Count; j++)
                 {
-                    for (var j = 0; j < 0; j++)
+                    if (grid[i][j] == '.')
                     {
-                        
+                        numGrid[i].Add(1);
+                    }
+                    else if (grid[i][j] == '#')
+                    {
+                        numGrid[i].Add(10000);
+                    }
+                    else if (grid[i][j] == 'S')
+                    {
+                        starting = (i, j);
+                        numGrid[i].Add(1);
                     }
                 }
-			}
-            return 0;
+            }
+            var results = Dijkstra.Search(numGrid, new Tuple<int, int>(starting.Item1, starting.Item2)).ToImmutableSortedDictionary();
+            var blah1 = results.Where(x => x.Value <= 1).Count();
+            var blah2 = results.Where(x => x.Value <= 2 && x.Value%2 == 0).Count();
+            var blah3 = results.Where(x => x.Value <= 3 && x.Value % 2 == 0).Count();
+            return results.Where(x => x.Value <= 64 && x.Value % 2 == 0).Count();
         }
         
         private object Part2()

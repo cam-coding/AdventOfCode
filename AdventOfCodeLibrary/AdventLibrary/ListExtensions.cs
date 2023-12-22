@@ -129,6 +129,14 @@ namespace AdventLibrary
             }
             return list;
         }
+        public static List<T> FillEmptyListWithValue<T>(this List<T> list, T value, int count)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                list.Add(value);
+            }
+            return list;
+        }
 
         public static List<List<T>> GenerateCombinationsWithRepetition<T>(this List<T> combinationList, int k)
         {

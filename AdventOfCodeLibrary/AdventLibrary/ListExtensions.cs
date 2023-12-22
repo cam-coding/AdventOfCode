@@ -34,6 +34,16 @@ namespace AdventLibrary
             return true;
         }
 
+        public static List<T> Clone<T>(this List<T> original)
+        {
+            var newList = new List<T>();
+            for (var x = 0; x < original.Count; x++)
+            {
+                newList.Add(original[x]);
+            }
+            return newList;
+        }
+
         public static List<List<T>> Clone2dList<T>(this List<List<T>> original)
         {
             var listy2d = new List<List<T>>();

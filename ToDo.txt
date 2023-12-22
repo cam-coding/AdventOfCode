@@ -12,6 +12,7 @@ Write methods to rotate grids around a point? https://en.wikipedia.org/wiki/Cart
 
 maybe implement something for altering grids per iteration on an action?
 Build something to count items in a grid
+build something to roll/fall items in a 2D/3D grid.
 
 CreateNewDay should create any missing parts even if solution is there
 	aka testinput/input

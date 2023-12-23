@@ -47,7 +47,7 @@ namespace aoc2023
             var results = Dijkstra.Search(numGrid, new Tuple<int, int>(starting.Item1, starting.Item2)).ToImmutableSortedDictionary();
             var blah = results.Where(x => x.Value <= 6 && x.Value % 2 == 0).Count();
             var blah2 = results.Where(x => x.Value <= 10 && x.Value % 2 == 0).Count();
-            return results.Where(x => x.Value <= 64 && x.Value % 2 == 0).Count();
+            return results.Where(x => x.Value <= 64 && (64 - x.Value) % 2 == 0).Count();
         }
 
         private object Part2(bool isTest = false)
@@ -88,6 +88,8 @@ namespace aoc2023
                 { Dijkstra.Search(numGrid, new Tuple<int, int>(mid, grid[0].Count-1)) },
                 { Dijkstra.Search(numGrid, new Tuple<int, int>(grid.Count-1, mid)) },
                 { Dijkstra.Search(numGrid, new Tuple<int, int>(0, 0)) },
+                { Dijkstra.Search(numGrid, new Tuple<int, int>(0, grid.Count-1)) },
+                { Dijkstra.Search(numGrid, new Tuple<int, int>(grid.Count-1, 0)) },
                 { Dijkstra.Search(numGrid, new Tuple<int, int>(grid.Count-1, grid.Count-1)) },
             };
             var quarterDistanceList = Dijkstra.Search(numGrid, new Tuple<int, int>(0, 0));
@@ -112,6 +114,28 @@ namespace aoc2023
             var plotsPerGrid2 = entryPoints[1].Where(x => x.Value < 1000 && x.Value % 2 == 0).Count(); //15427 or 81 per grid
             var plotsPerGrid = entryPoints[0].Where(x => x.Value < 1000 && x.Value % 2 == 0).Count();
 
+            /*
+            var listy = new List<(int,int,int)>();
+            for (int  i = 0;  i < 80;  i++)
+            {
+                //grid,grid
+                var f1 = entryPoints[6].Where(x => x.Value < i && x.Value % 2 == 0).Count();
+                //mid,mid
+                var f2 = entryPoints[0].Where(x => x.Value < i && x.Value % 2 == 0).Count();
+                //gridCount,mid
+                var f3 = entryPoints[4].Where(x => x.Value < i-mid && x.Value % 2 == 0).Count();
+                listy.Add((f1, f2,f3));
+            }*/
+            var listy = new List<(int, int, int,int)>();
+            for (int i = 0; i < 26; i++)
+            {
+                var f1 = entryPoints[5].Where(x => x.Value <= i && (i - x.Value) % 2 == 0).Count();
+                var f2 = entryPoints[6].Where(x => x.Value <= i && (i - x.Value) % 2 == 0).Count();
+                var f3 = entryPoints[7].Where(x => x.Value <= i && (i - x.Value) % 2 == 0).Count();
+                var f4 = entryPoints[8].Where(x => x.Value <= i && (i - x.Value) % 2 == 0).Count();
+                listy.Add((f1, f2, f3,f4));
+            }
+
             var naiveGridsWeCanReach = ((totalSteps / mid) - 1) / 2;
             var gridsWeCanReach = naiveGridsWeCanReach;
             var rem = totalSteps % mid;
@@ -135,8 +159,8 @@ namespace aoc2023
 
             var halfGridSteps = mover;
             var quarterGridSteps = remainingSteps - halfMover;
-            var halfGridPlots = halfDistanceList.Where(x => x.Value <= halfGridSteps && x.Value % 2 == 0).Count();
-            var quarterGridPlots = quarterDistanceList.Where(x => x.Value <= quarterGridSteps && x.Value % 2 == 0).Count();
+            var halfGridPlots = halfDistanceList.Where(x => x.Value <= halfGridSteps && (halfGridSteps - x.Value) % 2 == 0).Count();
+            var quarterGridPlots = quarterDistanceList.Where(x => x.Value <= quarterGridSteps && (quarterGridSteps - x.Value) % 2 == 0).Count();
             var numberOfFullGrids = (fullGridsStraightLine + 1) * fullGridsStraightLine / 2;
             var quarterAnswer = (numberOfFullGrids * plotsPerGrid) +
                 (halfGridPlots * (fullGridsStraightLine + 1)) +
@@ -148,14 +172,14 @@ namespace aoc2023
             var halves = GetHalves(numGrid, mid, fullGridsStraightLine, halfGridSteps);
             var halvesBad = halfGridPlots * (fullGridsStraightLine + 1) * 4;
             var full = numberOfFullGrids * plotsPerGrid * 4;
-            var newAnswer = full + halves + quarts;
+            var newAnswer = full + halves + quarts; // should be 8665 for test
 
             var mathy1 = gridsWeCanReach * 4;
             var mathy2 = ((gridsWeCanReach - 1) * gridsWeCanReach) / 2;
             var mathy3 = (mathy2 + gridsWeCanReach) * 4;
             var totalPlots = mathy3 * plotsPerGrid; // 972
 
-            PrintDistanceGrid(numGrid, grid, starting);
+            // PrintDistanceGrid(numGrid, grid, starting);
             // look for hidey holes
             var newGrid = new List<List<char>>();
             for (var i = 0; i < grid.Count; i++)

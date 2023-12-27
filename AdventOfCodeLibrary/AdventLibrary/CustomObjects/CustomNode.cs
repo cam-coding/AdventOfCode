@@ -8,13 +8,18 @@ namespace AdventLibrary.CustomObjects
 {
     public class CustomNode<T>
     {
-        public CustomNode(T key)
+        public CustomNode(T value) : this(value, string.Empty) { }
+
+        public CustomNode(T value, string name)
         {
-            Key = key;
+            Value = value;
+            Name = name;
             EdgesOut = new List<CustomEdge<T>>();
         }
 
-        public T Key { get; set; }
+        public T Value { get; set; }
+
+        public String Name { get; set; }
 
         public List<CustomEdge<T>> EdgesOut { get; set; }
 

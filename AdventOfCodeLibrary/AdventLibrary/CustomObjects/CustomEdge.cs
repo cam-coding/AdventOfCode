@@ -20,7 +20,7 @@
 
         public string GetKey(char seperator = '-')
         {
-            return Start.Key.ToString() + seperator + End.Key.ToString();
+            return Start.Value.ToString() + seperator + End.Value.ToString();
         }
 
         public CustomNode<T> GetOtherEnd(CustomNode<T> start)

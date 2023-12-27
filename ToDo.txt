@@ -19,6 +19,16 @@ CreateNewDay should create any missing parts even if solution is there
 
 Solutions should output time as well
 
+Write a line class with start and ends?
+	Maybe something to count the points in it? Might already have in grid helper
+	Could also do the form y = mx + b or y2 - y1 = m(x2-x1)
+	Also a 3 point one https://en.wikipedia.org/wiki/Linear_equation#More_than_two_variables
+
+There's a bunch of path finding
+	shortest path between all points
+	DFS
+
+
 
 Automation:
 	Parse and grab example text
@@ -28,6 +38,7 @@ Automation:
 	don't submit anything that's lower than a "too low" answer
 
 Continue on CardObjectStuff
+	Nah use this persons clever solution of counting hands?
 
 
 \([^)]*\) parse anything inside parentheses https://adventofcode.com/2018/day/24/input

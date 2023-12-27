@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AdventLibrary.CustomObjects;
 
 namespace AdventLibrary
@@ -16,16 +12,27 @@ namespace AdventLibrary
             {
                 for (var x = 0; x < grid[0].Count; x++)
                 {
-                    var node = new CustomNode<T>(grid[y][x]);
-                    nodeLookup[(y, x)] = node;
+                    nodeLookup[(y, x)] = new CustomNode<T>(grid[y][x], $"y:{y},x:{x}");
                 }
             }
+            GridToGraphAddConnections(nodeLookup, grid);
             return nodeLookup;
         }
 
-        /*
-        public static void ConnectGraph<T>(Dictionary<(int y, int x), CustomNode<T>> graph, Func<string, void>)
+        private static void GridToGraphAddConnections<T>(Dictionary<(int y, int x), CustomNode<T>> graph, List<List<T>> grid)
         {
-        }*/
+            for (var y = 0; y < grid.Count; y++)
+            {
+                for (var x = 0; x < grid[0].Count; x++)
+                {
+                    var node = graph[(y, x)];
+                    foreach (var neigh in GridHelper.GetAdjacentNeighbours(grid, y, x))
+                    {
+                        var otherNode = graph[neigh];
+                        node.EdgesOut.Add(new CustomEdge<T>(node, otherNode, true));
+                    }
+                }
+            }
+        }
     }
 }

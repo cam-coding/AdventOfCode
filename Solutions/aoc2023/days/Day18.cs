@@ -78,7 +78,7 @@ namespace aoc2023
                 item.Insert(0, 0);
                 item.Add(0);
             }
-            var distances = Dijkstra.Search(numGrid, Tuple.Create(0, 0)).ToImmutableSortedDictionary();
+            var distances = DijkstraTuple.Search(numGrid, Tuple.Create(0, 0)).ToImmutableSortedDictionary();
             for (var i = 0; i < maxY + shiftY; i++)
             {
                 for (var j = 0; j < maxX + shiftX; j++)

@@ -35,7 +35,7 @@ namespace aoc2021
                     {
                         if ((grid[i][j]) == '>')
                         {
-                            var check = GridHelper.MoveByOffset(j, i, 1, 0, grid[0].Count, grid.Count, true);
+                            var check = GridHelperWeirdTypes.MoveByOffset(j, i, 1, 0, grid[0].Count, grid.Count, true);
                             if (grid[check.Item2][check.Item1] == '.')
                             {
                                 newGrid[check.Item2][check.Item1] = '>';
@@ -57,7 +57,7 @@ namespace aoc2021
                     {
                         if ((grid[i][j]) == 'v')
                         {
-                            var check2 = GridHelper.MoveByOffset(j, i, 0, 1, grid[0].Count, grid.Count, true);
+                            var check2 = GridHelperWeirdTypes.MoveByOffset(j, i, 0, 1, grid[0].Count, grid.Count, true);
                             if (grid[check2.Item2][check2.Item1] == '.')
                             {
                                 newGrid[check2.Item2][check2.Item1] = 'v';

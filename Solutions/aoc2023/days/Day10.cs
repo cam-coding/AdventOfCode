@@ -83,7 +83,7 @@ namespace aoc2023
             foreach (var item in tests)
             {
                 item.Walk();
-                item.OutOfBounds = !GridHelper.WithinGrid(grid, item.Current);
+                item.OutOfBounds = !GridHelperWeirdTypes.WithinGrid(grid, item.Current);
                 var currentLoop = 0;
                 while (!item.Looping && !item.OutOfBounds)
                 {
@@ -98,7 +98,7 @@ namespace aoc2023
                     }
                     item.Direction = characters2[(cha, item.Direction)];
                     item.Walk();
-                    item.OutOfBounds = !GridHelper.WithinGrid(grid, item.Current);
+                    item.OutOfBounds = !GridHelperWeirdTypes.WithinGrid(grid, item.Current);
                 }
                 maxLoop = Math.Max(item.UniqueLocationsVisited, maxLoop);
             }
@@ -126,7 +126,7 @@ namespace aoc2023
 
             var maxLoop = 0;
 
-            var neighs = GridHelper.GetAdjacentNeighbours(grid, startingX, startingY);
+            var neighs = GridHelperWeirdTypes.GetAdjacentNeighboursTuple(grid, startingX, startingY);
             var bestX = 0;
             var bestY = 0;
 
@@ -265,7 +265,7 @@ namespace aoc2023
             // PrintGrid3(grid3);
             var myCount = 0;
             // dijkstra's for every spot back to origin.
-            var distances = Dijkstra.Search(grid3, Tuple.Create(0, 0));
+            var distances = DijkstraTuple.Search(grid3, Tuple.Create(0, 0));
             var myList = new List<(int, int)>();
             for (var i = 0; i < grid2.Count; i++)
             {

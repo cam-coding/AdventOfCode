@@ -38,16 +38,6 @@ namespace aoc2023
             ReduceAdjGraph();
             var ans = BFS_Part2(grid.Count - 1);
             return ans - 1;
-            /*
-            var counter = 0;
-            foreach (var item in ans)
-            {
-                var tup = new Tuple<int, int>(item.Item1, item.Item2);
-                counter += Adj2Weights[tup];
-                grid[item.Item1][item.Item2] = '%';
-            }
-            GridHelper.PrintGrid(grid);
-            return counter - 1; */
         }
 
         public static int BFS_Part1(int max)
@@ -203,7 +193,7 @@ namespace aoc2023
                         var cord = new Tuple<int, int>(y, x);
                         if (chr == '.')
                         {
-                            var neigh = GridHelper.GetAdjacentNeighbours(grid, x, y);
+                            var neigh = GridHelperWeirdTypes.GetAdjacentNeighboursTuple(grid, x, y);
                             var newNeigh = new List<Tuple<int, int>>();
                             foreach (var item in neigh)
                             {
@@ -255,7 +245,7 @@ namespace aoc2023
                     if (chr != '#')
                     {
                         var cord = new Tuple<int, int>(y, x);
-                        var neigh = GridHelper.GetAdjacentNeighbours(grid, x, y);
+                        var neigh = GridHelperWeirdTypes.GetAdjacentNeighboursTuple(grid, x, y);
                         var newNeigh = new List<Tuple<int, int>>();
                         foreach (var item in neigh)
                         {

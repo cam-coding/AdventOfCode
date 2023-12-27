@@ -45,6 +45,13 @@ namespace AdventLibrary
                             Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => int.Parse(x.Value));
             return numbers.ToList();
         }
+
+        public static List<long> GetLongNumbersWithNegativesFromString(string input)
+        {
+            var numbers = Regex.Matches(input, @"-?[0-9]*?[0-9]+").ToList().
+                            Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => long.Parse(x.Value));
+            return numbers.ToList();
+        }
         public static List<string> GetNumbersFromStringAsStrings(string input)
         {
             var numbers = Regex.Split(input, @"\D+").Where(x => !string.IsNullOrWhiteSpace(x));

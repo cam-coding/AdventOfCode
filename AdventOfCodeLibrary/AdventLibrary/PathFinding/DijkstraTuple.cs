@@ -7,9 +7,9 @@ using System.Collections.Generic;
 
 namespace AdventLibrary.PathFinding
 {
-    public class DijkstraNode
+    public class DijkstraTupleNode
     {
-        public DijkstraNode(int x, int y, int distance)
+        public DijkstraTupleNode(int x, int y, int distance)
         {
             x = X;
             y = Y;
@@ -21,7 +21,7 @@ namespace AdventLibrary.PathFinding
     };
 
 
-    public static class Dijkstra
+    public static class DijkstraTuple
     {
         // if missing item, distance is infinite
         public static Dictionary<Tuple<int,int>, int> DistanceDictionary;

@@ -29,6 +29,7 @@ namespace AdventLibrary
         {
             return GenerateSquareGrid<int>(n, 0);
         }
+
         public static List<List<T>> GenerateSquareGrid<T>(int n, T value)
         {
             var grid = new List<List<T>>();
@@ -46,7 +47,7 @@ namespace AdventLibrary
             return grid;
         }
 
-        public static List<List<T>> GenerateCustomGrid<T>(int width, int height, T value)
+        public static List<List<T>> GenerateGrid<T>(int width, int height, T value)
         {
             var grid = new List<List<T>>();
 
@@ -63,33 +64,34 @@ namespace AdventLibrary
             return grid;
         }
 
-        public static List<Tuple<int,int>> GetPointsBetweenStartAndEndInclusive(List<int> nums)
+        public static List<(int, int)> GetPointsBetweenStartAndEndInclusive(List<int> nums)
         {
             return GetPointsBetweenStartAndEndInclusive(nums[0], nums[1], nums[2], nums[3]);
         }
 
-        public static List<Tuple<int,int>> GetPointsBetweenStartAndEndInclusive(Tuple<int,int> start, Tuple<int,int> end)
+        public static List<(int, int)> GetPointsBetweenStartAndEndInclusive(Tuple<int,int> start, Tuple<int,int> end)
         {
             return GetPointsBetweenStartAndEndInclusive(start.Item1, start.Item2, end.Item1, end.Item2);
         }
 
-        public static List<Tuple<int,int>> GetPointsBetweenStartAndEndInclusive(int startX, int startY, int endX, int endY)
+        // rework for y,x
+        public static List<(int, int)> GetPointsBetweenStartAndEndInclusive(int startX, int startY, int endX, int endY)
         {
-            List<Tuple<int, int>> points = new List<Tuple<int, int>>();
+            List<(int, int)> points = new List<(int, int)>();
             if (startX == endX)
             {
                 if (startY > endY)
                 {
                     for (int i = startY; i >= endY; i--)
                     {
-                        points.Add(new Tuple<int, int>(startX, i));
+                        points.Add((startX, i));
                     }
                 }
                 else
                 {
                     for (int i = startY; i <= endY; i++)
                     {
-                        points.Add(new Tuple<int, int>(startX, i));
+                        points.Add((startX, i));
                     }
                 }
             }
@@ -99,7 +101,7 @@ namespace AdventLibrary
                 var max = Math.Max(endX, startX);
                 for (int i = min; i <= max; i++)
                 {
-                    points.Add(new Tuple<int, int>(i, startY));
+                    points.Add((i, startY));
                 }
             }
             else
@@ -118,32 +120,33 @@ namespace AdventLibrary
                 }
                 while (x != endX || y != endY)
                 {
-                    points.Add(new Tuple<int, int>(x, y));
+                    points.Add((x, y));
                     x += xIncrement;
                     y += yIncrement;
                 }
-                points.Add(new Tuple<int, int>(endX, endY));
+                points.Add((endX, endY));
             }
             return points;
         }
 
-        public static List<Tuple<int,int>> GetPointsBetweenStartAndEndExclusive(int startX, int startY, int endX, int endY)
+        // rework for y,x
+        public static List<(int, int)> GetPointsBetweenStartAndEndExclusive(int startX, int startY, int endX, int endY)
         {
-            List<Tuple<int, int>> points = new List<Tuple<int, int>>();
+            List<(int, int)> points = new List<(int, int)>();
             if (startX == endX)
             {
                 if (startY > endY)
                 {
                     for (int i = startY-1; i > endY; i--)
                     {
-                        points.Add(new Tuple<int, int>(startX, i));
+                        points.Add((startX, i));
                     }
                 }
                 else
                 {
                     for (int i = startY+1; i < endY; i++)
                     {
-                        points.Add(new Tuple<int, int>(startX, i));
+                        points.Add((startX, i));
                     }
                 }
             }
@@ -153,14 +156,14 @@ namespace AdventLibrary
                 {
                     for (int i = startX-1; i > endX; i--)
                     {
-                        points.Add(new Tuple<int, int>(i, startY));
+                        points.Add((i, startY));
                     }
                 }
                 else
                 {
                     for (int i = startX+1; i < endX; i++)
                     {
-                        points.Add(new Tuple<int, int>(i, startY));
+                        points.Add((i, startY));
                     }
                 }
             }
@@ -182,7 +185,7 @@ namespace AdventLibrary
                 }
                 while (x != endX || y != endY)
                 {
-                    points.Add(new Tuple<int, int>(x, y));
+                    points.Add((x, y));
                     x += xIncrement;
                     y += yIncrement;
                 }
@@ -190,22 +193,22 @@ namespace AdventLibrary
             return points;
         }
 
-        public static List<Tuple<int,int>> GetAdjacentNeighbours<T>(List<List<T>> grid, int x, int y)
+        public static List<(int, int)> GetAdjacentNeighbours<T>(List<List<T>> grid, int y, int x)
         {
-            var adj = new List<Tuple<int,int>>()
+            var adj = new List<(int xOffset, int yOffset)>()
             {
-                new Tuple<int, int>(0, -1),
-                new Tuple<int, int>(0, 1),
-                new Tuple<int, int>(1, 0),
-                new Tuple<int, int>(-1, 0),
+                (0, -1),
+                (0, 1),
+                (1, 0),
+                (-1, 0),
             };
-            List<Tuple<int, int>> neighbours = new List<Tuple<int, int>>();
+            List<(int, int)> neighbours = new List<(int, int)>();
 
             for (int i = 0; i < 4; i++)
             {
-                var newNeighbour = MoveByOffset(x, y, adj[i].Item1, adj[i].Item2, grid[0].Count, grid.Count, false);
+                var newNeighbour = MoveByOffset(y, x, adj[i].yOffset, adj[i].xOffset, grid[0].Count, grid.Count, false);
 
-                if (!neighbours.Contains(newNeighbour) && (x != newNeighbour.Item1 || y != newNeighbour.Item2))
+                if (!neighbours.Contains(newNeighbour) && (y != newNeighbour.y || x != newNeighbour.x))
                 {
                     neighbours.Add(newNeighbour);
                 }
@@ -213,9 +216,9 @@ namespace AdventLibrary
             return neighbours;
         }
 
-        public static List<Tuple<int, int>> GetOrthoginalNeighbours<T>(List<List<T>> grid, int x, int y)
+        public static List<(int, int)> GetOrthoginalNeighbours<T>(List<List<T>> grid, int x, int y)
         {
-            List<Tuple<int, int>> neighbours = new List<Tuple<int, int>>();
+            List<(int, int)> neighbours = new List<(int, int)>();
             int rowMin = x - 1 > 0 ? x - 1 : 0;
             int rowMax = x + 1 < grid.Count ? x + 1 : grid.Count - 1;
             int colMin = y - 1 > 0 ? y - 1 : 0;
@@ -229,19 +232,19 @@ namespace AdventLibrary
                     {
                         continue;
                     }
-                    neighbours.Add(new Tuple<int, int>(i, j));
+                    neighbours.Add((i, j));
                 }
             }
             return neighbours;
         }
 
         /* Assume offset already applied*/
-        public static Tuple<int, int> MoveByOffset(int x, int y, int width, int height, bool wrap)
+        public static (int y, int x) MoveByOffset(int y, int x, int width, int height, bool wrap)
         {
-            return MoveByOffset(x, y, 0, 0, width, height, wrap);
+            return MoveByOffset(y, x, 0, 0, width, height, wrap);
         }
 
-        public static Tuple<int, int> MoveByOffset(int x, int y, int xOffset, int yOffset, int width, int height, bool wrap)
+        public static (int y, int x) MoveByOffset(int y, int x, int yOffset, int xOffset, int width, int height, bool wrap)
         {
             int newX = x + xOffset;
             int newY = y + yOffset;
@@ -292,18 +295,18 @@ namespace AdventLibrary
                 }
             }
 
-            return new Tuple<int, int>(newX, newY);
+            return (newY, newX);
         }
 
-        public static Dictionary<Tuple<int,int>, List<Tuple<int,int>>> GridToAdjList<T>(List<List<T>> grid)
+        // everything in the form of (y,x);
+        public static Dictionary<(int, int), List<(int, int)>> GridToAdjList<T>(List<List<T>> grid)
         {
-            var dict = new Dictionary<Tuple<int,int>, List<Tuple<int,int>>>();
+            var dict = new Dictionary<(int, int), List<(int, int)>>();
             for (var y = 0; y < grid.Count; y++)
             {
                 for (var x = 0; x < grid[0].Count; x++)
                 {
-                    var cord = new Tuple<int,int>(x,y);
-                    dict.Add(cord, GetAdjacentNeighbours(grid, x, y));
+                    dict.Add((y, x), GetAdjacentNeighbours(grid, x, y));
                 }
             }
 
@@ -311,27 +314,6 @@ namespace AdventLibrary
         }
 
         #region RotateGrids
-
-        /* assume we have an array like
-         * 1  2  3  4
-         * 5  6  7  8
-         * 9 10 11 12
-         * grid[row, column]
-         * GetLength(0) would be 3. for the 3 rows
-         * GetLength(1) is the 2nd dimension for the 4 columns.
-         Should make a whole doc with notes on this for reference*/
-        public static T[,] RotateColumnDownWithWrap<T>(T[,] grid, int column)
-        {
-            var length = grid.GetLength(0);
-            var temp = grid[length-1, column];
-            for (var j = length-1; j > 0; j--)
-            {
-                grid[j, column] = grid[j - 1, column];
-            }
-            grid[0, column] = temp;
-            return grid;
-        }
-
         public static List<List<T>> RotateColumnDownWithWrap<T>(List<List<T>> grid, int column)
         {
             var length = grid.Count;
@@ -344,17 +326,6 @@ namespace AdventLibrary
             return grid;
         }
 
-        public static T[,] RotateColumnUpWithWrap<T>(T[,] grid, int column)
-        {
-            var length = grid.GetLength(0);
-            var temp = grid[0, column];
-            for (var j = 0; j < length-1; j++)
-            {
-                grid[j, column] = grid[j + 1, column];
-            }
-            grid[length-1, column] = temp;
-            return grid;
-        }
         public static List<List<T>> RotateColumnUpWithWrap<T>(List<List<T>> grid, int column)
         {
             var length = grid.Count;
@@ -367,29 +338,11 @@ namespace AdventLibrary
             return grid;
         }
 
-        public static T[,] RotateGridDownWithWrap<T>(T[,] grid)
-        {
-            for (var i = 0; i < grid.GetLength(1); i++)
-            {
-                grid = RotateColumnDownWithWrap(grid, i);
-            }
-            return grid;
-        }
-
         public static List<List<T>> RotateGridDownWithWrap<T>(List<List<T>> grid)
         {
             for (var i = 0; i < grid[0].Count; i++)
             {
                 grid = RotateColumnDownWithWrap(grid, i);
-            }
-            return grid;
-        }
-
-        public static T[,] RotateGridUpWithWrap<T>(T[,] grid)
-        {
-            for (var i = 0; i < grid.GetLength(1); i++)
-            {
-                grid = RotateColumnUpWithWrap(grid, i);
             }
             return grid;
         }
@@ -403,24 +356,6 @@ namespace AdventLibrary
             return grid;
         }
 
-        /* assume we have an array like
-         * 1  2  3  4
-         * 5  6  7  8
-         * 9 10 11 12
-         * grid[row, column]
-         * GetLength(0) would be 3. for the 3 rows
-         * GetLength(1) is the 2nd dimension for the 4 columns */
-        public static T[,] RotateRowRightWithWrap<T>(T[,] grid, int row)
-        {
-            var length = grid.GetLength(1);
-            var temp = grid[row, length-1];
-            for (var j = length-1; j > 0; j--)
-            {
-                grid[row, j] = grid[row, j-1];
-            }
-            grid[row, 0] = temp;
-            return grid;
-        }
         public static List<List<T>> RotateRowRightWithWrap<T>(List<List<T>> grid, int row)
         {
             var length = grid[0].Count;
@@ -430,18 +365,6 @@ namespace AdventLibrary
                 grid[row][j] = grid[row][j - 1];
             }
             grid[row][0] = temp;
-            return grid;
-        }
-
-        public static T[,] RotateRowLeftWithWrap<T>(T[,] grid, int row)
-        {
-            var length = grid.GetLength(1);
-            var temp = grid[row, 0];
-            for (var j = 0; j < length-1; j++)
-            {
-                grid[row, j] = grid[row, j+1];
-            }
-            grid[row, length - 1] = temp;
             return grid;
         }
 
@@ -459,20 +382,6 @@ namespace AdventLibrary
 
         #endregion RotateGrids
 
-        public static void PrintGrid<T>(T[,] grid)
-        {
-            var rows = grid.GetLength(0);
-            var columns = grid.GetLength(1);
-
-            for (var i = 0; i < rows; i++)
-            {
-                for (var j = 0; j < columns; j++)
-                {
-                    Console.Write(grid[i,j]);
-                }
-                Console.WriteLine();
-            }
-        }
         public static void PrintGrid<T>(List<List<T>> grid)
         {
             var rows = grid.Count;
@@ -542,12 +451,32 @@ namespace AdventLibrary
             return Math.Min(x, Math.Max(y, z));
         }
 
+        public static (int y, int x) GetPointWhere<T>(List<List<T>> grid, T value)
+        {
+            return GetPointWhere(grid, x => x.Equals(value));
+        }
+
+        public static (int y, int x) GetPointWhere<T>(List<List<T>> grid, Predicate<T> pred)
+        {
+            for (var y = 0; y < grid.Count; y++)
+            {
+                for (var x = 0; x < grid[y].Count; x++)
+                {
+                    if (pred(grid[y][x]))
+                    {
+                        return (y, x);
+                    }
+                }
+            }
+            return (-1,-1);
+        }
+
         public static List<(int, int)> GetPointsWhere<T>(List<List<T>> grid, T value)
         {
             return GetPointsWhere(grid, x => x.Equals(value));
         }
 
-            public static List<(int,int)> GetPointsWhere<T>(List<List<T>> grid, Predicate<T> pred)
+        public static List<(int,int)> GetPointsWhere<T>(List<List<T>> grid, Predicate<T> pred)
         {
             var values = new List<(int, int)>();
             for (var y = 0; y < grid.Count; y++)
@@ -664,7 +593,7 @@ namespace AdventLibrary
                 item.Insert(0, 0);
                 item.Add(0);
             }
-            var distances = Dijkstra.Search(numGrid, Tuple.Create(0, 0));
+            var distances = DijkstraTuple.Search(numGrid, Tuple.Create(0, 0));
             for (var i = 0; i < grid.Count; i++)
             {
                 for (var j = 0; j < grid[i].Count; j++)

@@ -52,7 +52,7 @@ namespace aoc2023
             var grid = ParseInput.ParseFileAsGrid(_filePath);
             return BFS_Generic3(grid);
         }
-        
+
         private object Part2()
         {
             var grid = ParseInput.ParseFileAsGrid(_filePath);
@@ -118,7 +118,7 @@ namespace aoc2023
                         }
 
                         //Get the next nodes/grids/etc to visit next
-                        var neighs = GridHelper.GetAdjacentNeighbours(grid, cur.Item1, cur.Item2);
+                        var neighs = GridHelperWeirdTypes.GetAdjacentNeighboursTuple(grid, cur.Item1, cur.Item2);
                         foreach (var item in neighs)
                         {
                             var tup = (item.Item1, item.Item2);
@@ -180,7 +180,7 @@ namespace aoc2023
             };
             PriorityQueue<(GridWalker, int), int> q = new PriorityQueue<(GridWalker, int), int>();
             var visited = new Dictionary<(LocationTuple<int>, LocationTuple<int>, int), int>();
-            var distances = AdventLibrary.PathFinding.Dijkstra.Search(grid, new Tuple<int, int>(grid.Count - 1, grid[0].Count - 1));
+            var distances = AdventLibrary.PathFinding.DijkstraTuple.Search(grid, new Tuple<int, int>(grid.Count - 1, grid[0].Count - 1));
             // (0,0) can be anything, just needs to be your root item.
             q.Enqueue((new GridWalker((0,0), GridWalker.Right), grid[0][0] * -1), 0);
             q.Enqueue((new GridWalker((0, 0), GridWalker.Down), grid[0][0] * -1), 0);
@@ -268,7 +268,7 @@ namespace aoc2023
                         var temp = new GridWalker(current);
                         temp.Direction = item;
                         temp.Walk();
-                        if (GridHelper.WithinGrid(grid, temp.Current)  && !temp.Looping)
+                        if (GridHelperWeirdTypes.WithinGrid(grid, temp.Current)  && !temp.Looping)
                         {
                             var priority = GridHelper.TaxicabDistance((cur.Item1,cur.Item2), (grid.Count - 1, grid[0].Count - 1));
                             q.Enqueue((temp,distanceSoFar), priority);
@@ -287,7 +287,7 @@ namespace aoc2023
         {
             PriorityQueue<(GridWalker, int), int> q = new PriorityQueue<(GridWalker, int), int>();
             var visited = new HashSet<(int, int, int,int, int)>();
-            var distances = AdventLibrary.PathFinding.Dijkstra.Search(grid, new Tuple<int, int>(grid.Count - 1, grid[0].Count - 1));
+            var distances = AdventLibrary.PathFinding.DijkstraTuple.Search(grid, new Tuple<int, int>(grid.Count - 1, grid[0].Count - 1));
             // (0,0) can be anything, just needs to be your root item.
             q.Enqueue((new GridWalker((0, 0), GridWalker.Right), grid[0][0] * -1), 0);
             q.Enqueue((new GridWalker((0, 0), GridWalker.Down), grid[0][0] * -1), 0);
@@ -341,7 +341,7 @@ namespace aoc2023
                         var temp = new GridWalker(current);
                         temp.Direction = item;
                         temp.Walk();
-                        if (GridHelper.WithinGrid(grid, temp.Current) && !temp.Looping)
+                        if (GridHelperWeirdTypes.WithinGrid(grid, temp.Current) && !temp.Looping)
                         {
                             var priority = distanceSoFar;
                             q.Enqueue((temp, distanceSoFar), priority);
@@ -356,7 +356,7 @@ namespace aoc2023
         {
             PriorityQueue<(GridWalker, int), int> q = new PriorityQueue<(GridWalker, int), int>();
             var visited = new HashSet<(int, int, int, int, int)>();
-            var distances = AdventLibrary.PathFinding.Dijkstra.Search(grid, new Tuple<int, int>(grid[0].Count - 1, grid.Count - 1));
+            var distances = AdventLibrary.PathFinding.DijkstraTuple.Search(grid, new Tuple<int, int>(grid[0].Count - 1, grid.Count - 1));
             // (0,0) can be anything, just needs to be your root item.
             q.Enqueue((new GridWalker((0, 0), GridWalker.Right), grid[0][0] * -1), 0);
             q.Enqueue((new GridWalker((0, 0), GridWalker.Down), grid[0][0] * -1), 0);
@@ -408,7 +408,7 @@ namespace aoc2023
                 {
                     var temp = new GridWalker(current);
                     temp.Walk();
-                    if (GridHelper.WithinGrid(grid, temp.Current) && !temp.Looping)
+                    if (GridHelperWeirdTypes.WithinGrid(grid, temp.Current) && !temp.Looping)
                     {
                         var priority = distanceSoFar;
                         q.Enqueue((temp, distanceSoFar), priority);
@@ -426,7 +426,7 @@ namespace aoc2023
                                 var temp = new GridWalker(current);
                                 temp.Direction = item;
                                 temp.Walk();
-                                if (GridHelper.WithinGrid(grid, temp.Current) && !temp.Looping)
+                                if (GridHelperWeirdTypes.WithinGrid(grid, temp.Current) && !temp.Looping)
                                 {
                                     var priority = distanceSoFar;
                                     q.Enqueue((temp, distanceSoFar), priority);

@@ -46,7 +46,7 @@ namespace aoc2021
 
                 if (isPart2 || (nums[0] == nums[2] || nums[1] == nums[3]))
                 {
-                    var points = AdventLibrary.GridHelper.GetPointsBetweenStartAndEndInclusive(nums);
+                    var points = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(nums);
                     foreach (var point in points)
                     {
                         grid[point.Item1, point.Item2]++;

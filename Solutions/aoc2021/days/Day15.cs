@@ -25,7 +25,7 @@ namespace aoc2021
         private object Part1()
         {
             var grid = AdventLibrary.ParseInput.ParseFileAsGrid(_filePath);
-            var dist = AdventLibrary.PathFinding.Dijkstra.Search(grid, new Tuple<int, int>(0,0));
+            var dist = AdventLibrary.PathFinding.DijkstraTuple.Search(grid, new Tuple<int, int>(0,0));
             var blah = dist[new Tuple<int, int>(grid.Count-1,grid[0].Count-1)];
             var betterGrid = MakeMyGrid(grid);
             var pather = new AStarSharp.Astar(betterGrid);
@@ -37,7 +37,7 @@ namespace aoc2021
         {
             var grid = AdventLibrary.ParseInput.ParseFileAsGrid(_filePath);
             var grid2 = CreateLargerGrid(grid);
-            var dist = AdventLibrary.PathFinding.Dijkstra.Search(grid2, new Tuple<int, int>(0,0));
+            var dist = AdventLibrary.PathFinding.DijkstraTuple.Search(grid2, new Tuple<int, int>(0,0));
             var blah2 = dist[new Tuple<int, int>(grid2.Count-1,grid2[0].Count-1)];
             return blah2;
             /*
@@ -104,7 +104,7 @@ namespace aoc2021
                 for (var j = 0; j < grid[0].Count; j++)
                 {
                     var toople = new Tuple<int,int>(i, j);
-                    dict.Add(toople, AdventLibrary.GridHelper.GetOrthoginalNeighbours(grid, i, j));
+                    dict.Add(toople, AdventLibrary.GridHelperWeirdTypes.GetOrthoginalNeighbours(grid, i, j));
                 }
             }
             return dict;

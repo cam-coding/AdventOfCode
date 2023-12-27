@@ -84,7 +84,7 @@ namespace aoc2016
                 printArray[newNode.X,newNode.Y] = insert;
             }
 
-            GridHelper.PrintGrid(printArray);
+            GridHelperWeirdTypes.PrintGrid(printArray);
 
             /* 2 to touch the wall
              * 16 to the top of the wall

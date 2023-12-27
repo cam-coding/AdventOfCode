@@ -49,14 +49,14 @@ namespace aoc2016
                 {
                     for (var i = 0; i < nums[1]; i++)
                     {
-                        grid = AdventLibrary.GridHelper.RotateColumnDownWithWrap(grid, nums[0]);
+                        grid = AdventLibrary.GridHelperWeirdTypes.RotateColumnDownWithWrap(grid, nums[0]);
                     }
                 }
                 else
                 {
                     for (var i = 0; i < nums[1]; i++)
                     {
-                        grid = AdventLibrary.GridHelper.RotateRowRightWithWrap(grid, nums[0]);
+                        grid = AdventLibrary.GridHelperWeirdTypes.RotateRowRightWithWrap(grid, nums[0]);
                     }
                 }
 			}
@@ -105,18 +105,18 @@ namespace aoc2016
                 {
                     for (var i = 0; i < nums[1]; i++)
                     {
-                        grid = AdventLibrary.GridHelper.RotateColumnDownWithWrap(grid, nums[0]);
+                        grid = AdventLibrary.GridHelperWeirdTypes.RotateColumnDownWithWrap(grid, nums[0]);
                     }
                 }
                 else
                 {
                     for (var i = 0; i < nums[1]; i++)
                     {
-                        grid = AdventLibrary.GridHelper.RotateRowRightWithWrap(grid, nums[0]);
+                        grid = AdventLibrary.GridHelperWeirdTypes.RotateRowRightWithWrap(grid, nums[0]);
                     }
                 }
 			}
-            AdventLibrary.GridHelper.PrintGrid(grid);
+            AdventLibrary.GridHelperWeirdTypes.PrintGrid(grid);
 
             return 0;
         }

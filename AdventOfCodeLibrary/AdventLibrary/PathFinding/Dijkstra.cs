@@ -78,18 +78,100 @@ namespace AdventLibrary.PathFinding
             return distanceDictionary;
         }
 
-        //untested, need to work on maybe
-        public static Dictionary<(int y, int x), (int Distance, List<(int y, int x)> Path)> Search(
-            Dictionary<(int y, int x), List<(int y, int x)>> adjacencyList,
-            (int y, int x) start,
-            (int y, int x) end)
+        // search from starting point to every point
+        public static Dictionary<CustomNode<T>, (int Distance, List<CustomNode<T>> Path)> SearchEverywhereGeneric(
+            CustomNode<T> start,
+            Func<CustomNode<T>, List<CustomEdge<T>>> GetNeighboursFunc,
+            CustomNode<T> goal = null,
+            Func<CustomNode<T>, CustomNode<T>, int> Heuristic = null
+            )
         {
-            var distanceDictionary = new Dictionary<(int y, int x), (int Distance, List<(int y, int x)> Path)>();
+            var distanceDictionary = new Dictionary<CustomNode<T>, (int Distance, List<CustomNode<T>> Path)>();
             // only visit each node once
-            var processed = new HashSet<(int y, int x)>();
-            var queue = new PriorityQueue<((int y, int x) CurrentNode, List<(int y, int x)> Path), int>();
-            distanceDictionary.Add(start, (0, new List<(int y, int x)>()));
-            queue.Enqueue((start, new List<(int y, int x)>()), 0);
+            var processed = new HashSet<CustomNode<T>>();
+            var queue = new PriorityQueue<(CustomNode<T> CurrentNode, List<CustomNode<T>> Path), int>();
+            distanceDictionary.Add(start, (0, new List<CustomNode<T>>()));
+            queue.Enqueue((start, new List<CustomNode<T>>()), 0);
+
+            while (queue.Count != 0)
+            {
+                var current = queue.Dequeue();
+                var currentNode = current.CurrentNode;
+                var path = current.Path;
+
+                if (goal != null && currentNode.Equals(goal))
+                {
+                    return distanceDictionary;
+                }
+
+                // only process each node once
+                if (processed.Contains(currentNode))
+                {
+                    continue;
+                }
+                processed.Add(currentNode);
+
+                // each node we see starts with an infinite distance
+                if (!distanceDictionary.ContainsKey(currentNode))
+                {
+                    distanceDictionary.Add(currentNode, (Int32.MaxValue, path));
+                }
+
+                // Neighbours are figured out before objects are passed in, so no logic around that here.
+                foreach (var edge in GetNeighboursFunc(currentNode))
+                {
+                    var neighbour = edge.GetOtherEnd(currentNode);
+                    var newPath = path.Clone();
+                    newPath.Add(neighbour);
+                    if (!distanceDictionary.ContainsKey(neighbour))
+                    {
+                        distanceDictionary.Add(neighbour, (Int32.MaxValue, newPath));
+                    }
+                    var weight = edge.Weight;
+                    if (distanceDictionary[currentNode].Distance + weight < distanceDictionary[neighbour].Distance)
+                    {
+                        var neighbourDistance = distanceDictionary[currentNode].Distance + weight;
+                        // optional Heuristic
+                        if (Heuristic != null)
+                        {
+                            neighbourDistance += Heuristic(neighbour, goal);
+                        }
+                        distanceDictionary[neighbour] = (neighbourDistance, newPath);
+                        queue.Enqueue((neighbour, newPath), neighbourDistance);
+                    }
+                }
+            }
+
+            return distanceDictionary;
+        }
+
+        private static void ExampleNeighbourFunction()
+        {
+            Func<CustomNode<char>, List<CustomEdge<char>>> NeighboursFunct = (node) =>
+            {
+                var neighbours = new List<CustomEdge<char>>();
+                foreach (var edge in node.EdgesOut)
+                {
+                    var otherNode = edge.GetOtherEnd(node);
+                    neighbours.Add(edge);
+                }
+                return neighbours;
+            };
+        }
+
+        //untested, need to work on maybe
+        // can call this with things like (int y, int x) that I don't convert to my graph format
+        public static Dictionary<T, (int Distance, List<T> Path)> Search(
+            Dictionary<T, List<T>> adjacencyList,
+            T start,
+            T end)
+        {
+            var distanceDictionary = new Dictionary<T, (int Distance, List<T> Path)>();
+            // only visit each node once
+            var processed = new HashSet<T>();
+            var queue = new PriorityQueue<(T CurrentNode, List<T> Path), int>();
+            distanceDictionary.Add(start, (0, new List<T>()));
+            queue.Enqueue((start, new List<T>()), 0);
 
             while (queue.Count != 0)
             {

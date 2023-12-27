@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using AdventLibrary.CustomObjects;
+using AdventLibrary.Helpers;
 
 namespace AdventLibrary
 {
     public static class GraphHelper
     {
+        private static char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+
         public static Dictionary<(int y, int x), CustomNode<T>> TransformGridToGraph<T>(List<List<T>> grid)
         {
             var nodeLookup = new Dictionary<(int y, int x), CustomNode<T>>();
@@ -33,6 +36,31 @@ namespace AdventLibrary
                     }
                 }
             }
+        }
+
+        private static Dictionary<T, CustomNode<T>> AdjacencyListToGraph<T>(Dictionary<T, List<T>> adjList)
+        {
+            var nodeLookup = new Dictionary<T, CustomNode<T>>();
+            foreach (var pair in adjList)
+            {
+                var key = pair.Key;
+                var cons = pair.Value;
+
+                CustomNode<T> node = nodeLookup.GetOrCreate(key, new CustomNode<T>(key, key.ToString()));
+                foreach (var item in cons)
+                {
+                    var otherNode = nodeLookup.GetOrCreate(item, new CustomNode<T>(item, item.ToString()));
+                    node.EdgesOut.Add(new CustomEdge<T>(node, otherNode, true, 1));
+                }
+            }
+            return nodeLookup;
+        }
+
+        private static Dictionary<T, CustomNode<T>> AdjacencyListToGraph<T>(List<string> lines, char seperator)
+        {
+            // loop through the lines and look in the form of "key {seperator} key2, key3, key4
+            var nodeLookup = new Dictionary<T, CustomNode<T>>();
+            return nodeLookup;
         }
     }
 }

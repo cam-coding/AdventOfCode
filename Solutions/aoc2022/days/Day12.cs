@@ -27,26 +27,23 @@ namespace aoc2022
 
             // get grid as graph
             var nodeLookup = GraphHelper.TransformGridToGraph(grid);
-            foreach (var pair in nodeLookup)
+
+            Func<CustomNode<char>, List<CustomEdge<char>>> NeighboursFunct = (node) =>
             {
-                var node = pair.Value;
-                var removable = new List<CustomEdge<char>>();
+                var neighbours = new List<CustomEdge<char>>();
                 foreach (var edge in node.EdgesOut)
                 {
                     var otherNode = edge.GetOtherEnd(node);
                     // remove any edges where the height difference is too great
-                    if (otherNode.Value - 1 > node.Value)
+                    if (otherNode.Value - 1 <= node.Value)
                     {
-                        removable.Add(edge);
+                        neighbours.Add(edge);
                     }
                 }
-                foreach (var edge in removable)
-                {
-                    node.EdgesOut.Remove(edge);
-                }
-            }
-            var results2 = Dijkstra<char>.SearchToEnd(nodeLookup[startTuple], nodeLookup[endTuple]);
-            return results2.Distance;
+                return neighbours;
+            };
+            var results = Dijkstra<char>.SearchEverywhereGeneric(nodeLookup[startTuple], NeighboursFunct, nodeLookup[endTuple]);
+            return results[nodeLookup[endTuple]].Distance;
         }
 
         private object Part2(bool isTest = false)
@@ -83,10 +80,10 @@ namespace aoc2022
             {
                 if (start.Value.Value.Equals('a'))
                 {
-                    var results2 = Dijkstra<char>.SearchToEnd(nodeLookup[start.Key], nodeLookup[endTuple]);
-                    if (results2 != default)
+                    var results = Dijkstra<char>.SearchToEnd(nodeLookup[start.Key], nodeLookup[endTuple]);
+                    if (results != default)
                     {
-                        best = Math.Min(best, results2.Distance);
+                        best = Math.Min(best, results.Distance);
                     }
                 }
             }

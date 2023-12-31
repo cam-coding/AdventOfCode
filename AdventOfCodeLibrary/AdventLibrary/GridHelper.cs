@@ -193,6 +193,11 @@ namespace AdventLibrary
             return points;
         }
 
+        public static List<(int y, int x)> GetAdjacentNeighbours<T>(List<List<T>> grid, (int y, int x) coord)
+        {
+            return GetAdjacentNeighbours<T>(grid, coord.y, coord.x);
+        }
+
         public static List<(int y, int x)> GetAdjacentNeighbours<T>(List<List<T>> grid, int y, int x)
         {
             var adj = new List<(int xOffset, int yOffset)>()

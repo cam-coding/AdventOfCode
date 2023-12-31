@@ -46,8 +46,8 @@ namespace Runner
         {
             if (args.Length == 0)
             {
-                year = "2022";
-                day = "12";
+                year = "2020";
+                day = "19";
             }
             else if (args[0] == "true" || args[0] == "-t" )
             {

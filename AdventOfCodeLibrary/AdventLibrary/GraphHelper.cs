@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AdventLibrary.CustomObjects;
 using AdventLibrary.Helpers;
 
@@ -56,11 +57,19 @@ namespace AdventLibrary
             return nodeLookup;
         }
 
-        private static Dictionary<T, CustomNode<T>> AdjacencyListToGraph<T>(List<string> lines, char seperator)
+        // loop through the lines and look in the form of "key {seperator} key2, key3, key4"
+        private static Dictionary<string, CustomNode<string>> InputToGraph(List<string> lines, string seperator)
         {
-            // loop through the lines and look in the form of "key {seperator} key2, key3, key4
-            var nodeLookup = new Dictionary<T, CustomNode<T>>();
-            return nodeLookup;
+            var adjList = new Dictionary<string, List<string>>();
+
+            foreach (var line in lines)
+            {
+                var tokens = line.Split(seperator).ToList().OnlyRealStrings(delimiterChars);
+                var key = tokens[0];
+                var connectedKeys = tokens[1].Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+                adjList.Add(key, connectedKeys);
+            }
+            return AdjacencyListToGraph(adjList);
         }
     }
 }

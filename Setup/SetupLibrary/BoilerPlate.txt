@@ -13,7 +13,10 @@ namespace aoc{YEAR}
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
-            return new Solution(Part1(), Part2());
+            var solution = new Solution();
+            solution.Part1 = Part1();
+            solution.Part2 = Part2();
+            return solution;
         }
 
         private object Part1(bool isTest = false)

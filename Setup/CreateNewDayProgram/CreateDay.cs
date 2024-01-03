@@ -9,9 +9,19 @@ namespace CreateNewDayProgram
             if (args.Count() != 2)
             {
                 Console.WriteLine("./CreateNewDayProgram.exe {day} {year}");
-                Console.WriteLine(args[0]);
-                Console.WriteLine(args[1]);
                 return;
+            }
+
+            if (args.Count() == 2)
+            {
+                var day = int.Parse(args[0]);
+                var year = int.Parse(args[1]);
+                if (day < 1 || 25 < day ||
+                    year < 2016 || year > 2040)
+                {
+                    Console.WriteLine("./CreateNewDayProgram.exe {day} {year}");
+                    return;
+                }
             }
 
             var solutionRoot = DirectoryHelper.TryGetSolutionDirectoryInfo();

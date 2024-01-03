@@ -67,7 +67,7 @@ namespace AdventLibrary
             {
                 for (int i = 0; i < list.Count - 1; i++)
                 {
-                    rotatedList.Add(list[i+1]);
+                    rotatedList.Add(list[i + 1]);
                 }
                 rotatedList.Add(list[0]);
             }
@@ -85,7 +85,7 @@ namespace AdventLibrary
             return rotatedList;
         }
 
-        public static (int,int) GetNeighbours<T>(this List<T> list, int index)
+        public static (int, int) GetNeighbours<T>(this List<T> list, int index)
         {
             var lastIndex = list.Count - 1;
             if (index == 0)
@@ -123,7 +123,7 @@ namespace AdventLibrary
             return result;
         }
 
-            // 1,2 -> (1,2) (2,1)
+        // 1,2 -> (1,2) (2,1)
         public static IEnumerable<IEnumerable<T>> GetPermutations<T>(this IEnumerable<T> values) where T : IComparable<T>
         {
             if (values.Count() == 1)
@@ -252,6 +252,14 @@ namespace AdventLibrary
                 return -1;
             }
             return cycleLength;
+        }
+
+        public static void RemoveEverythingAfter<T>(this List<T> list, int index)
+        {
+            while (index + 1 < list.Count)
+            {
+                list.RemoveAt(index+1);
+            }
         }
     }
 

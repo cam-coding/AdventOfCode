@@ -15,15 +15,9 @@ namespace aoc2023
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
-
-            var timer = new Stopwatch();
-            timer.Start();
-            var solution = new Solution(
-                Part1(),
-                timer.Elapsed,
-                Part2(),
-                timer.Elapsed);
-            timer.Stop();
+            var solution = new Solution();
+            solution.Part1 = Part1();
+            solution.Part2 = Part2();
             return solution;
         }
 

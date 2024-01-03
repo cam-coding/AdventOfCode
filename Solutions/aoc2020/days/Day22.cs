@@ -4,19 +4,16 @@ using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Helpers;
 
-namespace aoc{YEAR}
+namespace aoc2020
 {
-    public class Day{DAY}: ISolver
+    public class Day22: ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
-            var solution = new Solution();
-            solution.Part1 = Part1();
-            solution.Part2 = Part2();
-            return solution;
+            return new Solution(Part1(), Part2());
         }
 
         private object Part1(bool isTest = false)

@@ -7,14 +7,14 @@ namespace AdventLibrary
 {
     public static class StringParsing
     {
-        public static string GetStringBetweenTwoCharacters(string input, char startChar, char endChar)
+        public static string GetStringBetweenTwoCharacters(this string input, char startChar, char endChar)
         {
             int startIndex = input.IndexOf(startChar);
             int endIndex = input.IndexOf(endChar);
             return input.Substring(startIndex + 1, endIndex - startIndex - 1);
         }
 
-        public static string GetLettersFromString(string input)
+        public static string GetLettersFromString(this string input)
         {
             string output = "";
             foreach (char c in input)
@@ -27,38 +27,38 @@ namespace AdventLibrary
             return output;
         }
 
-        public static List<int> GetNumbersFromString(string input)
+        public static List<int> GetNumbersFromString(this string input)
         {
             var numbers = Regex.Split(input, @"\D+").ToList().Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => int.Parse(x));
             return numbers.ToList();
         }
 
-        public static List<long> GetLongNumbersFromString(string input)
+        public static List<long> GetLongNumbersFromString(this string input)
         {
             var numbers = Regex.Split(input, @"\D+").ToList().Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => long.Parse(x));
             return numbers.ToList();
         }
 
-        public static List<int> GetNumbersWithNegativesFromString(string input)
+        public static List<int> GetNumbersWithNegativesFromString(this string input)
         {
             var numbers = Regex.Matches(input, @"-?[0-9]*?[0-9]+").ToList().
                             Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => int.Parse(x.Value));
             return numbers.ToList();
         }
 
-        public static List<long> GetLongNumbersWithNegativesFromString(string input)
+        public static List<long> GetLongNumbersWithNegativesFromString(this string input)
         {
             var numbers = Regex.Matches(input, @"-?[0-9]*?[0-9]+").ToList().
                             Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => long.Parse(x.Value));
             return numbers.ToList();
         }
-        public static List<string> GetNumbersFromStringAsStrings(string input)
+        public static List<string> GetNumbersFromStringAsStrings(this string input)
         {
             var numbers = Regex.Split(input, @"\D+").Where(x => !string.IsNullOrWhiteSpace(x));
             return numbers.ToList();
         }
 
-        public static List<int> GetDigitsFromString(string input)
+        public static List<int> GetDigitsFromString(this string input)
         {
             List<int> output = new List<int>();
             foreach (char c in input)
@@ -71,7 +71,7 @@ namespace AdventLibrary
             return output;
         }
 
-        public static string RemoveLettersFromString(string str, string remove)
+        public static string RemoveLettersFromString(this string str, string remove)
         {
             foreach (var c in remove)
             {
@@ -80,7 +80,20 @@ namespace AdventLibrary
             return str;
         }
 
-        public static bool LettersInsideString(string str, string letters)
+        public static string RemoveDigitsFromString(this string input)
+        {
+            string output = string.Empty;
+            foreach (char c in input)
+            {
+                if (!char.IsNumber(c))
+                {
+                    output += c;
+                }
+            }
+            return output;
+        }
+
+        public static bool LettersInsideString(this string str, string letters)
         {
             foreach (var c in letters)
             {
@@ -92,7 +105,7 @@ namespace AdventLibrary
             return true;
         }
 
-        public static List<(int,int)> GetNumbersWithIndexesFromString(string input)
+        public static List<(int,int)> GetNumbersWithIndexesFromString(this string input)
         {
             var result = new List<(int,int)>();
             for (var i = 0; i < input.Length; i++)
@@ -112,7 +125,7 @@ namespace AdventLibrary
             return result;
         }
 
-        public static List<(int, int)> GetDigitsWithIndexesFromString(string input)
+        public static List<(int, int)> GetDigitsWithIndexesFromString(this string input)
         {
             List<(int, int)> output = new List<(int, int)>();
             for (var i = 0; i < input.Length; i++)

@@ -15,15 +15,10 @@ namespace aoc2023
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
-            var timer = new Stopwatch();
-            timer.Start();
-            var part1 = Part1();
-            var time1 = timer.Elapsed;
-            timer.Restart();
-            var part2 = Part2();
-            var time2 = timer.Elapsed;
-            timer.Stop();
-            return new Solution(part1, part2, time1, time2);
+            var solution = new Solution();
+            solution.Part1 = Part1();
+            solution.Part2 = Part2();
+            return solution;
         }
 
         private object Part1()

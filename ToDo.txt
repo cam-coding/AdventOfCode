@@ -4,20 +4,14 @@ Need something for grids and handling "anything beyond of the edges is x" where 
 	Maybe just something to autowrap?
 
 Write DFS and BFS into a generic helper.
-change Dijstraka so it doesn't use the formal tuple object and just uses (int,int)
-
-Move transformInput into PArseInput file
 
 Write methods to rotate grids around a point? https://en.wikipedia.org/wiki/Cartesian_coordinate_system#Rotation
 
 maybe implement something for altering grids per iteration on an action?
-Build something to count items in a grid
 build something to roll/fall items in a 2D/3D grid.
 
 CreateNewDay should create any missing parts even if solution is there
 	aka testinput/input
-
-Solutions should output time as well
 
 Write a line class with start and ends?
 	Maybe something to count the points in it? Might already have in grid helper
@@ -32,6 +26,7 @@ There's a bunch of path finding
 
 Automation:
 	Parse and grab example text
+		maybe this is fine with my browser script?
 	Submit via program running
 		submit when example is correct?
 	record submissions as json

@@ -113,5 +113,10 @@ namespace AdventLibrary
         {
             return whiteSpaceRegex.Replace(input, replacement);
         }
+
+        public static bool IsEmpty(this string input)
+        {
+            return input.Equals(string.Empty);
+        }
     }
 }

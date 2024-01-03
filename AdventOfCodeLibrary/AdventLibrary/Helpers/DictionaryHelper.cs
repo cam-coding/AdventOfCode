@@ -9,7 +9,6 @@ namespace AdventLibrary.Helpers
     public static class DictionaryHelper
     {
         public static TValue GetOrCreate<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue value)
-            where TValue : new()
         {
             if (!dict.TryGetValue(key, out TValue val))
             {

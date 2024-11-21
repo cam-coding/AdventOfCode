@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Input", "AdventOfCodeInput\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestInput", "AdventOfCodeInput\TestInput\TestInput.csproj", "{D3C1DBCB-2BD3-4B37-9BBA-44048B6D47AE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aoc2024", "Solutions\aoc2024\aoc2024.csproj", "{9FA4D968-578C-4943-8408-A9E4E9960DBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{D3C1DBCB-2BD3-4B37-9BBA-44048B6D47AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3C1DBCB-2BD3-4B37-9BBA-44048B6D47AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3C1DBCB-2BD3-4B37-9BBA-44048B6D47AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FA4D968-578C-4943-8408-A9E4E9960DBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FA4D968-578C-4943-8408-A9E4E9960DBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FA4D968-578C-4943-8408-A9E4E9960DBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FA4D968-578C-4943-8408-A9E4E9960DBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,6 +141,7 @@ Global
 		{C85E2024-4481-44ED-8AFC-AC2C0FCC1B39} = {1BB5E1C7-0E20-4F0E-B67C-E6822EDE5FB6}
 		{A5E2F4C2-582C-436C-86CF-E2A8EEB9AFA0} = {4F50EF41-7620-4117-BA43-3E18F9323AB8}
 		{D3C1DBCB-2BD3-4B37-9BBA-44048B6D47AE} = {4F50EF41-7620-4117-BA43-3E18F9323AB8}
+		{9FA4D968-578C-4943-8408-A9E4E9960DBB} = {5BDC2669-205D-48B0-BD08-849B51835BB2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1628ED3E-D372-4500-8EDF-5BE88DB5B335}

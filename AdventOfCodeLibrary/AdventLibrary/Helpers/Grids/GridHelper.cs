@@ -25,6 +25,7 @@ namespace AdventLibrary
          * GetLength(0) would be 3. for the 3 rows
          * GetLength(1) is the 2nd dimension for the 4 columns.
          * */
+
         public static List<List<int>> GenerateSquareGrid(int n)
         {
             return GenerateSquareGrid<int>(n, 0);
@@ -69,7 +70,7 @@ namespace AdventLibrary
             return GetPointsBetweenStartAndEndInclusive(nums[0], nums[1], nums[2], nums[3]);
         }
 
-        public static List<(int, int)> GetPointsBetweenStartAndEndInclusive(Tuple<int,int> start, Tuple<int,int> end)
+        public static List<(int, int)> GetPointsBetweenStartAndEndInclusive(Tuple<int, int> start, Tuple<int, int> end)
         {
             return GetPointsBetweenStartAndEndInclusive(start.Item1, start.Item2, end.Item1, end.Item2);
         }
@@ -137,14 +138,14 @@ namespace AdventLibrary
             {
                 if (startY > endY)
                 {
-                    for (int i = startY-1; i > endY; i--)
+                    for (int i = startY - 1; i > endY; i--)
                     {
                         points.Add((startX, i));
                     }
                 }
                 else
                 {
-                    for (int i = startY+1; i < endY; i++)
+                    for (int i = startY + 1; i < endY; i++)
                     {
                         points.Add((startX, i));
                     }
@@ -154,14 +155,14 @@ namespace AdventLibrary
             {
                 if (startX > endX)
                 {
-                    for (int i = startX-1; i > endX; i--)
+                    for (int i = startX - 1; i > endX; i--)
                     {
                         points.Add((i, startY));
                     }
                 }
                 else
                 {
-                    for (int i = startX+1; i < endX; i++)
+                    for (int i = startX + 1; i < endX; i++)
                     {
                         points.Add((i, startY));
                     }
@@ -169,19 +170,19 @@ namespace AdventLibrary
             }
             else
             {
-                int x = startX+1;
-                int y = startY+1;
+                int x = startX + 1;
+                int y = startY + 1;
                 int xIncrement = 1;
                 int yIncrement = 1;
                 if (startX > endX)
                 {
                     xIncrement = -1;
-                    x = x-2;
+                    x = x - 2;
                 }
                 if (startY > endY)
                 {
                     yIncrement = -1;
-                    y = y-2;
+                    y = y - 2;
                 }
                 while (x != endX || y != endY)
                 {
@@ -244,6 +245,7 @@ namespace AdventLibrary
         }
 
         /* Assume offset already applied*/
+
         public static (int y, int x) MoveByOffset(int y, int x, int width, int height, bool wrap)
         {
             return MoveByOffset(y, x, 0, 0, width, height, wrap);
@@ -318,7 +320,6 @@ namespace AdventLibrary
             return dict;
         }
 
-        #region RotateGrids
         public static List<List<T>> RotateColumnDownWithWrap<T>(List<List<T>> grid, int column)
         {
             var length = grid.Count;
@@ -385,8 +386,6 @@ namespace AdventLibrary
             return grid;
         }
 
-        #endregion RotateGrids
-
         public static void PrintGrid<T>(List<List<T>> grid)
         {
             var rows = grid.Count;
@@ -405,7 +404,7 @@ namespace AdventLibrary
         // Get distance using Pythagoras's theorem
         //0,0 to 2,2 would be sqrt(8)/~2.82
         // https://en.wikipedia.org/wiki/Chebyshev_distance#Properties
-        public static double EuclidianDistance((int,int) a, (int,int) b)
+        public static double EuclidianDistance((int, int) a, (int, int) b)
         {
             var x = Math.Pow(a.Item1 - b.Item1, 2);
             var y = Math.Pow(a.Item2 - b.Item2, 2);
@@ -427,7 +426,7 @@ namespace AdventLibrary
         {
             var x = Math.Abs(a.Item1 - b.Item1);
             var y = Math.Abs(a.Item2 - b.Item2);
-            return x+y;
+            return x + y;
         }
 
         public static int TaxicabDistance((int, int, int) a, (int, int, int) b)
@@ -445,7 +444,7 @@ namespace AdventLibrary
         {
             var x = Math.Abs(a.Item1 - b.Item1);
             var y = Math.Abs(a.Item2 - b.Item2);
-            return Math.Max(x,y);
+            return Math.Max(x, y);
         }
 
         public static int ChebyshevDistance((int, int, int) a, (int, int, int) b)
@@ -473,7 +472,7 @@ namespace AdventLibrary
                     }
                 }
             }
-            return (-1,-1);
+            return (-1, -1);
         }
 
         public static List<(int, int)> GetPointsWhere<T>(List<List<T>> grid, T value)
@@ -481,7 +480,7 @@ namespace AdventLibrary
             return GetPointsWhere(grid, x => x.Equals(value));
         }
 
-        public static List<(int,int)> GetPointsWhere<T>(List<List<T>> grid, Predicate<T> pred)
+        public static List<(int, int)> GetPointsWhere<T>(List<List<T>> grid, Predicate<T> pred)
         {
             var values = new List<(int, int)>();
             for (var y = 0; y < grid.Count; y++)
@@ -490,7 +489,7 @@ namespace AdventLibrary
                 {
                     if (pred(grid[y][x]))
                     {
-                        values.Add((y,x));
+                        values.Add((y, x));
                     }
                 }
             }
@@ -517,6 +516,7 @@ namespace AdventLibrary
             }
             return total;
         }
+
         public static List<string> GetColumns(this List<string> grid)
         {
             var result = GetColumns(grid.Select(x => x.ToList()).ToList());
@@ -545,7 +545,7 @@ namespace AdventLibrary
             return grid.Select(x => x.Stringify()).ToList();
         }
 
-        public static bool WithinGrid<T>(List<List<T>> grid, (int,int) coords)
+        public static bool WithinGrid<T>(List<List<T>> grid, (int, int) coords)
         {
             return WithinGrid<T>(grid, coords.Item1, coords.Item2);
         }
@@ -563,7 +563,7 @@ namespace AdventLibrary
             x < grid[y].Count;
         }
 
-        /* Pretty clunky method but it works faily fast.
+        /* Pretty clunky method but it works fairly fast.
          * 1. Assume you have a grid that has a loop/connected path going through it
          * 2. Convert to a numerical grid where any of the special chars are 10000 else 0
          *      This is basically putting "walls" in the grid
@@ -573,6 +573,7 @@ namespace AdventLibrary
          *      Anything else must be in the interior.
          * NOTE: this assume the loop fully encompases everything and doesn't use the edge of the graph as a wall.
          *      This could probably be achieved by wrapping in another wall layer, and then wrapping in a 0 layer or something. */
+
         public static List<List<T>> FillInterior<T>(List<List<T>> grid, T specialCharacter)
         {
             var numGrid = new List<List<int>>();

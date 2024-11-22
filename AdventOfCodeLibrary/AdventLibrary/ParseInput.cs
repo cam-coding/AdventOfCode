@@ -7,6 +7,7 @@ namespace AdventLibrary
     public static class ParseInput
     {
         private static char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
+
         public static string GetTextFromFile(string fileName)
         {
             string text = System.IO.File.ReadAllText(fileName);
@@ -86,7 +87,6 @@ namespace AdventLibrary
             return null;
         }
 
-        // This could probably be generic
         public static List<List<bool>> ParseFileAsBoolGrid(string filePath, char specialCharacter)
         {
             try
@@ -111,34 +111,9 @@ namespace AdventLibrary
             return null;
         }
 
-        // This could probably be generic
-        public static List<List<int>> ParseFileAsBoolIntGrid(string filePath, char specialCharacter)
-        {
-            try
-            {
-                var lines = GetLinesFromFile(filePath);
-                var list = new List<List<int>>();
-                foreach (var line in lines)
-                {
-                    var lineList = new List<int>();
-                    foreach (var c in line)
-                    {
-                        lineList.Add(c.Equals(specialCharacter) ? 0 : 1);
-                    }
-                    list.Add(lineList);
-                }
-                return list;
-            }
-            catch (FormatException e)
-            {
-                Console.WriteLine("Input is something other than a grid");
-            }
-            return null;
-        }
-
         public static List<List<char>> ParseFileAsCharGrid(string filePath)
         {
-			var lines = GetLinesFromFile(filePath);
+            var lines = GetLinesFromFile(filePath);
             var grid = new List<List<char>>();
             for (var i = 0; i < lines.Count; i++)
             {

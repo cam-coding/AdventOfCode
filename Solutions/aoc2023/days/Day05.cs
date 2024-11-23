@@ -10,11 +10,12 @@ using AdventLibrary.Helpers;
 
 namespace aoc2023
 {
-    public class Day05: ISolver
+    public class Day05 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
-        List<Dictionary<(long, long), (long, long)>> _dicts = new List<Dictionary<(long, long), (long, long)>>();
+        private List<Dictionary<(long, long), (long, long)>> _dicts = new List<Dictionary<(long, long), (long, long)>>();
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -31,31 +32,31 @@ namespace aoc2023
             var dicts = new List<Dictionary<(long, long), (long, long)>>();
 
             var current = -1;
-			foreach (var line in lines)
-			{
+            foreach (var line in lines)
+            {
                 if (line.Equals(string.Empty))
                 {
                     continue;
                 }
                 else if (line.Contains("seeds:"))
                 {
-                    seeds = AdventLibrary.StringParsing.GetLongNumbersFromString(line);
+                    seeds = line.GetLongsFromString();
                 }
                 else
                 {
                     if (line.Contains("map:"))
                     {
                         current++;
-                        dicts.Add(new Dictionary<(long, long), (long,long)>());
+                        dicts.Add(new Dictionary<(long, long), (long, long)>());
                     }
                     else
                     {
-                        var nums = AdventLibrary.StringParsing.GetLongNumbersFromString(line);
+                        var nums = line.GetLongsFromString();
                         var i = nums[1];
-                        dicts[current].Add((i, i + nums[2]-1), (nums[0], nums[0] + nums[2]-1));
+                        dicts[current].Add((i, i + nums[2] - 1), (nums[0], nums[0] + nums[2] - 1));
                     }
                 }
-			}
+            }
             long best = int.MaxValue;
             foreach (var seed in seeds)
             {
@@ -98,8 +99,8 @@ namespace aoc2023
                 }
                 else if (line.Contains("seeds:"))
                 {
-                    var nums = AdventLibrary.StringParsing.GetLongNumbersFromString(line);
-                    for (var i = 0; i < nums.Count; i+=2)
+                    var nums = line.GetLongsFromString();
+                    for (var i = 0; i < nums.Count; i += 2)
                     {
                         seeds.Add((nums[i], nums[i + 1]));
                     }
@@ -113,7 +114,7 @@ namespace aoc2023
                     }
                     else
                     {
-                        var nums = AdventLibrary.StringParsing.GetLongNumbersFromString(line);
+                        var nums = line.GetLongsFromString();
                         var i = nums[1];
                         _dicts[current].Add((i, i + nums[2] - 1), (nums[0], nums[0] + nums[2] - 1));
                         /*
@@ -126,7 +127,7 @@ namespace aoc2023
             var ranges = new List<(long, long)>();
             foreach (var pair in seeds)
             {
-                ranges.Add((pair.Item1, pair.Item1 + pair.Item2-1));
+                ranges.Add((pair.Item1, pair.Item1 + pair.Item2 - 1));
             }
             var best = Recursive(ranges.ToHashSet(), 0);
             timer.Stop();
@@ -200,9 +201,9 @@ namespace aoc2023
                     {
                         if (miny == -2 && maxy == -2)
                         {
-                            if (!remainderList.Contains((min,max)))
+                            if (!remainderList.Contains((min, max)))
                             {
-                                remainderList.Add((min,max));
+                                remainderList.Add((min, max));
                             }
                         }
                     }

@@ -10,6 +10,7 @@ namespace aoc2023
     {
         private string _filePath;
         private char[] symbols = { '!', '@', '#', '$', '%', '^', '&', '*', '+', '/', '=', '-' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -40,7 +41,7 @@ namespace aoc2023
 
             for (var j = 0; j < lines.Count; j++)
             {
-                foreach (var numIndex in StringParsing.GetNumbersWithIndexesFromString(lines[j]))
+                foreach (var numIndex in lines[j].GetNumbersWithIndexesFromString())
                 {
                     var str = "" + numIndex.Item1;
                     var start = numIndex.Item2;
@@ -71,7 +72,7 @@ namespace aoc2023
                 }
             }
 
-            foreach (var value in  lookup.Values)
+            foreach (var value in lookup.Values)
             {
                 counter += value;
             }
@@ -105,7 +106,7 @@ namespace aoc2023
 
             for (var j = 0; j < lines.Count; j++)
             {
-                foreach (var numIndex in StringParsing.GetNumbersWithIndexesFromString(lines[j]))
+                foreach (var numIndex in lines[j].GetNumbersWithIndexesFromString())
                 {
                     var str = "" + numIndex.Item1;
                     var start = numIndex.Item2;
@@ -135,7 +136,7 @@ namespace aoc2023
                         if (lookup.Count == 2)
                         {
                             var keys = lookup.Values.ToList();
-                            counter += keys[0]* keys[1];
+                            counter += keys[0] * keys[1];
                         }
                     }
                 }

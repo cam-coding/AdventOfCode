@@ -1,4 +1,5 @@
 ﻿using AdventLibrary;
+using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 using System.Collections.Generic;
 using Xunit;

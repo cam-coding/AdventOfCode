@@ -26,7 +26,7 @@ namespace aoc2023
             var minMax = new Dictionary<LineObject<decimal>, (decimal, decimal, decimal, decimal)>();
             foreach (var line in lines)
             {
-                var nums = StringParsing.GetLongNumbersWithNegativesFromString(line);
+                var nums = StringParsing.GetLongsWithNegativesFromString(line);
                 long x1 = nums[0];
                 long y1 = nums[1];
                 long x2 = x1 + nums[3];
@@ -78,7 +78,7 @@ namespace aoc2023
 
             foreach (var line in lines)
             {
-                var nums = StringParsing.GetLongNumbersWithNegativesFromString(line);
+                var nums = StringParsing.GetLongsWithNegativesFromString(line);
                 var hailstone = new Hailstone(nums[0], nums[1], nums[2], nums[3], nums[4], nums[5]);
                 allHailstones.Add(hailstone);
             }

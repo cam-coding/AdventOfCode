@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary;
+using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 
 namespace aoc2016
@@ -23,7 +24,7 @@ namespace aoc2016
 
             while (str.Length < MaxLength)
             {
-                var b = AdventLibrary.StringExtensions.ReverseString(str);
+                var b = StringExtensions.ReverseString(str);
                 char[] charArray = b.ToCharArray();
                 for (var i = 0; i < charArray.Length; i++)
                 {
@@ -56,7 +57,7 @@ namespace aoc2016
 
             while (str.Length < MaxLength)
             {
-                var b = AdventLibrary.StringExtensions.ReverseString(str);
+                var b = StringExtensions.ReverseString(str);
                 char[] charArray = b.ToCharArray();
                 for (var i = 0; i < charArray.Length; i++)
                 {

@@ -5,7 +5,7 @@ using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day02: ISolver
+    public class Day02 : ISolver
     {
         public Solution Solve(string filePath, bool isTest = false)
         {
@@ -28,24 +28,24 @@ namespace aoc2021
 
             foreach (var item in strings)
             {
-                var letters = AdventLibrary.StringParsing.GetLettersFromString(item);
-                var digits = AdventLibrary.StringParsing.GetDigitsFromString(item);
+                var letters = item.GetLettersFromString();
+                var digits = item.GetDigitsFromString();
                 if (letters.StartsWith("f"))
                 {
-                    hor+= digits.First();
+                    hor += digits.First();
                 }
                 else if (letters.StartsWith("d"))
                 {
-                    ver+= digits.First();
+                    ver += digits.First();
                 }
                 else if (letters.StartsWith("u"))
                 {
-                    ver-= digits.First();
+                    ver -= digits.First();
                 }
             }
-            return ver*hor;
+            return ver * hor;
         }
-        
+
         private object Part2(string filePath)
         {
             var strings = AdventLibrary.ParseInput.GetLinesFromFile(filePath);
@@ -55,12 +55,12 @@ namespace aoc2021
 
             foreach (var item in strings)
             {
-                var letters = AdventLibrary.StringParsing.GetLettersFromString(item);
-                var digits = AdventLibrary.StringParsing.GetDigitsFromString(item);
+                var letters = item.GetLettersFromString();
+                var digits = item.GetDigitsFromString();
                 if (letters.StartsWith("f"))
                 {
-                    hor+= digits.First();
-                    dep += (digits.First()*aim);
+                    hor += digits.First();
+                    dep += (digits.First() * aim);
                 }
                 else if (letters.StartsWith("d"))
                 {
@@ -71,7 +71,7 @@ namespace aoc2021
                     aim -= digits.First();
                 }
             }
-            return dep*hor;
+            return dep * hor;
         }
     }
 }

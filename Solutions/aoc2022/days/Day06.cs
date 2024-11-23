@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using AdventLibrary;
+using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 
 namespace aoc2022

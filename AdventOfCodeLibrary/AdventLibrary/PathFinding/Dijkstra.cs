@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using AdventLibrary.CustomObjects;
+using AdventLibrary.Extensions;
 
 namespace AdventLibrary.PathFinding
 {

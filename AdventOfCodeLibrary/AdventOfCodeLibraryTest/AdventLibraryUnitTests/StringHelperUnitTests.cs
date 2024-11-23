@@ -1,4 +1,4 @@
-﻿using AdventLibrary;
+﻿using AdventLibrary.Extensions;
 using System.Collections.Generic;
 using Xunit;
 
@@ -17,7 +17,7 @@ namespace AdventLibraryUnitTests
         [InlineData(1, 2, true, "abaa")]
         public void GetGroups_ReturnsExpected(int expected, int size, bool unique, string input)
         {
-            var result = AdventLibrary.StringExtensions.CountGroups_NonOverlapping(input, size, unique);
+            var result = StringExtensions.CountGroups_NonOverlapping(input, size, unique);
             Assert.Equal(expected, result);
         }
 

@@ -4,14 +4,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using AdventLibrary;
+using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 
 namespace aoc2023
 {
-    public class Day06: ISolver
+    public class Day06 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -38,7 +40,7 @@ namespace aoc2023
                 for (var j = 1; j < time; j++)
                 {
                     var left = time - j;
-                    if (j*left > distance)
+                    if (j * left > distance)
                     {
                         counter++;
                     }
@@ -52,10 +54,10 @@ namespace aoc2023
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var times2 = AdventLibrary.StringParsing.GetNumbersFromStringAsStrings(lines[0]);
-            var times = long.Parse(StringParsing.ConcatListOfStrings(times2));
-            var distances2 = AdventLibrary.StringParsing.GetNumbersFromStringAsStrings(lines[1]);
-            var distances = long.Parse(StringParsing.ConcatListOfStrings(distances2));
+            var times2 = lines[0].GetNumbersFromStringAsStrings();
+            var times = long.Parse(StringExtensions.ConcatListOfStrings(times2));
+            var distances2 = lines[1].GetNumbersFromStringAsStrings();
+            var distances = long.Parse(StringExtensions.ConcatListOfStrings(distances2));
 
             var counter = 0;
             for (var j = 1; j < times; j++)

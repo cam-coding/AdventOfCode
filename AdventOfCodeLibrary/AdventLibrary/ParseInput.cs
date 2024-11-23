@@ -72,7 +72,7 @@ namespace AdventLibrary
                 for (var i = 0; i < lines.Count; i++)
                 {
                     grid.Add(new List<int>());
-                    var nums = StringParsing.GetDigitsFromString(lines[i]);
+                    var nums = lines[i].GetDigitsFromString();
                     for (var j = 0; j < nums.Count; j++)
                     {
                         grid[i].Add(nums[j]);

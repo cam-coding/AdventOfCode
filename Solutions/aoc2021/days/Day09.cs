@@ -5,9 +5,9 @@ using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day09: ISolver
+    public class Day09 : ISolver
     {
-		/*
+        /*
 		var sub = item.Substring(0, 1);
 		Console.WriteLine("Part 1: " + Part1.ToString());
 		*/
@@ -15,6 +15,7 @@ namespace aoc2021
         private List<List<int>> grid;
         private List<Tuple<int, int>> done;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -26,15 +27,15 @@ namespace aoc2021
             var counter = 0;
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
             grid = new List<List<int>>();
-			
-			foreach (var line in lines)
-			{
-				var things = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetDigitsFromString(line);
-                grid.Add(nums);
-			}
 
-            var i =0;
+            foreach (var line in lines)
+            {
+                var things = line.Split(delimiterChars);
+                var nums = line.GetDigitsFromString();
+                grid.Add(nums);
+            }
+
+            var i = 0;
             foreach (var line in grid)
             {
                 var j = 0;
@@ -50,23 +51,23 @@ namespace aoc2021
             }
             return counter;
         }
-        
+
         private object Part2()
         {
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
             grid = new List<List<int>>();
             done = new List<Tuple<int, int>>();
-			
-			foreach (var line in lines)
-			{
-				var things = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetDigitsFromString(line);
-                grid.Add(nums);
-			}
 
-            var i =0;
+            foreach (var line in lines)
+            {
+                var things = line.Split(delimiterChars);
+                var nums = line.GetDigitsFromString();
+                grid.Add(nums);
+            }
+
+            var i = 0;
             var largeBasins = new List<int>();
-            var locationsChecked = new List<Tuple<int,int>>();
+            var locationsChecked = new List<Tuple<int, int>>();
             foreach (var line in grid)
             {
                 var j = 0;
@@ -107,7 +108,7 @@ namespace aoc2021
         private int CountBasin(List<Tuple<int, int>> basin)
         {
             var count = 0;
-            foreach(var point in basin)
+            foreach (var point in basin)
             {
                 if (grid[point.Item1][point.Item2] != 9)
                 {
@@ -163,13 +164,13 @@ namespace aoc2021
 
             //go right and call recur with currentTail
             //take return value from call and combine with currentTail keeping only unique
-            currentTail = CombinedUnique(currentTail, DepthSearch(i, j+1, currentTail));
+            currentTail = CombinedUnique(currentTail, DepthSearch(i, j + 1, currentTail));
             // down
-            currentTail = CombinedUnique(currentTail, DepthSearch(i+1, j, currentTail));
+            currentTail = CombinedUnique(currentTail, DepthSearch(i + 1, j, currentTail));
             // left
-            currentTail = CombinedUnique(currentTail, DepthSearch(i, j-1, currentTail));
+            currentTail = CombinedUnique(currentTail, DepthSearch(i, j - 1, currentTail));
             // up
-            currentTail = CombinedUnique(currentTail, DepthSearch(i-1, j, currentTail));
+            currentTail = CombinedUnique(currentTail, DepthSearch(i - 1, j, currentTail));
 
             return currentTail;
         }
@@ -185,7 +186,7 @@ namespace aoc2021
             }
             return list1;
         }
-        
+
         private List<Tuple<int, int>> GetAdjInGrid(int i, int j, List<Tuple<int, int>> listy)
         {
             var toople = new Tuple<int, int>(i, j);
@@ -211,28 +212,28 @@ namespace aoc2021
             {
                 if (grid[i - 1][j] != 9)
                 {
-                    listy.AddRange(GetAdjInGrid(i-1, j, listy));
+                    listy.AddRange(GetAdjInGrid(i - 1, j, listy));
                 }
             }
             if (i < grid.Count - 1 && i > -1)
             {
                 if (grid[i + 1][j] != 9)
                 {
-                    listy.AddRange(GetAdjInGrid(i+1, j, listy));
+                    listy.AddRange(GetAdjInGrid(i + 1, j, listy));
                 }
             }
             if (j > 0 && j < grid[i].Count)
             {
-                if (grid[i][j-1] != 9)
+                if (grid[i][j - 1] != 9)
                 {
-                    listy.AddRange(GetAdjInGrid(i, j-1, listy));
+                    listy.AddRange(GetAdjInGrid(i, j - 1, listy));
                 }
             }
             if (j < grid[i].Count - 1 && j > -1)
             {
                 if (grid[i][j + 1] != 9)
                 {
-                    listy.AddRange(GetAdjInGrid(i, j+1, listy));
+                    listy.AddRange(GetAdjInGrid(i, j + 1, listy));
                 }
             }
 

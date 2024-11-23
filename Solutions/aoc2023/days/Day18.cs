@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using AdventLibrary;
 using AdventLibrary.CustomObjects;
+using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 using AdventLibrary.PathFinding;
 

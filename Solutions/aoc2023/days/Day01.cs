@@ -8,10 +8,11 @@ using AdventLibrary.Helpers;
 
 namespace aoc2023
 {
-    public class Day01: ISolver
+    public class Day01 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -25,14 +26,13 @@ namespace aoc2023
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var counter = 0;
-			foreach (var line in lines)
-			{
-				// var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
-                var nums = AdventLibrary.StringParsing.GetDigitsFromString(line);
-                var sum = nums[0] + nums[nums.Count-1];
+            foreach (var line in lines)
+            {
+                var nums = line.GetDigitsFromString();
+                var sum = nums[0] + nums[nums.Count - 1];
                 var blah = string.Empty + nums[0] + nums[nums.Count - 1];
                 counter += int.Parse(blah);
-			}
+            }
             return counter;
         }
 

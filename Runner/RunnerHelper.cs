@@ -28,6 +28,7 @@ namespace Runner
                 { "2021", typeof(aoc2021.Day01).Assembly },
                 { "2022", typeof(aoc2022.Day01).Assembly },
                 { "2023", typeof(aoc2023.Day01).Assembly },
+                { "2024", typeof(aoc2024.Day01).Assembly },
             };
 
             var directory = DirectoryHelper.TryGetSolutionDirectoryInfo();
@@ -47,9 +48,9 @@ namespace Runner
             if (args.Length == 0)
             {
                 year = "2015";
-                day = "1";
+                day = "7";
             }
-            else if (args[0] == "true" || args[0] == "-t" )
+            else if (args[0] == "true" || args[0] == "-t")
             {
                 year = System.DateTime.Now.ToString("yyyy");
                 day = System.DateTime.Now.ToString("dd");
@@ -143,5 +144,4 @@ namespace Runner
             return false;
         }
     }
-
 }

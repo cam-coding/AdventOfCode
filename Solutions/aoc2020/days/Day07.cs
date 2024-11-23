@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using AdventLibrary;
+using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 using AdventLibrary.PathFinding;
 
 namespace aoc2020
 {
-    public class Day07: ISolver
+    public class Day07 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
         private Dictionary<string, List<(int bagsCount, string key)>> _lookup;
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -26,7 +28,7 @@ namespace aoc2020
             var lookup = new Dictionary<string, List<(int count, string key)>>();
             var hasGoldenBagsInside = new HashSet<string>();
             foreach (var line in lines)
-			{
+            {
                 var tokens = line.Split("bags contain").ToList().OnlyRealStrings(delimiterChars);
                 var key = tokens[0].RemoveWhitespace();
 
@@ -37,8 +39,8 @@ namespace aoc2020
                     foreach (var item in inner)
                     {
                         var innerTokens = item.Split("bag").ToList().OnlyRealStrings(delimiterChars);
-                        var count = StringParsing.GetNumbersFromString(innerTokens[0])[0];
-                        var innerKey = StringParsing.RemoveDigitsFromString(innerTokens[0]).RemoveWhitespace();
+                        var count = innerTokens[0].GetNumbersFromString()[0];
+                        var innerKey = innerTokens[0].RemoveDigitsFromString().RemoveWhitespace();
                         if (innerKey.Equals(goldKey))
                         {
                             hasGoldenBagsInside.Add(key);
@@ -100,8 +102,8 @@ namespace aoc2020
                     foreach (var item in inner)
                     {
                         var innerTokens = item.Split("bag").ToList().OnlyRealStrings(delimiterChars);
-                        var count = StringParsing.GetNumbersFromString(innerTokens[0])[0];
-                        var innerKey = StringParsing.RemoveDigitsFromString(innerTokens[0]).RemoveWhitespace();
+                        var count = innerTokens[0].GetNumbersFromString()[0];
+                        var innerKey = innerTokens[0].RemoveDigitsFromString().RemoveWhitespace();
                         if (innerKey.Equals(goldKey))
                         {
                             hasGoldenBagsInside.Add(key);

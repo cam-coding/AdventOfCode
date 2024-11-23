@@ -4,9 +4,9 @@ using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Helpers;
 
-namespace aoc{YEAR}
+namespace aoc2017
 {
-    public class Day{DAY}: ISolver
+    public class Day03: ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -29,30 +29,14 @@ namespace aoc{YEAR}
             long total = 1000000;
 			long count = 0;
 
-            var ln1 = lines[0];
-            var ln2 = lines[1];
-            for (var i = 0; i < lines.Count; i++)
+            double power = 0;
+            var index = 7;
+
+            while (power < numbers[0])
             {
-
+                power = Math.Pow(index, 2);
+                index += 2;
             }
-
-			foreach (var line in lines)
-			{
-                var tokens = line.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
-				var nums = StringParsing.GetNumbersFromString(line);
-
-				foreach (var num in nums)
-				{
-				}
-
-                for (var i = 0; i < 0; i++)
-                {
-                    for (var j = 0; j < 0; j++)
-                    {
-
-                    }
-                }
-			}
             return 0;
         }
 

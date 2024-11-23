@@ -13,16 +13,16 @@ namespace AdventLibrary
     {
         private static char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t', '\n', '\r' };
         private static char[] delimiterCharsSansPeriod = { ' ', ',', ':', '-', '>', '<', '+', '\t', '\n', '\r' };
-        private string _filepath;
+        private static char[] lineEndingChars = { '\n', '\r' };
         private string _text;
+        private string _textNoLineBreaks;
         private List<string> _lines;
-        private List<long> _longs;
 
         public InputParser(string filePath)
         {
-            _filepath = filePath;
             _text = System.IO.File.ReadAllText(filePath);
             _lines = System.IO.File.ReadAllLines(filePath).ToList();
+            _textNoLineBreaks = GetTextWithoutLineBreaks();
         }
 
         public List<long> GetTextAsLongs()
@@ -49,6 +49,36 @@ namespace AdventLibrary
                     var tokens = line.Split(delimiterChars, StringSplitOptions.RemoveEmptyEntries);
                     var longs = tokens.Select(x => Int64.Parse(x)).ToList();
                     returnList.Add(longs);
+                }
+                return returnList;
+            }
+            catch (Exception e)
+            {
+            }
+            return null;
+        }
+
+        public List<long> GetTextAsDigits()
+        {
+            try
+            {
+                return StringParsing.GetDigitsFromString(_textNoLineBreaks).Select(x => (long)x).ToList();
+            }
+            catch (Exception e)
+            {
+            }
+            return null;
+        }
+
+        public List<List<long>> GetLinesAsListDigits()
+        {
+            try
+            {
+                var returnList = new List<List<long>>();
+                foreach (var line in _lines)
+                {
+                    var digits = StringParsing.GetDigitsFromString(line).Select(x => (long)x).ToList();
+                    returnList.Add(digits);
                 }
                 return returnList;
             }
@@ -153,7 +183,7 @@ namespace AdventLibrary
             return (T)Convert.ChangeType(value, typeof(T));
         }
 
-        public Dictionary<string, List<string>> GetLinesAsGraph(string filePath)
+        public Dictionary<string, List<string>> GetLinesAsGraph()
         {
             try
             {
@@ -235,6 +265,12 @@ namespace AdventLibrary
                 Console.WriteLine("Input is something other than a grid");
             }
             return null;
+        }
+
+        private string GetTextWithoutLineBreaks()
+        {
+            var tokens = _text.Split(lineEndingChars, StringSplitOptions.RemoveEmptyEntries);
+            return StringParsing.ConcatListOfStrings(tokens);
         }
     }
 }

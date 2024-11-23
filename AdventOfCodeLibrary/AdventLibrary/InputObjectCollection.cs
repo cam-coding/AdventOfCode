@@ -17,8 +17,11 @@ namespace AdventLibrary
             LongLines = InputParser.GetLinesAsListLongs();
             Doubles = InputParser.GetTextAsDoubles();
             DoubleLines = InputParser.GetLinesAsListDoubles();
+            Digits = InputParser.GetTextAsDigits();
+            DigitLines = InputParser.GetLinesAsListDigits();
             IntGrid = InputParser.GetLinesAsGrid<int>();
             CharGrid = InputParser.GetLinesAsGrid<char>();
+            Graph = InputParser.GetLinesAsGraph();
         }
 
         public InputParser InputParser { get; }
@@ -39,8 +42,14 @@ namespace AdventLibrary
 
         public List<List<double>> DoubleLines { get; }
 
+        public List<long> Digits { get; }
+
+        public List<List<long>> DigitLines { get; }
+
         public List<List<int>> IntGrid { get; }
 
         public List<List<char>> CharGrid { get; }
+
+        public Dictionary<string, List<string>> Graph { get; }
     }
 }

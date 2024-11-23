@@ -262,5 +262,28 @@ namespace AdventLibrary.Extensions
                 list.RemoveAt(index + 1);
             }
         }
+
+        public static int GetIndexWithOffset<T>(this List<T> list, int index, int offset, bool wrapping = false)
+        {
+            var newIndex = index + offset;
+            if (newIndex < 0)
+            {
+                if (!wrapping)
+                {
+                    return -1;
+                }
+                newIndex += list.Count;
+            }
+            else if (newIndex >= list.Count)
+            {
+                if (!wrapping)
+                {
+                    return -1;
+                }
+                newIndex -= list.Count;
+            }
+
+            return newIndex;
+        }
     }
 }

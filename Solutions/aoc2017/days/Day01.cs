@@ -6,35 +6,37 @@ namespace aoc2017
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
-
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
-            return new Solution(Part1(), Part2());
+            var solution = new Solution();
+            solution.Part1 = Part1();
+            solution.Part2 = Part2();
+            return solution;
         }
 
-        private object Part1()
+        private object Part1(bool isTest = false)
         {
-            var lines = ParseInput.GetLinesFromFile(_filePath);
+            var input = new InputObjectCollection(_filePath);
+
             var total = 1000000;
-            var counter = 0;
+			var counter = 0;
 
-            var line = lines[0];
-
-            for (var j = 1; j < line.Length; j++)
+            long last = -1;
+            foreach (var num in input.Digits)
             {
-                if (line[j] == line[j - 1])
+                if (line[j] == line[j-1])
                 {
                     counter += line[j];
                 }
             }
-            if (line[line.Length - 1] == line[0])
+            if (line[line.Length-1] == line[0])
             {
-                counter += line[line.Length - 1];
+                count += last;
             }
-            return counter;
+            return count;
         }
-
+        
         private object Part2()
         {
             return 0;

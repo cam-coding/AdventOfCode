@@ -40,18 +40,26 @@
 
         private void CreateEmptyInputFile()
         {
-            var directoryPath = InputRoot + $"\\Input\\{Year}\\";
-            Directory.CreateDirectory(directoryPath);
-            var fullPath = directoryPath + $"Day{Day}.txt";
-            DirectoryHelper.CreateEmptyFile(fullPath);
+            CreateFileIncludingDirectories(
+                $"Day{Day}.txt",
+                InputRoot + $"\\Input\\{Year}\\");
         }
 
         private void CreateEmptyTestInputFile()
         {
-            var directoryPath = InputRoot + $"\\TestInput\\{Year}\\";
-            Directory.CreateDirectory(directoryPath);
-            var fullPath = directoryPath + $"Day{Day}Test.txt";
-            DirectoryHelper.CreateEmptyFile(fullPath);
+            CreateFileIncludingDirectories(
+                $"Day{Day}Test.txt",
+                InputRoot + $"\\TestInput\\{Year}\\");
+        }
+
+        private void CreateFileIncludingDirectories(string fileName, string directoryPath)
+        {
+            var fullPath = Path.Combine(directoryPath, fileName);
+            if (!File.Exists(Path.Combine(fullPath)))
+            {
+                Directory.CreateDirectory(directoryPath);
+                DirectoryHelper.CreateEmptyFile(fullPath);
+            }
         }
 
         public void FillFileWithBoilerPlate(string destFile)

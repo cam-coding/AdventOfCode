@@ -1,4 +1,5 @@
 using AdventLibrary;
+using AdventLibrary.Extensions;
 using AdventLibrary.PathFinding;
 using System;
 using System.Collections.Generic;

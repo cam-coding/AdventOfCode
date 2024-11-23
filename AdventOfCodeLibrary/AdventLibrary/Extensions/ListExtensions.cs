@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AdventLibrary
+namespace AdventLibrary.Extensions
 {
     // Extending base list class with some helper methods
     public static class ListExtensions
@@ -108,7 +108,7 @@ namespace AdventLibrary
         {
             if (length == 0) return new List<IEnumerable<T>>();
             if (length == 1) return list.Select(t => new T[] { t });
-            return GetKCombinations(list, length - 1)
+            return list.GetKCombinations(length - 1)
                 .SelectMany(t => list.Where(o => o.CompareTo(t.Last()) > 0),
                     (t1, t2) => t1.Concat(new T[] { t2 }));
         }
@@ -118,7 +118,7 @@ namespace AdventLibrary
             var result = new List<IEnumerable<T>>() { new List<T>() };
             for (int i = 1; i <= length; i++)
             {
-                result.AddRange(GetKCombinations(list, i).ToList());
+                result.AddRange(list.GetKCombinations(i).ToList());
             }
             return result;
         }
@@ -139,6 +139,7 @@ namespace AdventLibrary
             }
             return list;
         }
+
         public static List<T> FillEmptyListWithValue<T>(this List<T> list, T value, int count)
         {
             for (var i = 0; i < count; i++)
@@ -168,7 +169,7 @@ namespace AdventLibrary
             T head = combinationList[0];
             var copiedCombinationList = new List<T>(combinationList);
 
-            List<List<T>> subcombinations = GenerateCombinationsWithRepetition(copiedCombinationList, k - 1);
+            List<List<T>> subcombinations = copiedCombinationList.GenerateCombinationsWithRepetition(k - 1);
 
             foreach (var subcombination in subcombinations)
             {
@@ -177,7 +178,7 @@ namespace AdventLibrary
             }
 
             combinationList.RemoveAt(0);
-            combinations.AddRange(GenerateCombinationsWithRepetition(combinationList, k));
+            combinations.AddRange(combinationList.GenerateCombinationsWithRepetition(k));
 
             return combinations;
         }
@@ -258,9 +259,8 @@ namespace AdventLibrary
         {
             while (index + 1 < list.Count)
             {
-                list.RemoveAt(index+1);
+                list.RemoveAt(index + 1);
             }
         }
     }
-
 }

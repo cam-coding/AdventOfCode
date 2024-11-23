@@ -1,4 +1,5 @@
 using AdventLibrary;
+using AdventLibrary.Extensions;
 
 namespace aoc2015
 {

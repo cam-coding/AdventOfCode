@@ -3,11 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace AdventLibrary
+namespace AdventLibrary.Extensions
 {
     public static class StringExtensions
     {
         private static readonly Regex whiteSpaceRegex = new Regex(@"\s+");
+
+        public static bool IsEmpty(this string input)
+        {
+            return input.Equals(string.Empty);
+        }
+
+        public static bool IsNumeric(this string input)
+        {
+            return long.TryParse(input, out _);
+        }
 
         public static string ReverseString(this string str)
         {
@@ -27,7 +37,7 @@ namespace AdventLibrary
                     var valid = true;
                     for (var j = 1; j < substring.Length; j++)
                     {
-                        if (str[j+i] != substring[j])
+                        if (str[j + i] != substring[j])
                         {
                             valid = false;
                         }
@@ -52,6 +62,55 @@ namespace AdventLibrary
             }
 
             return str;
+        }
+
+        public static string RemoveWhitespace(this string input)
+        {
+            return whiteSpaceRegex.Replace(input, string.Empty);
+        }
+
+        public static string RemoveLettersFromString(this string str, string remove)
+        {
+            foreach (var c in remove)
+            {
+                str = str.Replace(c.ToString(), string.Empty);
+            }
+            return str;
+        }
+
+        public static string RemoveDigitsFromString(this string input)
+        {
+            string output = string.Empty;
+            foreach (char c in input)
+            {
+                if (!char.IsNumber(c))
+                {
+                    output += c;
+                }
+            }
+            return output;
+        }
+
+        public static string ReplaceWhitespace(string input, string replacement)
+        {
+            return whiteSpaceRegex.Replace(input, replacement);
+        }
+
+        public static bool LettersInsideString(this string str, string letters)
+        {
+            return str.LettersInsideString(letters.ToCharArray());
+        }
+
+        public static bool LettersInsideString(this string str, char[] letters)
+        {
+            foreach (var c in letters)
+            {
+                if (!str.Contains(c))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public static int CountPairs_NonOverlapping(this string str)
@@ -85,7 +144,7 @@ namespace AdventLibrary
                     {
                         if (!dict.ContainsKey(c))
                         {
-                            dict.Add(c, new List<int>() {  i });
+                            dict.Add(c, new List<int>() { i });
                         }
                         else
                         {
@@ -104,19 +163,29 @@ namespace AdventLibrary
 
             return dict.Values.Sum(x => x.Count);
         }
-        public static string RemoveWhitespace(this string input)
+
+        public static string ConcatListOfStrings(List<string> list, char? sep = null)
         {
-            return whiteSpaceRegex.Replace(input, string.Empty);
+            if (sep == null)
+            {
+                return string.Join(string.Empty, list.ToArray());
+            }
+            else
+            {
+                return string.Join(sep.Value, list.ToArray());
+            }
         }
 
-        public static string ReplaceWhitespace(string input, string replacement)
+        public static string ConcatListOfStrings(List<string> list, string sep)
         {
-            return whiteSpaceRegex.Replace(input, replacement);
+            return ConcatListOfStrings(list, sep[0]);
         }
 
-        public static bool IsEmpty(this string input)
+        public static string GetStringBetweenTwoCharacters(this string input, char startChar, char endChar)
         {
-            return input.Equals(string.Empty);
+            int startIndex = input.IndexOf(startChar);
+            int endIndex = input.IndexOf(endChar);
+            return input.Substring(startIndex + 1, endIndex - startIndex - 1);
         }
     }
 }

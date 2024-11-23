@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary;
+using AdventLibrary.Extensions;
 
 namespace aoc2021
 {
-    public class Day08: ISolver
+    public class Day08 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -19,23 +21,23 @@ namespace aoc2021
         {
             var counter = 0;
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 var parts = line.Split('|');
                 counter = counter + parts[1].Split(' ').Count(item => item.Length == 2 || item.Length == 3 || item.Length == 4 || item.Length == 7);
-			}
+            }
             return counter;
         }
-        
+
         private object Part2()
         {
             var bigOleTotal = 0;
             var solved = new string[10];
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 var parts = line.Split('|');
                 var inputs = parts[0].Split(' ').ToList();
                 var codes = parts[1].Split(' ').ToList().AllExceptFirstItem();
@@ -47,31 +49,31 @@ namespace aoc2021
                 inputs.Remove(solved[7]);
                 solved[8] = inputs.Where(x => x.Length == 7).First();
                 inputs.Remove(solved[8]);
-                var partFour = AdventLibrary.StringParsing.RemoveLettersFromString(solved[4], solved[1]);
-                solved[0] = inputs.Where(x => x.Length == 6 && 
-                    !AdventLibrary.StringParsing.LettersInsideString(x, partFour)).First();
+                var partFour = StringExtensions.RemoveLettersFromString(solved[4], solved[1]);
+                solved[0] = inputs.Where(x => x.Length == 6 &&
+                    !StringExtensions.LettersInsideString(x, partFour)).First();
                 inputs.Remove(solved[0]);
                 solved[9] = inputs.Where(x => x.Length == 6 &&
-                    AdventLibrary.StringParsing.LettersInsideString(x, solved[1])).First();
+                    StringExtensions.LettersInsideString(x, solved[1])).First();
                 inputs.Remove(solved[9]);
                 solved[6] = inputs.Where(x => x.Length == 6).First();
                 inputs.Remove(solved[6]);
                 solved[3] = inputs.Where(x => x.Length == 5 &&
-                    AdventLibrary.StringParsing.LettersInsideString(x, solved[1])).First();
+                    StringExtensions.LettersInsideString(x, solved[1])).First();
                 inputs.Remove(solved[3]);
                 solved[5] = inputs.Where(x => x.Length == 5 &&
-                    AdventLibrary.StringParsing.LettersInsideString(x, partFour)).First();
+                    StringExtensions.LettersInsideString(x, partFour)).First();
                 inputs.Remove(solved[5]);
                 solved[2] = inputs.Where(x => x.Length == 5).First();
 
                 var str = string.Empty;
                 var solvedList = solved.ToList();
-                foreach(var code in codes)
+                foreach (var code in codes)
                 {
-                    str = str + solvedList.IndexOf(solvedList.First(x => x.Length == code.Length && AdventLibrary.StringParsing.LettersInsideString(x, code)));
+                    str = str + solvedList.IndexOf(solvedList.First(x => x.Length == code.Length && StringExtensions.LettersInsideString(x, code)));
                 }
                 bigOleTotal = bigOleTotal + Convert.ToInt32(str);
-			}
+            }
             return bigOleTotal;
         }
     }

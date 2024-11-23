@@ -6,10 +6,11 @@ using AdventLibrary.Helpers;
 
 namespace aoc2016
 {
-    public class Day04: ISolver
-  {
+    public class Day04 : ISolver
+    {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t', '[', ']' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -19,14 +20,14 @@ namespace aoc2016
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var sum = 0;
-			
-			foreach (var line in lines)
-			{
-                var dict = new Dictionary<char,int>();
+            var sum = 0;
+
+            foreach (var line in lines)
+            {
+                var dict = new Dictionary<char, int>();
 
                 var tokens = line.Split(delimiterChars);
-                var letters = AdventLibrary.StringParsing.GetLettersFromString(line);
+                var letters = line.GetLettersFromString();
 
                 foreach (var letter in letters)
                 {
@@ -47,27 +48,27 @@ namespace aoc2016
                     }
                     checksum = checksum + entry.Key;
                 }
-                
+
                 if (checksum.Equals(tokens[^2]))
                 {
-				    var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+                    var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
                     sum = sum + nums[0];
                 }
-			}
+            }
             return sum;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var sum = 0;
-			
-			foreach (var line in lines)
-			{
-                var dict = new Dictionary<char,int>();
+            var sum = 0;
+
+            foreach (var line in lines)
+            {
+                var dict = new Dictionary<char, int>();
 
                 var tokens = line.Split(delimiterChars);
-                var letters = AdventLibrary.StringParsing.GetLettersFromString(line);
+                var letters = line.GetLettersFromString();
 
                 foreach (var letter in letters)
                 {
@@ -88,10 +89,10 @@ namespace aoc2016
                     }
                     checksum = checksum + entry.Key;
                 }
-                
+
                 if (checksum.Equals(tokens[^2]))
                 {
-				    var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+                    var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
                     var shift = nums[0] % 26;
 
                     var listy = line.ToArray();
@@ -106,7 +107,7 @@ namespace aoc2016
                     }
                     Console.WriteLine(new string(listy));
                 }
-			}
+            }
             return sum;
         }
     }

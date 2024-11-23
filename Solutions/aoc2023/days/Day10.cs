@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using AdventLibrary;
 using AdventLibrary.CustomObjects;
+using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 using AdventLibrary.PathFinding;
 

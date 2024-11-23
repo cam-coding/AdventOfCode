@@ -7,13 +7,6 @@ namespace AdventLibrary
 {
     public static class StringParsing
     {
-        public static string GetStringBetweenTwoCharacters(this string input, char startChar, char endChar)
-        {
-            int startIndex = input.IndexOf(startChar);
-            int endIndex = input.IndexOf(endChar);
-            return input.Substring(startIndex + 1, endIndex - startIndex - 1);
-        }
-
         public static string GetLettersFromString(this string input)
         {
             string output = "";
@@ -25,37 +18,6 @@ namespace AdventLibrary
                 }
             }
             return output;
-        }
-
-        public static List<int> GetNumbersFromString(this string input)
-        {
-            var numbers = Regex.Split(input, @"\D+").ToList().Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => int.Parse(x));
-            return numbers.ToList();
-        }
-
-        public static List<long> GetLongNumbersFromString(this string input)
-        {
-            var numbers = Regex.Split(input, @"\D+").ToList().Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => long.Parse(x));
-            return numbers.ToList();
-        }
-
-        public static List<int> GetNumbersWithNegativesFromString(this string input)
-        {
-            var numbers = Regex.Matches(input, @"-?[0-9]*?[0-9]+").ToList().
-                            Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => int.Parse(x.Value));
-            return numbers.ToList();
-        }
-
-        public static List<long> GetLongNumbersWithNegativesFromString(this string input)
-        {
-            var numbers = Regex.Matches(input, @"-?[0-9]*?[0-9]+").ToList().
-                            Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => long.Parse(x.Value));
-            return numbers.ToList();
-        }
-        public static List<string> GetNumbersFromStringAsStrings(this string input)
-        {
-            var numbers = Regex.Split(input, @"\D+").Where(x => !string.IsNullOrWhiteSpace(x));
-            return numbers.ToList();
         }
 
         public static List<int> GetDigitsFromString(this string input)
@@ -71,43 +33,41 @@ namespace AdventLibrary
             return output;
         }
 
-        public static string RemoveLettersFromString(this string str, string remove)
+        public static List<int> GetNumbersFromString(this string input)
         {
-            foreach (var c in remove)
-            {
-                str = str.Replace(c.ToString(), string.Empty);
-            }
-            return str;
+            var numbers = Regex.Split(input, @"\D+").ToList().Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => int.Parse(x));
+            return numbers.ToList();
         }
 
-        public static string RemoveDigitsFromString(this string input)
+        public static List<int> GetNumbersWithNegativesFromString(this string input)
         {
-            string output = string.Empty;
-            foreach (char c in input)
-            {
-                if (!char.IsNumber(c))
-                {
-                    output += c;
-                }
-            }
-            return output;
+            var numbers = Regex.Matches(input, @"-?[0-9]*?[0-9]+").ToList().
+                            Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => int.Parse(x.Value));
+            return numbers.ToList();
         }
 
-        public static bool LettersInsideString(this string str, string letters)
+        public static List<long> GetLongsFromString(this string input)
         {
-            foreach (var c in letters)
-            {
-                if (!str.Contains(c))
-                {
-                    return false;
-                }
-            }
-            return true;
+            var numbers = Regex.Split(input, @"\D+").ToList().Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => long.Parse(x));
+            return numbers.ToList();
         }
 
-        public static List<(int,int)> GetNumbersWithIndexesFromString(this string input)
+        public static List<long> GetLongsWithNegativesFromString(this string input)
         {
-            var result = new List<(int,int)>();
+            var numbers = Regex.Matches(input, @"-?[0-9]*?[0-9]+").ToList().
+                            Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => long.Parse(x.Value));
+            return numbers.ToList();
+        }
+
+        public static List<string> GetNumbersFromStringAsStrings(this string input)
+        {
+            var numbers = Regex.Split(input, @"\D+").Where(x => !string.IsNullOrWhiteSpace(x));
+            return numbers.ToList();
+        }
+
+        public static List<(int, int)> GetNumbersWithIndexesFromString(this string input)
+        {
+            var result = new List<(int, int)>();
             for (var i = 0; i < input.Length; i++)
             {
                 if (char.IsDigit(input[i]))
@@ -133,27 +93,10 @@ namespace AdventLibrary
                 var c = input[i];
                 if (char.IsDigit(c))
                 {
-                    output.Add((c-'0', i));
+                    output.Add((c - '0', i));
                 }
             }
             return output;
-        }
-
-        public static string ConcatListOfStrings(List<string> list, char? sep = null)
-        {
-            if (sep == null)
-            {
-                return string.Join(string.Empty, list.ToArray());
-            }
-            else
-            {
-                return string.Join(sep.Value, list.ToArray());
-            }
-        }
-
-        public static string ConcatListOfStrings(List<string> list, string sep)
-        {
-            return ConcatListOfStrings(list, sep[0]);
         }
     }
 }

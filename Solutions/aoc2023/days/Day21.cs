@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Security.Cryptography;
 using AdventLibrary;
+using AdventLibrary.Extensions;
 using AdventLibrary.PathFinding;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 

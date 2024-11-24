@@ -15,28 +15,28 @@ namespace aoc2017
             return solution;
         }
 
-        private object Part1(bool isTest = false)
+        private object Part1()
         {
-            var input = new InputObjectCollection(_filePath);
-
+            var lines = ParseInput.GetLinesFromFile(_filePath);
             var total = 1000000;
-			var counter = 0;
+            var counter = 0;
 
-            long last = -1;
-            foreach (var num in input.Digits)
+            var line = lines[0];
+
+            for (var j = 1; j < line.Length; j++)
             {
-                if (line[j] == line[j-1])
+                if (line[j] == line[j - 1])
                 {
                     counter += line[j];
                 }
             }
-            if (line[line.Length-1] == line[0])
+            if (line[line.Length - 1] == line[0])
             {
-                count += last;
+                counter += line[line.Length - 1];
             }
-            return count;
+            return counter;
         }
-        
+
         private object Part2()
         {
             return 0;

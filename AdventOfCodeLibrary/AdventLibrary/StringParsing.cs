@@ -98,22 +98,5 @@ namespace AdventLibrary
             }
             return output;
         }
-
-        public static string ConcatListOfStrings(List<string> list, char? sep = null)
-        {
-            if (sep == null)
-            {
-                return string.Join(string.Empty, list.ToArray());
-            }
-            else
-            {
-                return string.Join(sep.Value, list.ToArray());
-            }
-        }
-
-        public static string ConcatListOfStrings(List<string> list, string sep)
-        {
-            return ConcatListOfStrings(list, sep[0]);
-        }
     }
 }

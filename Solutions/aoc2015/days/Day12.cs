@@ -1,15 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
+using AdventLibrary;
 using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.Threading;
-using AdventLibrary;
-using AdventLibrary.Helpers;
-using System.Xml.Schema;
-using System.Xml.Linq;
 
 namespace aoc2015
 {
@@ -38,19 +29,64 @@ namespace aoc2015
         
         private object Part2()
         {
-            // do something like this? https://www.reddit.com/r/adventofcode/comments/3wh73d/day_12_solutions/cxw7z9h/
-            // was having a bad time installing the package
             string jsonString = ParseInput.GetTextFromFile(_filePath);
-            var objects = JsonSerializer.Deserialize<object>(jsonString)!;
-            /*
-            var rrs = JsonConvert.DeserializeObject(jsonString);
-            var total = 0;
 
-            foreach (var obj in objects)
+            using (JsonDocument document = JsonDocument.Parse(jsonString))
             {
-                total++;
-            }*/
+                JsonElement root = document.RootElement;
+                return Walk(root);
+            }
             return 0;
+        }
+
+        private int Walk(JsonElement current)
+        {
+            var count = 0;
+            if (current.ValueKind.Equals(JsonValueKind.Object))
+            {
+                var properties = current.EnumerateObject().ToList();
+                try
+                {
+                    foreach (var prop in properties)
+                    {
+                        var name = prop.Name;
+                        var value = prop.Value;
+                        count += Walk(value);
+                    }
+                }
+                catch (System.Exception e)
+                {
+                    count = 0;
+                }
+            }
+            else if (current.ValueKind.Equals(JsonValueKind.Array))
+            {
+                var elements = current.EnumerateArray().ToList();
+                foreach (var elem in elements)
+                {
+                    try
+                    {
+                        count += Walk(elem);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+            else if (current.ValueKind.Equals(JsonValueKind.Number))
+            {
+                var num = current.GetInt32();
+                return num;
+            }
+            else if (current.ValueKind.Equals(JsonValueKind.String))
+            {
+                var str = current.ToString();
+                if (str.Equals("red"))
+                {
+                    throw new System.Exception("red");
+                }
+            }
+            return count;
         }
     }
 }

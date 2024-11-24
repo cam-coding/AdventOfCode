@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdventLibrary.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -270,7 +271,7 @@ namespace AdventLibrary
         private string GetTextWithoutLineBreaks()
         {
             var tokens = _text.Split(lineEndingChars, StringSplitOptions.RemoveEmptyEntries);
-            return StringParsing.ConcatListOfStrings(tokens);
+            return StringExtensions.ConcatListOfStrings(tokens.ToList());
         }
     }
 }

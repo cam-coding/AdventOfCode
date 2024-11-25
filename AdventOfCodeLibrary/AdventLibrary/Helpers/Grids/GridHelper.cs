@@ -195,12 +195,14 @@ namespace AdventLibrary
             return points;
         }
 
-        public static List<(int y, int x)> GetAdjacentNeighbours<T>(List<List<T>> grid, (int y, int x) coord)
+        // Gets 4 neighbours that are directly N/E/S/W aka Up/Right/Down/Left
+        public static List<(int y, int x)> GetOrthogonalNeighbours<T>(List<List<T>> grid, (int y, int x) coord)
         {
-            return GetAdjacentNeighbours<T>(grid, coord.y, coord.x);
+            return GetOrthogonalNeighbours<T>(grid, coord.y, coord.x);
         }
 
-        public static List<(int y, int x)> GetAdjacentNeighbours<T>(List<List<T>> grid, int y, int x)
+        // Gets 4 neighbours that are directly N/E/S/W aka Up/Right/Down/Left
+        public static List<(int y, int x)> GetOrthogonalNeighbours<T>(List<List<T>> grid, int y, int x)
         {
             var adj = new List<(int xOffset, int yOffset)>()
             {
@@ -223,7 +225,8 @@ namespace AdventLibrary
             return neighbours;
         }
 
-        public static List<(int, int)> GetOrthoginalNeighbours<T>(List<List<T>> grid, int x, int y)
+        // Gets all 8 neighbours. Diagonal and orthogonal
+        public static List<(int y, int x)> GetAllNeighbours<T>(List<List<T>> grid, int x, int y)
         {
             List<(int, int)> neighbours = new List<(int, int)>();
             int rowMin = x - 1 > 0 ? x - 1 : 0;
@@ -239,7 +242,7 @@ namespace AdventLibrary
                     {
                         continue;
                     }
-                    neighbours.Add((i, j));
+                    neighbours.Add((j, i));
                 }
             }
             return neighbours;
@@ -314,7 +317,7 @@ namespace AdventLibrary
             {
                 for (var x = 0; x < grid[0].Count; x++)
                 {
-                    dict.Add((y, x), GetAdjacentNeighbours(grid, x, y));
+                    dict.Add((y, x), GetOrthogonalNeighbours(grid, x, y));
                 }
             }
 

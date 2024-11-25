@@ -2,7 +2,7 @@
   "profiles": {
     "CreateNewDayProgram": {
       "commandName": "Project",
-      "commandLineArgs": "03 2017"
+      "commandLineArgs": "05 2017"
     }
   }
 }

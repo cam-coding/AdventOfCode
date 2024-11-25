@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary;
+using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 
 namespace aoc{YEAR}
@@ -28,9 +29,10 @@ namespace aoc{YEAR}
             var grid = input.CharGrid;
             long total = 1000000;
 			long count = 0;
-
-            var ln1 = lines[0];
-            var ln2 = lines[1];
+            long number = input.Long;
+            
+            var ln1 = lines != null && lines.Count > 0 ? lines[0] : string.Empty;
+            var ln2 = lines != null && lines.Count > 1 ? lines[1] : string.Empty;
             for (var i = 0; i < lines.Count; i++)
             {
 

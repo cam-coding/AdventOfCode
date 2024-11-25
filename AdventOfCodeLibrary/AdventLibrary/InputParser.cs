@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace AdventLibrary
 {
@@ -38,6 +39,22 @@ namespace AdventLibrary
             {
             }
             return null;
+        }
+
+        public List<long> GetTextAsLongsWithNegatives()
+        {
+            return StringParsing.GetNumbersWithNegativesFromString(_text).Select(x => (long)x).ToList();
+        }
+
+        public List<List<long>> GetLinesAsListLongsWithNegatives()
+        {
+            var numbers = new List<List<long>>();
+            foreach (var line in _lines)
+            {
+                numbers.Add(StringParsing.GetNumbersWithNegativesFromString(line).Select(x => (long)x).ToList());
+            }
+
+            return numbers;
         }
 
         public List<List<long>> GetLinesAsListLongs()

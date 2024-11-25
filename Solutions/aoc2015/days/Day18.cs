@@ -22,7 +22,7 @@ namespace aoc2015
                 {
                     for (var k = 0; k < 100; k++)
                     {
-                        var neigh = GridHelperWeirdTypes.GetOrthoginalNeighbours(grid, j, k);
+                        var neigh = GridHelperWeirdTypes.GetAllNeighbours(grid, j, k);
                         var count = 0;
                         foreach (var n in neigh)
                         {
@@ -88,7 +88,7 @@ namespace aoc2015
                 {
                     for (var k = 0; k < 100; k++)
                     {
-                        var neigh = GridHelperWeirdTypes.GetOrthoginalNeighbours(grid, j, k);
+                        var neigh = GridHelperWeirdTypes.GetAllNeighbours(grid, j, k);
                         var count = 0;
                         foreach (var n in neigh)
                         {

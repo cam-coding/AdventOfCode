@@ -51,18 +51,18 @@ namespace aoc2021
                 inputs.Remove(solved[8]);
                 var partFour = StringExtensions.RemoveLettersFromString(solved[4], solved[1]);
                 solved[0] = inputs.Where(x => x.Length == 6 &&
-                    !StringExtensions.LettersInsideString(x, partFour)).First();
+                    !StringExtensions.ContainsAllLetters(x, partFour)).First();
                 inputs.Remove(solved[0]);
                 solved[9] = inputs.Where(x => x.Length == 6 &&
-                    StringExtensions.LettersInsideString(x, solved[1])).First();
+                    StringExtensions.ContainsAllLetters(x, solved[1])).First();
                 inputs.Remove(solved[9]);
                 solved[6] = inputs.Where(x => x.Length == 6).First();
                 inputs.Remove(solved[6]);
                 solved[3] = inputs.Where(x => x.Length == 5 &&
-                    StringExtensions.LettersInsideString(x, solved[1])).First();
+                    StringExtensions.ContainsAllLetters(x, solved[1])).First();
                 inputs.Remove(solved[3]);
                 solved[5] = inputs.Where(x => x.Length == 5 &&
-                    StringExtensions.LettersInsideString(x, partFour)).First();
+                    StringExtensions.ContainsAllLetters(x, partFour)).First();
                 inputs.Remove(solved[5]);
                 solved[2] = inputs.Where(x => x.Length == 5).First();
 
@@ -70,7 +70,7 @@ namespace aoc2021
                 var solvedList = solved.ToList();
                 foreach (var code in codes)
                 {
-                    str = str + solvedList.IndexOf(solvedList.First(x => x.Length == code.Length && StringExtensions.LettersInsideString(x, code)));
+                    str = str + solvedList.IndexOf(solvedList.First(x => x.Length == code.Length && StringExtensions.ContainsAllLetters(x, code)));
                 }
                 bigOleTotal = bigOleTotal + Convert.ToInt32(str);
             }

@@ -104,7 +104,7 @@ namespace aoc2021
                 for (var j = 0; j < grid[0].Count; j++)
                 {
                     var toople = new Tuple<int,int>(i, j);
-                    dict.Add(toople, AdventLibrary.GridHelperWeirdTypes.GetOrthoginalNeighbours(grid, i, j));
+                    dict.Add(toople, AdventLibrary.GridHelperWeirdTypes.GetAllNeighbours(grid, i, j));
                 }
             }
             return dict;

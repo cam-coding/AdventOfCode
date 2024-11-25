@@ -31,7 +31,7 @@ namespace AdventLibrary
                 for (var x = 0; x < grid[0].Count; x++)
                 {
                     var node = graph[(y, x)];
-                    foreach (var neigh in GridHelper.GetAdjacentNeighbours(grid, y, x))
+                    foreach (var neigh in GridHelper.GetOrthogonalNeighbours(grid, y, x))
                     {
                         var otherNode = graph[neigh];
                         node.EdgesOut.Add(new CustomEdge<T>(node, otherNode, true));

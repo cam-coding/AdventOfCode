@@ -26,7 +26,7 @@ namespace aoc2021
         {
             grid = AdventLibrary.ParseInput.ParseFileAsGrid(_filePath);
 			_counter = 0;
-            var blah = AdventLibrary.GridHelperWeirdTypes.GetOrthoginalNeighbours(grid, 0, 0);
+            var blah = AdventLibrary.GridHelperWeirdTypes.GetAllNeighbours(grid, 0, 0);
 
             for (var w = 0; w < 100; w++)
             {
@@ -63,7 +63,7 @@ namespace aoc2021
 
         private void Flash(int x, int y)
         {
-            var adj = AdventLibrary.GridHelperWeirdTypes.GetOrthoginalNeighbours(grid, x, y);
+            var adj = AdventLibrary.GridHelperWeirdTypes.GetAllNeighbours(grid, x, y);
             foreach (var item in adj)
             {
                 if (grid[item.Item1][item.Item2] != 0)
@@ -80,7 +80,7 @@ namespace aoc2021
         {
             grid = AdventLibrary.ParseInput.ParseFileAsGrid(_filePath);
 			_counter = 0;
-            var blah = AdventLibrary.GridHelperWeirdTypes.GetOrthoginalNeighbours(grid, 0, 0);
+            var blah = AdventLibrary.GridHelperWeirdTypes.GetAllNeighbours(grid, 0, 0);
 
             for (var w = 0; w < 10000; w++)
             {

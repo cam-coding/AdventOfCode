@@ -60,7 +60,7 @@ namespace aoc2023
                 {
                     if (symbols.Contains(inputGrid[i][j]))
                     {
-                        var neigh = GridHelperWeirdTypes.GetOrthoginalNeighbours(inputGrid, i, j);
+                        var neigh = GridHelperWeirdTypes.GetAllNeighbours(inputGrid, i, j);
                         foreach (var k in neigh)
                         {
                             if (!dopeGrid[k.Item1][k.Item2].Item1.Equals(""))
@@ -124,7 +124,7 @@ namespace aoc2023
                 {
                     if (inputGrid[i][j] == '*')
                     {
-                        var neigh = GridHelperWeirdTypes.GetOrthoginalNeighbours(inputGrid, i, j);
+                        var neigh = GridHelperWeirdTypes.GetAllNeighbours(inputGrid, i, j);
                         var lookup = new Dictionary<string, int>();
                         foreach (var k in neigh)
                         {

@@ -135,7 +135,7 @@ namespace AdventLibrary
             return points;
         }
 
-        public static List<Tuple<int,int>> GetAdjacentNeighboursTuple<T>(List<List<T>> grid, int x, int y)
+        public static List<Tuple<int,int>> GetOrthogonalNeighboursTuple<T>(List<List<T>> grid, int x, int y)
         {
             var adj = new List<Tuple<int,int>>()
             {
@@ -158,7 +158,7 @@ namespace AdventLibrary
             return neighbours;
         }
 
-        public static List<Tuple<int, int>> GetOrthoginalNeighbours<T>(List<List<T>> grid, int x, int y)
+        public static List<Tuple<int, int>> GetAllNeighbours<T>(List<List<T>> grid, int x, int y)
         {
             List<Tuple<int, int>> neighbours = new List<Tuple<int, int>>();
             int rowMin = x - 1 > 0 ? x - 1 : 0;
@@ -248,7 +248,7 @@ namespace AdventLibrary
                 for (var x = 0; x < grid[0].Count; x++)
                 {
                     var cord = new Tuple<int,int>(x,y);
-                    dict.Add(cord, GetAdjacentNeighboursTuple(grid, x, y));
+                    dict.Add(cord, GetOrthogonalNeighboursTuple(grid, x, y));
                 }
             }
 

@@ -41,9 +41,10 @@ namespace AdventLibrary
 
         public static List<int> GetNumbersWithNegativesFromString(this string input)
         {
-            var numbers = Regex.Matches(input, @"-?[0-9]*?[0-9]+").ToList().
-                            Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => int.Parse(x.Value));
-            return numbers.ToList();
+            return Regex.Matches(input, @"-?[0-9]*?[0-9]+")
+                            .Where(x => !string.IsNullOrWhiteSpace(x.Value))
+                            .Select(x => int.Parse(x.Value))
+                            .ToList();
         }
 
         public static List<long> GetLongsFromString(this string input)

@@ -255,7 +255,7 @@ namespace AdventLibraryUnitTests
         public void GridHelper_GetAdjacent_Corner_ReturnsExpected()
         {
             var grid = GridHelper.GenerateSquareGrid(5);
-            var actual = GridHelperWeirdTypes.GetAdjacentNeighboursTuple(grid, 0, 0);
+            var actual = GridHelperWeirdTypes.GetOrthogonalNeighboursTuple(grid, 0, 0);
             Assert.Contains(new Tuple<int,int>(0, 1), actual);
             Assert.Contains(new Tuple<int,int>(1, 0), actual);
             Assert.Equal(2, actual.Count);
@@ -265,7 +265,7 @@ namespace AdventLibraryUnitTests
         public void GridHelper_GetAdjacent_TopEdge_ReturnsExpected()
         {
             var grid = GridHelper.GenerateSquareGrid(5);
-            var actual = GridHelperWeirdTypes.GetAdjacentNeighboursTuple(grid, 1, 0);
+            var actual = GridHelperWeirdTypes.GetOrthogonalNeighboursTuple(grid, 1, 0);
             Assert.Contains(new Tuple<int,int>(1, 1), actual);
             Assert.Contains(new Tuple<int,int>(2, 0), actual);
             Assert.Contains(new Tuple<int,int>(0, 0), actual);
@@ -276,7 +276,7 @@ namespace AdventLibraryUnitTests
         public void GridHelper_GetAdjacent_SideEdge_ReturnsExpected()
         {
             var grid = GridHelper.GenerateSquareGrid(5);
-            var actual = GridHelperWeirdTypes.GetAdjacentNeighboursTuple(grid, 0, 1);
+            var actual = GridHelperWeirdTypes.GetOrthogonalNeighboursTuple(grid, 0, 1);
             Assert.Contains(new Tuple<int,int>(1, 1), actual);
             Assert.Contains(new Tuple<int,int>(0, 0), actual);
             Assert.Contains(new Tuple<int,int>(0, 2), actual);
@@ -287,7 +287,7 @@ namespace AdventLibraryUnitTests
         public void GridHelper_GetAdjacent_Middle_ReturnsExpected()
         {
             var grid = GridHelper.GenerateSquareGrid(5);
-            var actual = GridHelperWeirdTypes.GetAdjacentNeighboursTuple(grid, 1, 1);
+            var actual = GridHelperWeirdTypes.GetOrthogonalNeighboursTuple(grid, 1, 1);
             Assert.Contains(new Tuple<int,int>(0, 1), actual);
             Assert.Contains(new Tuple<int,int>(2, 1), actual);
             Assert.Contains(new Tuple<int,int>(1, 0), actual);
@@ -299,7 +299,7 @@ namespace AdventLibraryUnitTests
         public void GridHelper_GetOrthoginal_Corner_ReturnsExpected()
         {
             var grid = GridHelper.GenerateSquareGrid(5);
-            var actual = GridHelperWeirdTypes.GetOrthoginalNeighbours(grid, 0, 0);
+            var actual = GridHelperWeirdTypes.GetAllNeighbours(grid, 0, 0);
             Assert.Contains(new Tuple<int,int>(0, 1), actual);
             Assert.Contains(new Tuple<int,int>(1, 1), actual);
             Assert.Contains(new Tuple<int,int>(1, 0), actual);
@@ -310,7 +310,7 @@ namespace AdventLibraryUnitTests
         public void GridHelper_GetOrthoginal_TopEdge_ReturnsExpected()
         {
             var grid = GridHelper.GenerateSquareGrid(5);
-            var actual = GridHelperWeirdTypes.GetOrthoginalNeighbours(grid, 1, 0);
+            var actual = GridHelperWeirdTypes.GetAllNeighbours(grid, 1, 0);
             Assert.Contains(new Tuple<int,int>(2, 0), actual);
             Assert.Contains(new Tuple<int,int>(2, 1), actual);
             Assert.Contains(new Tuple<int,int>(1, 1), actual);
@@ -323,7 +323,7 @@ namespace AdventLibraryUnitTests
         public void GridHelper_GetOrthoginal_SideEdge_ReturnsExpected()
         {
             var grid = GridHelper.GenerateSquareGrid(5);
-            var actual = GridHelperWeirdTypes.GetOrthoginalNeighbours(grid, 0, 1);
+            var actual = GridHelperWeirdTypes.GetAllNeighbours(grid, 0, 1);
             Assert.Contains(new Tuple<int,int>(1, 0), actual);
             Assert.Contains(new Tuple<int,int>(1, 1), actual);
             Assert.Contains(new Tuple<int,int>(1, 2), actual);
@@ -336,7 +336,7 @@ namespace AdventLibraryUnitTests
         public void GridHelper_GetOrthoginal_Middle_ReturnsExpected()
         {
             var grid = GridHelper.GenerateSquareGrid(5);
-            var actual = GridHelperWeirdTypes.GetOrthoginalNeighbours(grid, 1, 1);
+            var actual = GridHelperWeirdTypes.GetAllNeighbours(grid, 1, 1);
             Assert.Contains(new Tuple<int,int>(2, 0), actual);
             Assert.Contains(new Tuple<int,int>(2, 1), actual);
             Assert.Contains(new Tuple<int,int>(2, 2), actual);

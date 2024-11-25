@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventLibrary
@@ -14,7 +13,10 @@ namespace AdventLibrary
             Tokens = InputParser.GetTextAsTokenList();
             TokenLines = InputParser.GetLinesAsTokenLists();
             Longs = InputParser.GetTextAsLongs();
+            Long = Longs != null && Longs.Any() ? Longs[0] : 0;
+            LongsWithNegatives = InputParser.GetTextAsLongsWithNegatives();
             LongLines = InputParser.GetLinesAsListLongs();
+            LongLinesWithNegatives = InputParser.GetLinesAsListLongsWithNegatives();
             Doubles = InputParser.GetTextAsDoubles();
             DoubleLines = InputParser.GetLinesAsListDoubles();
             Digits = InputParser.GetTextAsDigits();
@@ -34,9 +36,15 @@ namespace AdventLibrary
 
         public List<List<string>> TokenLines { get; }
 
+        // If there's just a single number as input, this will be it
+        public long Long { get; }
+
         public List<long> Longs { get; }
 
+        public List<long> LongsWithNegatives { get; }
+
         public List<List<long>> LongLines { get; }
+        public List<List<long>> LongLinesWithNegatives { get; }
 
         public List<double> Doubles { get; }
 

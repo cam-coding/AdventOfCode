@@ -127,7 +127,7 @@ namespace aoc2023
 
             var maxLoop = 0;
 
-            var neighs = GridHelperWeirdTypes.GetAdjacentNeighboursTuple(grid, startingX, startingY);
+            var neighs = GridHelperWeirdTypes.GetOrthogonalNeighboursTuple(grid, startingX, startingY);
             var bestX = 0;
             var bestY = 0;
 

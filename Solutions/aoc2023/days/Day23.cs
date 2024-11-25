@@ -194,7 +194,7 @@ namespace aoc2023
                         var cord = new Tuple<int, int>(y, x);
                         if (chr == '.')
                         {
-                            var neigh = GridHelperWeirdTypes.GetAdjacentNeighboursTuple(grid, x, y);
+                            var neigh = GridHelperWeirdTypes.GetOrthogonalNeighboursTuple(grid, x, y);
                             var newNeigh = new List<Tuple<int, int>>();
                             foreach (var item in neigh)
                             {
@@ -246,7 +246,7 @@ namespace aoc2023
                     if (chr != '#')
                     {
                         var cord = new Tuple<int, int>(y, x);
-                        var neigh = GridHelperWeirdTypes.GetAdjacentNeighboursTuple(grid, x, y);
+                        var neigh = GridHelperWeirdTypes.GetOrthogonalNeighboursTuple(grid, x, y);
                         var newNeigh = new List<Tuple<int, int>>();
                         foreach (var item in neigh)
                         {

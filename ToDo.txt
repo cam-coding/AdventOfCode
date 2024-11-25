@@ -1,3 +1,9 @@
+Add GetDiagonalNeighbours (just the 4 corners) and write tests for it.
+
+Re-do Create new day so it makes sense
+	Combine into one project
+	output what has been added/changed
+
 Write more unit tests.
 
 Need something for grids and handling "anything beyond of the edges is x" where x is some value he sometimes gives.

@@ -80,7 +80,7 @@ namespace AdventLibrary.PathFinding
             Func<(int y, int x), List<(int y, int x)>> NeighboursFunc = (node) =>
             {
                 var neighbours = new List<(int y, int x)>();
-                foreach (var edge in GridHelper.GetAdjacentNeighbours(exampleGrid, node))
+                foreach (var edge in GridHelper.GetOrthogonalNeighbours(exampleGrid, node))
                 {
                     neighbours.Add(edge);
                 }

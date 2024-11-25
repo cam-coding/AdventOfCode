@@ -118,7 +118,7 @@ namespace aoc2023
                         }
 
                         //Get the next nodes/grids/etc to visit next
-                        var neighs = GridHelperWeirdTypes.GetAdjacentNeighboursTuple(grid, cur.Item1, cur.Item2);
+                        var neighs = GridHelperWeirdTypes.GetOrthogonalNeighboursTuple(grid, cur.Item1, cur.Item2);
                         foreach (var item in neighs)
                         {
                             var tup = (item.Item1, item.Item2);

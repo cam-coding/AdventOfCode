@@ -96,12 +96,12 @@ namespace AdventLibrary.Extensions
             return whiteSpaceRegex.Replace(input, replacement);
         }
 
-        public static bool LettersInsideString(this string str, string letters)
+        public static bool ContainsAllLetters(this string str, string letters)
         {
-            return str.LettersInsideString(letters.ToCharArray());
+            return str.ContainsAllLetters(letters.ToCharArray());
         }
 
-        public static bool LettersInsideString(this string str, char[] letters)
+        public static bool ContainsAllLetters(this string str, char[] letters)
         {
             foreach (var c in letters)
             {
@@ -111,6 +111,14 @@ namespace AdventLibrary.Extensions
                 }
             }
             return true;
+        }
+
+        public static bool IsAnagram(this string str, string otherStr)
+        {
+            string strOrdered = String.Concat(str.OrderBy(c => c));
+            string otherStrOrdered = String.Concat(otherStr.OrderBy(c => c));
+
+            return strOrdered.Equals(otherStrOrdered);
         }
 
         public static int CountPairs_NonOverlapping(this string str)

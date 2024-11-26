@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Xunit;
 
-namespace AdventLibraryUnitTests
+namespace AdventLibraryUnitTests.Helpers
 {
     public class StringHelperUnitTests
     {

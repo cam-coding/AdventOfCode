@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Xunit;
 
-namespace AdventLibraryUnitTests
+namespace AdventLibraryUnitTests.Helpers
 {
     public class ArrayHelperUnitTests
     {
@@ -31,7 +31,7 @@ namespace AdventLibraryUnitTests
             {
                 new[] { 1, 2, 3, 4},
                 new[] { 2, 3, 4, 1},
-                1 
+                1
             };
             yield return new object[]
             {

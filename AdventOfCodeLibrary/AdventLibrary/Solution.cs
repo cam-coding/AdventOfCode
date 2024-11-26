@@ -87,9 +87,9 @@ namespace AdventLibrary
         {
             if (timeSpan != null)
             {
-                if (timeSpan.Value.Milliseconds > 1000)
+                if (timeSpan.Value.TotalMilliseconds > 1000)
                 {
-                    return string.Format("{0}:{1}\n", Math.Floor(timeSpan.Value.TotalMinutes), timeSpan.Value.ToString("ss\\.ff"));
+                    return string.Format("Runtime in M:S:m {0}:{1}\n", Math.Floor(timeSpan.Value.TotalMinutes), timeSpan.Value.ToString("ss\\:fff"));
                 }
                 else
                 {

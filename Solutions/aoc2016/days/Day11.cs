@@ -12,6 +12,8 @@ namespace aoc2016
 {
     public class Day11 : ISolver
     {
+        private string _filePath;
+        /*
         private readonly List<List<Item>> _testFloors = new List<List<Item>>()
         {
             new List<Item>() { new Item('H', true), new Item('L', true) },
@@ -34,7 +36,7 @@ namespace aoc2016
             new List<Item>() { new Item('H', false), new Item('A', false), new Item('B', false) },
             new List<Item>() { new Item('L', false) },
             new List<Item>(),
-        };
+        };*/
 
         private readonly List<List<Item>> _part1Floors = new List<List<Item>>()
         {
@@ -56,7 +58,11 @@ namespace aoc2016
 
         public Solution Solve(string filePath, bool isTest = false)
         {
-            return new Solution(Part1(), Part2());
+            _filePath = filePath;
+            var solution = new Solution();
+            solution.Part1 = Part1();
+            solution.Part2 = Part2();
+            return solution;
         }
 
         private object Part1()
@@ -184,7 +190,7 @@ namespace aoc2016
                 }
             }
             stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            Console.WriteLine("Time for day 11: " + stopwatch.ElapsedMilliseconds);
             return best;
         }
 

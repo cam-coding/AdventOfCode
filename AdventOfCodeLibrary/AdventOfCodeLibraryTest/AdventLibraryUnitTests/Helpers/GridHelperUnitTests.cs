@@ -3,7 +3,7 @@ using Xunit;
 using System.Collections.Generic;
 using AdventLibrary;
 
-namespace AdventLibraryUnitTests
+namespace AdventLibraryUnitTests.Helpers
 {
     public class GridHelperUnitTests
     {
@@ -19,7 +19,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(3, 3),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(0, 0, 3, 3);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(0, 0, 3, 3);
             Assert.Equal(expected, actual);
         }
 
@@ -34,7 +34,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(3, 3),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(0, 0, 3, 3);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(0, 0, 3, 3);
             Assert.Equal(expected, actual);
         }
 
@@ -49,7 +49,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(0, 0),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(3, 3, 0, 0);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(3, 3, 0, 0);
             Assert.Equal(expected, actual);
         }
 
@@ -64,7 +64,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(0, 3),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(0, 0, 0, 3);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(0, 0, 0, 3);
             Assert.Equal(expected, actual);
         }
 
@@ -79,7 +79,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(0, 0),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(0, 3, 0, 0);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(0, 3, 0, 0);
             Assert.Equal(expected, actual);
         }
 
@@ -94,7 +94,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(3, 3),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(0, 0, 3, 3);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(0, 0, 3, 3);
             Assert.Equal(expected, actual);
         }
 
@@ -109,7 +109,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(3, 0),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(0, 3, 3, 0);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(0, 3, 3, 0);
             Assert.Equal(expected, actual);
         }
 
@@ -124,7 +124,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(0, 3),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(3, 0, 0, 3);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(3, 0, 0, 3);
             Assert.Equal(expected, actual);
         }
 
@@ -139,7 +139,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(0, 0),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(3, 3, 0, 0);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(3, 3, 0, 0);
             Assert.Equal(expected, actual);
         }
         #endregion InclusiveLine
@@ -153,7 +153,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(2, 0),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(0, 0, 3, 0);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(0, 0, 3, 0);
             Assert.Equal(expected, actual);
         }
 
@@ -166,7 +166,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(1, 0),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(3, 0, 0, 0);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(3, 0, 0, 0);
             Assert.Equal(expected, actual);
         }
 
@@ -179,7 +179,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(0, 2),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(0, 0, 0, 3);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(0, 0, 0, 3);
             Assert.Equal(expected, actual);
         }
 
@@ -192,7 +192,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(0, 2),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(0, 0, 0, 3);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(0, 0, 0, 3);
             Assert.Equal(expected, actual);
         }
 
@@ -205,7 +205,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(2, 2),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(0, 0, 3, 3);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(0, 0, 3, 3);
             Assert.Equal(expected, actual);
         }
 
@@ -218,7 +218,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(2, 1),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(0, 3, 3, 0);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(0, 3, 3, 0);
             Assert.Equal(expected, actual);
         }
 
@@ -231,7 +231,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(1, 2),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(3, 0, 0, 3);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(3, 0, 0, 3);
             Assert.Equal(expected, actual);
         }
 
@@ -244,7 +244,7 @@ namespace AdventLibraryUnitTests
                 new Tuple<int, int>(1, 1),
             };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(3, 3, 0, 0);
+            var actual = GridHelperWeirdTypes.GetPointsBetweenStartAndEndExclusive(3, 3, 0, 0);
             Assert.Equal(expected, actual);
         }
         #endregion ExclusiveLine
@@ -256,8 +256,8 @@ namespace AdventLibraryUnitTests
         {
             var grid = GridHelper.GenerateSquareGrid(5);
             var actual = GridHelperWeirdTypes.GetOrthogonalNeighboursTuple(grid, 0, 0);
-            Assert.Contains(new Tuple<int,int>(0, 1), actual);
-            Assert.Contains(new Tuple<int,int>(1, 0), actual);
+            Assert.Contains(new Tuple<int, int>(0, 1), actual);
+            Assert.Contains(new Tuple<int, int>(1, 0), actual);
             Assert.Equal(2, actual.Count);
         }
 
@@ -266,9 +266,9 @@ namespace AdventLibraryUnitTests
         {
             var grid = GridHelper.GenerateSquareGrid(5);
             var actual = GridHelperWeirdTypes.GetOrthogonalNeighboursTuple(grid, 1, 0);
-            Assert.Contains(new Tuple<int,int>(1, 1), actual);
-            Assert.Contains(new Tuple<int,int>(2, 0), actual);
-            Assert.Contains(new Tuple<int,int>(0, 0), actual);
+            Assert.Contains(new Tuple<int, int>(1, 1), actual);
+            Assert.Contains(new Tuple<int, int>(2, 0), actual);
+            Assert.Contains(new Tuple<int, int>(0, 0), actual);
             Assert.Equal(3, actual.Count);
         }
 
@@ -277,9 +277,9 @@ namespace AdventLibraryUnitTests
         {
             var grid = GridHelper.GenerateSquareGrid(5);
             var actual = GridHelperWeirdTypes.GetOrthogonalNeighboursTuple(grid, 0, 1);
-            Assert.Contains(new Tuple<int,int>(1, 1), actual);
-            Assert.Contains(new Tuple<int,int>(0, 0), actual);
-            Assert.Contains(new Tuple<int,int>(0, 2), actual);
+            Assert.Contains(new Tuple<int, int>(1, 1), actual);
+            Assert.Contains(new Tuple<int, int>(0, 0), actual);
+            Assert.Contains(new Tuple<int, int>(0, 2), actual);
             Assert.Equal(3, actual.Count);
         }
 
@@ -288,10 +288,10 @@ namespace AdventLibraryUnitTests
         {
             var grid = GridHelper.GenerateSquareGrid(5);
             var actual = GridHelperWeirdTypes.GetOrthogonalNeighboursTuple(grid, 1, 1);
-            Assert.Contains(new Tuple<int,int>(0, 1), actual);
-            Assert.Contains(new Tuple<int,int>(2, 1), actual);
-            Assert.Contains(new Tuple<int,int>(1, 0), actual);
-            Assert.Contains(new Tuple<int,int>(1, 2), actual);
+            Assert.Contains(new Tuple<int, int>(0, 1), actual);
+            Assert.Contains(new Tuple<int, int>(2, 1), actual);
+            Assert.Contains(new Tuple<int, int>(1, 0), actual);
+            Assert.Contains(new Tuple<int, int>(1, 2), actual);
             Assert.Equal(4, actual.Count);
         }
 
@@ -300,9 +300,9 @@ namespace AdventLibraryUnitTests
         {
             var grid = GridHelper.GenerateSquareGrid(5);
             var actual = GridHelperWeirdTypes.GetAllNeighbours(grid, 0, 0);
-            Assert.Contains(new Tuple<int,int>(0, 1), actual);
-            Assert.Contains(new Tuple<int,int>(1, 1), actual);
-            Assert.Contains(new Tuple<int,int>(1, 0), actual);
+            Assert.Contains(new Tuple<int, int>(0, 1), actual);
+            Assert.Contains(new Tuple<int, int>(1, 1), actual);
+            Assert.Contains(new Tuple<int, int>(1, 0), actual);
             Assert.Equal(3, actual.Count);
         }
 
@@ -311,11 +311,11 @@ namespace AdventLibraryUnitTests
         {
             var grid = GridHelper.GenerateSquareGrid(5);
             var actual = GridHelperWeirdTypes.GetAllNeighbours(grid, 1, 0);
-            Assert.Contains(new Tuple<int,int>(2, 0), actual);
-            Assert.Contains(new Tuple<int,int>(2, 1), actual);
-            Assert.Contains(new Tuple<int,int>(1, 1), actual);
-            Assert.Contains(new Tuple<int,int>(0, 1), actual);
-            Assert.Contains(new Tuple<int,int>(0, 0), actual);
+            Assert.Contains(new Tuple<int, int>(2, 0), actual);
+            Assert.Contains(new Tuple<int, int>(2, 1), actual);
+            Assert.Contains(new Tuple<int, int>(1, 1), actual);
+            Assert.Contains(new Tuple<int, int>(0, 1), actual);
+            Assert.Contains(new Tuple<int, int>(0, 0), actual);
             Assert.Equal(5, actual.Count);
         }
 
@@ -324,11 +324,11 @@ namespace AdventLibraryUnitTests
         {
             var grid = GridHelper.GenerateSquareGrid(5);
             var actual = GridHelperWeirdTypes.GetAllNeighbours(grid, 0, 1);
-            Assert.Contains(new Tuple<int,int>(1, 0), actual);
-            Assert.Contains(new Tuple<int,int>(1, 1), actual);
-            Assert.Contains(new Tuple<int,int>(1, 2), actual);
-            Assert.Contains(new Tuple<int,int>(0, 2), actual);
-            Assert.Contains(new Tuple<int,int>(0, 0), actual);
+            Assert.Contains(new Tuple<int, int>(1, 0), actual);
+            Assert.Contains(new Tuple<int, int>(1, 1), actual);
+            Assert.Contains(new Tuple<int, int>(1, 2), actual);
+            Assert.Contains(new Tuple<int, int>(0, 2), actual);
+            Assert.Contains(new Tuple<int, int>(0, 0), actual);
             Assert.Equal(5, actual.Count);
         }
 
@@ -337,14 +337,14 @@ namespace AdventLibraryUnitTests
         {
             var grid = GridHelper.GenerateSquareGrid(5);
             var actual = GridHelperWeirdTypes.GetAllNeighbours(grid, 1, 1);
-            Assert.Contains(new Tuple<int,int>(2, 0), actual);
-            Assert.Contains(new Tuple<int,int>(2, 1), actual);
-            Assert.Contains(new Tuple<int,int>(2, 2), actual);
-            Assert.Contains(new Tuple<int,int>(1, 2), actual);
-            Assert.Contains(new Tuple<int,int>(0, 2), actual);
-            Assert.Contains(new Tuple<int,int>(0, 1), actual);
-            Assert.Contains(new Tuple<int,int>(0, 0), actual);
-            Assert.Contains(new Tuple<int,int>(1, 0), actual);
+            Assert.Contains(new Tuple<int, int>(2, 0), actual);
+            Assert.Contains(new Tuple<int, int>(2, 1), actual);
+            Assert.Contains(new Tuple<int, int>(2, 2), actual);
+            Assert.Contains(new Tuple<int, int>(1, 2), actual);
+            Assert.Contains(new Tuple<int, int>(0, 2), actual);
+            Assert.Contains(new Tuple<int, int>(0, 1), actual);
+            Assert.Contains(new Tuple<int, int>(0, 0), actual);
+            Assert.Contains(new Tuple<int, int>(1, 0), actual);
             Assert.Equal(8, actual.Count);
         }
         #endregion Neighbours
@@ -352,10 +352,10 @@ namespace AdventLibraryUnitTests
         private List<List<int>> GenerateEmptyGrid()
         {
             var listy = new List<List<int>>();
-            listy.Add(new List<int> { 0, 0, 0, 0});
-            listy.Add(new List<int> { 0, 0, 0, 0});
-            listy.Add(new List<int> { 0, 0, 0, 0});
-            listy.Add(new List<int> { 0, 0, 0, 0});
+            listy.Add(new List<int> { 0, 0, 0, 0 });
+            listy.Add(new List<int> { 0, 0, 0, 0 });
+            listy.Add(new List<int> { 0, 0, 0, 0 });
+            listy.Add(new List<int> { 0, 0, 0, 0 });
 
             return listy;
         }
@@ -363,11 +363,11 @@ namespace AdventLibraryUnitTests
         [Fact]
         public void GridHelper_RotateColumnDown_ReturnsExpected()
         {
-            var start = new int[,]{ { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }};
+            var start = new int[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
 
-            var expected = new int[,]{ { 9, 2, 3, 4 }, { 1, 6, 7, 8 }, { 5, 10, 11, 12 }};
+            var expected = new int[,] { { 9, 2, 3, 4 }, { 1, 6, 7, 8 }, { 5, 10, 11, 12 } };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.RotateColumnDownWithWrap(start, 0);
+            var actual = GridHelperWeirdTypes.RotateColumnDownWithWrap(start, 0);
             Assert.Equal(expected, actual);
         }
 
@@ -378,7 +378,7 @@ namespace AdventLibraryUnitTests
 
             var expected = new int[,] { { 5, 2, 3, 4 }, { 9, 6, 7, 8 }, { 1, 10, 11, 12 } };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.RotateColumnUpWithWrap(start, 0);
+            var actual = GridHelperWeirdTypes.RotateColumnUpWithWrap(start, 0);
             Assert.Equal(expected, actual);
         }
 
@@ -389,7 +389,7 @@ namespace AdventLibraryUnitTests
 
             var expected = new int[,] { { 9, 10, 11, 12 }, { 1, 2, 3, 4 }, { 5, 6, 7, 8 } };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.RotateGridDownWithWrap(start);
+            var actual = GridHelperWeirdTypes.RotateGridDownWithWrap(start);
             Assert.Equal(expected, actual);
         }
 
@@ -400,7 +400,7 @@ namespace AdventLibraryUnitTests
 
             var expected = new int[,] { { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, { 1, 2, 3, 4 } };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.RotateGridUpWithWrap(start);
+            var actual = GridHelperWeirdTypes.RotateGridUpWithWrap(start);
             Assert.Equal(expected, actual);
         }
 
@@ -411,7 +411,7 @@ namespace AdventLibraryUnitTests
 
             var expected = new int[,] { { 4, 1, 2, 3 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.RotateRowRightWithWrap(start, 0);
+            var actual = GridHelperWeirdTypes.RotateRowRightWithWrap(start, 0);
             Assert.Equal(expected, actual);
         }
 
@@ -422,7 +422,7 @@ namespace AdventLibraryUnitTests
 
             var expected = new int[,] { { 2, 3, 4, 1 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
 
-            var actual = AdventLibrary.GridHelperWeirdTypes.RotateRowLeftWithWrap(start, 0);
+            var actual = GridHelperWeirdTypes.RotateRowLeftWithWrap(start, 0);
             Assert.Equal(expected, actual);
         }
 

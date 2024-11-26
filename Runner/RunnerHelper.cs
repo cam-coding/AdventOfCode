@@ -1,4 +1,5 @@
 using AdventLibrary;
+using AdventLibrary.Helpers;
 using SetupLibrary;
 using System;
 using System.Collections.Generic;
@@ -70,7 +71,7 @@ namespace Runner
             // If type is null and file doesn't exist, create a file and exit
             if (type == null && !File.Exists(_solutionRoot + $"\\Solutions\\aoc{year}\\Days\\Day{day}.cs"))
             {
-                var creator = new CreateNewDay(day, year, _solutionRoot);
+                var creator = new FileCreator(day, year, _solutionRoot);
                 creator.SetupFiles();
                 Console.WriteLine("Files have now been created, please run again");
                 Environment.Exit(0);

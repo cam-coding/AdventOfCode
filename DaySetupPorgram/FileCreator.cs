@@ -1,8 +1,10 @@
-﻿namespace SetupLibrary
+﻿using AdventLibrary.Helpers;
+
+namespace SetupLibrary
 {
-    public class CreateNewDay
+    public class FileCreator
     {
-        public CreateNewDay(string day, string year, string solutionRoot)
+        public FileCreator(string day, string year, string solutionRoot)
         {
             if (day == null || year == null)
             {

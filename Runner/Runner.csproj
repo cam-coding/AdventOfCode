@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AdventOfCodeLibrary\AdventLibrary\AdventLibrary.csproj" />
-	<ProjectReference Include="..\Setup\SetupLibrary\SetupLibrary.csproj" />
+    <ProjectReference Include="..\DaySetupPorgram\DaySetupProgram.csproj" />
     <ProjectReference Include="..\Solutions\aoc2015\aoc2015.csproj" />
     <ProjectReference Include="..\Solutions\aoc2016\aoc2016.csproj" />
     <ProjectReference Include="..\Solutions\aoc2017\aoc2017.csproj" />

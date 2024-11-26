@@ -1,14 +1,15 @@
-﻿using SetupLibrary;
+﻿using AdventLibrary.Helpers;
+using SetupLibrary;
 
-namespace CreateNewDayProgram
+namespace DaySetupProgram
 {
-    static class CreateNewDayProgram
+    static class ProgramStart
     {
         static void Main(string[] args)
         {
             if (args.Count() != 2)
             {
-                Console.WriteLine("./CreateNewDayProgram.exe {day} {year}");
+                Console.WriteLine("./DaySetupProgram.exe {day} {year}");
                 return;
             }
 
@@ -19,7 +20,7 @@ namespace CreateNewDayProgram
                 if (day < 1 || 25 < day ||
                     year < 2016 || year > 2040)
                 {
-                    Console.WriteLine("./CreateNewDayProgram.exe {day} {year}");
+                    Console.WriteLine("./DaySetupProgram.exe {day} {year}");
                     return;
                 }
             }
@@ -30,7 +31,7 @@ namespace CreateNewDayProgram
                 throw new Exception("Couldn't find the solution root directory.");
             }
 
-            var creator = new CreateNewDay(args[0].PadLeft(2, '0'), args[1], solutionRoot.FullName);
+            var creator = new FileCreator(args[0].PadLeft(2, '0'), args[1], solutionRoot.FullName);
             creator.SetupFiles();
         }
     }

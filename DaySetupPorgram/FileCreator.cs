@@ -1,4 +1,5 @@
-﻿using AdventLibrary.Helpers;
+﻿using AdventLibrary.Extensions;
+using AdventLibrary.Helpers;
 
 namespace SetupLibrary
 {
@@ -6,7 +7,7 @@ namespace SetupLibrary
     {
         public FileCreator(string day, string year, string solutionRoot)
         {
-            if (day == null || year == null)
+            if (day == null || day.IsEmpty() || year == null || year.IsEmpty())
             {
                 throw new ArgumentNullException();
             }

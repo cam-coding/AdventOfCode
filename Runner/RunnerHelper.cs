@@ -48,8 +48,8 @@ namespace Runner
         {
             if (args.Length == 0)
             {
-                year = "2017";
-                day = "6";
+                year = RunnerStaticArgs.YEAR;
+                day = RunnerStaticArgs.DAY;
             }
             else if (args[0] == "true" || args[0] == "-t")
             {

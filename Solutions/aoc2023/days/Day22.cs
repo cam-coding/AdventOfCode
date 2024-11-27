@@ -29,7 +29,7 @@ namespace aoc2023
             var maxNum2 = 0;
             foreach (var line in lines)
             {
-                var tokens = line.Split('~').ToList().OnlyRealStrings(delimiterChars);
+                var tokens = line.Split('~').ToList().GetRealStrings(delimiterChars);
                 var start = StringParsing.GetNumbersFromString(tokens[0]);
                 var end = StringParsing.GetNumbersFromString(tokens[1]);
                 maxNum2 = Math.Max(maxNum2, new List<int>() { start[1], start[0], end[1], end[0] }.Max());
@@ -112,7 +112,7 @@ namespace aoc2023
             var maxNum2 = 0;
             foreach (var line in lines)
             {
-                var tokens = line.Split('~').ToList().OnlyRealStrings(delimiterChars);
+                var tokens = line.Split('~').ToList().GetRealStrings(delimiterChars);
                 var start = StringParsing.GetNumbersFromString(tokens[0]);
                 var end = StringParsing.GetNumbersFromString(tokens[1]);
                 maxNum2 = Math.Max(maxNum2, new List<int>() { start[1], start[0], end[1], end[0] }.Max());

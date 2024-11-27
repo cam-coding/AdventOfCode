@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using AdventLibrary.Extensions;
 
 namespace AdventLibrary
 {
@@ -98,6 +99,12 @@ namespace AdventLibrary
                 }
             }
             return output;
+        }
+
+        public static List<string> GetRealTokens(this string input, char[] delimiterChars)
+        {
+            var tokens = input.Split(delimiterChars).ToList();
+            return tokens.GetRealStrings(delimiterChars);
         }
     }
 }

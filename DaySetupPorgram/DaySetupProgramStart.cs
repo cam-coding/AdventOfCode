@@ -3,7 +3,7 @@ using SetupLibrary;
 
 namespace DaySetupProgram
 {
-    static class ProgramStart
+    static class DaySetupProgramStart
     {
         static void Main(string[] args)
         {

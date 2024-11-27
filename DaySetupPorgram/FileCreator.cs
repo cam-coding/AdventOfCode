@@ -27,13 +27,13 @@ namespace SetupLibrary
 
         public void SetupFiles()
         {
-            var filePath = CreateDirectoriesAndFile();
+            var filePath = CreateSolutionDirectoriesAndFile();
             FillFileWithBoilerPlate(filePath);
             CreateEmptyInputFile();
             CreateEmptyTestInputFile();
         }
 
-        public string CreateDirectoriesAndFile()
+        public string CreateSolutionDirectoriesAndFile()
         {
             var directoryPath = RepositoryRoot + $"\\Solutions\\aoc{Year}\\days\\";
             Directory.CreateDirectory(directoryPath);
@@ -62,6 +62,7 @@ namespace SetupLibrary
             {
                 Directory.CreateDirectory(directoryPath);
                 DirectoryHelper.CreateEmptyFile(fullPath);
+                Console.WriteLine("Created empty file:\n" + fullPath);
             }
         }
 
@@ -71,6 +72,7 @@ namespace SetupLibrary
             text = text.Replace("{YEAR}", Year);
             text = text.Replace("{DAY}", Day);
             File.WriteAllText(destFile, text);
+            Console.WriteLine("Created and filled file:\n" + destFile);
         }
     }
 }

@@ -29,16 +29,16 @@ namespace aoc2020
             var hasGoldenBagsInside = new HashSet<string>();
             foreach (var line in lines)
             {
-                var tokens = line.Split("bags contain").ToList().OnlyRealStrings(delimiterChars);
+                var tokens = line.Split("bags contain").ToList().GetRealStrings(delimiterChars);
                 var key = tokens[0].RemoveWhitespace();
 
                 var listy = new List<(int count, string key)>();
                 if (!tokens[1].Equals(" no other bags."))
                 {
-                    var inner = tokens[1].Split(',').ToList().OnlyRealStrings(delimiterChars);
+                    var inner = tokens[1].Split(',').ToList().GetRealStrings(delimiterChars);
                     foreach (var item in inner)
                     {
-                        var innerTokens = item.Split("bag").ToList().OnlyRealStrings(delimiterChars);
+                        var innerTokens = item.Split("bag").ToList().GetRealStrings(delimiterChars);
                         var count = innerTokens[0].GetNumbersFromString()[0];
                         var innerKey = innerTokens[0].RemoveDigitsFromString().RemoveWhitespace();
                         if (innerKey.Equals(goldKey))
@@ -92,16 +92,16 @@ namespace aoc2020
             var hasGoldenBagsInside = new HashSet<string>();
             foreach (var line in lines)
             {
-                var tokens = line.Split("bags contain").ToList().OnlyRealStrings(delimiterChars);
+                var tokens = line.Split("bags contain").ToList().GetRealStrings(delimiterChars);
                 var key = tokens[0].RemoveWhitespace();
 
                 var listy = new List<(int bagsCount, string key)>();
                 if (!tokens[1].Equals(" no other bags."))
                 {
-                    var inner = tokens[1].Split(',').ToList().OnlyRealStrings(delimiterChars);
+                    var inner = tokens[1].Split(',').ToList().GetRealStrings(delimiterChars);
                     foreach (var item in inner)
                     {
-                        var innerTokens = item.Split("bag").ToList().OnlyRealStrings(delimiterChars);
+                        var innerTokens = item.Split("bag").ToList().GetRealStrings(delimiterChars);
                         var count = innerTokens[0].GetNumbersFromString()[0];
                         var innerKey = innerTokens[0].RemoveDigitsFromString().RemoveWhitespace();
                         if (innerKey.Equals(goldKey))

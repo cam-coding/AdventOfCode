@@ -35,7 +35,7 @@ namespace aoc2020
 
 			foreach (var line in lines)
 			{
-                var tokens = line.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+                var tokens = line.Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
 				var nums = StringParsing.GetNumbersFromString(line);
 
 				foreach (var num in nums)

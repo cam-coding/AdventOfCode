@@ -44,7 +44,7 @@ namespace AdventLibraryUnitTests
         [MemberData(nameof(RealStringsTestData))]
         public void GetRealStringsTest(List<string> starting, List<string> expected)
         {
-            var result = starting.OnlyRealStrings(delimiterChars);
+            var result = starting.GetRealStrings(delimiterChars);
             Assert.Equal(expected, result);
         }
 

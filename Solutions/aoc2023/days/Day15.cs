@@ -22,7 +22,7 @@ namespace aoc2023
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
 
-            var tokens = lines[0].Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+            var tokens = lines[0].Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
             var total = 0;
             foreach (var item in tokens)
             {
@@ -54,11 +54,11 @@ namespace aoc2023
             }
             var lines = ParseInput.GetLinesFromFile(_filePath);
 
-            var tokens = lines[0].Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+            var tokens = lines[0].Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
             var total = 0;
             foreach (var item in tokens)
             {
-                var toks = item.Split(delimiterChars2).ToList().OnlyRealStrings(delimiterChars2);
+                var toks = item.Split(delimiterChars2).ToList().GetRealStrings(delimiterChars2);
                 var label = toks[0];
                 var hash = 0;
                 for (var i = 0; i < toks[0].Length; i++)

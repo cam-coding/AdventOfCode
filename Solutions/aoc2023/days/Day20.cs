@@ -29,14 +29,14 @@ namespace aoc2023
 
             foreach (var line in lines)
 			{
-                var firstTokens = line.Split('-','>',' ').ToList().OnlyRealStrings(delimiterChars);
+                var firstTokens = line.Split('-','>',' ').ToList().GetRealStrings(delimiterChars);
                 if (firstTokens[0].ToLower().Equals("broadcaster"))
                 {
                     dict.Add("broadcaster", new BroadcastModule(myTotals, "broadcaster"));
                 }
                 else
                 {
-                    var tokens = firstTokens[0].Split('%','&', ' ').ToList().OnlyRealStrings(delimiterChars);
+                    var tokens = firstTokens[0].Split('%','&', ' ').ToList().GetRealStrings(delimiterChars);
                     if (firstTokens[0][0] == '%')
                     {
                         dict.Add(tokens[0], new FlipFlopModule(myTotals, tokens[0]));
@@ -51,10 +51,10 @@ namespace aoc2023
 
             foreach (var line in lines)
             {
-                var firstTokens = line.Split('-', '>').ToList().OnlyRealStrings(delimiterChars);
-                var tokens = firstTokens[0].Split('%', '&').ToList().OnlyRealStrings(delimiterChars);
+                var firstTokens = line.Split('-', '>').ToList().GetRealStrings(delimiterChars);
+                var tokens = firstTokens[0].Split('%', '&').ToList().GetRealStrings(delimiterChars);
                 var module = dict[tokens[0].RemoveWhitespace()];
-                var connections = firstTokens[1].Split(',', ' ').ToList().OnlyRealStrings(delimiterChars);
+                var connections = firstTokens[1].Split(',', ' ').ToList().GetRealStrings(delimiterChars);
 
                 foreach (var con in connections)
                 {
@@ -179,14 +179,14 @@ namespace aoc2023
 
             foreach (var line in lines)
             {
-                var firstTokens = line.Split('-', '>', ' ').ToList().OnlyRealStrings(delimiterChars);
+                var firstTokens = line.Split('-', '>', ' ').ToList().GetRealStrings(delimiterChars);
                 if (firstTokens[0].ToLower().Equals("broadcaster"))
                 {
                     dict.Add("broadcaster", new BroadcastModule(myTotals, "broadcaster"));
                 }
                 else
                 {
-                    var tokens = firstTokens[0].Split('%', '&', ' ').ToList().OnlyRealStrings(delimiterChars);
+                    var tokens = firstTokens[0].Split('%', '&', ' ').ToList().GetRealStrings(delimiterChars);
                     if (firstTokens[0][0] == '%')
                     {
                         dict.Add(tokens[0], new FlipFlopModule(myTotals, tokens[0]));
@@ -201,10 +201,10 @@ namespace aoc2023
 
             foreach (var line in lines)
             {
-                var firstTokens = line.Split('-', '>').ToList().OnlyRealStrings(delimiterChars);
-                var tokens = firstTokens[0].Split('%', '&').ToList().OnlyRealStrings(delimiterChars);
+                var firstTokens = line.Split('-', '>').ToList().GetRealStrings(delimiterChars);
+                var tokens = firstTokens[0].Split('%', '&').ToList().GetRealStrings(delimiterChars);
                 var module = dict[tokens[0].RemoveWhitespace()];
-                var connections = firstTokens[1].Split(',', ' ').ToList().OnlyRealStrings(delimiterChars);
+                var connections = firstTokens[1].Split(',', ' ').ToList().GetRealStrings(delimiterChars);
 
                 foreach (var con in connections)
                 {

@@ -65,9 +65,9 @@ namespace AdventLibrary
 
             foreach (var line in lines)
             {
-                var tokens = line.Split(seperator).ToList().OnlyRealStrings(delimiterChars);
+                var tokens = line.Split(seperator).ToList().GetRealStrings(delimiterChars);
                 var key = tokens[0];
-                var connectedKeys = tokens[1].Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+                var connectedKeys = tokens[1].Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
                 adjList.Add(key, connectedKeys);
             }
             return AdjacencyListToGraph(adjList);

@@ -30,7 +30,7 @@ namespace aoc2017
             {
                 var valid = true;
                 HashSet<string> names = new HashSet<string>();
-                var tokens = line.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+                var tokens = line.Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
 
                 foreach (var token in tokens)
                 {
@@ -59,7 +59,7 @@ namespace aoc2017
             {
                 var valid = true;
                 HashSet<string> names = new HashSet<string>();
-                var tokens = line.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+                var tokens = line.Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
 
                 foreach (var token in tokens)
                 {

@@ -1,3 +1,4 @@
+using AdventLibrary.Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,6 +35,11 @@ namespace AdventLibrary.Extensions
             return true;
         }
 
+        public static bool AllItemsSame<T>(this IList<T> input)
+        {
+            return input.Distinct().Count() == 1;
+        }
+
         public static List<T> Clone<T>(this List<T> original)
         {
             var newList = new List<T>();
@@ -58,6 +64,16 @@ namespace AdventLibrary.Extensions
             }
 
             return listy2d;
+        }
+        public static Dictionary<T, int> GetCountsOfItems<T>(this IList<T> input)
+        {
+            var dict = new Dictionary<T, int>();
+            foreach (var item in input)
+            {
+                dict.TryAdd(item, 0);
+                dict[item]++;
+            }
+            return dict;
         }
 
         public static List<T> RotateListLeft<T>(this List<T> list, int n = 1)
@@ -183,12 +199,12 @@ namespace AdventLibrary.Extensions
             return combinations;
         }
 
-        public static List<string> OnlyRealStrings(this List<string> list)
+        public static List<string> GetRealStrings(this List<string> list)
         {
             return list.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
         }
 
-        public static List<string> OnlyRealStrings(this List<string> list, char[] delimiterChars)
+        public static List<string> GetRealStrings(this List<string> list, char[] delimiterChars)
         {
             var delimiterStrings = delimiterChars.Select(x => x.ToString());
             return list.Where(x => !string.IsNullOrWhiteSpace(x) && !delimiterStrings.Any(y => y.Equals(x))).ToList();

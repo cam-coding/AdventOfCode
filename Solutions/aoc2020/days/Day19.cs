@@ -30,18 +30,18 @@ namespace aoc2020
                     iter++;
                     break;
                 }
-                var tokens = lines[iter].Split(':').ToList().OnlyRealStrings();
+                var tokens = lines[iter].Split(':').ToList().GetRealStrings();
 				var key = StringParsing.GetNumbersFromString(tokens[0])[0];
                 var listy = new List<Rule>();
 
                 if (tokens[1].Contains("\""))
                 {
-                    var subRules2 = tokens[1].Split('\"').ToList().OnlyRealStrings(delimiterChars);
+                    var subRules2 = tokens[1].Split('\"').ToList().GetRealStrings(delimiterChars);
                     listy.Add(new Rule(subRules2[0]));
                 }
                 else
                 {
-                    var subRules2 = tokens[1].Split('|').ToList().OnlyRealStrings(delimiterChars);
+                    var subRules2 = tokens[1].Split('|').ToList().GetRealStrings(delimiterChars);
 
                     foreach (var rule in subRules2)
                     {
@@ -154,18 +154,18 @@ namespace aoc2020
                     iter++;
                     break;
                 }
-                var tokens = lines[iter].Split(':').ToList().OnlyRealStrings();
+                var tokens = lines[iter].Split(':').ToList().GetRealStrings();
                 var key = StringParsing.GetNumbersFromString(tokens[0])[0];
                 var listy = new List<Rule>();
 
                 if (tokens[1].Contains("\""))
                 {
-                    var subRules2 = tokens[1].Split('\"').ToList().OnlyRealStrings(delimiterChars);
+                    var subRules2 = tokens[1].Split('\"').ToList().GetRealStrings(delimiterChars);
                     listy.Add(new Rule(subRules2[0]));
                 }
                 else
                 {
-                    var subRules2 = tokens[1].Split('|').ToList().OnlyRealStrings(delimiterChars);
+                    var subRules2 = tokens[1].Split('|').ToList().GetRealStrings(delimiterChars);
 
                     foreach (var rule in subRules2)
                     {

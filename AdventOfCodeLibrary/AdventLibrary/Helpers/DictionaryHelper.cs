@@ -9,11 +9,12 @@ namespace AdventLibrary.Helpers
             return new Dictionary<TKey, TValue>(dict);
         }
 
-        public static TValue GetOrCreate<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue value)
+        public static TValue GetOrCreate<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue defaultValue)
         {
             if (!dict.TryGetValue(key, out TValue val))
             {
-                dict.Add(key, value);
+                dict.Add(key, defaultValue);
+                return defaultValue;
             }
 
             return val;

@@ -22,8 +22,8 @@ namespace aoc2023
             var nodes = new Dictionary<string,Day25Node>();
             foreach (var line in lines)
             {
-                var tokens = line.Split(':').ToList().OnlyRealStrings(delimiterChars);
-                var tokens2 = tokens[1].Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+                var tokens = line.Split(':').ToList().GetRealStrings(delimiterChars);
+                var tokens2 = tokens[1].Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
                 Day25Node first = null;
                 if (nodes.ContainsKey(tokens[0]))
                 {
@@ -84,7 +84,7 @@ namespace aoc2023
                     }
                 }
                 var first1 = MostUsedConnection(counts);
-                var tokens1 = first1.Split(_seperator).ToList().OnlyRealStrings(delimiterChars);
+                var tokens1 = first1.Split(_seperator).ToList().GetRealStrings(delimiterChars);
                 var lookup = nodes[tokens1[0]];
                 lookup.ConnectedTo.RemoveWhere(x => x.Key.Equals(tokens1[1]));
                 lookup = nodes[tokens1[1]];

@@ -31,7 +31,7 @@ namespace aoc2023
                 }
                 else if (!myBool)
                 {
-                    var tokens1 = line.Split('{', '}').ToList().OnlyRealStrings(delimiterChars);
+                    var tokens1 = line.Split('{', '}').ToList().GetRealStrings(delimiterChars);
 
                     dict.Add(tokens1[0], tokens1[1]);
                 }
@@ -49,10 +49,10 @@ namespace aoc2023
 
                     while (!current.Equals("A") && !current.Equals("R"))
                     {
-                        var tokens = dict[current].Split(",").ToList().OnlyRealStrings(delimiterChars);
+                        var tokens = dict[current].Split(",").ToList().GetRealStrings(delimiterChars);
                         foreach (var tok in tokens)
                         {
-                            var toks = tok.Split(':', '<', '>').ToList().OnlyRealStrings(delimiterChars);
+                            var toks = tok.Split(':', '<', '>').ToList().GetRealStrings(delimiterChars);
                             var myNums = StringParsing.GetNumbersFromString(tok);
 
                             if (myNums.Count == 0)
@@ -152,7 +152,7 @@ namespace aoc2023
                 }
                 else if (!myBool)
                 {
-                    var tokens1 = line.Split('{', '}').ToList().OnlyRealStrings(delimiterChars);
+                    var tokens1 = line.Split('{', '}').ToList().GetRealStrings(delimiterChars);
                     dict.Add(tokens1[0], tokens1[1]);
                 }
                 else
@@ -173,11 +173,11 @@ namespace aoc2023
             {
                 var node = nodes[item.Key];
 
-                var tokens = item.Value.Split(",").ToList().OnlyRealStrings(delimiterChars);
+                var tokens = item.Value.Split(",").ToList().GetRealStrings(delimiterChars);
 
                 foreach (var tok in tokens)
                 {
-                    var toks = tok.Split(':', '<', '>').ToList().OnlyRealStrings(delimiterChars);
+                    var toks = tok.Split(':', '<', '>').ToList().GetRealStrings(delimiterChars);
                     var myNums = StringParsing.GetNumbersFromString(tok);
                     var lookup = toks[^1];
                     if (lookup.Equals("R"))

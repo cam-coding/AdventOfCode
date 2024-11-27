@@ -38,7 +38,7 @@ namespace aoc2023
             var walker = new GridWalker((0, 0), GridWalker.Right);
             foreach (var line in lines)
             {
-                var tokens = line.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+                var tokens = line.Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
                 walker.Direction = dict[tokens[0]];
                 var speed = int.Parse(tokens[1]);
                 for(var i =0; i < speed; i++)
@@ -127,7 +127,7 @@ namespace aoc2023
             // #70c710 into 461937 and Right
             foreach (var line in lines)
             {
-                var tokens = line.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+                var tokens = line.Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
                 var specialToken = tokens[^1];
                 var hex = specialToken.Substring(0, specialToken.Length - 1);
                 var hexNum = hex.ConvertToHex();

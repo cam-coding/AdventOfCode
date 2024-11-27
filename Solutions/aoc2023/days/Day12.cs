@@ -24,7 +24,7 @@ namespace aoc2023
 
 			foreach (var line in lines)
 			{
-                var tokens = line.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+                var tokens = line.Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
 
 				var nums = StringParsing.GetNumbersFromString(line);
 
@@ -49,7 +49,7 @@ namespace aoc2023
 
             foreach (var line in lines)
             {
-                var tokens = line.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+                var tokens = line.Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
 
                 var nums = StringParsing.GetNumbersFromString(line);
 
@@ -66,7 +66,7 @@ namespace aoc2023
                 }
                 newLine = newLine[..^1];
                 var nums2 = StringParsing.GetNumbersFromString(newLine);
-                var tokens2 = newLine.Split(delimiterChars).ToList().OnlyRealStrings(delimiterChars);
+                var tokens2 = newLine.Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
 
                 _dicty = new Dictionary<DictKey, long>();
                 long temp = BackTrack4(tokens2[0], nums2);

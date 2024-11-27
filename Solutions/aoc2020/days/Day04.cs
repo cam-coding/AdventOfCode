@@ -33,10 +33,10 @@ namespace aoc2020
                 }
                 else
                 {
-                    var tokens = line.Split(' ').ToList().OnlyRealStrings(delimiterChars);
+                    var tokens = line.Split(' ').ToList().GetRealStrings(delimiterChars);
                     foreach (var tok in tokens)
                     {
-                        var innerTokens = tok.Split(':').ToList().OnlyRealStrings(delimiterChars);
+                        var innerTokens = tok.Split(':').ToList().GetRealStrings(delimiterChars);
                         if (!innerTokens[0].Equals("cid"))
                         {
                             listy[counter].Add(innerTokens[0], innerTokens[1]);
@@ -63,10 +63,10 @@ namespace aoc2020
                 }
                 else
                 {
-                    var tokens = line.Split(' ').ToList().OnlyRealStrings(delimiterChars);
+                    var tokens = line.Split(' ').ToList().GetRealStrings(delimiterChars);
                     foreach (var tok in tokens)
                     {
-                        var innerTokens = tok.Split(':').ToList().OnlyRealStrings(delimiterChars);
+                        var innerTokens = tok.Split(':').ToList().GetRealStrings(delimiterChars);
                         if (!innerTokens[0].Equals("cid"))
                         {
                             listy[counter].Add(innerTokens[0], innerTokens[1]);

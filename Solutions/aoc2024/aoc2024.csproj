@@ -10,4 +10,8 @@
     <ProjectReference Include="..\..\AdventOfCodeLibrary\AdventLibrary\AdventLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="days\" />
+  </ItemGroup>
+
 </Project>

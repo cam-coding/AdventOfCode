@@ -5,9 +5,9 @@ using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 
-namespace aoc{YEAR}
+namespace aoc2017
 {
-    public class Day{DAY}: ISolver
+    public class Day09: ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };

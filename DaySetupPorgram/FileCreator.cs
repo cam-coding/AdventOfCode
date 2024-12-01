@@ -28,7 +28,10 @@ namespace SetupLibrary
         public void SetupFiles()
         {
             var filePath = CreateSolutionDirectoriesAndFile();
-            FillFileWithBoilerPlate(filePath);
+            if (DirectoryHelper.IsTextFileEmpty(filePath))
+            {
+                FillFileWithBoilerPlate(filePath);
+            }
             CreateEmptyInputFile();
             CreateEmptyTestInputFile();
         }

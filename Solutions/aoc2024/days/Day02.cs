@@ -43,16 +43,8 @@ namespace aoc2024
                     {
                         valid = false;
                     }
-                    if (line[i] >= line[i-1])
-                    {
-                        descending = false;
-                    }
-                    if (line[i] <= line[i - 1])
-                    {
-                        ascending = false;
-                    }
                 }
-                if (!ascending && !descending)
+                if (!line.IsSorted())
                 {
                     valid = false;
                 }

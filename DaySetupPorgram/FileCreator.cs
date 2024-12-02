@@ -41,6 +41,11 @@ namespace SetupLibrary
             var directoryPath = RepositoryRoot + $"\\Solutions\\aoc{Year}\\days\\";
             Directory.CreateDirectory(directoryPath);
             var fullPath = directoryPath + $"Day{Day}.cs";
+            if (!File.Exists(fullPath))
+            {
+                DirectoryHelper.CreateEmptyFile(fullPath);
+                Console.WriteLine("Created empty file:\n" + fullPath);
+            }
             return fullPath;
         }
 
@@ -75,7 +80,7 @@ namespace SetupLibrary
             text = text.Replace("{YEAR}", Year);
             text = text.Replace("{DAY}", Day);
             File.WriteAllText(destFile, text);
-            Console.WriteLine("Created and filled file:\n" + destFile);
+            Console.WriteLine("Filled file:\n" + destFile);
         }
     }
 }

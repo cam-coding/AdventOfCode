@@ -1,9 +1,6 @@
-using AdventLibrary.Helpers;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AdventLibrary.Extensions
 {
@@ -25,71 +22,6 @@ namespace AdventLibrary.Extensions
             var except = list.Clone();
             except.RemoveAt(index);
             return except;
-        }
-
-        /* These 4/6 methods don't work yet and need unit tests*/
-        public static bool IsSorted<T>(this List<T> list) where T : IComparable
-        {
-            var ascList = list.SortAscending();
-            var descList = list.SortDescending();
-            return list.SequenceEqual(descList) || list.SequenceEqual(ascList);
-        }
-
-        public static bool IsSortedOrEqual<T>(this List<T> list) where T : IComparable
-        {
-            return IsSortedAscendingOrEqual(list) || IsSortedDescendingOrEqual(list);
-        }
-
-        public static bool IsSortedDescending<T>(this List<T> list) where T : IComparable
-        {
-            var descending = true;
-            for (var i = 0; i < list.Count - 1; i++)
-            {
-                if (list[i].CompareTo(list[i + 1]) < 0)
-                {
-                    descending = false;
-                }
-            }
-            return descending;
-        }
-
-        public static bool IsSortedDescendingOrEqual<T>(this List<T> list) where T : IComparable
-        {
-            var descending = true;
-            for (var i = 0; i < list.Count - 1; i++)
-            {
-                if (list[i].CompareTo(list[i + 1]) <= 0)
-                {
-                    descending = false;
-                }
-            }
-            return descending;
-        }
-
-        public static bool IsSortedAscending<T>(this List<T> list) where T : IComparable
-        {
-            var ascending = true;
-            for (var i = 0; i < list.Count-1; i++)
-            {
-                if (list[i].CompareTo(list[i + 1]) >= 0)
-                {
-                    ascending = false;
-                }
-            }
-            return ascending;
-        }
-
-        public static bool IsSortedAscendingOrEqual<T>(this List<T> list) where T : IComparable
-        {
-            var ascending = true;
-            for (var i = 0; i < list.Count - 1; i++)
-            {
-                if (list[i].CompareTo(list[i + 1]) > 0)
-                {
-                    ascending = false;
-                }
-            }
-            return ascending;
         }
 
         public static bool AllItemsUnique<T>(this IList<T> input)
@@ -133,6 +65,25 @@ namespace AdventLibrary.Extensions
             return list.OrderByDescending(x => x).ToList();
         }
 
+        // If I want to exclude instances where there is the same number more than once
+        // just couple this with a distinct() check.
+        public static bool IsSorted<T>(this List<T> list) where T : IComparable
+        {
+            return list.IsSortedAscending() || list.IsSortedDescending();
+        }
+
+        public static bool IsSortedAscending<T>(this List<T> list) where T : IComparable
+        {
+            var ascList = list.SortAscending();
+            return list.SequenceEqual(ascList);
+        }
+
+        public static bool IsSortedDescending<T>(this List<T> list) where T : IComparable
+        {
+            var descList = list.SortDescending();
+            return list.SequenceEqual(descList);
+        }
+
         public static List<List<T>> Clone2dList<T>(this List<List<T>> original)
         {
             var listy2d = new List<List<T>>();
@@ -148,6 +99,7 @@ namespace AdventLibrary.Extensions
 
             return listy2d;
         }
+
         public static Dictionary<T, int> GetCountsOfItems<T>(this IList<T> input)
         {
             var dict = new Dictionary<T, int>();

@@ -5,9 +5,9 @@ using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 
-namespace aoc{YEAR}
+namespace aoc2024
 {
-    public class Day{DAY}: ISolver
+    public class Day03: ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -25,13 +25,12 @@ namespace aoc{YEAR}
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
 			var numbers = input.Longs;
-            var longLines = input.LongLines;
             var nodes = input.Graph;
             var grid = input.CharGrid;
             long total = 1000000;
 			long count = 0;
             long number = input.Long;
-
+            
             var ln1 = lines != null && lines.Count > 0 ? lines[0] : string.Empty;
             var ln2 = lines != null && lines.Count > 1 ? lines[1] : string.Empty;
             for (var i = 0; i < lines.Count; i++)

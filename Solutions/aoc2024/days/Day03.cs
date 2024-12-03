@@ -24,6 +24,7 @@ namespace aoc2024
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
+            var longLines = input.LongLines;
 			var numbers = input.Longs;
             var nodes = input.Graph;
             var grid = input.CharGrid;
@@ -31,36 +32,107 @@ namespace aoc2024
 			long count = 0;
             long number = input.Long;
             
-            var ln1 = lines != null && lines.Count > 0 ? lines[0] : string.Empty;
-            var ln2 = lines != null && lines.Count > 1 ? lines[1] : string.Empty;
-            for (var i = 0; i < lines.Count; i++)
-            {
+            var ln1 = input.Text;
 
+            var indexes = ln1.GetIndexesOfSubstring("mul");
+            var commaIndexes = ln1.GetIndexesOfSubstring(",");
+            var rightIndexes = ln1.GetIndexesOfSubstring(")");
+
+            foreach (var index in indexes)
+            {
+                var next = index + 3;
+                var c = ln1[next];
+                if (c != '(')
+                {
+                    continue;
+                }
+                var commaIndex = commaIndexes.First(x => x > next);
+                var rightIndex = rightIndexes.First(x => x > commaIndex);
+                var length = commaIndex - next - 1;
+                var num1String = ln1.Substring(next + 1, length);
+                int num1 = 0;
+                if (!Int32.TryParse(num1String, out num1))
+                { continue; }
+                var length2 = rightIndex - commaIndex - 1;
+                var num2String = ln1.Substring(commaIndex + 1, length2);
+                int num2 = 0;
+                if (!Int32.TryParse(num2String, out num2))
+                { continue; }
+                count += num1 * num2;
             }
 
-			foreach (var line in lines)
-			{
-                var tokens = line.GetRealTokens(delimiterChars);
-				var nums = StringParsing.GetNumbersFromString(line);
-
-				foreach (var num in nums)
-				{
-				}
-
-                for (var i = 0; i < 0; i++)
-                {
-                    for (var j = 0; j < 0; j++)
-                    {
-
-                    }
-                }
-			}
-            return 0;
+            return count;
         }
 
         private object Part2(bool isTest = false)
         {
-            return 0;
+            var input = new InputObjectCollection(_filePath);
+            var lines = input.Lines;
+            var longLines = input.LongLines;
+            var numbers = input.Longs;
+            var nodes = input.Graph;
+            var grid = input.CharGrid;
+            long total = 1000000;
+            long count = 0;
+            long number = input.Long;
+
+            var ln1 = input.Text;
+
+            var indexes = ln1.GetIndexesOfSubstring("mul");
+            var commaIndexes = ln1.GetIndexesOfSubstring(",");
+            var rightIndexes = ln1.GetIndexesOfSubstring(")");
+            var doIndexes = ln1.GetIndexesOfSubstring("do()");
+            var dontIndexes = ln1.GetIndexesOfSubstring("don't()");
+
+            var last = 0;
+            var enabled = true;
+            foreach (var index in indexes)
+            {
+                var doI = doIndexes.LastOrDefault(x => x < index);
+                var dontI = dontIndexes.LastOrDefault(x => x < index);
+                if (doI > last && doI < index)
+                {
+                    enabled = true;
+                }
+                if (dontI > last && dontI < index)
+                {
+                    if (doI > last && doI < index)
+                    {
+                        if (dontI > doI)
+                        {
+                            enabled = false;
+                        }
+                    }
+                    else
+                    {
+                        enabled = false;
+                    }
+                }
+                if (enabled)
+                {
+                    var next = index + 3;
+                    var c = ln1[next];
+                    if (c != '(')
+                    {
+                        continue;
+                    }
+                    var commaIndex = commaIndexes.First(x => x > next);
+                    var rightIndex = rightIndexes.First(x => x > commaIndex);
+                    var length = commaIndex - next - 1;
+                    var num1String = ln1.Substring(next + 1, length);
+                    int num1 = 0;
+                    if (!Int32.TryParse(num1String, out num1))
+                    { continue; }
+                    var length2 = rightIndex - commaIndex - 1;
+                    var num2String = ln1.Substring(commaIndex + 1, length2);
+                    int num2 = 0;
+                    if (!Int32.TryParse(num2String, out num2))
+                    { continue; }
+                    count += num1 * num2;
+                }
+                last = index;
+            }
+            return count;
         }
     }
 }

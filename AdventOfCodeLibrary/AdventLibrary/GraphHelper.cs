@@ -3,6 +3,7 @@ using System.Linq;
 using AdventLibrary.CustomObjects;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
+using AdventLibrary.Helpers.Grids;
 
 namespace AdventLibrary
 {
@@ -10,27 +11,27 @@ namespace AdventLibrary
     {
         private static char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
 
-        public static Dictionary<(int y, int x), CustomNode<T>> TransformGridToGraph<T>(List<List<T>> grid)
+        public static Dictionary<GridLocation<int>, CustomNode<T>> TransformGridToGraph<T>(List<List<T>> grid)
         {
-            var nodeLookup = new Dictionary<(int y, int x), CustomNode<T>>();
+            var nodeLookup = new Dictionary<GridLocation<int>, CustomNode<T>>();
             for (var y = 0; y < grid.Count; y++)
             {
                 for (var x = 0; x < grid[0].Count; x++)
                 {
-                    nodeLookup[(y, x)] = new CustomNode<T>(grid[y][x], $"y:{y},x:{x}");
+                    nodeLookup[new GridLocation<int>(x, y)] = new CustomNode<T>(grid[y][x], $"y:{y},x:{x}");
                 }
             }
             GridToGraphAddConnections(nodeLookup, grid);
             return nodeLookup;
         }
 
-        private static void GridToGraphAddConnections<T>(Dictionary<(int y, int x), CustomNode<T>> graph, List<List<T>> grid)
+        private static void GridToGraphAddConnections<T>(Dictionary<GridLocation<int>, CustomNode<T>> graph, List<List<T>> grid)
         {
             for (var y = 0; y < grid.Count; y++)
             {
                 for (var x = 0; x < grid[0].Count; x++)
                 {
-                    var node = graph[(y, x)];
+                    var node = graph[new GridLocation<int>(x, y)];
                     foreach (var neigh in GridHelper.GetOrthogonalNeighbours(grid, y, x))
                     {
                         var otherNode = graph[neigh];

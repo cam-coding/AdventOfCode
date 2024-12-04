@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary.Extensions;
+using AdventLibrary.Helpers.Grids;
 
 namespace AdventLibrary.PathFinding
 {
@@ -77,9 +78,9 @@ namespace AdventLibrary.PathFinding
         {
             var exampleGrid = new List<List<int>>();
 
-            Func<(int y, int x), List<(int y, int x)>> NeighboursFunc = (node) =>
+            Func<GridLocation<int>, List<GridLocation<int>>> NeighboursFunc = (node) =>
             {
-                var neighbours = new List<(int y, int x)>();
+                var neighbours = new List<GridLocation<int>>();
                 foreach (var edge in GridHelper.GetOrthogonalNeighbours(exampleGrid, node))
                 {
                     neighbours.Add(edge);
@@ -87,18 +88,18 @@ namespace AdventLibrary.PathFinding
                 return neighbours;
             };
 
-            Func<(int y, int x), bool> GoalFunc = (node) =>
+            Func<GridLocation<int>, bool> GoalFunc = (node) =>
             {
-                return node.y == 3 && node.x == 3;
+                return node.Y == 3 && node.X == 3;
             };
 
-            Func<(int y, int x), int> WeightFunc = (node) =>
+            Func<GridLocation<int>, int> WeightFunc = (node) =>
             {
-                return exampleGrid[node.y][node.x];
+                return exampleGrid[node.Y][node.X];
             };
-            var start = (0, (0, 0));
-            // var DFS = new DepthFirstSearch<(int y, int x)>();
-            // DFS.DFSgeneric(start, NeighboursFunc, GoalFunc, WeightFunc);
+            var start = (0, new List<GridLocation<int>>() { new GridLocation<int>(0, 0) });
+            var DFS = new DepthFirstSearch<GridLocation<int>>();
+            DFS.DFSgeneric(start, NeighboursFunc, GoalFunc, WeightFunc);
         }
     }
 }

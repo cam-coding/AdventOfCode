@@ -24,7 +24,7 @@ namespace aoc2023
 
         private object Part1()
         {
-            var dict = new Dictionary<string, LocationTuple<int>>()
+            var dict = new Dictionary<string, GridLocation<int>>()
             {
                 { "R", Directions.Right},
                 { "L", Directions.Left},
@@ -112,7 +112,7 @@ namespace aoc2023
 
         private object Part2()
         {
-            var dict = new Dictionary<string, LocationTuple<int>>()
+            var dict = new Dictionary<string, GridLocation<int>>()
             {
                 { "0",Directions.Right},
                 { "1",Directions.Down},
@@ -121,8 +121,8 @@ namespace aoc2023
 
             };
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var listy = new List<LocationTuple<long>>();
-            var current = new LocationTuple<long>(0,0);
+            var listy = new List<GridLocation<long>>();
+            var current = new GridLocation<long>(0,0);
             var edgeLength = 1;
 
             // #70c710 into 461937 and Right
@@ -133,7 +133,7 @@ namespace aoc2023
                 var hex = specialToken.Substring(0, specialToken.Length - 1);
                 var hexNum = hex.ConvertToHex();
                 var dirInt = dict[specialToken[^1].ToString()];
-                var dir = new LocationTuple<long> (dirInt.X, dirInt.Y);
+                var dir = new GridLocation<long> (dirInt.X, dirInt.Y);
 
                 var next = current + (dir * hexNum);
                 listy.Add(next);

@@ -34,7 +34,7 @@ namespace aoc2023
             {('F', 1, 0), (0,1)},
         };
 
-        private Dictionary<(char, LocationTuple<int>), LocationTuple<int>> characters2 = new Dictionary<(char, LocationTuple<int>), LocationTuple<int>>()
+        private Dictionary<(char, GridLocation<int>), GridLocation<int>> characters2 = new Dictionary<(char, GridLocation<int>), GridLocation<int>>()
         {
             {('|', Directions.Up), Directions.Up},
             {('|', Directions.Down), Directions.Down},

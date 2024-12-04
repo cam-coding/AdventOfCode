@@ -1,5 +1,5 @@
 using AdventLibrary;
-using AdventLibrary.CustomObjects;
+using AdventLibrary.Helpers.Grids;
 using System.Collections.Generic;
 
 namespace aoc2024
@@ -7,28 +7,6 @@ namespace aoc2024
     public class Day04: ISolver
     {
         private string _filePath;
-        private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
-
-        public static LocationTuple<int> Up = new LocationTuple<int>(-1, 0);
-        public static LocationTuple<int> UpRight = new LocationTuple<int>(-1, 1);
-        public static LocationTuple<int> UpLeft = new LocationTuple<int>(-1, -1);
-        public static LocationTuple<int> Down = new LocationTuple<int>(1, 0);
-        public static LocationTuple<int> DownRight = new LocationTuple<int>(1, 1);
-        public static LocationTuple<int> DownLeft = new LocationTuple<int>(1, -1);
-        public static LocationTuple<int> Left = new LocationTuple<int>(0, -1);
-        public static LocationTuple<int> Right = new LocationTuple<int>(0, 1);
-
-        public static List<LocationTuple<int>> paths = new List<LocationTuple<int>>()
-        {
-            Up,
-            UpRight,
-            UpLeft,
-            Down,
-            DownRight,
-            DownLeft,
-            Left,
-            Right,
-        };
 
         public Solution Solve(string filePath, bool isTest = false)
         {
@@ -42,34 +20,26 @@ namespace aoc2024
         private object Part1(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var lines = input.Lines;
-			var numbers = input.Longs;
-            var longLines = input.LongLines;
-            var nodes = input.Graph;
             var grid = input.CharGrid;
-            long total = 1000000;
 			long count = 0;
-            long number = input.Long;
             var str = "MAS";
 
-            for (var y = 0; y < grid.Count; y++)
+            for (var y = 0; y < grid.Height; y++)
             {
-                for (var x = 0; x < grid[0].Count; x++)
+                for (var x = 0; x < grid.Width; x++)
                 {
-                    if (grid[y][x] == 'X')
+                    if (grid.Get(x,y) == 'X')
                     {
-                        foreach (var dir in paths)
+                        foreach (var dir in Directions.AllDirections)
                         {
-                            var curX = x;
-                            var curY = y;
+                            var current = new GridLocation<int>(x, y);
 
                             var found = true;
                             for (var i = 0; i < 3; i++)
                             {
-                                curX = curX + dir.X;
-                                curY = curY + dir.Y;
-                                
-                                if (curX < 0 || curX == grid[0].Count || curY < 0 || curY == grid.Count || grid[curY][curX] != str[i])
+                                current = current + dir;
+
+                                if (!grid.WithinGrid(current) || grid.Get(current) != str[i])
                                 {
                                     found = false;
                                     break;
@@ -80,9 +50,6 @@ namespace aoc2024
                                 count++;
                             }
                         }
-                        /*
-                        var neighs = GridHelper.GetAllNeighbours(grid, x, y).Where(z => grid[z.y][z.x] == 'M');
-                        var blah = neighs.Count();*/
                     }
                 }
             }
@@ -92,26 +59,20 @@ namespace aoc2024
         private object Part2(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var lines = input.Lines;
-            var numbers = input.Longs;
-            var longLines = input.LongLines;
-            var nodes = input.Graph;
             var grid = input.CharGrid;
-            long total = 1000000;
             long count = 0;
-            long number = input.Long;
-            var str = "MAS";
 
-            for (var y = 1; y < grid.Count-1; y++)
+            for (var y = 1; y < grid.Height - 1; y++)
             {
-                for (var x = 1; x < grid[0].Count-1; x++)
+                for (var x = 1; x < grid.Width - 1; x++)
                 {
-                    if (grid[y][x] == 'A')
+                    var current = new GridLocation<int>(x, y);
+                    if (grid.Get(current) == 'A')
                     {
-                        var tl = grid[y + UpLeft.Y][x + UpLeft.X];
-                        var tr = grid[y + UpRight.Y][x + UpRight.X];
-                        var dl = grid[y + DownLeft.Y][x + DownLeft.X];
-                        var dr = grid[y + DownRight.Y][x + DownRight.X];
+                        var tl = grid.Get(current + Directions.UpLeft);
+                        var tr = grid.Get(current + Directions.UpRight);
+                        var dl = grid.Get(current + Directions.DownLeft);
+                        var dr = grid.Get(current + Directions.DownRight);
 
                         var valid = false;
 
@@ -147,9 +108,6 @@ namespace aoc2024
                         {
                             count++;
                         }
-                        /*
-                        var neighs = GridHelper.GetAllNeighbours(grid, x, y).Where(z => grid[z.y][z.x] == 'M');
-                        var blah = neighs.Count();*/
                     }
                 }
             }

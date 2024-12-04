@@ -1,8 +1,5 @@
-﻿using System;
+﻿using AdventLibrary.PathFinding;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventLibrary.Helpers.Grids
 {
@@ -31,13 +28,13 @@ namespace AdventLibrary.Helpers.Grids
             out T value,
             int x = int.MinValue,
             int y = int.MinValue,
-            (int x, int y)? point = null)
+            GridLocation<int> point = null)
         {
-            var coords = GetCoords(x, y, point);
+            var location = GetCoords(x, y, point);
             value = DefaultValue;
-            if (WithinGrid(coords.x, coords.y))
+            if (WithinGrid(location))
             {
-                value = Get(coords.x, coords.y);
+                value = Get(location);
                 return true;
             }
             else
@@ -46,26 +43,80 @@ namespace AdventLibrary.Helpers.Grids
             }
         }
 
-        public bool WithinGrid(int x, int y)
+        public bool WithinGrid(GridLocation<int> location)
         {
-            return x >= 0 && x < Width && y >= 0 && y < Height;
+            return location.X >= 0 && location.X < Width && location.Y >= 0 && location.Y < Height;
         }
 
-        private T Get(int x, int y)
+        // Gets 4 neighbours that are directly N/E/S/W aka Up/Right/Down/Left
+        public List<GridLocation<int>> GetOrthogonalNeighbours(
+            int x = int.MinValue,
+            int y = int.MinValue,
+            GridLocation<int> point = null)
+        {
+            var location = GetCoords(x, y, point);
+            return GetNeighbours(location, Directions.OrthogonalDirections);
+        }
+
+        // Gets 4 neighbours that are diagonal NE/SE/SW/NW aka UpRight/DownRight/DownLeft/UpLeft
+        public List<GridLocation<int>> GetDiagonalNeighbours(
+            int x = int.MinValue,
+            int y = int.MinValue,
+            GridLocation<int> point = null)
+        {
+            var location = GetCoords(x, y, point);
+            return GetNeighbours(location, Directions.DiagonalDirections);
+        }
+
+        // Gets all 8 neighbours. Diagonal and orthogonal
+        public List<GridLocation<int>> GetAllNeighbours(
+            int x = int.MinValue,
+            int y = int.MinValue,
+            GridLocation<int> point = null)
+        {
+            var location = GetCoords(x, y, point);
+            return GetNeighbours(location, Directions.AllDirections);
+        }
+
+        public void Print()
+        {
+            GridHelper.PrintGrid(Grid);
+        }
+
+        public T Get(int x, int y)
         {
             return Grid[y][x];
         }
 
-        private (int x, int y) GetCoords(
+        public T Get(GridLocation<int> location)
+        {
+            return Grid[location.Y][location.X];
+        }
+
+        private List<GridLocation<int>> GetNeighbours(GridLocation<int> currentLocation, List<GridLocation<int>> directions)
+        {
+            var result = new List<GridLocation<int>>();
+            foreach (var direction in directions)
+            {
+                var tempLocation = currentLocation + direction;
+                if (WithinGrid(tempLocation))
+                {
+                    result.Add(tempLocation);
+                }
+            }
+            return result;
+        }
+
+        private GridLocation<int> GetCoords(
             int x = int.MinValue,
             int y = int.MinValue,
-            (int x, int y)? point = null)
+            GridLocation<int> point = null)
         {
             if (point == null)
             {
-                return (x, y);
+                return new GridLocation<int>(x,y);
             }
-            return point.Value;
+            return point;
         }
     }
 }

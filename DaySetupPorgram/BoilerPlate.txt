@@ -28,6 +28,7 @@ namespace aoc{YEAR}
             var longLines = input.LongLines;
             var nodes = input.Graph;
             var grid = input.CharGrid;
+            var gridStart = new GridLocation<int>(0, 0);
             long total = 1000000;
 			long count = 0;
             long number = input.Long;

@@ -12,7 +12,7 @@ namespace aoc2023
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
-        private static Dictionary<(char, LocationTuple<int>), LocationTuple<int>> dict = new Dictionary<(char, LocationTuple<int>), LocationTuple<int>>()
+        private static Dictionary<(char, GridLocation<int>), GridLocation<int>> dict = new Dictionary<(char, GridLocation<int>), GridLocation<int>>()
             {
                 { ('\\', Directions.Left), Directions.Up},
                 { ('\\', Directions.Right), Directions.Down},
@@ -64,7 +64,7 @@ namespace aoc2023
 
         private int PewPew(List<List<char>> grid, GridWalker starting)
         {
-            var energize = new HashSet<LocationTuple<int>>();
+            var energize = new HashSet<GridLocation<int>>();
             var beams = new List<GridWalker>();
             var max = 0;
             beams.Add(starting);

@@ -1,4 +1,5 @@
 ﻿using AdventLibrary.Extensions;
+using AdventLibrary.Helpers.Grids;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -174,7 +175,7 @@ namespace AdventLibrary
             return list;
         }
 
-        public List<List<T>> GetLinesAsGrid<T>()
+        public GridObject<T> GetLinesAsGrid<T>()
         {
             try
             {
@@ -188,7 +189,7 @@ namespace AdventLibrary
                         grid[i].Add(typedObject);
                     }
                 }
-                return grid;
+                return new GridObject<T>(grid);
             }
             catch (Exception e)
             {

@@ -3,7 +3,7 @@ using Xunit;
 using System.Collections.Generic;
 using AdventLibrary;
 
-namespace AdventLibraryUnitTests.Helpers
+namespace AdventLibraryUnitTests.Helpers.Grids
 {
     public class GridHelperUnitTests
     {

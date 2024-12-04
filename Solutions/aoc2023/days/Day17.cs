@@ -144,40 +144,40 @@ namespace aoc2023
 
         public static int BFS_Generic2(List<List<int>> grid)
         {
-            var proper = new List<LocationTuple<int>>()
+            var proper = new List<GridLocation<int>>()
             {
-                { new LocationTuple<int>(0,0)},
-                { new LocationTuple<int>(0,1)},
-                { new LocationTuple<int>(0,2)},
-                { new LocationTuple<int>(1,2)},
-                { new LocationTuple<int>(1,3)},
-                { new LocationTuple<int>(1,4)},
-                { new LocationTuple<int>(1,5)},
-                { new LocationTuple<int>(0,5)},
-                { new LocationTuple<int>(0,6)},
-                { new LocationTuple<int>(0,7)},
-                { new LocationTuple<int>(0,8)},
-                { new LocationTuple<int>(1,8)},
-                { new LocationTuple<int>(2,8)},
-                { new LocationTuple<int>(2,9)},
-                { new LocationTuple<int>(2,10)},
-                { new LocationTuple<int>(3,10)},
-                { new LocationTuple<int>(4,10)},
-                { new LocationTuple<int>(4,11)},
-                { new LocationTuple<int>(5,11)},
-                { new LocationTuple<int>(6,11)},
-                { new LocationTuple<int>(7,11)},
-                { new LocationTuple<int>(7,12)},
-                { new LocationTuple<int>(8,12)},
-                { new LocationTuple<int>(9,12)},
-                { new LocationTuple<int>(10,12)},
-                { new LocationTuple<int>(10,11)},
-                { new LocationTuple<int>(11,11)},
-                { new LocationTuple<int>(12,11)},
-                { new LocationTuple<int>(12,12)},
+                { new GridLocation<int>(0,0)},
+                { new GridLocation<int>(0,1)},
+                { new GridLocation<int>(0,2)},
+                { new GridLocation<int>(1,2)},
+                { new GridLocation<int>(1,3)},
+                { new GridLocation<int>(1,4)},
+                { new GridLocation<int>(1,5)},
+                { new GridLocation<int>(0,5)},
+                { new GridLocation<int>(0,6)},
+                { new GridLocation<int>(0,7)},
+                { new GridLocation<int>(0,8)},
+                { new GridLocation<int>(1,8)},
+                { new GridLocation<int>(2,8)},
+                { new GridLocation<int>(2,9)},
+                { new GridLocation<int>(2,10)},
+                { new GridLocation<int>(3,10)},
+                { new GridLocation<int>(4,10)},
+                { new GridLocation<int>(4,11)},
+                { new GridLocation<int>(5,11)},
+                { new GridLocation<int>(6,11)},
+                { new GridLocation<int>(7,11)},
+                { new GridLocation<int>(7,12)},
+                { new GridLocation<int>(8,12)},
+                { new GridLocation<int>(9,12)},
+                { new GridLocation<int>(10,12)},
+                { new GridLocation<int>(10,11)},
+                { new GridLocation<int>(11,11)},
+                { new GridLocation<int>(12,11)},
+                { new GridLocation<int>(12,12)},
             };
             PriorityQueue<(GridWalker, int), int> q = new PriorityQueue<(GridWalker, int), int>();
-            var visited = new Dictionary<(LocationTuple<int>, LocationTuple<int>, int), int>();
+            var visited = new Dictionary<(GridLocation<int>, GridLocation<int>, int), int>();
             var distances = AdventLibrary.PathFinding.DijkstraTuple.Search(grid, new Tuple<int, int>(grid.Count - 1, grid[0].Count - 1));
             // (0,0) can be anything, just needs to be your root item.
             q.Enqueue((new GridWalker((0,0), Directions.Right), grid[0][0] * -1), 0);
@@ -246,7 +246,7 @@ namespace aoc2023
                         visited[key] = distanceSoFar;
                     }
                 }
-                if (cur == new LocationTuple<int> (grid.Count-1, grid[0].Count - 1))
+                if (cur == new GridLocation<int> (grid.Count-1, grid[0].Count - 1))
                 {
                     if (distanceSoFar < best)
                     {
@@ -319,7 +319,7 @@ namespace aoc2023
                 {
                     continue;
                 }
-                if (cur == new LocationTuple<int>(grid.Count - 1, grid[0].Count - 1))
+                if (cur == new GridLocation<int>(grid.Count - 1, grid[0].Count - 1))
                 {
                     if (distanceSoFar < best)
                     {
@@ -389,7 +389,7 @@ namespace aoc2023
                 {
                     continue;
                 }
-                if (cur == new LocationTuple<int>(grid.Count - 1, grid[0].Count - 1) && stepsSinceTurn >= 3)
+                if (cur == new GridLocation<int>(grid.Count - 1, grid[0].Count - 1) && stepsSinceTurn >= 3)
                 {
                     if (distanceSoFar < best)
                     {
@@ -458,8 +458,8 @@ namespace aoc2023
 
         private static bool FourInARow(List<(int, int)> lastTwo, (int, int) current)
         {
-            var cur = new LocationTuple<int>(current.Item1, current.Item2);
-            var last = lastTwo.Select(x => new LocationTuple<int>(x.Item1, x.Item2)).ToList();
+            var cur = new GridLocation<int>(current.Item1, current.Item2);
+            var last = lastTwo.Select(x => new GridLocation<int>(x.Item1, x.Item2)).ToList();
             if (lastTwo.Count < 4)
             {
                 return false;

@@ -1,5 +1,6 @@
 ﻿using AdventLibrary;
 using AdventLibrary.CustomObjects;
+using AdventLibrary.Helpers.Grids;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -120,7 +121,7 @@ namespace AdventLibrary.Helpers
             }
         }
 
-        public static double ShoelaceArea(List<LocationTuple<int>> points)
+        public static double ShoelaceArea(List<GridLocation<int>> points)
         {
             int n = points.Count;
             double a = 0.0;
@@ -134,7 +135,7 @@ namespace AdventLibrary.Helpers
         /* Calculate the area of a simple polygon using a set of coords
          * https://en.wikipedia.org/wiki/Shoelace_formula
          * */
-        public static long ShoelaceArea(List<LocationTuple<long>> points)
+        public static long ShoelaceArea(List<GridLocation<long>> points)
         {
             int n = points.Count;
             long a = 0;
@@ -145,7 +146,7 @@ namespace AdventLibrary.Helpers
             return Math.Abs(a + points[n - 1].Y * points[0].X - points[0].Y * points[n - 1].X) / 2;
         }
 
-        public static long PicksAndShoelaceArea(List<LocationTuple<long>> points)
+        public static long PicksAndShoelaceArea(List<GridLocation<long>> points)
         {
             long edgeLength = 1;
             var previous = points[^1];

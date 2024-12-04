@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AdventLibrary.Helpers.Grids;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventLibrary
@@ -54,9 +55,9 @@ namespace AdventLibrary
 
         public List<List<long>> DigitLines { get; }
 
-        public List<List<int>> IntGrid { get; }
+        public GridObject<int> IntGrid { get; }
 
-        public List<List<char>> CharGrid { get; }
+        public GridObject<char> CharGrid { get; }
 
         public Dictionary<string, List<string>> Graph { get; }
     }

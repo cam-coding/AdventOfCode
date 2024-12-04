@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary.CustomObjects;
+using AdventLibrary.Helpers.Grids;
 using AdventLibrary.PathFinding;
 
 namespace AdventLibrary
@@ -355,7 +356,7 @@ namespace AdventLibrary
             }
         }
 
-        public static bool WithinGrid<T>(List<List<T>> grid, LocationTuple<int> coords)
+        public static bool WithinGrid<T>(List<List<T>> grid, GridLocation<int> coords)
         {
             return GridHelper.WithinGrid<T>(grid, coords.Y, coords.X);
         }

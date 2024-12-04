@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary.CustomObjects;
 using AdventLibrary.Extensions;
+using AdventLibrary.Helpers.Grids;
 using AdventLibrary.PathFinding;
 
 namespace AdventLibrary
@@ -196,13 +197,13 @@ namespace AdventLibrary
         }
 
         // Gets 4 neighbours that are directly N/E/S/W aka Up/Right/Down/Left
-        public static List<(int y, int x)> GetOrthogonalNeighbours<T>(List<List<T>> grid, (int y, int x) coord)
+        public static List<GridLocation<int>> GetOrthogonalNeighbours<T>(List<List<T>> grid, GridLocation<int> coord)
         {
-            return GetOrthogonalNeighbours<T>(grid, coord.y, coord.x);
+            return GetOrthogonalNeighbours<T>(grid, coord.Y, coord.X);
         }
 
         // Gets 4 neighbours that are directly N/E/S/W aka Up/Right/Down/Left
-        public static List<(int y, int x)> GetOrthogonalNeighbours<T>(List<List<T>> grid, int y, int x)
+        public static List<GridLocation<int>> GetOrthogonalNeighbours<T>(List<List<T>> grid, int y, int x)
         {
             var adj = new List<(int xOffset, int yOffset)>()
             {
@@ -211,13 +212,13 @@ namespace AdventLibrary
                 (1, 0),
                 (-1, 0),
             };
-            List<(int, int)> neighbours = new List<(int, int)>();
+            List<GridLocation<int>> neighbours = new List<GridLocation<int>>();
 
             for (int i = 0; i < 4; i++)
             {
                 var newNeighbour = MoveByOffset(y, x, adj[i].yOffset, adj[i].xOffset, grid[0].Count, grid.Count, false);
 
-                if (!neighbours.Contains(newNeighbour) && (y != newNeighbour.y || x != newNeighbour.x))
+                if (!neighbours.Contains(newNeighbour) && (y != newNeighbour.Y || x != newNeighbour.X))
                 {
                     neighbours.Add(newNeighbour);
                 }
@@ -250,12 +251,12 @@ namespace AdventLibrary
 
         /* Assume offset already applied*/
 
-        public static (int y, int x) MoveByOffset(int y, int x, int width, int height, bool wrap)
+        public static GridLocation<int> MoveByOffset(int y, int x, int width, int height, bool wrap)
         {
             return MoveByOffset(y, x, 0, 0, width, height, wrap);
         }
 
-        public static (int y, int x) MoveByOffset(int y, int x, int yOffset, int xOffset, int width, int height, bool wrap)
+        public static GridLocation<int> MoveByOffset(int y, int x, int yOffset, int xOffset, int width, int height, bool wrap)
         {
             int newX = x + xOffset;
             int newY = y + yOffset;
@@ -305,19 +306,17 @@ namespace AdventLibrary
                     newY = height - 1;
                 }
             }
-
-            return (newY, newX);
+            return new GridLocation<int>(newX, newY);
         }
 
-        // everything in the form of (y,x);
-        public static Dictionary<(int, int), List<(int, int)>> GridToAdjList<T>(List<List<T>> grid)
+        public static Dictionary<GridLocation<int>, List<GridLocation<int>>> GridToAdjList<T>(List<List<T>> grid)
         {
-            var dict = new Dictionary<(int, int), List<(int, int)>>();
+            var dict = new Dictionary<GridLocation<int>, List<GridLocation<int>>>();
             for (var y = 0; y < grid.Count; y++)
             {
                 for (var x = 0; x < grid[0].Count; x++)
                 {
-                    dict.Add((y, x), GetOrthogonalNeighbours(grid, x, y));
+                    dict.Add(new GridLocation<int>(x, y), GetOrthogonalNeighbours(grid, x, y));
                 }
             }
 
@@ -554,7 +553,7 @@ namespace AdventLibrary
             return WithinGrid<T>(grid, coords.Item1, coords.Item2);
         }
 
-        public static bool WithinGrid<T>(List<List<T>> grid, LocationTuple<int> coords)
+        public static bool WithinGrid<T>(List<List<T>> grid, GridLocation<int> coords)
         {
             return WithinGrid<T>(grid, coords.Y, coords.X);
         }

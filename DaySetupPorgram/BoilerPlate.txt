@@ -56,12 +56,12 @@ namespace aoc{YEAR}
                     }
                 }
 			}
-            return 0;
+            return count;
         }
 
         private object Part2(bool isTest = false)
         {
-            return 0;
+            return count;
         }
     }
 }

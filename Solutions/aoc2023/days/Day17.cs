@@ -189,7 +189,7 @@ namespace aoc2023
             {
                 var thing = q.Dequeue();
                 var current = thing.Item1; // This will contain a list of all the points you visited on the way
-                var distanceSoFar = thing.Item2 += grid[current.Current.Item1][current.Current.Item2];
+                var distanceSoFar = thing.Item2 += grid[current.Current.X][current.Current.Y];
                 if (current == null)
                     continue;
                 var cur = current.Current; // this is just the most recent point
@@ -257,7 +257,7 @@ namespace aoc2023
                     }
                 }
 
-                if (distanceSoFar + distances[new Tuple<int,int>(cur.Item1, cur.Item2)] > best)
+                if (distanceSoFar + distances[new Tuple<int,int>(cur.X, cur.Y)] > best)
                 {
                     continue;
                 }
@@ -270,7 +270,7 @@ namespace aoc2023
                         temp.Walk();
                         if (GridHelperWeirdTypes.WithinGrid(grid, temp.Current)  && !temp.Looping)
                         {
-                            var priority = GridHelper.TaxicabDistance((cur.Item1,cur.Item2), (grid.Count - 1, grid[0].Count - 1));
+                            var priority = GridHelper.TaxicabDistance((cur.X,cur.Y), (grid.Count - 1, grid[0].Count - 1));
                             q.Enqueue((temp,distanceSoFar), priority);
                         }
                     }
@@ -296,7 +296,7 @@ namespace aoc2023
             {
                 var thing = q.Dequeue();
                 var current = thing.Item1; // This will contain a list of all the points you visited on the way
-                var distanceSoFar = thing.Item2 += grid[current.Current.Item1][current.Current.Item2];
+                var distanceSoFar = thing.Item2 += grid[current.Current.X][current.Current.Y];
                 if (current == null)
                     continue;
                 var cur = current.Current;
@@ -316,7 +316,7 @@ namespace aoc2023
                 {
                     continue;
                 }
-                var key = (cur.Item1, cur.Item2, current.Direction.Item1, current.Direction.Item2, stepsSinceTurn);
+                var key = (cur.X, cur.Y, current.Direction.X, current.Direction.Y, stepsSinceTurn);
                 if (!visited.Add(key))
                 {
                     continue;
@@ -330,7 +330,7 @@ namespace aoc2023
                     }
                 }
 
-                if (distanceSoFar + distances[new Tuple<int, int>(cur.Item1, cur.Item2)] > best)
+                if (distanceSoFar + distances[new Tuple<int, int>(cur.X, cur.Y)] > best)
                 {
                     continue;
                 }
@@ -365,7 +365,7 @@ namespace aoc2023
             {
                 var thing = q.Dequeue();
                 var current = thing.Item1; // This will contain a list of all the points you visited on the way
-                var distanceSoFar = thing.Item2 += grid[current.Current.Item1][current.Current.Item2];
+                var distanceSoFar = thing.Item2 += grid[current.Current.X][current.Current.Y];
                 if (current == null)
                     continue;
                 var cur = current.Current;
@@ -386,7 +386,7 @@ namespace aoc2023
                 {
                     continue;
                 }*/
-                var key = (cur.Item1, cur.Item2, current.Direction.Item1, current.Direction.Item2, stepsSinceTurn);
+                var key = (cur.X, cur.Y, current.Direction.X, current.Direction.Y, stepsSinceTurn);
                 if (!visited.Add(key))
                 {
                     continue;
@@ -400,7 +400,7 @@ namespace aoc2023
                     }
                 }
 
-                if (distanceSoFar + distances[new Tuple<int, int>(cur.Item2, cur.Item1)] > best)
+                if (distanceSoFar + distances[new Tuple<int, int>(cur.Y, cur.X)] > best)
                 {
                     continue;
                 }

@@ -126,9 +126,9 @@ namespace AdventLibrary.Helpers
             double a = 0.0;
             for (int i = 0; i < n - 1; i++)
             {
-                a += points[i].Item1 * points[i + 1].Item2 - points[i + 1].Item1 * points[i].Item2;
+                a += points[i].Y * points[i + 1].X - points[i + 1].Y * points[i].X;
             }
-            return Math.Abs(a + points[n - 1].Item1 * points[0].Item2 - points[0].Item1 * points[n - 1].Item2) / 2.0;
+            return Math.Abs(a + points[n - 1].Y * points[0].X - points[0].Y * points[n - 1].X) / 2.0;
         }
 
         /* Calculate the area of a simple polygon using a set of coords
@@ -140,9 +140,9 @@ namespace AdventLibrary.Helpers
             long a = 0;
             for (int i = 0; i < n - 1; i++)
             {
-                a += points[i].Item1 * points[i + 1].Item2 - points[i + 1].Item1 * points[i].Item2;
+                a += points[i].Y * points[i + 1].X - points[i + 1].Y * points[i].X;
             }
-            return Math.Abs(a + points[n - 1].Item1 * points[0].Item2 - points[0].Item1 * points[n - 1].Item2) / 2;
+            return Math.Abs(a + points[n - 1].Y * points[0].X - points[0].Y * points[n - 1].X) / 2;
         }
 
         public static long PicksAndShoelaceArea(List<LocationTuple<long>> points)
@@ -151,7 +151,7 @@ namespace AdventLibrary.Helpers
             var previous = points[^1];
             foreach (var item in points)
             {
-                edgeLength += Math.Abs(previous.Item1 - item.Item1) + Math.Abs(previous.Item2 - item.Item2);
+                edgeLength += Math.Abs(previous.Y - item.Y) + Math.Abs(previous.X - item.X);
                 previous = item;
             }
             var area = ShoelaceArea(points);

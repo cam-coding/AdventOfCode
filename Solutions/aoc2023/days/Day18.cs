@@ -7,6 +7,7 @@ using AdventLibrary;
 using AdventLibrary.CustomObjects;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
+using AdventLibrary.Helpers.Grids;
 using AdventLibrary.PathFinding;
 
 namespace aoc2023
@@ -25,17 +26,17 @@ namespace aoc2023
         {
             var dict = new Dictionary<string, LocationTuple<int>>()
             {
-                { "R", GridWalker.Right},
-                { "L", GridWalker.Left},
-                { "D", GridWalker.Down},
-                { "U", GridWalker.Up},
+                { "R", Directions.Right},
+                { "L", Directions.Left},
+                { "D", Directions.Down},
+                { "U", Directions.Up},
             };
             var maxY = 0;
             var maxX = 0;
             var minY = 0;
             var minX = 0;
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var walker = new GridWalker((0, 0), GridWalker.Right);
+            var walker = new GridWalker((0, 0), Directions.Right);
             foreach (var line in lines)
             {
                 var tokens = line.Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
@@ -44,11 +45,11 @@ namespace aoc2023
                 for(var i =0; i < speed; i++)
                 {
                     walker.Walk();
-                    maxY = Math.Max(maxY, walker.Current.Item1);
-                    maxX = Math.Max(maxX, walker.Current.Item2);
+                    maxY = Math.Max(maxY, walker.Current.Y);
+                    maxX = Math.Max(maxX, walker.Current.X);
 
-                    minY = Math.Min(minY, walker.Current.Item1);
-                    minX = Math.Min(minX, walker.Current.Item2);
+                    minY = Math.Min(minY, walker.Current.Y);
+                    minX = Math.Min(minX, walker.Current.X);
                 }
             }
             var grid = new List<List<char>>();
@@ -69,8 +70,8 @@ namespace aoc2023
             var end = walker.Path.Last();
             foreach (var item in walker.Path[1..])
             {
-                grid[item.Item1.Item1 + shiftY][item.Item1.Item2 + shiftX] = '#';
-                numGrid[item.Item1.Item1 + shiftY][item.Item1.Item2 + shiftX] = 10000;
+                grid[item.Item1.Y + shiftY][item.Item1.X + shiftX] = '#';
+                numGrid[item.Item1.Y + shiftY][item.Item1.X + shiftX] = 10000;
             }
             numGrid.Add(Enumerable.Repeat(0, numGrid[0].Count).ToList());
             numGrid.Insert(0, Enumerable.Repeat(0, numGrid[0].Count).ToList());
@@ -105,18 +106,18 @@ namespace aoc2023
                 }
             }
             //GridHelper.PrintGrid(grid);
-            PrintGrid2(grid);
+            // PrintGrid2(grid);
             return count;
         }
 
         private object Part2()
         {
-            var dict = new Dictionary<string, LocationTuple<long>>()
+            var dict = new Dictionary<string, LocationTuple<int>>()
             {
-                { "0",GridWalker.RightLong},
-                { "1",GridWalker.DownLong},
-                { "2",GridWalker.LeftLong},
-                { "3",GridWalker.UpLong},
+                { "0",Directions.Right},
+                { "1",Directions.Down},
+                { "2",Directions.Left},
+                { "3",Directions.Up},
 
             };
             var lines = ParseInput.GetLinesFromFile(_filePath);
@@ -131,7 +132,8 @@ namespace aoc2023
                 var specialToken = tokens[^1];
                 var hex = specialToken.Substring(0, specialToken.Length - 1);
                 var hexNum = hex.ConvertToHex();
-                var dir = dict[specialToken[^1].ToString()];
+                var dirInt = dict[specialToken[^1].ToString()];
+                var dir = new LocationTuple<long> (dirInt.X, dirInt.Y);
 
                 var next = current + (dir * hexNum);
                 listy.Add(next);

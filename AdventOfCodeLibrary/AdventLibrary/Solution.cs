@@ -89,11 +89,11 @@ namespace AdventLibrary
             {
                 if (timeSpan.Value.TotalMilliseconds > 1000)
                 {
-                    return string.Format("Runtime in M:S:m {0}:{1}\n", Math.Floor(timeSpan.Value.TotalMinutes), timeSpan.Value.ToString("ss\\:fff"));
+                    return string.Format("                                                 Runtime in M:S:m {0}:{1}\n", Math.Floor(timeSpan.Value.TotalMinutes), timeSpan.Value.ToString("ss\\:fff"));
                 }
                 else
                 {
-                    return $"RunTime in miliseconds: {timeSpan.Value.Milliseconds}\n";
+                    return $"                                                 RunTime in miliseconds: {timeSpan.Value.Milliseconds}\n";
                 }
             }
             return string.Empty;

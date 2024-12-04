@@ -234,7 +234,6 @@ namespace AdventLibrary
             }
             catch (Exception e)
             {
-                Console.WriteLine("Input is something other than a graph");
             }
             return null;
         }

@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Numerics;
 using AdventLibrary;
 using AdventLibrary.CustomObjects;
-using AdventLibrary.Helpers;
-using AdventLibrary.PathFinding;
+using AdventLibrary.Helpers.Grids;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
 
 namespace aoc2023
 {
@@ -182,8 +180,8 @@ namespace aoc2023
             var visited = new Dictionary<(LocationTuple<int>, LocationTuple<int>, int), int>();
             var distances = AdventLibrary.PathFinding.DijkstraTuple.Search(grid, new Tuple<int, int>(grid.Count - 1, grid[0].Count - 1));
             // (0,0) can be anything, just needs to be your root item.
-            q.Enqueue((new GridWalker((0,0), GridWalker.Right), grid[0][0] * -1), 0);
-            q.Enqueue((new GridWalker((0, 0), GridWalker.Down), grid[0][0] * -1), 0);
+            q.Enqueue((new GridWalker((0,0), Directions.Right), grid[0][0] * -1), 0);
+            q.Enqueue((new GridWalker((0, 0), Directions.Down), grid[0][0] * -1), 0);
             var best = 1104;
             while (q.Count > 0)
             {
@@ -261,9 +259,9 @@ namespace aoc2023
                 {
                     continue;
                 }
-                foreach (var item in GridWalker.Directions)
+                foreach (var item in Directions.OrthogonalDirections)
                 {
-                    if (item != GridWalker.Opposites[current.Direction])
+                    if (item != Directions.Opposites[current.Direction])
                     {
                         var temp = new GridWalker(current);
                         temp.Direction = item;
@@ -289,8 +287,8 @@ namespace aoc2023
             var visited = new HashSet<(int, int, int,int, int)>();
             var distances = AdventLibrary.PathFinding.DijkstraTuple.Search(grid, new Tuple<int, int>(grid.Count - 1, grid[0].Count - 1));
             // (0,0) can be anything, just needs to be your root item.
-            q.Enqueue((new GridWalker((0, 0), GridWalker.Right), grid[0][0] * -1), 0);
-            q.Enqueue((new GridWalker((0, 0), GridWalker.Down), grid[0][0] * -1), 0);
+            q.Enqueue((new GridWalker((0, 0), Directions.Right), grid[0][0] * -1), 0);
+            q.Enqueue((new GridWalker((0, 0), Directions.Down), grid[0][0] * -1), 0);
             var best = 1104;
             while (q.Count > 0)
             {
@@ -334,9 +332,9 @@ namespace aoc2023
                 {
                     continue;
                 }
-                foreach (var item in GridWalker.Directions)
+                foreach (var item in Directions.OrthogonalDirections)
                 {
-                    if (item != GridWalker.Opposites[current.Direction])
+                    if (item != Directions.Opposites[current.Direction])
                     {
                         var temp = new GridWalker(current);
                         temp.Direction = item;
@@ -358,8 +356,8 @@ namespace aoc2023
             var visited = new HashSet<(int, int, int, int, int)>();
             var distances = AdventLibrary.PathFinding.DijkstraTuple.Search(grid, new Tuple<int, int>(grid[0].Count - 1, grid.Count - 1));
             // (0,0) can be anything, just needs to be your root item.
-            q.Enqueue((new GridWalker((0, 0), GridWalker.Right), grid[0][0] * -1), 0);
-            q.Enqueue((new GridWalker((0, 0), GridWalker.Down), grid[0][0] * -1), 0);
+            q.Enqueue((new GridWalker((0, 0), Directions.Right), grid[0][0] * -1), 0);
+            q.Enqueue((new GridWalker((0, 0), Directions.Down), grid[0][0] * -1), 0);
             var best = int.MaxValue;
             while (q.Count > 0)
             {
@@ -416,9 +414,9 @@ namespace aoc2023
                 }
                 else
                 {
-                    foreach (var item in GridWalker.Directions)
+                    foreach (var item in Directions.OrthogonalDirections)
                     {
-                        if (item != GridWalker.Opposites[current.Direction])
+                        if (item != Directions.Opposites[current.Direction])
                         {
                             if (item != current.Direction ||
                                 (item == current.Direction && stepsSinceTurn < 9))
@@ -466,52 +464,52 @@ namespace aoc2023
             {
                 return false;
             }
-            if (last[3] == (cur - GridWalker.Left))
+            if (last[3] == (cur - Directions.Left))
             {
-                if (last[2] == last[3] - GridWalker.Left)
+                if (last[2] == last[3] - Directions.Left)
                 {
-                    if (last[1] == last[2] - GridWalker.Left)
+                    if (last[1] == last[2] - Directions.Left)
                     {
-                        if (last[0] == last[1] - GridWalker.Left)
+                        if (last[0] == last[1] - Directions.Left)
                         {
                             return true;
                         }
                     }
                 }
             }
-            else if (last[3] == (cur - GridWalker.Right))
+            else if (last[3] == (cur - Directions.Right))
             {
-                if (last[2] == last[3] - GridWalker.Right)
+                if (last[2] == last[3] - Directions.Right)
                 {
-                    if (last[1] == last[2] - GridWalker.Right)
+                    if (last[1] == last[2] - Directions.Right)
                     {
-                        if (last[0] == last[1] - GridWalker.Right)
+                        if (last[0] == last[1] - Directions.Right)
                         {
                             return true;
                         }
                     }
                 }
             }
-            else if (last[3] == (cur - GridWalker.Up))
+            else if (last[3] == (cur - Directions.Up))
             {
-                if (last[2] == last[3] - GridWalker.Up)
+                if (last[2] == last[3] - Directions.Up)
                 {
-                    if (last[1] == last[2] - GridWalker.Up)
+                    if (last[1] == last[2] - Directions.Up)
                     {
-                        if (last[0] == last[1] - GridWalker.Up)
+                        if (last[0] == last[1] - Directions.Up)
                         {
                             return true;
                         }
                     }
                 }
             }
-            else if (last[3] == (cur - GridWalker.Down))
+            else if (last[3] == (cur - Directions.Down))
             {
-                if (last[2] == last[3] - GridWalker.Down)
+                if (last[2] == last[3] - Directions.Down)
                 {
-                    if (last[1] == last[2] - GridWalker.Down)
+                    if (last[1] == last[2] - Directions.Down)
                     {
-                        if (last[0] == last[1] - GridWalker.Down)
+                        if (last[0] == last[1] - Directions.Down)
                         {
                             return true;
                         }

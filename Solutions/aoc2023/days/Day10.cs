@@ -8,6 +8,7 @@ using AdventLibrary;
 using AdventLibrary.CustomObjects;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
+using AdventLibrary.Helpers.Grids;
 using AdventLibrary.PathFinding;
 
 namespace aoc2023
@@ -35,18 +36,18 @@ namespace aoc2023
 
         private Dictionary<(char, LocationTuple<int>), LocationTuple<int>> characters2 = new Dictionary<(char, LocationTuple<int>), LocationTuple<int>>()
         {
-            {('|', GridWalker.Up), GridWalker.Up},
-            {('|', GridWalker.Down), GridWalker.Down},
-            {('-', GridWalker.Left), GridWalker.Left},
-            {('-', GridWalker.Right), GridWalker.Right },
-            {('J', GridWalker.Right), GridWalker.Up },
-            {('J', GridWalker.Down), GridWalker.Left },
-            {('L', GridWalker.Down), GridWalker.Right },
-            {('L', GridWalker.Left), GridWalker.Up },
-            {('7', GridWalker.Right), GridWalker.Down },
-            {('7', GridWalker.Up), GridWalker.Left },
-            {('F', GridWalker.Left), GridWalker.Down },
-            {('F', GridWalker.Up), GridWalker.Right },
+            {('|', Directions.Up), Directions.Up},
+            {('|', Directions.Down), Directions.Down},
+            {('-', Directions.Left), Directions.Left},
+            {('-', Directions.Right), Directions.Right },
+            {('J', Directions.Right), Directions.Up },
+            {('J', Directions.Down), Directions.Left },
+            {('L', Directions.Down), Directions.Right },
+            {('L', Directions.Left), Directions.Up },
+            {('7', Directions.Right), Directions.Down },
+            {('7', Directions.Up), Directions.Left },
+            {('F', Directions.Left), Directions.Down },
+            {('F', Directions.Up), Directions.Right },
         };
 
         public Solution Solve(string filePath, bool isTest = false)
@@ -75,10 +76,10 @@ namespace aoc2023
             var maxLoop = 0;
             var tests = new List<GridWalker>()
             {
-                new GridWalker((startingY, startingX), GridWalker.Up),
-                new GridWalker((startingY, startingX), GridWalker.Down),
-                new GridWalker((startingY, startingX), GridWalker.Left),
-                new GridWalker((startingY, startingX), GridWalker.Right),
+                new GridWalker((startingY, startingX), Directions.Up),
+                new GridWalker((startingY, startingX), Directions.Down),
+                new GridWalker((startingY, startingX), Directions.Left),
+                new GridWalker((startingY, startingX), Directions.Right),
             };
 
             foreach (var item in tests)

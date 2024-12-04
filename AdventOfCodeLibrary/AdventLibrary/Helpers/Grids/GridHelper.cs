@@ -401,7 +401,7 @@ namespace AdventLibrary
                 {
                     Console.Write(grid[i][j]);
                 }
-                Console.WriteLine();
+                Console.Write("\n");
             }
         }
 
@@ -556,7 +556,7 @@ namespace AdventLibrary
 
         public static bool WithinGrid<T>(List<List<T>> grid, LocationTuple<int> coords)
         {
-            return WithinGrid<T>(grid, coords.Item1, coords.Item2);
+            return WithinGrid<T>(grid, coords.Y, coords.X);
         }
 
         public static bool WithinGrid<T>(List<List<T>> grid, int y, int x)

@@ -351,13 +351,13 @@ namespace AdventLibrary
                 {
                     Console.Write(grid[i,j]);
                 }
-                Console.WriteLine();
+                Console.Write("\n");
             }
         }
 
         public static bool WithinGrid<T>(List<List<T>> grid, LocationTuple<int> coords)
         {
-            return GridHelper.WithinGrid<T>(grid, coords.Item1, coords.Item2);
+            return GridHelper.WithinGrid<T>(grid, coords.Y, coords.X);
         }
     }
 }

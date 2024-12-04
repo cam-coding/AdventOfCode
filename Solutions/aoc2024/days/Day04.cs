@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.CustomObjects;
-using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
-using static System.Net.Mime.MediaTypeNames;
+using System.Collections.Generic;
 
 namespace aoc2024
 {
@@ -71,8 +66,8 @@ namespace aoc2024
                             var found = true;
                             for (var i = 0; i < 3; i++)
                             {
-                                curX = curX + dir.Item2;
-                                curY = curY + dir.Item1;
+                                curX = curX + dir.X;
+                                curY = curY + dir.Y;
                                 
                                 if (curX < 0 || curX == grid[0].Count || curY < 0 || curY == grid.Count || grid[curY][curX] != str[i])
                                 {
@@ -113,10 +108,10 @@ namespace aoc2024
                 {
                     if (grid[y][x] == 'A')
                     {
-                        var tl = grid[y + UpLeft.Item1][x + UpLeft.Item2];
-                        var tr = grid[y + UpRight.Item1][x + UpRight.Item2];
-                        var dl = grid[y + DownLeft.Item1][x + DownLeft.Item2];
-                        var dr = grid[y + DownRight.Item1][x + DownRight.Item2];
+                        var tl = grid[y + UpLeft.Y][x + UpLeft.X];
+                        var tr = grid[y + UpRight.Y][x + UpRight.X];
+                        var dl = grid[y + DownLeft.Y][x + DownLeft.X];
+                        var dr = grid[y + DownRight.Y][x + DownRight.X];
 
                         var valid = false;
 

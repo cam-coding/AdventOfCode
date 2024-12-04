@@ -53,9 +53,9 @@ namespace AdventLibrary.CustomObjects
 
         public int Speed { get; set; }
 
-        public int Y => Current.Item1;
+        public int Y => Current.Y;
 
-        public int X => Current.Item2;
+        public int X => Current.X;
 
         public void Walk()
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using AdventLibrary;
 using AdventLibrary.CustomObjects;
 using AdventLibrary.Helpers;
+using AdventLibrary.Helpers.Grids;
 
 namespace aoc2023
 {
@@ -13,22 +14,22 @@ namespace aoc2023
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
         private static Dictionary<(char, LocationTuple<int>), LocationTuple<int>> dict = new Dictionary<(char, LocationTuple<int>), LocationTuple<int>>()
             {
-                { ('\\', GridWalker.Left), GridWalker.Up},
-                { ('\\', GridWalker.Right), GridWalker.Down},
-                { ('\\', GridWalker.Up), GridWalker.Left},
-                { ('\\', GridWalker.Down), GridWalker.Right},
-                { ('/', GridWalker.Left), GridWalker.Down},
-                { ('/', GridWalker.Right), GridWalker.Up},
-                { ('/', GridWalker.Up), GridWalker.Right},
-                { ('/', GridWalker.Down), GridWalker.Left},
-                { ('|', GridWalker.Left), GridWalker.Up},
-                { ('|', GridWalker.Right), GridWalker.Up},
-                { ('|', GridWalker.Up), GridWalker.Up},
-                { ('|', GridWalker.Down), GridWalker.Down},
-                { ('-', GridWalker.Left), GridWalker.Left},
-                { ('-', GridWalker.Right), GridWalker.Right},
-                { ('-', GridWalker.Up), GridWalker.Left},
-                { ('-', GridWalker.Down), GridWalker.Left},
+                { ('\\', Directions.Left), Directions.Up},
+                { ('\\', Directions.Right), Directions.Down},
+                { ('\\', Directions.Up), Directions.Left},
+                { ('\\', Directions.Down), Directions.Right},
+                { ('/', Directions.Left), Directions.Down},
+                { ('/', Directions.Right), Directions.Up},
+                { ('/', Directions.Up), Directions.Right},
+                { ('/', Directions.Down), Directions.Left},
+                { ('|', Directions.Left), Directions.Up},
+                { ('|', Directions.Right), Directions.Up},
+                { ('|', Directions.Up), Directions.Up},
+                { ('|', Directions.Down), Directions.Down},
+                { ('-', Directions.Left), Directions.Left},
+                { ('-', Directions.Right), Directions.Right},
+                { ('-', Directions.Up), Directions.Left},
+                { ('-', Directions.Down), Directions.Left},
             };
         public Solution Solve(string filePath, bool isTest = false)
         {
@@ -39,7 +40,7 @@ namespace aoc2023
         private object Part1()
         {
             var grid = ParseInput.ParseFileAsCharGrid(_filePath);
-            return PewPew(grid, new GridWalker((0, 0), GridWalker.Right));
+            return PewPew(grid, new GridWalker((0, 0), Directions.Right));
         }
         
         private object Part2()
@@ -49,14 +50,14 @@ namespace aoc2023
             for (var j = 0; j < grid[0].Count; j++)
             {
                 // go from every spot along the top and bottom
-                max = Math.Max(PewPew(grid, new GridWalker((0, j), GridWalker.Down)), max);
-                max = Math.Max(PewPew(grid, new GridWalker((grid.Count-1, j), GridWalker.Up)), max);
+                max = Math.Max(PewPew(grid, new GridWalker((0, j), Directions.Down)), max);
+                max = Math.Max(PewPew(grid, new GridWalker((grid.Count-1, j), Directions.Up)), max);
             }
             for (var j = 0; j < grid.Count; j++)
             {
                 // then left and right sides
-                max = Math.Max(PewPew(grid, new GridWalker((j, 0), GridWalker.Right)), max);
-                max = Math.Max(PewPew(grid, new GridWalker((j, grid[j].Count-1), GridWalker.Left)), max);
+                max = Math.Max(PewPew(grid, new GridWalker((j, 0), Directions.Right)), max);
+                max = Math.Max(PewPew(grid, new GridWalker((j, grid[j].Count-1), Directions.Left)), max);
             }
             return max;
         }
@@ -93,21 +94,21 @@ namespace aoc2023
                         // if we hit the next two we turn sometimes
                         else if (grid[y][x] == '|')
                         {
-                            if (item.Direction == GridWalker.Left || item.Direction == GridWalker.Right)
+                            if (item.Direction == Directions.Left || item.Direction == Directions.Right)
                             {
                                 item.Direction = dict[(grid[y][x], item.Direction)];
                                 var newItem = new GridWalker(item);
-                                newItem.Direction = GridWalker.Down;
+                                newItem.Direction = Directions.Down;
                                 newBeams.Add(newItem);
                             }
                         }
                         else if (grid[y][x] == '-')
                         {
-                            if (item.Direction == GridWalker.Up || item.Direction == GridWalker.Down)
+                            if (item.Direction == Directions.Up || item.Direction == Directions.Down)
                             {
                                 item.Direction = dict[(grid[y][x], item.Direction)];
                                 var newItem = new GridWalker(item);
-                                newItem.Direction = GridWalker.Right;
+                                newItem.Direction = Directions.Right;
                                 newBeams.Add(newItem);
                             }
                         }

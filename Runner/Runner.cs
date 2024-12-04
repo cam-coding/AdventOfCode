@@ -18,7 +18,7 @@ namespace Runner
                 var testSolver = helper.GetSolver(day, year);
                 Console.WriteLine("<<<<<TEST INPUT START>>>>>");
                 testSolver.Solve(testFilePath, true).OutputWithTime();
-                Console.WriteLine("<<<<<TEST INPUT END>>>>>");
+                Console.WriteLine("<<<<< TEST INPUT END >>>>>");
             }
             solver.Solve(filePath, false).OutputWithTime();
         }

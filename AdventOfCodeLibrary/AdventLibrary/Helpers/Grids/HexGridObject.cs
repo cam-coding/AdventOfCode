@@ -5,29 +5,33 @@ namespace AdventLibrary.Helpers.Grids
 {
     public class HexGridObject<T>
     {
-        public Dictionary<string,Hexagon<T>> Directions = new Dictionary<string,Hexagon<T>>
+        public Dictionary<string, HexagonCoords> Directions = new Dictionary<string, HexagonCoords>
         {
-            { "N", new Hexagon<T>(0,-1,1) },
-            { "NE", new Hexagon<T>(1,-1,0) },
-            { "SE", new Hexagon<T>(1,0,-1) },
-            { "S", new Hexagon<T>(0,1,-1) },
-            { "SW", new Hexagon<T>(-1,1,0) },
-            { "NW", new Hexagon<T>(-1,0,1) },
+            { "N", new HexagonCoords(0,-1,1) },
+            { "NE", new HexagonCoords(1,-1,0) },
+            { "SE", new HexagonCoords(1,0,-1) },
+            { "S", new HexagonCoords(0,1,-1) },
+            { "SW", new HexagonCoords(-1,1,0) },
+            { "NW", new HexagonCoords(-1,0,1) },
         };
-        public HexGridObject(Dictionary<string, Hexagon<T>> grid)
+        public HexGridObject(Dictionary<HexagonCoords, Hexagon<T>> grid)
         {
             Grid = grid;
         }
 
-        Dictionary<string, Hexagon<T>> Grid { get; set; }
+        Dictionary<HexagonCoords, Hexagon<T>> Grid { get; set; }
 
         public Hexagon<T> GetHexagon(int x, int y, int z)
         {
-            var key = GenerateKey(x, y, z);
-            return Grid[key];
+            return GetHexagon(new HexagonCoords(x, y, z));
         }
 
-        public int GetDistance (Hexagon<T> start, Hexagon<T> end)
+        public Hexagon<T> GetHexagon(HexagonCoords coords)
+        {
+            return Grid[coords];
+        }
+
+        public int GetDistance (HexagonCoords start, HexagonCoords end)
         {
             var deltaX = Math.Abs(end.X - start.X);
             var deltaY = Math.Abs(end.Y - start.Y);
@@ -41,20 +45,11 @@ namespace AdventLibrary.Helpers.Grids
             var result = new List<Hexagon<T>>();
             foreach (var dir in dirs)
             {
-                result.Add(Add(current, dir));
+                var temp = new HexagonCoords(current.Coords);
+                temp.Add(dir);
+                result.Add(Grid[temp]);
             }
             return result;
-        }
-
-        public Hexagon<T> Add(Hexagon<T> current, Hexagon<T> direction)
-        {
-            var key = GenerateKey(current.X + direction.X, current.Y + direction.Y, current.Z + direction.Z);
-            return Grid[key];
-        }
-
-        private static string GenerateKey(int x, int y, int z)
-        {
-            return $"X:{x}Y:{y}Z:{z}";
         }
 
         public class Hexagon<T>
@@ -68,11 +63,6 @@ namespace AdventLibrary.Helpers.Grids
             public HexagonCoords Coords { get; set; }
 
             public T Value { get; set; }
-
-            public string GetKey()
-            {
-                return HexGridObject<T>.GenerateKey(X,Y,Z);
-            }
         }
 
         public class HexagonCoords
@@ -84,9 +74,23 @@ namespace AdventLibrary.Helpers.Grids
                 Z = z;
             }
 
+            public HexagonCoords(HexagonCoords obj)
+            {
+                X = obj.X;
+                Y = obj.Y;
+                Z = obj.Z;
+            }
+
             public int X { get; set; }
             public int Y { get; set; }
             public int Z { get; set; }
+
+            public void Add(HexagonCoords other)
+            {
+                X += other.X;
+                Y += other.Y;
+                Z += other.Z;
+            }
 
             public override bool Equals(object obj)
             {
@@ -99,6 +103,21 @@ namespace AdventLibrary.Helpers.Grids
                     X == other.X &&
                     Y == other.Y &&
                     Z == other.Z;
+            }
+
+            public override int GetHashCode()
+            {
+                int result = 37;
+
+                result *= 397;
+                result += X.GetHashCode();
+                result *= 397;
+                result += Y.GetHashCode();
+                result *= 397;
+                result += Z.GetHashCode();
+                result *= 397;
+
+                return result;
             }
         }
     }

@@ -21,25 +21,18 @@ namespace aoc2024
             var lines = input.Lines;
 			long count = 0;
 
-            var ln1 = lines != null && lines.Count > 0 ? lines[0] : string.Empty;
-            var ln2 = lines != null && lines.Count > 1 ? lines[1] : string.Empty;
             var rules = new List<(int a, int b)>();
-            var i = 0;
-            for (i = 0; i < lines.Count; i++)
+            var groups = input.LineGroupsSeperatedByWhiteSpace;
+
+            foreach (var line in groups[0])
             {
-                if (string.IsNullOrWhiteSpace(lines[i]))
-                {
-                    break;
-                }
-                var nums = StringParsing.GetNumbersFromString(lines[i]);
+                var nums = StringParsing.GetNumbersFromString(line);
                 rules.Add((nums[0], nums[1]));
             }
-            i++;
 
-
-            for (i = i; i < lines.Count; i++)
+            foreach (var line in groups[1])
             {
-                var nums = StringParsing.GetNumbersFromString(lines[i]);
+                var nums = StringParsing.GetNumbersFromString(line);
                 var valid = true;
                 for (var j = 0; j < nums.Count; j++)
                 {

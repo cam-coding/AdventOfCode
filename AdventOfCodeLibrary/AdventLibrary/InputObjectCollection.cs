@@ -11,6 +11,7 @@ namespace AdventLibrary
             InputParser = new InputParser(filePath);
             Text = System.IO.File.ReadAllText(filePath);
             Lines = System.IO.File.ReadAllLines(filePath).ToList();
+            LineGroupsSeperatedByWhiteSpace = GetLineGroups(Lines);
             Tokens = InputParser.GetTextAsTokenList();
             TokenLines = InputParser.GetLinesAsTokenLists();
             Longs = InputParser.GetTextAsLongs();
@@ -32,6 +33,8 @@ namespace AdventLibrary
         public string Text { get; }
 
         public List<string> Lines { get; }
+
+        public List<List<string>> LineGroupsSeperatedByWhiteSpace { get; }
 
         public List<string> Tokens { get; }
 
@@ -60,5 +63,29 @@ namespace AdventLibrary
         public GridObject<char> CharGrid { get; }
 
         public Dictionary<string, List<string>> Graph { get; }
+
+        private List<List<string>> GetLineGroups(List<string> lines)
+        {
+            var groups = new List<List<string>>();
+            for (var i = 0; i < lines.Count; i++)
+            {
+                var group = new List<string>();
+                for (var j = i; j < lines.Count; j++)
+                {
+                    if (string.IsNullOrWhiteSpace(lines[j]))
+                    {
+                        i = j;
+                        break;
+                    }
+                    group.Add(lines[j]);
+                    i = j;
+                }
+                if (group.Count > 0)
+                {
+                    groups.Add(group);
+                }
+            }
+            return groups;
+        }
     }
 }

@@ -1,4 +1,11 @@
-Add GetDiagonalNeighbours (just the 4 corners) and write tests for it.
+Dec 4th 2024
+look into GridWalker and see if needs doing
+	Maybe hash the history?
+
+Create grid from list of coords and fill in the blanks
+Make GridHelper method to expand the grid?
+Try and Remove GridHelper Weird Types
+
 
 Re-do Create new day so it makes sense
 	Combine into one project

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary;
 using AdventLibrary.CustomObjects;
+using AdventLibrary.Helpers.Grids;
 using AdventLibrary.PathFinding;
 
 namespace aoc2022
@@ -20,10 +21,12 @@ namespace aoc2022
         private object Part1(bool isTest = false)
         {
             var grid = ParseInput.ParseFileAsCharGrid(_filePath);
-            var startTuple = GridHelper.GetPointWhere(grid, 'S');
-            var endTuple = GridHelper.GetPointWhere(grid, 'E');
-            grid[startTuple.y][startTuple.x] = 'a';
-            grid[endTuple.y][endTuple.x] = 'z';
+            var startTuple2 = GridHelper.GetPointWhere(grid, 'S');
+            var startTuple = new GridLocation<int>(startTuple2.x, startTuple2.y);
+            var endTuple2 = GridHelper.GetPointWhere(grid, 'E');
+            var endTuple = new GridLocation<int>(endTuple2.x, endTuple2.y);
+            grid[startTuple.Y][startTuple.X] = 'a';
+            grid[endTuple.Y][endTuple.X] = 'z';
 
             // get grid as graph
             var nodeLookup = GraphHelper.TransformGridToGraph(grid);
@@ -49,10 +52,12 @@ namespace aoc2022
         private object Part2(bool isTest = false)
         {
             var grid = ParseInput.ParseFileAsCharGrid(_filePath);
-            var startTuple = GridHelper.GetPointWhere(grid, 'S');
-            var endTuple = GridHelper.GetPointWhere(grid, 'E');
-            grid[startTuple.y][startTuple.x] = 'a';
-            grid[endTuple.y][endTuple.x] = 'z';
+            var startTuple2 = GridHelper.GetPointWhere(grid, 'S');
+            var startTuple = new GridLocation<int>(startTuple2.x, startTuple2.y);
+            var endTuple2 = GridHelper.GetPointWhere(grid, 'E');
+            var endTuple = new GridLocation<int>(endTuple2.x, endTuple2.y);
+            grid[startTuple.Y][startTuple.X] = 'a';
+            grid[endTuple.Y][endTuple.X] = 'z';
 
             // get grid as graph
             var nodeLookup = GraphHelper.TransformGridToGraph(grid);

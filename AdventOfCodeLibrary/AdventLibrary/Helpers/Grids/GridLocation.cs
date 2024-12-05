@@ -32,5 +32,18 @@ namespace AdventLibrary.Helpers.Grids
                 return T.Sign(X - other.X);
             return T.Sign(dy);
         }
+
+        public override int GetHashCode()
+        {
+            int result = 37;
+
+            result *= 397;
+            result += X.GetHashCode();
+            result *= 397;
+            result += Y.GetHashCode();
+            result *= 397;
+
+            return result;
+        }
     }
 }

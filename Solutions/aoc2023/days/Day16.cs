@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary;
-using AdventLibrary.CustomObjects;
 using AdventLibrary.Helpers;
 using AdventLibrary.Helpers.Grids;
 
@@ -40,7 +39,7 @@ namespace aoc2023
         private object Part1()
         {
             var grid = ParseInput.ParseFileAsCharGrid(_filePath);
-            return PewPew(grid, new GridWalker((0, 0), Directions.Right));
+            return PewPew(grid, new GridWalker(new GridLocation<int>(0, 0), Directions.Right));
         }
         
         private object Part2()
@@ -50,14 +49,14 @@ namespace aoc2023
             for (var j = 0; j < grid[0].Count; j++)
             {
                 // go from every spot along the top and bottom
-                max = Math.Max(PewPew(grid, new GridWalker((0, j), Directions.Down)), max);
-                max = Math.Max(PewPew(grid, new GridWalker((grid.Count-1, j), Directions.Up)), max);
+                max = Math.Max(PewPew(grid, new GridWalker(new GridLocation<int>(0, j), Directions.Down)), max);
+                max = Math.Max(PewPew(grid, new GridWalker(new GridLocation<int>(grid.Count-1, j), Directions.Up)), max);
             }
             for (var j = 0; j < grid.Count; j++)
             {
                 // then left and right sides
-                max = Math.Max(PewPew(grid, new GridWalker((j, 0), Directions.Right)), max);
-                max = Math.Max(PewPew(grid, new GridWalker((j, grid[j].Count-1), Directions.Left)), max);
+                max = Math.Max(PewPew(grid, new GridWalker(new GridLocation<int>(j, 0), Directions.Right)), max);
+                max = Math.Max(PewPew(grid, new GridWalker(new GridLocation<int>(j, grid[j].Count-1), Directions.Left)), max);
             }
             return max;
         }

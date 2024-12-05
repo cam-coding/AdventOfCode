@@ -1,5 +1,4 @@
 using AdventLibrary;
-using AdventLibrary.CustomObjects;
 using AdventLibrary.Helpers.Grids;
 using System;
 using System.Collections.Generic;
@@ -180,8 +179,8 @@ namespace aoc2023
             var visited = new Dictionary<(GridLocation<int>, GridLocation<int>, int), int>();
             var distances = AdventLibrary.PathFinding.DijkstraTuple.Search(grid, new Tuple<int, int>(grid.Count - 1, grid[0].Count - 1));
             // (0,0) can be anything, just needs to be your root item.
-            q.Enqueue((new GridWalker((0,0), Directions.Right), grid[0][0] * -1), 0);
-            q.Enqueue((new GridWalker((0, 0), Directions.Down), grid[0][0] * -1), 0);
+            q.Enqueue((new GridWalker(new GridLocation<int>(0,0), Directions.Right), grid[0][0] * -1), 0);
+            q.Enqueue((new GridWalker(new GridLocation<int>(0, 0), Directions.Down), grid[0][0] * -1), 0);
             var best = 1104;
             while (q.Count > 0)
             {
@@ -287,8 +286,8 @@ namespace aoc2023
             var visited = new HashSet<(int, int, int,int, int)>();
             var distances = AdventLibrary.PathFinding.DijkstraTuple.Search(grid, new Tuple<int, int>(grid.Count - 1, grid[0].Count - 1));
             // (0,0) can be anything, just needs to be your root item.
-            q.Enqueue((new GridWalker((0, 0), Directions.Right), grid[0][0] * -1), 0);
-            q.Enqueue((new GridWalker((0, 0), Directions.Down), grid[0][0] * -1), 0);
+            q.Enqueue((new GridWalker(new GridLocation<int>(0, 0), Directions.Right), grid[0][0] * -1), 0);
+            q.Enqueue((new GridWalker(new GridLocation<int>(0, 0), Directions.Down), grid[0][0] * -1), 0);
             var best = 1104;
             while (q.Count > 0)
             {
@@ -356,8 +355,8 @@ namespace aoc2023
             var visited = new HashSet<(int, int, int, int, int)>();
             var distances = AdventLibrary.PathFinding.DijkstraTuple.Search(grid, new Tuple<int, int>(grid[0].Count - 1, grid.Count - 1));
             // (0,0) can be anything, just needs to be your root item.
-            q.Enqueue((new GridWalker((0, 0), Directions.Right), grid[0][0] * -1), 0);
-            q.Enqueue((new GridWalker((0, 0), Directions.Down), grid[0][0] * -1), 0);
+            q.Enqueue((new GridWalker(new GridLocation<int>(0, 0), Directions.Right), grid[0][0] * -1), 0);
+            q.Enqueue((new GridWalker(new GridLocation<int>(0, 0), Directions.Down), grid[0][0] * -1), 0);
             var best = int.MaxValue;
             while (q.Count > 0)
             {

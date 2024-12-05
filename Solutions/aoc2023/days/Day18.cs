@@ -36,7 +36,7 @@ namespace aoc2023
             var minY = 0;
             var minX = 0;
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var walker = new GridWalker((0, 0), Directions.Right);
+            var walker = new GridWalker(new GridLocation<int>(0, 0), Directions.Right);
             foreach (var line in lines)
             {
                 var tokens = line.Split(delimiterChars).ToList().GetRealStrings(delimiterChars);

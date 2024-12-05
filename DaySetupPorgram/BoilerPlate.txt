@@ -4,6 +4,7 @@ using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
+using AdventLibrary.Helpers.Grids;
 
 namespace aoc{YEAR}
 {
@@ -62,7 +63,7 @@ namespace aoc{YEAR}
 
         private object Part2(bool isTest = false)
         {
-            return count;
+            return 0;
         }
     }
 }

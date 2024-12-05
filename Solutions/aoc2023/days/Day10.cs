@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Runtime.InteropServices;
 using AdventLibrary;
-using AdventLibrary.CustomObjects;
 using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
 using AdventLibrary.Helpers.Grids;
 using AdventLibrary.PathFinding;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace aoc2023
 {
@@ -74,12 +69,13 @@ namespace aoc2023
             }
 
             var maxLoop = 0;
+            var location = new GridLocation<int>(startingX, startingY);
             var tests = new List<GridWalker>()
             {
-                new GridWalker((startingY, startingX), Directions.Up),
-                new GridWalker((startingY, startingX), Directions.Down),
-                new GridWalker((startingY, startingX), Directions.Left),
-                new GridWalker((startingY, startingX), Directions.Right),
+                new GridWalker(location, Directions.Up),
+                new GridWalker(location, Directions.Down),
+                new GridWalker(location, Directions.Left),
+                new GridWalker(location, Directions.Right),
             };
 
             foreach (var item in tests)

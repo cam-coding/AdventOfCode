@@ -98,7 +98,7 @@ namespace aoc2023
                     item.Walk();
                     item.OutOfBounds = !GridHelperWeirdTypes.WithinGrid(grid, item.Current);
                 }
-                maxLoop = Math.Max(item.UniqueLocationsVisited, maxLoop);
+                maxLoop = Math.Max(item.UniqueLocationsVisited.Count, maxLoop);
             }
             return maxLoop/2;
         }

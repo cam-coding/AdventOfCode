@@ -6,8 +6,16 @@ namespace AdventLibrary.Helpers.Grids
 
     public record GridLocation<T>(T X, T Y) : IComparable<GridLocation<T>> where T : INumber<T>, INumberBase<T>
     {
+        public GridLocation(GridLocation<int> current)
+        {
+            this.current = current;
+        }
+
         // stolen from https://github.com/boombuler/adventofcode/blob/master/Utils/Point2D.cs
         // Allows math using my Tuple Class
+
+        public static implicit operator GridLocation<T>((T, T) t) => new(t.Item1, t.Item2);
+
         public static GridLocation<T> operator -(GridLocation<T> a)
         => new(-a.X, -a.Y);
         public static GridLocation<T> operator -(GridLocation<T> a, GridLocation<T> b)

@@ -7,7 +7,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
     public class DirectionsUnitTests
     {
         [Theory]
-        [MemberData(nameof(DirectionStrings))]
+        [MemberData(nameof(DirectionStrings_TestData))]
         public void GetDirectionByString_ReturnsExpected(string[] array, GridLocation<int> expected)
         {
             foreach (var item in array)
@@ -15,9 +15,25 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 var result = Directions.GetDirectionByString(item);
                 Assert.Equal(expected, result);
             }
-
         }
-        public static IEnumerable<object[]> DirectionStrings()
+
+        [Fact]
+        public void Turn_ReturnsExpected()
+        {
+            var current = Directions.Up;
+            Assert.Equal(Directions.Left, Directions.TurnleftOrthogonal(current));
+            Assert.Equal(Directions.UpLeft, Directions.TurnleftAll(current));
+            current = Directions.UpRight;
+            Assert.Equal(Directions.UpLeft, Directions.TurnleftDiagonal(current));
+
+            current = Directions.Left;
+            Assert.Equal(Directions.Up, Directions.TurnRightOrthogonal(current));
+            current = Directions.UpLeft;
+            Assert.Equal(Directions.UpRight, Directions.TurnRightDiagonal(current));
+            Assert.Equal(Directions.Up, Directions.TurnRightAll(current));
+        }
+
+        public static IEnumerable<object[]> DirectionStrings_TestData()
         {
             yield return new object[]
             {

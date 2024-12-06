@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventLibrary.Helpers.Grids
 {
@@ -38,11 +39,13 @@ namespace AdventLibrary.Helpers.Grids
 
         public List<(GridLocation<int>, GridLocation<int>)> Path { get; set; }
 
+        public List<GridLocation<int>> UniqueLocationsVisited => Path.Select(x => x.Item1).Distinct().ToList();
+
         public HashSet<int> History { get; set; }
 
         public int PathLength => Path.Count;
 
-        public int UniqueLocationsVisited => History.Count;
+        public int UniqueStates => History.Count;
 
         public bool Looping { get; set; }
 
@@ -54,10 +57,15 @@ namespace AdventLibrary.Helpers.Grids
 
         public int X => Current.X;
 
+        public GridLocation<int> GetNextLocation()
+        {
+            return Current + Direction * Speed;
+        }
+
         public void Walk()
         {
             Previous = Current;
-            Current = Current + Direction * Speed;
+            Current = GetNextLocation();
 
             var key = (Current, Direction);
             var hashKey = Current.GetHashCode() * Direction.GetHashCode();

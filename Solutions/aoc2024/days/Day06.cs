@@ -12,6 +12,7 @@ namespace aoc2024
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+        private List<GridLocation<int>> _uniqueLocationsPart1;
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -24,125 +25,48 @@ namespace aoc2024
         private object Part1(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var lines = input.Lines;
-			var numbers = input.Longs;
-            var longLines = input.LongLines;
-            var nodes = input.Graph;
             var grid = input.CharGrid;
-            var gridStart = new GridLocation<int>(0, 0);
-            long total = 1000000;
-			long count = 0;
-            long number = input.Long;
 
-            GridLocation<int> loc = null;
-            for (var i = 0; i < grid.Width; i++)
+            GridLocation<int> loc = grid.GetLocationWhereEqualsValue('^');
+
+            var walker = new GridWalker(loc, Directions.Up);
+            var currentLocation = new GridLocation<int>(walker.X, walker.Y);
+            while (grid.WithinGrid(currentLocation))
             {
-                for (var j = 0; j < grid.Height; j++)
-                {
-                    if (grid.Get(i, j) == '^')
-                    {
-                        loc = new GridLocation<int>(i, j);
-                    }
-                }
-            }
-            var walker2 = new GridWalker(loc, Directions.Up);
-            var currentLoc2 = new GridLocation<int>(walker2.X, walker2.Y);
-            while (grid.WithinGrid(currentLoc2))
-            {
-                var nextVal = currentLoc2 + walker2.Direction;
+                var nextVal = walker.GetNextLocation();
                 if (!grid.WithinGrid(nextVal))
                 {
                     break;
                 }
                 if (grid.Get(nextVal) == '#')
                 {
-                    var cur = Directions.OrthogonalDirections.IndexOf(walker2.Direction);
-                    if (cur == 3)
-                    {
-                        cur = 0;
-                    }
-                    else
-                    {
-                        cur++;
-                    }
-                    walker2.Direction = Directions.OrthogonalDirections[cur];
+                    walker.Direction = Directions.TurnRightOrthogonal(walker.Direction);
                 }
-                walker2.Walk();
-                currentLoc2 = new GridLocation<int>(walker2.X, walker2.Y);
+                walker.Walk();
+                currentLocation = new GridLocation<int>(walker.X, walker.Y);
             }
-            return walker2.Path.Select(x => x.Item1).Distinct().Count();
+            _uniqueLocationsPart1 = walker.UniqueLocationsVisited;
+            return walker.UniqueLocationsVisited.Count;
         }
 
         private object Part2(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var lines = input.Lines;
-            var numbers = input.Longs;
-            var longLines = input.LongLines;
-            var nodes = input.Graph;
             var grid = input.CharGrid;
-            var gridStart = new GridLocation<int>(0, 0);
-            long total = 1000000;
             long count = 0;
-            long number = input.Long;
 
-            GridLocation<int> startingLoc = null;
-            for (var i = 0; i < grid.Width; i++)
-            {
-                for (var j = 0; j < grid.Height; j++)
-                {
-                    if (grid.Get(i, j) == '^')
-                    {
-                        startingLoc = new GridLocation<int>(i, j);
-                    }
-                }
-            }
-            var walker2 = new GridWalker(startingLoc, Directions.Up);
-            var currentLoc2 = new GridLocation<int>(walker2.X, walker2.Y);
-            while (grid.WithinGrid(currentLoc2))
-            {
-                var nextVal = currentLoc2 + walker2.Direction;
-                if (!grid.WithinGrid(nextVal))
-                {
-                    break;
-                }
-                if (grid.Get(nextVal) == '#')
-                {
-                    var cur = Directions.OrthogonalDirections.IndexOf(walker2.Direction);
-                    if (cur == 3)
-                    {
-                        cur = 0;
-                    }
-                    else
-                    {
-                        cur++;
-                    }
-                    walker2.Direction = Directions.OrthogonalDirections[cur];
-                }
-                walker2.Walk();
-                currentLoc2 = new GridLocation<int>(walker2.X, walker2.Y);
-            }
-            var places = walker2.Path.Select(x => x.Item1).Distinct();
-            var countplc = places.Count();
-
-            var listy = new List<GridLocation<int>>();
+            GridLocation<int> startingLoc = grid.GetLocationWhereEqualsValue('^');
+            var places = _uniqueLocationsPart1;
 
             foreach (var place in places)
             {
                 var curGrid = new GridObject<char>(grid.Grid);
-                var loc2 = place;
-                if (startingLoc.Equals(loc2))
-                {
-                    continue;
-                }
-                if (curGrid.Get(place) == '#')
+                if (startingLoc.Equals((GridLocation<int>)place))
                 {
                     continue;
                 }
 
-                curGrid.Grid[loc2.Y][loc2.X] = '#';
-                // GridHelper.PrintGrid(curGrid.Grid);
-                // Console.WriteLine();
+                curGrid.Set(place, '#');
 
                 var walker = new GridWalker(startingLoc, Directions.Up);
                 var currentLoc = new GridLocation<int>(walker.X, walker.Y);
@@ -155,7 +79,6 @@ namespace aoc2024
                     }
                     if (walker.Looping)
                     {
-                        listy.Add(place);
                         count++;
                         break;
                     }
@@ -178,56 +101,6 @@ namespace aoc2024
                 }
             }
 
-            /*
-            for (var j = 0; j < grid.Width; j++)
-            {
-                for (var i = 0; i < grid.Height; i++)
-                {
-                    var curGrid = new GridObject<char>(grid.Grid);
-                    var loc2 = new GridLocation<int>(i, j);
-                    if (startingLoc.Equals(loc2))
-                    {
-                        break;
-                    }
-
-                    curGrid.Grid[loc2.Y][loc2.X] = '#';
-                    // GridHelper.PrintGrid(curGrid.Grid);
-                    // Console.WriteLine();
-
-                    var walker = new GridWalker(startingLoc, Directions.Up);
-                    var currentLoc = new GridLocation<int>(walker.X, walker.Y);
-                    while (curGrid.WithinGrid(currentLoc))
-                    {
-                        var nextVal = currentLoc + walker.Direction;
-                        if (!curGrid.WithinGrid(nextVal))
-                        {
-                            break;
-                        }
-                        if (walker.Looping)
-                        {
-                            count++;
-                            break;
-                        }
-                        if (curGrid.Get(nextVal) == '#')
-                        {
-                            var cur = Directions.OrthogonalDirections.IndexOf(walker.Direction);
-                            if (cur == 3)
-                            {
-                                cur = 0;
-                            }
-                            else
-                            {
-                                cur++;
-                            }
-                            walker.Direction = Directions.OrthogonalDirections[cur];
-                        }
-                        walker.Walk();
-                        currentLoc = new GridLocation<int>(walker.X, walker.Y);
-                    }
-                }
-            }*/
-            var cnt = listy.Count;
-            var cnt2 = listy.Distinct().Count();
             return count;
         }
     }

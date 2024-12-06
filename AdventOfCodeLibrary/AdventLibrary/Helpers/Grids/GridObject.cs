@@ -91,7 +91,33 @@ namespace AdventLibrary.Helpers.Grids
 
         public T Get(GridLocation<int> location)
         {
-            return Grid[location.Y][location.X];
+            return Get(location.X, location.Y);
+        }
+
+        public GridLocation<int> GetLocationWhereEqualsValue(T value)
+        {
+            for (var i = 0; i < Width; i++)
+            {
+                for (var j = 0; j < Height; j++)
+                {
+                    if (Get(i, j).Equals(value))
+                    {
+                        return new GridLocation<int>(i, j);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public void Set(int x, int y, T value)
+        {
+            Grid[y][x] = value;
+        }
+
+        public void Set(GridLocation<int> location, T value)
+        {
+            Set(location.X, location.Y, value);
         }
 
         private List<GridLocation<int>> GetNeighbours(GridLocation<int> currentLocation, List<GridLocation<int>> directions)

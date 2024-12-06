@@ -77,5 +77,59 @@ namespace AdventLibrary.Helpers.Grids
             }
             return null;
         }
+
+        #region Turning
+        public static GridLocation<int> TurnRightAll(GridLocation<int> current)
+        {
+            return TurnRight(current, AllDirections);
+        }
+
+        public static GridLocation<int> TurnRightDiagonal(GridLocation<int> current)
+        {
+            return TurnRight(current, DiagonalDirections);
+        }
+
+        public static GridLocation<int> TurnRightOrthogonal(GridLocation<int> current)
+        {
+            return TurnRight(current, OrthogonalDirections);
+        }
+
+        public static GridLocation<int> TurnleftAll(GridLocation<int> current)
+        {
+            return Turnleft(current, AllDirections);
+        }
+
+        public static GridLocation<int> TurnleftDiagonal(GridLocation<int> current)
+        {
+            return Turnleft(current, DiagonalDirections);
+        }
+
+        public static GridLocation<int> TurnleftOrthogonal(GridLocation<int> current)
+        {
+            return Turnleft(current, OrthogonalDirections);
+        }
+
+        private static GridLocation<int> TurnRight(GridLocation<int> current, List<GridLocation<int>> directions)
+        {
+            var cur = directions.IndexOf(current);
+            cur++;
+            if (cur == directions.Count)
+            {
+                cur = 0;
+            }
+            return directions[cur];
+        }
+
+        private static GridLocation<int> Turnleft(GridLocation<int> current, List<GridLocation<int>> directions)
+        {
+            var cur = directions.IndexOf(current);
+            cur--;
+            if (cur == -1)
+            {
+                cur = directions.Count-1;
+            }
+            return directions[cur];
+        }
+        #endregion turning
     }
 }

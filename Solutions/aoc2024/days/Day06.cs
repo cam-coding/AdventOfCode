@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
 using AdventLibrary.Helpers.Grids;
+using System.Collections.Generic;
 
 namespace aoc2024
 {
@@ -30,8 +26,7 @@ namespace aoc2024
             GridLocation<int> loc = grid.GetLocationWhereEqualsValue('^');
 
             var walker = new GridWalker(loc, Directions.Up);
-            var currentLocation = new GridLocation<int>(walker.X, walker.Y);
-            while (grid.WithinGrid(currentLocation))
+            while (grid.WithinGrid(walker.Current))
             {
                 var nextVal = walker.GetNextLocation();
                 if (!grid.WithinGrid(nextVal))
@@ -43,7 +38,6 @@ namespace aoc2024
                     walker.Direction = Directions.TurnRightOrthogonal(walker.Direction);
                 }
                 walker.Walk();
-                currentLocation = new GridLocation<int>(walker.X, walker.Y);
             }
             _uniqueLocationsPart1 = walker.UniqueLocationsVisited;
             return walker.UniqueLocationsVisited.Count;
@@ -61,7 +55,7 @@ namespace aoc2024
             foreach (var place in places)
             {
                 var curGrid = new GridObject<char>(grid.Grid);
-                if (startingLoc.Equals((GridLocation<int>)place))
+                if (startingLoc == place)
                 {
                     continue;
                 }
@@ -69,10 +63,9 @@ namespace aoc2024
                 curGrid.Set(place, '#');
 
                 var walker = new GridWalker(startingLoc, Directions.Up);
-                var currentLoc = new GridLocation<int>(walker.X, walker.Y);
-                while (curGrid.WithinGrid(currentLoc))
+                while (curGrid.WithinGrid(walker.Current))
                 {
-                    var nextVal = currentLoc + walker.Direction;
+                    var nextVal = walker.Current + walker.Direction;
                     if (!curGrid.WithinGrid(nextVal))
                     {
                         break;
@@ -84,20 +77,10 @@ namespace aoc2024
                     }
                     while (curGrid.Get(nextVal) == '#')
                     {
-                        var cur = Directions.OrthogonalDirections.IndexOf(walker.Direction);
-                        if (cur == 3)
-                        {
-                            cur = 0;
-                        }
-                        else
-                        {
-                            cur++;
-                        }
-                        walker.Direction = Directions.OrthogonalDirections[cur];
-                        nextVal = currentLoc + walker.Direction;
+                        walker.Direction = Directions.TurnRightOrthogonal(walker.Direction);
+                        nextVal = walker.GetNextLocation();
                     }
                     walker.Walk();
-                    currentLoc = new GridLocation<int>(walker.X, walker.Y);
                 }
             }
 

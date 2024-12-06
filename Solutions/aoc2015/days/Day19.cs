@@ -118,7 +118,7 @@ namespace aoc2015
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var baseString = lines.LastItem();
+            var baseString = lines.GetLastItem();
 
             var hashy = new HashSet<string>();
             var count = 0;

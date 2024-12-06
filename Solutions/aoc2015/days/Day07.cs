@@ -42,7 +42,7 @@ namespace aoc2015
             {
                 if (line[0].IsNumeric() && line.Count == 2)
                 {
-                    _dict[line.LastItem()] = ushort.Parse(line[0]);
+                    _dict[line.GetLastItem()] = ushort.Parse(line[0]);
                 }
                 else
                 {
@@ -77,7 +77,7 @@ namespace aoc2015
             {
                 if (line[0].IsNumeric() && line.Count == 2)
                 {
-                    _dict[line.LastItem()] = ushort.Parse(line[0]);
+                    _dict[line.GetLastItem()] = ushort.Parse(line[0]);
                 }
                 else
                 {
@@ -96,7 +96,7 @@ namespace aoc2015
             {
                 if (line[0].IsNumeric() && line.Count == 2)
                 {
-                    _dict[line.LastItem()] = ushort.Parse(line[0]);
+                    _dict[line.GetLastItem()] = ushort.Parse(line[0]);
                 }
                 else
                 {

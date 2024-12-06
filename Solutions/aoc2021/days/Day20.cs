@@ -25,7 +25,7 @@ namespace aoc2021
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             _answerKey = lines[0];
-            lines = lines.AllExceptFirstItem();
+            lines = lines.GetAllExceptFirstItem();
             var grid = ParseLinesAsGrid(lines);
 
             for (var i = 0; i < 50; i++)

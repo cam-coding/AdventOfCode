@@ -7,14 +7,29 @@ namespace AdventLibrary.Extensions
     // Extending base list class with some helper methods
     public static class ListExtensions
     {
-        public static List<T> AllExceptFirstItem<T>(this List<T> list)
+        public static List<T> GetAllExceptFirstItem<T>(this List<T> list)
         {
             return list.GetRange(1, list.Count - 1);
         }
 
-        public static T LastItem<T>(this List<T> list)
+        public static T GetLastItem<T>(this List<T> list)
         {
             return list[list.Count - 1];
+        }
+
+        // get's middle item, left of middle if count is even.
+        public static T GetMiddleItem<T>(this List<T> list, int left = 0, int right = -1)
+        {
+            if (list.Count == 0)
+            {
+                return default(T);
+            }
+            if (right == -1)
+            {
+                right = list.Count - 1;
+            }
+            var mid = left + ((right - left) / 2);
+            return list[mid];
         }
 
         public static List<T> GetWithout<T>(this List<T> list, int index)
@@ -22,6 +37,13 @@ namespace AdventLibrary.Extensions
             var except = list.Clone();
             except.RemoveAt(index);
             return except;
+        }
+
+        public static void SwapItemsAtIndexes<T>(this List<T> list, int left, int right)
+        {
+            var tmp = list[left];
+            list[left] = list[right];
+            list[right] = tmp;
         }
 
         public static bool AllItemsUnique<T>(this IList<T> input)
@@ -63,6 +85,11 @@ namespace AdventLibrary.Extensions
         public static List<T> SortDescending<T>(this List<T> list)
         {
             return list.OrderByDescending(x => x).ToList();
+        }
+
+        public static bool IsEmpty<T>(this List<T> list)
+        {
+            return list.Count == 0;
         }
 
         // If I want to exclude instances where there is the same number more than once

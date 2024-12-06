@@ -52,7 +52,7 @@ namespace aoc2016
             }
             else
             {
-                var last = _historyBool.LastItem();
+                var last = _historyBool.GetLastItem();
                 if (booly == last)
                 {
                     _valid = false;

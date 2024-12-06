@@ -4,7 +4,7 @@ using Xunit;
 
 namespace AdventLibraryUnitTests.Helpers
 {
-    public class StringHelperUnitTests
+    public class StringExtensionsUnitTests
     {
         [Theory]
         [InlineData(3, 2, false, "aabbcc")]
@@ -18,6 +18,38 @@ namespace AdventLibraryUnitTests.Helpers
         public void GetGroups_ReturnsExpected(int expected, int size, bool unique, string input)
         {
             var result = StringExtensions.CountGroups_NonOverlapping(input, size, unique);
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData("12345", "54321")]
+        [InlineData("racecar", "racecar")]
+        [InlineData("a", "a")]
+        [InlineData("", "")]
+        public void ReverseString_ReturnsExpected(string expected, string input)
+        {
+            var result = input.ReverseString();
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData("12345", "32145", 0, 2)]
+        [InlineData("12345", "12345", 1, 1)]
+        [InlineData("12345", "52341", 0, 4)]
+        public void SwapCharacters_ReturnsExpected(string expected, string input, int left, int right)
+        {
+            var result = input.SwapCharactersAtIndexes(left, right);
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData('3', "12345")]
+        [InlineData('3', "123456")]
+        [InlineData('1', "1")]
+        [InlineData('\0', "")]
+        public void GetMiddleCharacter_ReturnsExpected(char expected, string input)
+        {
+            var result = input.GetMiddleCharacter();
             Assert.Equal(expected, result);
         }
 

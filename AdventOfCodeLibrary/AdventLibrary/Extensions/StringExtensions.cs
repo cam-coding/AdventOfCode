@@ -26,6 +26,28 @@ namespace AdventLibrary.Extensions
             return new string(charArray);
         }
 
+        public static string SwapCharactersAtIndexes(this string str, int left, int right)
+        {
+            char[] charArray = str.ToCharArray();
+            var tmp = charArray[left];
+            charArray[left] = charArray[right];
+            charArray[right] = tmp;
+            return new string(charArray);
+        }
+
+        // gets middle char or left of middle if string length is even
+        public static char GetMiddleCharacter(this string input)
+        {
+            return input.ToList().GetMiddleItem();
+        }
+
+        public static string GetStringBetweenTwoCharacters(this string input, char startChar, char endChar)
+        {
+            int startIndex = input.IndexOf(startChar);
+            int endIndex = input.IndexOf(endChar);
+            return input.Substring(startIndex + 1, endIndex - startIndex - 1);
+        }
+
         public static List<int> GetIndexesOfSubstring(this string str, string substring)
         {
             var result = new List<int>();
@@ -187,13 +209,6 @@ namespace AdventLibrary.Extensions
         public static string ConcatListOfStrings(List<string> list, string sep)
         {
             return ConcatListOfStrings(list, sep[0]);
-        }
-
-        public static string GetStringBetweenTwoCharacters(this string input, char startChar, char endChar)
-        {
-            int startIndex = input.IndexOf(startChar);
-            int endIndex = input.IndexOf(endChar);
-            return input.Substring(startIndex + 1, endIndex - startIndex - 1);
         }
     }
 }

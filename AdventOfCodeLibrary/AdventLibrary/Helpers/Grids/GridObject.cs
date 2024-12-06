@@ -1,4 +1,5 @@
-﻿using AdventLibrary.PathFinding;
+﻿using AdventLibrary.Extensions;
+using AdventLibrary.PathFinding;
 using System.Collections.Generic;
 
 namespace AdventLibrary.Helpers.Grids
@@ -7,7 +8,7 @@ namespace AdventLibrary.Helpers.Grids
     {
         public GridObject(List<List<T>> grid)
         {
-            Grid = grid;
+            Grid = grid.Clone2dList();
             Height = Grid.Count;
             Width = Grid[0].Count;
             DefaultValue = default(T);

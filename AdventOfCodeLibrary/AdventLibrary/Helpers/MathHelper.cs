@@ -1,17 +1,17 @@
-﻿using AdventLibrary;
-using AdventLibrary.CustomObjects;
-using AdventLibrary.Helpers.Grids;
+﻿using AdventLibrary.Helpers.Grids;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Numerics;
 
 namespace AdventLibrary.Helpers
 {
     public static class MathHelper
     {
+        public static int GetMiddle(int left, int right)
+        {
+            return left + ((right - left) / 2);
+        }
+
         public static int LCM(IEnumerable<int> numbers)
         {
             return numbers.Aggregate((S, val) => S * val / LCM(S, val));

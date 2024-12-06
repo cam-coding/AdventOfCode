@@ -40,7 +40,7 @@ namespace aoc2021
             {
                 var parts = line.Split('|');
                 var inputs = parts[0].Split(' ').ToList();
-                var codes = parts[1].Split(' ').ToList().AllExceptFirstItem();
+                var codes = parts[1].Split(' ').ToList().GetAllExceptFirstItem();
                 solved[1] = inputs.Where(x => x.Length == 2).First();
                 inputs.Remove(solved[1]);
                 solved[4] = inputs.Where(x => x.Length == 4).First();

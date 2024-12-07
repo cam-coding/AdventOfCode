@@ -27,12 +27,14 @@ namespace AdventLibrary
 
         private static void GridToGraphAddConnections<T>(Dictionary<GridLocation<int>, CustomNode<T>> graph, List<List<T>> grid)
         {
+            var gridObject = new GridObject<T>(grid);
             for (var y = 0; y < grid.Count; y++)
             {
                 for (var x = 0; x < grid[0].Count; x++)
                 {
-                    var node = graph[new GridLocation<int>(x, y)];
-                    foreach (var neigh in GridHelper.GetOrthogonalNeighbours(grid, y, x))
+                    var loc = new GridLocation<int>(x, y);
+                    var node = graph[loc];
+                    foreach (var neigh in gridObject.GetOrthogonalNeighbours(loc))
                     {
                         var otherNode = graph[neigh];
                         node.EdgesOut.Add(new CustomEdge<T>(node, otherNode, true));

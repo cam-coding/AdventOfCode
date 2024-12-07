@@ -67,34 +67,29 @@ namespace AdventLibrary
             return grid;
         }
 
-        public static List<(int, int)> GetPointsBetweenStartAndEndInclusive(List<int> nums)
+        public static List<GridLocation<int>> GetPointsBetweenStartAndEndInclusive(GridLocation<int> start, GridLocation<int> end)
         {
-            return GetPointsBetweenStartAndEndInclusive(nums[0], nums[1], nums[2], nums[3]);
-        }
-
-        public static List<(int, int)> GetPointsBetweenStartAndEndInclusive(Tuple<int, int> start, Tuple<int, int> end)
-        {
-            return GetPointsBetweenStartAndEndInclusive(start.Item1, start.Item2, end.Item1, end.Item2);
+            return GetPointsBetweenStartAndEndInclusive(start.X, start.Y, end.X, end.Y);
         }
 
         // rework for y,x
-        public static List<(int, int)> GetPointsBetweenStartAndEndInclusive(int startX, int startY, int endX, int endY)
+        public static List<GridLocation<int>> GetPointsBetweenStartAndEndInclusive(int startX, int startY, int endX, int endY)
         {
-            List<(int, int)> points = new List<(int, int)>();
+            List<GridLocation<int>> points = new List<GridLocation<int>>();
             if (startX == endX)
             {
                 if (startY > endY)
                 {
                     for (int i = startY; i >= endY; i--)
                     {
-                        points.Add((startX, i));
+                        points.Add(new GridLocation<int>(startX, i));
                     }
                 }
                 else
                 {
                     for (int i = startY; i <= endY; i++)
                     {
-                        points.Add((startX, i));
+                        points.Add(new GridLocation<int>(startX, i));
                     }
                 }
             }
@@ -104,7 +99,7 @@ namespace AdventLibrary
                 var max = Math.Max(endX, startX);
                 for (int i = min; i <= max; i++)
                 {
-                    points.Add((i, startY));
+                    points.Add(new GridLocation<int>(i, startY));
                 }
             }
             else
@@ -123,33 +118,32 @@ namespace AdventLibrary
                 }
                 while (x != endX || y != endY)
                 {
-                    points.Add((x, y));
+                    points.Add(new GridLocation<int>(x, y));
                     x += xIncrement;
                     y += yIncrement;
                 }
-                points.Add((endX, endY));
+                points.Add(new GridLocation<int>(endX, endY));
             }
             return points;
         }
 
-        // rework for y,x
-        public static List<(int, int)> GetPointsBetweenStartAndEndExclusive(int startX, int startY, int endX, int endY)
+        public static List<GridLocation<int>> GetPointsBetweenStartAndEndExclusive(int startX, int startY, int endX, int endY)
         {
-            List<(int, int)> points = new List<(int, int)>();
+            List<GridLocation<int>> points = new List<GridLocation<int>>();
             if (startX == endX)
             {
                 if (startY > endY)
                 {
                     for (int i = startY - 1; i > endY; i--)
                     {
-                        points.Add((startX, i));
+                        points.Add(new GridLocation<int>(startX, i));
                     }
                 }
                 else
                 {
                     for (int i = startY + 1; i < endY; i++)
                     {
-                        points.Add((startX, i));
+                        points.Add(new GridLocation<int>(startX, i));
                     }
                 }
             }
@@ -159,14 +153,14 @@ namespace AdventLibrary
                 {
                     for (int i = startX - 1; i > endX; i--)
                     {
-                        points.Add((i, startY));
+                        points.Add(new GridLocation<int>(i, startY));
                     }
                 }
                 else
                 {
                     for (int i = startX + 1; i < endX; i++)
                     {
-                        points.Add((i, startY));
+                        points.Add(new GridLocation<int>(i, startY));
                     }
                 }
             }
@@ -188,65 +182,12 @@ namespace AdventLibrary
                 }
                 while (x != endX || y != endY)
                 {
-                    points.Add((x, y));
+                    points.Add(new GridLocation<int>(x, y));
                     x += xIncrement;
                     y += yIncrement;
                 }
             }
             return points;
-        }
-
-        // Gets 4 neighbours that are directly N/E/S/W aka Up/Right/Down/Left
-        public static List<GridLocation<int>> GetOrthogonalNeighbours<T>(List<List<T>> grid, GridLocation<int> coord)
-        {
-            return GetOrthogonalNeighbours<T>(grid, coord.Y, coord.X);
-        }
-
-        // Gets 4 neighbours that are directly N/E/S/W aka Up/Right/Down/Left
-        public static List<GridLocation<int>> GetOrthogonalNeighbours<T>(List<List<T>> grid, int y, int x)
-        {
-            var adj = new List<(int xOffset, int yOffset)>()
-            {
-                (0, -1),
-                (0, 1),
-                (1, 0),
-                (-1, 0),
-            };
-            List<GridLocation<int>> neighbours = new List<GridLocation<int>>();
-
-            for (int i = 0; i < 4; i++)
-            {
-                var newNeighbour = MoveByOffset(y, x, adj[i].yOffset, adj[i].xOffset, grid[0].Count, grid.Count, false);
-
-                if (!neighbours.Contains(newNeighbour) && (y != newNeighbour.Y || x != newNeighbour.X))
-                {
-                    neighbours.Add(newNeighbour);
-                }
-            }
-            return neighbours;
-        }
-
-        // Gets all 8 neighbours. Diagonal and orthogonal
-        public static List<(int y, int x)> GetAllNeighbours<T>(List<List<T>> grid, int x, int y)
-        {
-            List<(int, int)> neighbours = new List<(int, int)>();
-            int rowMin = x - 1 > 0 ? x - 1 : 0;
-            int rowMax = x + 1 < grid.Count ? x + 1 : grid.Count - 1;
-            int colMin = y - 1 > 0 ? y - 1 : 0;
-            int colMax = y + 1 < grid[0].Count ? y + 1 : grid[0].Count - 1;
-
-            for (int i = rowMin; i <= rowMax; i++)
-            {
-                for (int j = colMin; j <= colMax; j++)
-                {
-                    if (i == x && j == y)
-                    {
-                        continue;
-                    }
-                    neighbours.Add((j, i));
-                }
-            }
-            return neighbours;
         }
 
         /* Assume offset already applied*/
@@ -311,12 +252,14 @@ namespace AdventLibrary
 
         public static Dictionary<GridLocation<int>, List<GridLocation<int>>> GridToAdjList<T>(List<List<T>> grid)
         {
+            var gridObject = new GridObject<T>(grid);
             var dict = new Dictionary<GridLocation<int>, List<GridLocation<int>>>();
             for (var y = 0; y < grid.Count; y++)
             {
                 for (var x = 0; x < grid[0].Count; x++)
                 {
-                    dict.Add(new GridLocation<int>(x, y), GetOrthogonalNeighbours(grid, x, y));
+                    var loc = new GridLocation<int>(x, y);
+                    dict.Add(loc, gridObject.GetOrthogonalNeighbours(loc));
                 }
             }
 
@@ -617,6 +560,44 @@ namespace AdventLibrary
                 }
             }
             return grid;
+        }
+
+        // starts in top left and works way to bottom right
+        public static GridLocation<int> GetFirstLocationOf<T>(List<List<T>> grid, T value)
+        {
+            // increase the horizontal/row second
+            for (var y = 0; y < grid.Count; y++)
+            {
+                // increase vertical/column first
+                for (var x = 0; x < grid[0].Count; x++)
+                {
+                    if (grid[y][x].Equals(value))
+                    {
+                        return new GridLocation<int>(x, y);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        // starts in top left and works way to bottom right
+        public static GridLocation<int> GetLastLocationOf<T>(List<List<T>> grid, T value)
+        {
+            // increase the horizontal/row second
+            for (var y = grid.Count-1; y >= 0 ; y--)
+            {
+                // increase vertical/column first
+                for (var x = grid[0].Count-1; x >= 0 ; x--)
+                {
+                    if (grid[y][x].Equals(value))
+                    {
+                        return new GridLocation<int>(x, y);
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

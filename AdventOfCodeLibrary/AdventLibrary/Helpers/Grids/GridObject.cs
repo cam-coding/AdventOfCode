@@ -25,13 +25,8 @@ namespace AdventLibrary.Helpers.Grids
 
         public T DefaultValue { get; set; }
 
-        public bool TryGet(
-            out T value,
-            int x = int.MinValue,
-            int y = int.MinValue,
-            GridLocation<int> point = null)
+        public bool TryGet(out T value, GridLocation<int> location)
         {
-            var location = GetCoords(x, y, point);
             value = DefaultValue;
             if (WithinGrid(location))
             {
@@ -50,32 +45,20 @@ namespace AdventLibrary.Helpers.Grids
         }
 
         // Gets 4 neighbours that are directly N/E/S/W aka Up/Right/Down/Left
-        public List<GridLocation<int>> GetOrthogonalNeighbours(
-            int x = int.MinValue,
-            int y = int.MinValue,
-            GridLocation<int> point = null)
+        public List<GridLocation<int>> GetOrthogonalNeighbours(GridLocation<int> location)
         {
-            var location = GetCoords(x, y, point);
             return GetNeighbours(location, Directions.OrthogonalDirections);
         }
 
         // Gets 4 neighbours that are diagonal NE/SE/SW/NW aka UpRight/DownRight/DownLeft/UpLeft
-        public List<GridLocation<int>> GetDiagonalNeighbours(
-            int x = int.MinValue,
-            int y = int.MinValue,
-            GridLocation<int> point = null)
+        public List<GridLocation<int>> GetDiagonalNeighbours(GridLocation<int> location)
         {
-            var location = GetCoords(x, y, point);
             return GetNeighbours(location, Directions.DiagonalDirections);
         }
 
         // Gets all 8 neighbours. Diagonal and orthogonal
-        public List<GridLocation<int>> GetAllNeighbours(
-            int x = int.MinValue,
-            int y = int.MinValue,
-            GridLocation<int> point = null)
+        public List<GridLocation<int>> GetAllNeighbours(GridLocation<int> location)
         {
-            var location = GetCoords(x, y, point);
             return GetNeighbours(location, Directions.AllDirections);
         }
 
@@ -94,7 +77,7 @@ namespace AdventLibrary.Helpers.Grids
             return Get(location.X, location.Y);
         }
 
-        public GridLocation<int> GetLocationWhereEqualsValue(T value)
+        public GridLocation<int> GetLocationWhereCellEqualsValue(T value)
         {
             for (var i = 0; i < Width; i++)
             {
@@ -132,18 +115,6 @@ namespace AdventLibrary.Helpers.Grids
                 }
             }
             return result;
-        }
-
-        private GridLocation<int> GetCoords(
-            int x = int.MinValue,
-            int y = int.MinValue,
-            GridLocation<int> point = null)
-        {
-            if (point == null)
-            {
-                return new GridLocation<int>(x,y);
-            }
-            return point;
         }
     }
 }

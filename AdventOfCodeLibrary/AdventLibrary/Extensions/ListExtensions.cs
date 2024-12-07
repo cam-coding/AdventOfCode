@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace AdventLibrary.Extensions
 {
@@ -37,6 +38,23 @@ namespace AdventLibrary.Extensions
             var except = list.Clone();
             except.RemoveAt(index);
             return except;
+        }
+
+        public static T PopFirst<T>(this List<T> list)
+        {
+            return list.PopAtIndex(0);
+        }
+
+        public static T PopLast<T>(this List<T> list)
+        {
+            return list.PopAtIndex(list.Count - 1);
+        }
+
+        public static T PopAtIndex<T>(this List<T> list, int index)
+        {
+            var ret = list[index];
+            list.RemoveAt(index);
+            return ret;
         }
 
         public static void SwapItemsAtIndexes<T>(this List<T> list, int left, int right)
@@ -109,6 +127,11 @@ namespace AdventLibrary.Extensions
         {
             var descList = list.SortDescending();
             return list.SequenceEqual(descList);
+        }
+
+        public static bool IsValidIndex<T>(this List<T> list, int index)
+        {
+            return index >= 0 && index < list.Count;
         }
 
         public static List<List<T>> Clone2dList<T>(this List<List<T>> original)

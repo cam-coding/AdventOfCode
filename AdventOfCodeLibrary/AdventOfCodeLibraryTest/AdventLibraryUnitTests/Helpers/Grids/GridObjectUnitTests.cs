@@ -39,7 +39,8 @@ namespace AdventLibraryUnitTests.Helpers.Grids
         public void TryGet_ReturnsExpected(int x, int y, bool expectedReturn, int expectedValue)
         {
             int actualValue;
-            bool actualReturn = _grid.TryGet(out actualValue, x, y);
+            var location = new GridLocation<int>(x, y);
+            bool actualReturn = _grid.TryGet(out actualValue, location);
             Assert.Equal(expectedReturn, actualReturn);
             Assert.Equal(expectedValue, actualValue);
         }

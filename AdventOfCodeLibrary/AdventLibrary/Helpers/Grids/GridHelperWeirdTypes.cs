@@ -14,11 +14,6 @@ namespace AdventLibrary
             return GetPointsBetweenStartAndEndInclusive(nums[0], nums[1], nums[2], nums[3]);
         }
 
-        public static List<Tuple<int,int>> GetPointsBetweenStartAndEndInclusive(Tuple<int,int> start, Tuple<int,int> end)
-        {
-            return GetPointsBetweenStartAndEndInclusive(start.Item1, start.Item2, end.Item1, end.Item2);
-        }
-
         public static List<Tuple<int,int>> GetPointsBetweenStartAndEndInclusive(int startX, int startY, int endX, int endY)
         {
             List<Tuple<int, int>> points = new List<Tuple<int, int>>();

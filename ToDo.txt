@@ -1,6 +1,7 @@
 Dec 4th 2024
 look into GridWalker and see if needs doing
 	Maybe hash the history?
+Test GetNeighbour stuff in GridObject
 
 Create grid from list of coords and fill in the blanks
 Make GridHelper method to expand the grid?

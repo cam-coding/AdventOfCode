@@ -77,11 +77,12 @@ namespace AdventLibrary.PathFinding
         private void ExampleUsage()
         {
             var exampleGrid = new List<List<int>>();
+            var exampleGridObject = new GridObject<int>(exampleGrid);
 
             Func<GridLocation<int>, List<GridLocation<int>>> NeighboursFunc = (node) =>
             {
                 var neighbours = new List<GridLocation<int>>();
-                foreach (var edge in GridHelper.GetOrthogonalNeighbours(exampleGrid, node))
+                foreach (var edge in exampleGridObject.GetOrthogonalNeighbours(node))
                 {
                     neighbours.Add(edge);
                 }

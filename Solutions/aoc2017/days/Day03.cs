@@ -4,6 +4,7 @@ using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
+using AdventLibrary.Helpers.Grids;
 
 namespace aoc2017
 {
@@ -81,9 +82,10 @@ namespace aoc2017
         {
             var input = new InputObjectCollection(_filePath);
             var grid = GridHelper.GenerateSquareGrid(500);
+            var gridObject = new GridObject<int>(grid);
             var currentx = 251;
             var currenty = 250;
-            grid[250][250] = 1;
+            gridObject.Set(250, 250, 1);
             // direction heading 0 up, 1 left, 2 down, 3 right
             var spiralState = 0;
             var current = 1;
@@ -92,12 +94,13 @@ namespace aoc2017
 
             while (current < goal)
             {
-                current = GridHelper.GetAllNeighbours(grid, currentx, currenty).Sum(node => grid[node.y][node.x]);
-                grid[currenty][currentx] = current;
+                var currentLocation = new GridLocation<int>(currentx, currenty);
+                current = gridObject.GetAllNeighbours(currentLocation).Sum(node => gridObject.Get(node));
+                gridObject.Set(currentLocation,current);
 
                 if (spiralState == 0)
                 {
-                    if (grid[currenty][currentx - 1] == 0)
+                    if (gridObject.Get(currentx - 1, currenty) == 0)
                     {
                         spiralState++;
                         currentx--;
@@ -109,7 +112,7 @@ namespace aoc2017
                 }
                 else if (spiralState == 1)
                 {
-                    if (grid[currenty - 1][currentx] == 0)
+                    if (gridObject.Get(currentx,currenty-1) == 0)
                     {
                         spiralState++;
                         currenty--;
@@ -121,7 +124,7 @@ namespace aoc2017
                 }
                 else if (spiralState == 2)
                 {
-                    if (grid[currenty][currentx + 1] == 0)
+                    if (gridObject.Get(currentx+1, currenty) == 0)
                     {
                         spiralState++;
                         currentx++;
@@ -133,7 +136,7 @@ namespace aoc2017
                 }
                 else if (spiralState == 3)
                 {
-                    if (grid[currenty + 1][currentx] == 0)
+                    if (gridObject.Get(currentx, currenty + 1) == 0)
                     {
                         spiralState = 0;
                         currenty++;

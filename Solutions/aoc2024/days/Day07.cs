@@ -1,11 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
-using AdventLibrary.Helpers.Grids;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace aoc2024
 {
@@ -25,29 +21,15 @@ namespace aoc2024
         private object Part1(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var lines = input.Lines;
-			var numbers = input.Longs;
             var longLines = input.LongLines;
-            var nodes = input.Graph;
-            var grid = input.CharGrid;
-            var gridStart = new GridLocation<int>(0, 0);
             long total = 1000000;
 			long count = 0;
             long number = input.Long;
-
-            var ln1 = lines != null && lines.Count > 0 ? lines[0] : string.Empty;
-            var ln2 = lines != null && lines.Count > 1 ? lines[1] : string.Empty;
-            for (var i = 0; i < lines.Count; i++)
-            {
-
-            }
 
             foreach (var listy in longLines)
             {
                 var answer = listy[0];
                 var nums1 = listy.GetWithout(0);
-
-                var possible = false;
 
                 var ans = new List<long>();
                 var ans1 = GetPossible(true, nums1);
@@ -69,33 +51,30 @@ namespace aoc2024
             {
                 return nums;
             }
-            var num = nums.Last();
-            var nums1 = nums.GetWithout(nums.Count-1);
-            var ans1 = GetPossible(true, nums1);
-            var ans2 = GetPossible(false, nums1);
+            var rightValue = nums.Last();
+            var remainingValues = nums.GetWithout(nums.Count-1);
+            var combinedAnswers = new List<long>();
+            if (remainingValues.Count == 1)
+            {
+                combinedAnswers = remainingValues;
+            }
+            else
+            {
+                var ans1 = GetPossible(true, remainingValues);
+                var ans2 = GetPossible(false, remainingValues);
+                combinedAnswers = ans1.Concat(ans2).ToList();
+            }
             var ans = new List<long>();
 
-            foreach (var i in ans1)
+            foreach (var leftValue in combinedAnswers)
             {
                 if (add)
                 {
-                    ans.Add(num + i);
+                    ans.Add(rightValue + leftValue);
                 }
                 else
                 {
-                    ans.Add(num * i);
-                }
-            }
-
-            foreach (var i in ans2)
-            {
-                if (add)
-                {
-                    ans.Add(num + i);
-                }
-                else
-                {
-                    ans.Add(num * i);
+                    ans.Add(rightValue * leftValue);
                 }
             }
 
@@ -105,102 +84,67 @@ namespace aoc2024
         private object Part2(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var lines = input.Lines;
-            var numbers = input.Longs;
             var longLines = input.LongLines;
-            var nodes = input.Graph;
-            var grid = input.CharGrid;
-            var gridStart = new GridLocation<int>(0, 0);
-            long total = 1000000;
             long count = 0;
-            long number = input.Long;
-
-            var ln1 = lines != null && lines.Count > 0 ? lines[0] : string.Empty;
-            var ln2 = lines != null && lines.Count > 1 ? lines[1] : string.Empty;
-            for (var i = 0; i < lines.Count; i++)
-            {
-
-            }
 
             foreach (var listy in longLines)
             {
                 var answer = listy[0];
-                var nums1 = listy.GetWithout(0);
+                var values = listy.GetWithout(0);
 
                 var possible = false;
 
                 var ans = new List<long>();
-                var ans1 = GetPossible2(0, nums1);
-                var ans2 = GetPossible2(1, nums1);
-                var ans3 = GetPossible2(2, nums1);
+                var combinedAnswers = new List<long>();
+                for (var j = 0; j < 3; j++)
+                {
+                    var answers = GetPossible2(j, values);
+                    combinedAnswers = combinedAnswers.Concat(answers).ToList();
+                }
 
-                var listy2 = ans1.Concat(ans2).Concat(ans3);
-
-                if (listy2.Any(x => x == answer))
+                if (combinedAnswers.Any(x => x == answer))
                 {
                     count = count + answer;
                 }
             }
             return count;
         }
-        private List<long> GetPossible2(int add, List<long> nums)
+        private List<long> GetPossible2(int operation, List<long> nums)
         {
             if (nums.Count == 1)
             {
                 return nums;
             }
-            var num = nums.Last();
-            var nums1 = nums.GetWithout(nums.Count - 1);
-            var ans1 = GetPossible2(0, nums1);
-            var ans2 = GetPossible2(1, nums1);
-            var ans3 = GetPossible2(2, nums1);
+            var rightValue = nums.Last();
+            var remainingNumbers = nums.GetWithout(nums.Count - 1);
+            var combinedAnswers = new List<long>();
+            if (remainingNumbers.Count == 1)
+            {
+                combinedAnswers = remainingNumbers;
+            }
+            else
+            {
+                for (var j = 0; j < 3; j++)
+                {
+                    var answers = GetPossible2(j, remainingNumbers);
+                    combinedAnswers = combinedAnswers.Concat(answers).ToList();
+                }
+            }
             var ans = new List<long>();
 
-            foreach (var i in ans1)
+            foreach (var leftValue in combinedAnswers)
             {
-                if (add == 0)
+                if (operation == 0)
                 {
-                    ans.Add(num + i);
+                    ans.Add(rightValue + leftValue);
                 }
-                else if (add == 1)
+                else if (operation == 1)
                 {
-                    ans.Add(num * i);
+                    ans.Add(rightValue * leftValue);
                 }
                 else
                 {
-                    ans.Add(Stringy(i, num));
-                }
-            }
-
-            foreach (var i in ans2)
-            {
-                if (add == 0)
-                {
-                    ans.Add(num + i);
-                }
-                else if (add == 1)
-                {
-                    ans.Add(num * i);
-                }
-                else
-                {
-                    ans.Add(Stringy(i, num));
-                }
-            }
-
-            foreach (var i in ans3)
-            {
-                if (add == 0)
-                {
-                    ans.Add(num + i);
-                }
-                else if (add == 1)
-                {
-                    ans.Add(num * i);
-                }
-                else
-                {
-                    ans.Add(Stringy(i, num));
+                    ans.Add(Stringy(leftValue, rightValue));
                 }
             }
 

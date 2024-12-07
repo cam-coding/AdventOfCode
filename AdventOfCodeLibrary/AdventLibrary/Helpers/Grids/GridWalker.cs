@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace AdventLibrary.Helpers.Grids
@@ -69,6 +70,25 @@ namespace AdventLibrary.Helpers.Grids
 
             var key = (Current, Direction);
             var hashKey = Current.GetHashCode() * Direction.GetHashCode();
+            Path.Add(key);
+            if (!History.Add(hashKey))
+            {
+                Looping = true;
+            }
+        }
+
+        public void SetPathAndHistory(List<(GridLocation<int>, GridLocation<int>)> path)
+        {
+            foreach (var item in path)
+            {
+                AddToPathAndHistory(item.Item1, item.Item2);
+            }
+        }
+
+        private void AddToPathAndHistory(GridLocation<int> current, GridLocation<int> direction)
+        {
+            var key = (current, direction);
+            var hashKey = current.GetHashCode() * direction.GetHashCode();
             Path.Add(key);
             if (!History.Add(hashKey))
             {

@@ -44,7 +44,7 @@ namespace AdventLibrary
 
         public List<long> GetTextAsLongsWithNegatives()
         {
-            return StringParsing.GetNumbersWithNegativesFromString(_text).Select(x => (long)x).ToList();
+            return StringParsing.GetLongsWithNegativesFromString(_text).Select(x => x).ToList();
         }
 
         public List<List<long>> GetLinesAsListLongsWithNegatives()
@@ -52,7 +52,7 @@ namespace AdventLibrary
             var numbers = new List<List<long>>();
             foreach (var line in _lines)
             {
-                numbers.Add(StringParsing.GetNumbersWithNegativesFromString(line).Select(x => (long)x).ToList());
+                numbers.Add(StringParsing.GetLongsWithNegativesFromString(line).Select(x => x).ToList());
             }
 
             return numbers;

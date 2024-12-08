@@ -93,6 +93,23 @@ namespace AdventLibrary.Helpers.Grids
             return null;
         }
 
+        public List<GridLocation<int>> GetAllLocationWhereCellEqualsValue(T value)
+        {
+            var listy = new List<GridLocation<int>>();
+            for (var i = 0; i < Width; i++)
+            {
+                for (var j = 0; j < Height; j++)
+                {
+                    if (Get(i, j).Equals(value))
+                    {
+                        listy.Add(new GridLocation<int>(i, j));
+                    }
+                }
+            }
+
+            return listy;
+        }
+
         public void Set(int x, int y, T value)
         {
             Grid[y][x] = value;

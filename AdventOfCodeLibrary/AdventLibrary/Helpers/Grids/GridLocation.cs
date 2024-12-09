@@ -3,7 +3,6 @@ using System.Numerics;
 
 namespace AdventLibrary.Helpers.Grids
 {
-
     public record GridLocation<T>(T X, T Y) : IComparable<GridLocation<T>> where T : INumber<T>, INumberBase<T>
     {
         // stolen from https://github.com/boombuler/adventofcode/blob/master/Utils/Point2D.cs
@@ -49,9 +48,29 @@ namespace AdventLibrary.Helpers.Grids
             return result;
         }
 
-        public GridLocation<T> CreateNew(GridLocation<T> other)
+        public GridLocation<T> Copy()
         {
-            return new(other.X, other.Y);
+            return new(X, Y);
+        }
+
+        public GridLocation<int> ConvertToInt()
+        {
+            return new(Convert.ToInt32(X), Convert.ToInt32(Y));
+        }
+
+        public GridLocation<long> ConvertToLong()
+        {
+            return new(Convert.ToInt64(X), Convert.ToInt64(Y));
+        }
+
+        public GridLocation<double> ConvertToDouble()
+        {
+            return new(Convert.ToDouble(X), Convert.ToDouble(Y));
+        }
+
+        public GridLocation<decimal> ConvertToDecimal()
+        {
+            return new(Convert.ToDecimal(X), Convert.ToDecimal(Y));
         }
 
     }

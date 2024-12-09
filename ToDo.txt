@@ -2,6 +2,13 @@ Dec 4th 2024
 look into GridWalker and see if needs doing
 	Maybe hash the history?
 Test GetNeighbour stuff in GridObject
+Grid/line stuff:
+get all points exact distance/ withing distance away
+do 3 GridLocations make a line?
+	Do 3 points make a line in this order?
+	Does this point fall on this non infinite line?
+		Do this point fall between these two other points(even not on a line, say the outer points make a square. Are we in the square?)
+
 
 Create grid from list of coords and fill in the blanks
 Make GridHelper method to expand the grid?

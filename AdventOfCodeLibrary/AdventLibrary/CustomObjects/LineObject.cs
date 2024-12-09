@@ -1,34 +1,88 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AdventLibrary.Helpers.Grids;
+using System;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventLibrary.CustomObjects
 {
+    /* Standard form of a line Ax + By = C
+     * A != 0 && B != 0
+     * 
+     * */
     public class LineObject<T> where T : INumber<T>
     {
-        public LineObject((T y, T x) start, (T y, T x) end) : this(start.y, start.x, end.y, end.x) { }
-        public LineObject(List<(T y, T x)> point) : this(point[0].y, point[0].x, point[1].y, point[1].x) { }
-
-        public LineObject(T y1, T x1, T y2, T x2)
+        public LineObject((T y, T x) start, (T y, T x) end, bool infinite = true)
+            : this(new GridLocation<T>(start.x, start.y), new GridLocation<T>(end.x, end.y), infinite)
         {
-            A = y2 - y1;
-            B = x1 - x2;
-            C = A * x1 + B * y1;
+
         }
 
-        public T A { get; set; }
-
-        public T B { get; set; }
-
-        public T C { get; set; }
-
-        public bool InLine(T y, T x)
+        public LineObject(GridLocation<T> start, GridLocation<T> end, bool infinite = true)
         {
-            var temp = A * x + B * y;
-            return temp == C;
+            var y1decimal = Convert.ToDecimal(start.Y);
+            var y2decimal = Convert.ToDecimal(end.Y);
+            var x1decimal = Convert.ToDecimal(start.X);
+            var x2decimal = Convert.ToDecimal(end.X);
+            A = y2decimal - y1decimal;
+            B = x1decimal - x2decimal;
+            C = A * x1decimal + B * y1decimal;
+            Infinite = infinite;
+        }
+
+        public decimal A { get; set; }
+
+        public decimal B { get; set; }
+
+        public decimal C { get; set; }
+
+        public decimal? Slope => GetSlope();
+
+        public bool Infinite { get; set; }
+
+        public GridLocation<decimal> GetYIntercept()
+        {
+            var yVal = C / B;
+            return new GridLocation<decimal>(0, yVal);
+        }
+
+        public GridLocation<decimal> GetXIntercept()
+        {
+            var xVal = C / A;
+            return new GridLocation<decimal>(xVal, 0);
+
+        }
+        public bool PointWithinLine(T x, T y)
+        {
+            return PointWithinLine(new GridLocation<T>(x, y));
+        }
+
+        public bool PointWithinLine(GridLocation<T> point)
+        {
+            var xDecimal = Convert.ToDecimal(point.X);
+            var yDecimal = Convert.ToDecimal(point.Y);
+
+            var result = A * xDecimal + B * yDecimal;
+            if (result != C)
+            {
+                return false;
+            }
+            if (Infinite)
+            {
+                return true;
+            }
+            else
+            {
+                // need to do something to check it's between start and end
+                return false;
+            }
+        }
+
+        private decimal? GetSlope()
+        {
+            if (B == 0)
+            {
+                return null;
+            }
+            return (A / B) * -1;
         }
     }
 }

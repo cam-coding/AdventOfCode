@@ -14,6 +14,7 @@ namespace AdventLibrary
             LineGroupsSeperatedByWhiteSpace = GetLineGroups(Lines);
             Tokens = InputParser.GetTextAsTokenList();
             TokenLines = InputParser.GetLinesAsTokenLists();
+            /*
             Longs = InputParser.GetTextAsLongs();
             Long = Longs != null && Longs.Any() ? Longs[0] : 0;
             LongsWithNegatives = InputParser.GetTextAsLongsWithNegatives();
@@ -25,7 +26,7 @@ namespace AdventLibrary
             DigitLines = InputParser.GetLinesAsListDigits();
             IntGrid = InputParser.GetLinesAsGrid<int>();
             CharGrid = InputParser.GetLinesAsGrid<char>();
-            Graph = InputParser.GetLinesAsGraph();
+            Graph = InputParser.GetLinesAsGraph();*/
         }
 
         public InputParser InputParser { get; }

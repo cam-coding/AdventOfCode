@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace AdventLibrary.Helpers
 {
@@ -160,6 +161,12 @@ namespace AdventLibrary.Helpers
             // https://en.wikipedia.org/wiki/Pick%27s_theorem
             // area + "circumference" /2 + 1 = total area for this case
             return area + edgeLength / 2 + 1;
+        }
+
+        public static double PythagoreanTheorem<T>(T a, T b) where T : INumber<T>
+        {
+            var c2 = a * a + b * b;
+            return Math.Sqrt(Convert.ToDouble(c2));
         }
     }
 }

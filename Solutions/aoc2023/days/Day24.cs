@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using AdventLibrary;
 using AdventLibrary.CustomObjects;
+using AdventLibrary.Helpers;
 using Microsoft.Z3;
 
 namespace aoc2023
@@ -37,7 +38,7 @@ namespace aoc2023
                 var minY = nums[4] <= 0 ? long.MinValue : y1;
                 var maxY = nums[4] <= 0 ? y1 : long.MaxValue;
 
-                var lineObject = new LineObject<decimal>(y1, x1, y2, x2);
+                var lineObject = new LineObject<decimal>((y1, x1), (y2, x2), true);
                 minMax.Add(lineObject, (minX, maxX, minY, maxY));
                 lins.Add(lineObject);
             }
@@ -45,9 +46,9 @@ namespace aoc2023
             {
                 for (var j = i + 1; j < lins.Count; j++)
                 {
-                    if (LineHelper<decimal>.DoLinesIntersect(lins[i], lins[j],0))
+                    if (LineHelper<decimal>.DoLinesIntersect(lins[i], lins[j]))
                     {
-                        var coords = LineHelper<decimal>.FindIntersectionPoint(lins[i], lins[j], 0);
+                        var coords = LineHelper<decimal>.FindIntersectionPoint(lins[i], lins[j]);
                         var x = coords.x;
                         var y = coords.y;
                         if (rangeMin <= x && x <= rangeMax &&

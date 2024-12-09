@@ -1,3 +1,4 @@
+using AdventLibrary.Helpers.Grids;
 using AStarSharp;
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,10 @@ namespace AdventLibrary.PathFinding
     {
         public static void BFS_Generic()
         {
-            Queue<List<(int, int)>> q = new Queue<List<(int, int)>>();
-            var visited = new HashSet<(int, int)>();
+            Queue<List<GridLocation<int>>> q = new Queue<List<GridLocation<int>>>();
+            var visited = new HashSet<GridLocation<int>>();
             // (0,0) can be anything, just needs to be your root item.
-            q.Enqueue(new List<(int, int)>() { (0, 0) });
+            q.Enqueue(new List<GridLocation<int>>() { (0, 0) });
             while (q.Count > 0)
             {
                 var current = q.Dequeue(); // This will contain a list of all the points you visited on the way

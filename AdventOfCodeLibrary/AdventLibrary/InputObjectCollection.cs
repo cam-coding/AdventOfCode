@@ -9,12 +9,18 @@ namespace AdventLibrary
         public InputObjectCollection(string filePath)
         {
             InputParser = new InputParser(filePath);
+            IntGrid = InputParser.GetLinesAsGrid<int>();
+
+            Hey this is broken
+                Also this needs to handle day 9 without crashing
+                also the input creation isn't actually working properly'
+
+
             Text = System.IO.File.ReadAllText(filePath);
             Lines = System.IO.File.ReadAllLines(filePath).ToList();
             LineGroupsSeperatedByWhiteSpace = GetLineGroups(Lines);
             Tokens = InputParser.GetTextAsTokenList();
             TokenLines = InputParser.GetLinesAsTokenLists();
-            /*
             Longs = InputParser.GetTextAsLongs();
             Long = Longs != null && Longs.Any() ? Longs[0] : 0;
             LongsWithNegatives = InputParser.GetTextAsLongsWithNegatives();
@@ -24,7 +30,6 @@ namespace AdventLibrary
             DoubleLines = InputParser.GetLinesAsListDoubles();
             Digits = InputParser.GetTextAsDigits();
             DigitLines = InputParser.GetLinesAsListDigits();
-            IntGrid = InputParser.GetLinesAsGrid<int>();
             CharGrid = InputParser.GetLinesAsGrid<char>();
             Graph = InputParser.GetLinesAsGraph();*/
         }

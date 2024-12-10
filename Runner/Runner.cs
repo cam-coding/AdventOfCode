@@ -13,6 +13,7 @@ namespace Runner
             var solver = helper.GetSolver(day, year);
             var filePath = await helper.GetInputPath(day, year);
             var testFilePath = helper.GetTestInputPath(day, year);
+            var historyPath = helper.GetHistoryPath(day, year);
             if (!testFilePath.Equals(String.Empty) && new FileInfo(testFilePath).Length != 0)
             {
                 var testSolver = helper.GetSolver(day, year);
@@ -20,7 +21,9 @@ namespace Runner
                 testSolver.Solve(testFilePath, true).OutputWithTime();
                 Console.WriteLine("<<<<< TEST INPUT END >>>>>");
             }
-            solver.Solve(filePath, false).OutputWithTime();
+            var solution = solver.Solve(filePath, false);
+            solution.OutputWithTime();
+            helper.OutputHistory(historyPath, solution.GetHistoryOutput());
         }
     }
 }

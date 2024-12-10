@@ -27,50 +27,28 @@ namespace SetupLibrary
 
         public void SetupFiles()
         {
-            var filePath = CreateSolutionDirectoriesAndFile();
-            if (DirectoryHelper.IsTextFileEmpty(filePath))
+            var solutionPath = RepositoryRoot + $"\\Solutions\\aoc{Year}\\days\\Day{Day}.cs";
+            var outputPath = RepositoryRoot + $"\\Output\\{Year}\\Day{Day}History.txt";
+            var inputPath = RepositoryRoot + $"\\Input\\{Year}\\Day{Day}.txt";
+            var testInputPath = RepositoryRoot + $"\\TestInput\\{Year}\\Day{Day}Test.txt";
+            CreateDirectoriesAndFileRecursive(solutionPath);
+            if (DirectoryHelper.IsTextFileEmpty(solutionPath))
             {
-                FillFileWithBoilerPlate(filePath);
+                FillFileWithBoilerPlate(solutionPath);
             }
-            CreateEmptyInputFile();
-            CreateEmptyTestInputFile();
+            CreateDirectoriesAndFileRecursive(outputPath);
+            CreateDirectoriesAndFileRecursive(inputPath);
+            CreateDirectoriesAndFileRecursive(testInputPath);
         }
 
-        public string CreateSolutionDirectoriesAndFile()
+        private void CreateDirectoriesAndFileRecursive(
+            string path)
         {
-            var directoryPath = RepositoryRoot + $"\\Solutions\\aoc{Year}\\days\\";
-            Directory.CreateDirectory(directoryPath);
-            var fullPath = directoryPath + $"Day{Day}.cs";
-            if (!File.Exists(fullPath))
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            if (!File.Exists(path))
             {
-                DirectoryHelper.CreateEmptyFile(fullPath);
-                Console.WriteLine("Created empty file:\n" + fullPath);
-            }
-            return fullPath;
-        }
-
-        private void CreateEmptyInputFile()
-        {
-            CreateFileIncludingDirectories(
-                $"Day{Day}.txt",
-                InputRoot + $"\\Input\\{Year}\\");
-        }
-
-        private void CreateEmptyTestInputFile()
-        {
-            CreateFileIncludingDirectories(
-                $"Day{Day}Test.txt",
-                InputRoot + $"\\TestInput\\{Year}\\");
-        }
-
-        private void CreateFileIncludingDirectories(string fileName, string directoryPath)
-        {
-            var fullPath = Path.Combine(directoryPath, fileName);
-            if (!File.Exists(Path.Combine(fullPath)))
-            {
-                Directory.CreateDirectory(directoryPath);
-                DirectoryHelper.CreateEmptyFile(fullPath);
-                Console.WriteLine("Created empty file:\n" + fullPath);
+                File.Create(path).Dispose();
+                Console.WriteLine("Created empty file:\n" + path);
             }
         }
 

@@ -29,9 +29,10 @@ namespace DaySetupProgram
             }
 
             if (day < 1 || 25 < day ||
-                year < 2016 || year > 2040)
+                year < 2015 || year > 2040)
             {
                 Console.WriteLine("./DaySetupProgram.exe {day} {year}");
+                Console.WriteLine("Invalid Day or Year");
                 return;
             }
 

@@ -83,6 +83,15 @@ namespace AdventLibrary
             Console.WriteLine(str);
         }
 
+        public string GetHistoryOutput()
+        {
+            string output = $"Part 1: {_part1}      at: {DateTime.Now}\n";
+            output += $"Part 2: {_part2}      at: {DateTime.Now}\n";
+            output += "\n";
+
+            return output;
+        }
+
         private string OutputRunTime(TimeSpan? timeSpan)
         {
             if (timeSpan != null)

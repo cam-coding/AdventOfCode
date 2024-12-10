@@ -14,11 +14,6 @@ Create grid from list of coords and fill in the blanks
 Make GridHelper method to expand the grid?
 Try and Remove GridHelper Weird Types
 
-
-Re-do Create new day so it makes sense
-	Combine into one project
-	output what has been added/changed
-
 Write more unit tests.
 
 Need something for grids and handling "anything beyond of the edges is x" where x is some value he sometimes gives.

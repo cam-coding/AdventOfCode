@@ -90,6 +90,24 @@ namespace Runner
             return inputFile;
         }
 
+        public string GetHistoryPath(string day, string year)
+        {
+            var historyPath = _solutionRoot + $"\\Output\\{year}\\Day{day}History.txt";
+            Directory.CreateDirectory(Path.GetDirectoryName(historyPath));
+            if (!File.Exists(historyPath))
+            {
+                File.Create(historyPath).Dispose();
+                Console.WriteLine("Created empty file:\n" + historyPath);
+            }
+
+            return historyPath;
+        }
+
+        public void OutputHistory(string historyPath, string newAddition)
+        {
+            File.AppendAllText(historyPath, newAddition);
+        }
+
         public string GetTestInputPath(string day, string year)
         {
             var fileName = _inputRoot + $"\\TestInput\\{year}\\Day{day}Test.txt";

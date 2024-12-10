@@ -5,6 +5,9 @@
 
 SessionCookie.txt
 
+#No need to upload my attempted answers.
+Output/
+
 # User-specific files
 *.rsuser
 *.suo

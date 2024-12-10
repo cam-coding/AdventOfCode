@@ -11,10 +11,10 @@ namespace AdventLibrary
             InputParser = new InputParser(filePath);
             IntGrid = InputParser.GetLinesAsGrid<int>();
 
+            /*
             Hey this is broken
                 Also this needs to handle day 9 without crashing
-                also the input creation isn't actually working properly'
-
+                also the input creation isn't actually working properly'*/
 
             Text = System.IO.File.ReadAllText(filePath);
             Lines = System.IO.File.ReadAllLines(filePath).ToList();
@@ -31,7 +31,7 @@ namespace AdventLibrary
             Digits = InputParser.GetTextAsDigits();
             DigitLines = InputParser.GetLinesAsListDigits();
             CharGrid = InputParser.GetLinesAsGrid<char>();
-            Graph = InputParser.GetLinesAsGraph();*/
+            Graph = InputParser.GetLinesAsGraph();
         }
 
         public InputParser InputParser { get; }

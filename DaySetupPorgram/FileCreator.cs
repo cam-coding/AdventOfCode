@@ -28,9 +28,9 @@ namespace SetupLibrary
         public void SetupFiles()
         {
             var solutionPath = RepositoryRoot + $"\\Solutions\\aoc{Year}\\days\\Day{Day}.cs";
-            var outputPath = RepositoryRoot + $"\\Output\\{Year}\\Day{Day}History.txt";
-            var inputPath = RepositoryRoot + $"\\Input\\{Year}\\Day{Day}.txt";
-            var testInputPath = RepositoryRoot + $"\\TestInput\\{Year}\\Day{Day}Test.txt";
+            var outputPath = RepositoryRoot + $"\\OutputProject\\Output\\{Year}\\Day{Day}History.txt";
+            var inputPath = InputRoot + $"\\Input\\{Year}\\Day{Day}.txt";
+            var testInputPath = InputRoot + $"\\TestInput\\{Year}\\Day{Day}Test.txt";
             CreateDirectoriesAndFileRecursive(solutionPath);
             if (DirectoryHelper.IsTextFileEmpty(solutionPath))
             {

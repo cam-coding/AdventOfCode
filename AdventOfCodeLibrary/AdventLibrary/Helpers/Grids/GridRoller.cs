@@ -1,11 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
 
 namespace AdventLibrary.Helpers.Grids
 {
+    /* Designed for: https://adventofcode.com/2023/day/14
+     * Will roll all moveable spot in the grid in the desired direction
+     * Will move as far as possible until running into a wall or the edge of the grid
+     * */
     public class GridRoller<T>
     {
         public GridRoller(
-            List<List<T>> grid,
+            GridObject<T> grid,
             HashSet<T> emptySpaceValues,
             HashSet<T> wallValues,
             HashSet<T> movableValues)
@@ -16,7 +21,7 @@ namespace AdventLibrary.Helpers.Grids
             MovableValues = movableValues;
         }
 
-        public List<List<T>> Grid { get; set; }
+        public GridObject<T> Grid { get; set; }
 
         public HashSet<T> EmptySpaceValues { get; set; }
 
@@ -26,92 +31,89 @@ namespace AdventLibrary.Helpers.Grids
 
         // roll each item until it hits the edge or a wall.
         // Could make a version with wrap as well?
-        public List<List<T>> RollUp()
+        public void RollUp()
         {
-            for (var j = 0; j < Grid[0].Count; j++)
+            for (var x = 0; x < Grid.Width; x++)
             {
                 var freeSpaces = new List<int>();
-                for (var i = 0; i < Grid.Count; i++)
+                for (var y = 0; y < Grid.Height; y++)
                 {
                     freeSpaces = RollHelperUpDown(
                         freeSpaces,
-                        i,
-                        j);
+                        x,
+                        y);
                 }
             }
-            return Grid;
         }
 
-        public List<List<T>> RollDown()
+        public void RollDown()
         {
-            for (var j = 0; j < Grid[0].Count; j++)
+            for (var x = 0; x < Grid.Width; x++)
             {
                 var freeSpaces = new List<int>();
-                for (var i = Grid.Count - 1; i >= 0 ; i--)
+                for (var y = Grid.Height - 1; y >= 0 ; y--)
                 {
                     freeSpaces = RollHelperUpDown(
                         freeSpaces,
-                        i,
-                        j);
+                        x,
+                        y);
                 }
             }
-            return Grid;
         }
 
-        public List<List<T>> RollLeft()
+        public void RollLeft()
         {
-            for (var i = 0; i < Grid.Count; i++)
+            for (var y = 0; y < Grid.Height; y++)
             {
                 var freeSpaces = new List<int>();
-                for (var j = 0; j < Grid[i].Count; j++)
+                for (var x = 0; x < Grid.Width; x++)
                 {
                     freeSpaces = RollHelperLeftRight(
                         freeSpaces,
-                        i,
-                        j);
+                        x,
+                        y);
                 }
             }
-            return Grid;
         }
-        public List<List<T>> RollRight()
+        public void RollRight()
         {
-            for (var i = 0; i < Grid.Count; i++)
+            for (var y = 0; y < Grid.Height; y++)
             {
                 var freeSpaces = new List<int>();
-                for (var j = Grid[i].Count - 1; j >= 0; j--)
+                for (var x = Grid.Width - 1; x >= 0; x--)
                 {
                     freeSpaces = RollHelperLeftRight(
                         freeSpaces,
-                        i,
-                        j);
+                        x,
+                        y);
                 }
             }
-            return Grid;
         }
 
         private List<int> RollHelperUpDown(
             List<int> freeSpaces,
-            int y,
-            int x)
+            int x,
+            int y)
         {
-            if (MovableValues.Contains(Grid[y][x]))
+            var originalValue = Grid.Get(x, y);
+            if (MovableValues.Contains(originalValue))
             {
                 if (freeSpaces.Count > 0)
                 {
                     var lastFree = freeSpaces[0];
                     freeSpaces.RemoveAt(0);
-                    T tempMovable = Grid[y][x];
-                    T tempEmpty = Grid[lastFree][x];
-                    Grid[lastFree][x] = tempMovable;
-                    Grid[y][x] = tempEmpty;
+                    T tempMovable = originalValue;
+                    T tempEmpty = Grid.Get(x, lastFree);
+                    Grid.Set(x, lastFree, tempMovable);
+                    Grid.Set(x, y, tempEmpty);
                     freeSpaces.Add(y);
                 }
             }
-            else if (EmptySpaceValues.Contains(Grid[y][x]))
+            else if (EmptySpaceValues.Contains(originalValue))
             {
                 freeSpaces.Add(y);
             }
-            else if (WallValues.Contains(Grid[y][x]))
+            else if (WallValues.Contains(originalValue))
             {
                 freeSpaces.Clear();
             }
@@ -120,27 +122,28 @@ namespace AdventLibrary.Helpers.Grids
 
         private List<int> RollHelperLeftRight(
             List<int> freeSpaces,
-            int y,
-            int x)
+            int x,
+            int y)
         {
-            if (MovableValues.Contains(Grid[y][x]))
+            var originalValue = Grid.Get(x, y);
+            if (MovableValues.Contains(originalValue))
             {
                 if (freeSpaces.Count > 0)
                 {
                     var lastFree = freeSpaces[0];
                     freeSpaces.RemoveAt(0);
-                    T tempMovable = Grid[y][x];
-                    T tempEmpty = Grid[y][lastFree];
-                    Grid[y][lastFree] = tempMovable;
-                    Grid[y][x] = tempEmpty;
+                    T tempMovable = originalValue;
+                    T tempEmpty = Grid.Get(lastFree, y);
+                    Grid.Set(lastFree, y, tempMovable);
+                    Grid.Set(x, y, tempEmpty);
                     freeSpaces.Add(x);
                 }
             }
-            else if (EmptySpaceValues.Contains(Grid[y][x]))
+            else if (EmptySpaceValues.Contains(originalValue))
             {
                 freeSpaces.Add(x);
             }
-            else if (WallValues.Contains(Grid[y][x]))
+            else if (WallValues.Contains(originalValue))
             {
                 freeSpaces.Clear();
             }

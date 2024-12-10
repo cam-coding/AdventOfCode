@@ -20,21 +20,21 @@ namespace aoc2023
 
         private object Part1()
         {
-            var grid = ParseInput.ParseFileAsCharGrid(_filePath);
+            var gridObject = new GridObject<char>(ParseInput.ParseFileAsCharGrid(_filePath));
             var roller = new GridRoller<char>(
-                grid,
+                gridObject,
                 new HashSet<char>() { '.' },
                 new HashSet<char>() { '#' },
                 new HashSet<char>() { 'O' });
-            grid = roller.RollUp();
+            roller.RollUp();
 
-            var count = Count(grid);
+            var count = Count(gridObject.Grid);
             return count;
         }
 
         private object Part2()
         {
-            var grid = ParseInput.ParseFileAsCharGrid(_filePath);
+            var gridObject = new GridObject<char>(ParseInput.ParseFileAsCharGrid(_filePath));
             var dict = new Dictionary<int, List<List<char>>>();
             var dict2 = new HashSet<string>();
             var listy = new List<int>();
@@ -42,19 +42,19 @@ namespace aoc2023
             for (var i = 0; i < magic; i++)
             {
                 var roller = new GridRoller<char>(
-                    grid,
+                    gridObject,
                     new HashSet<char>() { '.' },
                     new HashSet<char>() { '#' },
                     new HashSet<char>() { 'O' });
-                grid = roller.RollUp();
-                grid = roller.RollLeft();
-                grid = roller.RollDown();
-                grid = roller.RollRight();
+                roller.RollUp();
+                roller.RollLeft();
+                roller.RollDown();
+                roller.RollRight();
 
-                dict.Add(i, grid.Clone2dList());
-                if (!dict2.Contains(grid.Stringify()))
+                dict.Add(i, gridObject.Grid.Clone2dList());
+                if (!dict2.Contains(gridObject.Grid.Stringify()))
                 {
-                    dict2.Add(grid.Stringify());
+                    dict2.Add(gridObject.Grid.Stringify());
                     listy.Add(i);
                 }
             }

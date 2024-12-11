@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using AdventLibrary;
+using AdventLibrary.Helpers;
 
 namespace aoc2024
 {
@@ -49,30 +51,30 @@ namespace aoc2024
         {
             var diff = _blinks - level;
             long newCount = 0;
-            var str = item.ToString();
             if (level == _blinks)
             {
                 return 1;
             }
             long cachedValue;
+
+            // If we've already seen this number from this "height" we know
+            // how many stones it creates and can just return that answer instead of doing the work.
             if (_dictCache3.TryGetValue((item, diff), out cachedValue))
             {
                 return cachedValue;
             }
+
+            var digitsLength = Math.Floor(Math.Log10(item)) + 1;
             if (item == 0)
             {
                 newCount += Recursion(1, level + 1);
             }
-            else if (str.Length % 2 == 0)
+            else if (digitsLength % 2 == 0)
             {
-                var index = str.Length / 2;
-                var first = str.Substring(0, index);
-                var second = str.Substring(index);
-
-                var firstNum = long.Parse(first);
-                var firstNums = Recursion(firstNum, level + 1);
-                var secondNum = long.Parse(second);
-                var secondNums = Recursion(secondNum, level + 1);
+                var firstNum = Math.Floor(item / Math.Pow(10, digitsLength / 2));
+                var firstNums = Recursion((long)firstNum, level + 1);
+                var secondNum = item % Math.Pow(10, digitsLength / 2);
+                var secondNums = Recursion((long)secondNum, level + 1);
 
                 newCount = newCount + firstNums + secondNums;
             }
@@ -81,6 +83,7 @@ namespace aoc2024
                 newCount += Recursion(item * 2024, level + 1);
             }
 
+            // save whatever work we've done for future lookups
             _dictCache3.TryAdd((item, diff), newCount);
             return newCount;
         }

@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 
 namespace aoc2021
 {
-    public class Day06: ISolver
+    public class Day06 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -23,7 +21,7 @@ namespace aoc2021
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
             var nums = AdventLibrary.StringParsing.GetNumbersFromString(lines.First());
 
-            foreach(var num in nums)
+            foreach (var num in nums)
             {
                 counts[num]++;
             }

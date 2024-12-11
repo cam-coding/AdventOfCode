@@ -1,8 +1,8 @@
-﻿using AdventLibrary.Helpers.Grids;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using AdventLibrary.Helpers.Grids;
 
 namespace AdventLibrary.Helpers
 {
@@ -136,6 +136,7 @@ namespace AdventLibrary.Helpers
         /* Calculate the area of a simple polygon using a set of coords
          * https://en.wikipedia.org/wiki/Shoelace_formula
          * */
+
         public static long ShoelaceArea(List<GridLocation<long>> points)
         {
             int n = points.Count;
@@ -167,6 +168,26 @@ namespace AdventLibrary.Helpers
         {
             var c2 = a * a + b * b;
             return Math.Sqrt(Convert.ToDouble(c2));
+        }
+
+        public static double GetFirstHalfDigits(double number)
+        {
+            var digitsLength = GetNumberOfDigits(number);
+            if (digitsLength % 2 == 0)
+            {
+                return Math.Floor(number / Math.Pow(10, digitsLength / 2));
+            }
+            else
+            {
+                return Math.Floor(number / Math.Pow(10, digitsLength / 2));
+            }
+        }
+
+        // Only works for whole numbers, is a double for ease of using math tools
+        public static double GetNumberOfDigits(double number)
+        {
+            if (number == 0) return 1;
+            return Math.Floor(Math.Log10(number)) + 1;
         }
     }
 }

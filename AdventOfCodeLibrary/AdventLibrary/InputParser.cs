@@ -44,18 +44,32 @@ namespace AdventLibrary
 
         public List<long> GetTextAsLongsWithNegatives()
         {
-            return StringParsing.GetLongsWithNegativesFromString(_text).Select(x => x).ToList();
+            try
+            {
+                return StringParsing.GetLongsWithNegativesFromString(_text).Select(x => x).ToList();
+            }
+            catch (Exception e)
+            {
+            }
+            return null;
         }
 
         public List<List<long>> GetLinesAsListLongsWithNegatives()
         {
-            var numbers = new List<List<long>>();
-            foreach (var line in _lines)
+            try
             {
-                numbers.Add(StringParsing.GetLongsWithNegativesFromString(line).Select(x => x).ToList());
-            }
+                var numbers = new List<List<long>>();
+                foreach (var line in _lines)
+                {
+                    numbers.Add(StringParsing.GetLongsWithNegativesFromString(line).Select(x => x).ToList());
+                }
 
-            return numbers;
+                return numbers;
+            }
+            catch (Exception e)
+            {
+            }
+            return null;
         }
 
         public List<List<long>> GetLinesAsListLongs()

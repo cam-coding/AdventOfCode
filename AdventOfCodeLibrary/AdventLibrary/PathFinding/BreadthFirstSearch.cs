@@ -1,3 +1,4 @@
+using AdventLibrary.Extensions;
 using AdventLibrary.Helpers.Grids;
 using AStarSharp;
 using System;
@@ -19,7 +20,6 @@ namespace AdventLibrary.PathFinding
             return edges[id];
         }
     };
-
 
     public static class BreadthFirstSearch
     {
@@ -96,7 +96,7 @@ namespace AdventLibrary.PathFinding
             int startY,
             int destX,
             int destY,
-            Func<int,int, bool> condition = null,
+            Func<int, int, bool> condition = null,
             int maxX = int.MaxValue,
             int maxY = int.MaxValue)
         {
@@ -132,7 +132,6 @@ namespace AdventLibrary.PathFinding
                         if (current.count < solution)
                             solution = current.count;
                         continue;
-
                     }
                     else
                     {
@@ -148,4 +147,3 @@ namespace AdventLibrary.PathFinding
         }
     }
 }
-

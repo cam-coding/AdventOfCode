@@ -6,16 +6,17 @@ using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day15: ISolver
+    public class Day15 : ISolver
     {
-		/*
+        /*
 		var sub = item.Substring(0, 1);
 		Console.WriteLine();
 		*/
         private string _filePath;
         private List<List<int>> _grid;
-        private Dictionary<Tuple<int,int>, List<Tuple<int,int>>> graph;
+        private Dictionary<Tuple<int, int>, List<Tuple<int, int>>> graph;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -25,20 +26,20 @@ namespace aoc2021
         private object Part1()
         {
             var grid = AdventLibrary.ParseInput.ParseFileAsGrid(_filePath);
-            var dist = AdventLibrary.PathFinding.DijkstraTuple.Search(grid, new Tuple<int, int>(0,0));
-            var blah = dist[new Tuple<int, int>(grid.Count-1,grid[0].Count-1)];
+            var dist = AdventLibrary.PathFinding.DijkstraTuple.Search(grid, new Tuple<int, int>(0, 0));
+            var blah = dist[new Tuple<int, int>(grid.Count - 1, grid[0].Count - 1)];
             var betterGrid = MakeMyGrid(grid);
             var pather = new AStarSharp.Astar(betterGrid);
-            var path = pather.FindPath(new Vector2(0,0), new Vector2(grid.Count-1,grid[0].Count-1));
+            var path = pather.FindPath(new Vector2(0, 0), new Vector2(grid.Count - 1, grid[0].Count - 1));
             return path.Sum(x => x.Weight);
         }
-        
+
         private object Part2()
         {
             var grid = AdventLibrary.ParseInput.ParseFileAsGrid(_filePath);
             var grid2 = CreateLargerGrid(grid);
-            var dist = AdventLibrary.PathFinding.DijkstraTuple.Search(grid2, new Tuple<int, int>(0,0));
-            var blah2 = dist[new Tuple<int, int>(grid2.Count-1,grid2[0].Count-1)];
+            var dist = AdventLibrary.PathFinding.DijkstraTuple.Search(grid2, new Tuple<int, int>(0, 0));
+            var blah2 = dist[new Tuple<int, int>(grid2.Count - 1, grid2[0].Count - 1)];
             return blah2;
             /*
             This used the Astar stuff that didn't really work...
@@ -65,11 +66,11 @@ namespace aoc2021
                 {
                     for (var y = 0; y < height; y++)
                     {
-                        var currentY = i*height + y;
+                        var currentY = i * height + y;
                         for (var x = 0; x < width; x++)
                         {
-                            var value = grid[y][x] + (i+j);
-                            if ( value > 9)
+                            var value = grid[y][x] + (i + j);
+                            if (value > 9)
                             {
                                 value = value - 9;
                             }
@@ -85,25 +86,25 @@ namespace aoc2021
         private List<List<AStarSharp.Node>> MakeMyGrid(List<List<int>> grid)
         {
             List<List<AStarSharp.Node>> nodeGrid = new List<List<AStarSharp.Node>>();
-            for (var i = 0; i  < grid.Count; i++)
+            for (var i = 0; i < grid.Count; i++)
             {
                 nodeGrid.Add(new List<AStarSharp.Node>());
                 for (var j = 0; j < grid[0].Count; j++)
                 {
-                    nodeGrid[i].Add(new AStarSharp.Node(new Vector2(i,j), grid[i][j]));
+                    nodeGrid[i].Add(new AStarSharp.Node(new Vector2(i, j), grid[i][j]));
                 }
             }
             return nodeGrid;
         }
 
-        private Dictionary<Tuple<int,int>, List<Tuple<int,int>>> GetGraphFromGrid(List<List<int>> grid)
+        private Dictionary<Tuple<int, int>, List<Tuple<int, int>>> GetGraphFromGrid(List<List<int>> grid)
         {
-            var dict = new Dictionary<Tuple<int,int>, List<Tuple<int,int>>>();
+            var dict = new Dictionary<Tuple<int, int>, List<Tuple<int, int>>>();
             for (var i = 0; i < grid.Count; i++)
             {
                 for (var j = 0; j < grid[0].Count; j++)
                 {
-                    var toople = new Tuple<int,int>(i, j);
+                    var toople = new Tuple<int, int>(i, j);
                     dict.Add(toople, AdventLibrary.GridHelperWeirdTypes.GetAllNeighbours(grid, i, j));
                 }
             }

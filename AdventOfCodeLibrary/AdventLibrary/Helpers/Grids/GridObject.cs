@@ -39,6 +39,11 @@ namespace AdventLibrary.Helpers.Grids
             }
         }
 
+        public bool WithinGrid(int x, int y)
+        {
+            return x >= 0 && x < Width && y >= 0 && y < Height;
+        }
+
         public bool WithinGrid(GridLocation<int> location)
         {
             return location.X >= 0 && location.X < Width && location.Y >= 0 && location.Y < Height;

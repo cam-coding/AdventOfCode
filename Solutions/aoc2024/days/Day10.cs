@@ -10,15 +10,17 @@ using AStarSharp;
 
 namespace aoc2024
 {
-    public class Day10: ISolver
+    public class Day10 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
             var solution = new Solution();
             solution.Part1 = Part1();
+            Part1_DFS();
             solution.Part2 = Part2();
             return solution;
         }
@@ -26,115 +28,144 @@ namespace aoc2024
         private object Part1(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var grid = input.IntGrid;
-			long count = 0;
+            var grid = input.GridInt;
+            long count = 0;
 
-            var heads = grid.GetAllLocationWhereCellEqualsValue(0);
+            var trailHeads = grid.GetAllLocationWhereCellEqualsValue(0);
 
-            foreach (var head in heads)
+            foreach (var head in trailHeads)
             {
                 Queue<List<GridLocation<int>>> q = new Queue<List<GridLocation<int>>>();
                 var visited = new HashSet<string>();
-                // (0,0) can be anything, just needs to be your root item.
                 q.Enqueue(new List<GridLocation<int>>() { head });
                 var ends = 0;
                 var endsHash = new HashSet<GridLocation<int>>();
                 while (q.Count > 0)
                 {
-                    var current = q.Dequeue(); // This will contain a list of all the points you visited on the way
-                    var cur = current.Last(); // this is just the most recent point
-                    var stringy = ListExtensions.Stringify(current);
-                    if (current == null || current.Count > 10 || visited.Contains(stringy) || !EachStepAbove(grid,current))
+                    var fullPath = q.Dequeue(); // This will contain a list of all the points you visited on the way
+                    var currentLocation = fullPath.Last(); // this is just the most recent point
+                    var currentValue = grid.Get(currentLocation);
+                    var stringy = ListExtensions.Stringify(fullPath);
+                    if (fullPath == null || visited.Contains(stringy) || fullPath.Count > 10)
                         continue;
 
                     //Get the next nodes/grids/etc to visit next
                     visited.Add(stringy);
-                    var neighs = grid.GetOrthogonalNeighbours(cur);
-                    foreach (var neigh in neighs)
+                    foreach (var neighbour in grid.GetOrthogonalNeighbours(currentLocation))
                     {
-                        var temp = current.Clone();
-                        if (!temp.Any(x => x.X == neigh.X && x.Y == neigh.Y))
+                        var val = grid.Get(neighbour);
+
+                        // this is very important. Always make sure the next value is valid in your search
+                        // this might be checking total weight of path, or if the next value is accessible, etc.
+                        if (val != currentValue + 1)
                         {
-                            temp.Add(neigh);
-                            q.Enqueue(temp);
+                            continue;
                         }
-                        else
-                        {
-                            var blah = 10;
-                        }
+                        var temp = fullPath.Clone(); // very important, do not miss this clone
+                        temp.Add(neighbour);
+                        q.Enqueue(temp);
                     }
 
-                    if  (grid.Get(cur) == 9 && current.Count == 10 && EachStepAbove(grid, current) && !endsHash.Contains(cur))
+                    // checking for your goal
+                    if (fullPath.Count == 10)
                     {
-                        ends++;
-                        endsHash.Add(cur);
+                        endsHash.Add(currentLocation);
                     }
-                    // do something with the current node
                 }
-                count += ends;
+                count += endsHash.Count();
             }
             return count;
         }
 
-        private bool EachStepAbove(GridObject<int> grid, List<GridLocation<int>> list)
+        private object Part1_DFS(bool isTest = false)
         {
-            for (var i = 0; i < list.Count; i++)
+            var input = new InputObjectCollection(_filePath);
+            var grid = input.GridInt;
+            long count = 0;
+
+            var trailHeads = grid.GetAllLocationWhereCellEqualsValue(0);
+
+            foreach (var head in trailHeads)
             {
-                if (grid.Get(list[i]) != i)
+                Func<GridLocation<int>, List<GridLocation<int>>> NeighboursFunc = (node) =>
                 {
-                    return false;
-                }
+                    var neighbours = new List<GridLocation<int>>();
+                    foreach (var edge in grid.GetOrthogonalNeighbours(node))
+                    {
+                        if (grid.Get(edge) == grid.Get(node) + 1)
+                        {
+                            neighbours.Add(edge);
+                        }
+                    }
+                    return neighbours;
+                };
+
+                Func<GridLocation<int>, bool> GoalFunc = (node) =>
+                {
+                    return grid.Get(node) == 9;
+                };
+
+                Func<GridLocation<int>, int> WeightFunc = (node) =>
+                {
+                    return grid.Get(node);
+                };
+                var start = (0, new List<GridLocation<int>>() { head });
+                var DFS = new DepthFirstSearch<GridLocation<int>>();
+                DFS.DFSgeneric(start, NeighboursFunc, GoalFunc, WeightFunc);
+                var boo = DFS.GoalAchieved;
             }
-            return true;
+
+            return count;
         }
 
         private object Part2(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var grid = input.IntGrid;
+            var grid = input.GridInt;
             long count = 0;
 
-            var heads = grid.GetAllLocationWhereCellEqualsValue(0);
+            var trailHeads = grid.GetAllLocationWhereCellEqualsValue(0);
 
-            foreach (var head in heads)
+            foreach (var head in trailHeads)
             {
                 Queue<List<GridLocation<int>>> q = new Queue<List<GridLocation<int>>>();
                 var visited = new HashSet<string>();
-                // (0,0) can be anything, just needs to be your root item.
                 q.Enqueue(new List<GridLocation<int>>() { head });
                 var ends = 0;
+                var endsLocation = new List<GridLocation<int>>();
                 while (q.Count > 0)
                 {
-                    var current = q.Dequeue(); // This will contain a list of all the points you visited on the way
-                    var cur = current.Last(); // this is just the most recent point
-                    var stringy = ListExtensions.Stringify(current);
-                    if (current == null || current.Count > 10 || visited.Contains(stringy) || !EachStepAbove(grid, current))
+                    var fullPath = q.Dequeue(); // This will contain a list of all the points you visited on the way
+                    var currentLocation = fullPath.Last(); // this is just the most recent point
+                    var currentValue = grid.Get(currentLocation);
+                    var stringy = ListExtensions.Stringify(fullPath);
+                    if (fullPath == null || visited.Contains(stringy) || fullPath.Count > 10)
                         continue;
 
                     //Get the next nodes/grids/etc to visit next
                     visited.Add(stringy);
-                    var neighs = grid.GetOrthogonalNeighbours(cur);
-                    foreach (var neigh in neighs)
+                    foreach (var neighbour in grid.GetOrthogonalNeighbours(currentLocation))
                     {
-                        var temp = current.Clone();
-                        if (!temp.Contains(neigh))
+                        var val = grid.Get(neighbour);
+
+                        // this is very important. Always make sure the next value is valid in your search
+                        // this might be checking total weight of path, or if the next value is accessible, etc.
+                        if (val != currentValue + 1)
                         {
-                            temp.Add(neigh);
-                            q.Enqueue(temp);
+                            continue;
                         }
-                        else
-                        {
-                            var blah = 10;
-                        }
+                        var temp = fullPath.Clone(); // very important, do not miss this clone
+                        temp.Add(neighbour);
+                        q.Enqueue(temp);
                     }
 
-                    if (grid.Get(cur) == 9 && current.Count == 10 && EachStepAbove(grid, current))
+                    // checking for your goal
+                    if (fullPath.Count == 10)
                     {
-                        ends++;
+                        endsLocation.Add(currentLocation);
                     }
-                    // do something with the current node
                 }
-                count += ends;
+                count += endsLocation.Count();
             }
             return count;
         }

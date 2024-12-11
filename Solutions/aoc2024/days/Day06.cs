@@ -21,7 +21,7 @@ namespace aoc2024
         private object Part1(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var grid = input.CharGrid;
+            var grid = input.GridChar;
 
             GridLocation<int> loc = grid.GetLocationWhereCellEqualsValue('^');
 
@@ -46,7 +46,7 @@ namespace aoc2024
         private object Part2(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var grid = input.CharGrid;
+            var grid = input.GridChar;
             long count = 0;
 
             GridLocation<int> startingLoc = grid.GetLocationWhereCellEqualsValue('^');

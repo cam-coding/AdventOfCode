@@ -20,7 +20,7 @@ namespace aoc2024
         private object Part1(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var grid = input.CharGrid;
+            var grid = input.GridChar;
 			long count = 0;
             var str = "MAS";
 
@@ -59,7 +59,7 @@ namespace aoc2024
         private object Part2(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var grid = input.CharGrid;
+            var grid = input.GridChar;
             long count = 0;
 
             for (var y = 1; y < grid.Height - 1; y++)

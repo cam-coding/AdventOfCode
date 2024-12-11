@@ -28,7 +28,7 @@ namespace aoc2024
 			var numbers = input.Longs;
             var longLines = input.LongLines;
             var nodes = input.Graph;
-            var grid = input.CharGrid;
+            var grid = input.GridChar;
             var gridStart = new GridLocation<int>(0, 0);
             long total = 1000000;
 			long count = 0;

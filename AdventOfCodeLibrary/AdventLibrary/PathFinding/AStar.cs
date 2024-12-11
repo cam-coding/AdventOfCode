@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using AdventLibrary.Helpers.Grids;
 
 /*
 * Taken from RedBlobGames https://www.redblobgames.com/pathfinding/a-star/implementation.html#python-dijkstra
@@ -9,45 +10,87 @@ namespace AdventLibrary.PathFinding
 {
     // A* needs only a WeightedGraph and a location type L, and does *not*
     // have to be a grid. However, in the example code I am using a grid.
-    public interface WeightedGraph<L>
+    public interface WeightedGraph<T>
     {
-        double Cost(Location a, Location b);
-        IEnumerable<Location> Neighbors(Location id);
+        double Cost(T location);
+
+        IEnumerable<T> Neighbors(T location);
     }
 
-
-    public struct Location
+    public struct AStarLocation
     {
         // Implementation notes: I am using the default Equals but it can
         // be slow. You'll probably want to override both Equals and
         // GetHashCode in a real project.
-        
-        public readonly int x, y;
-        public Location(int x, int y)
+
+        public readonly int X, Y;
+
+        public AStarLocation(int x, int y)
         {
-            this.x = x;
-            this.y = y;
+            this.X = x;
+            this.Y = y;
         }
     }
 
+    public class AStar_GridObject<T> : WeightedGraph<GridLocation<int>>
+    {
+        private GridObject<T> _grid;
+        private List<T> _walls;
+        private Func<GridLocation<int>, List<GridLocation<int>>> _getNeighbours;
 
-    public class SquareGrid : WeightedGraph<Location>
+        public AStar_GridObject(
+            GridObject<T> grid,
+            List<T> wallCharacters,
+            Func<GridLocation<int>, List<GridLocation<int>>> getNeighbours)
+        {
+            Width = grid.Width;
+            Height = grid.Height;
+            _grid = grid;
+            _walls = wallCharacters;
+            _getNeighbours = getNeighbours;
+        }
+
+        public int Width { get; }
+        public int Height { get; }
+
+        public bool InBounds(GridLocation<int> location)
+        {
+            return _grid.WithinGrid(location);
+        }
+
+        public bool Passable(GridLocation<int> location)
+        {
+            return !_walls.Contains(_grid.Get(location));
+        }
+
+        public double Cost(GridLocation<int> location)
+        {
+            return Convert.ToDouble(_grid.Get(location));
+        }
+
+        public IEnumerable<GridLocation<int>> Neighbors(GridLocation<int> location)
+        {
+            return _getNeighbours(location);
+        }
+    }
+
+    public class SquareGrid : WeightedGraph<AStarLocation>
     {
         // Implementation notes: I made the fields public for convenience,
         // but in a real project you'll probably want to follow standard
         // style and make them private.
-        
-        public static readonly Location[] DIRS = new []
+
+        public static readonly AStarLocation[] DIRS = new[]
         {
-            new Location(1, 0),
-            new Location(0, -1),
-            new Location(-1, 0),
-            new Location(0, 1)
+            new AStarLocation(1, 0),
+            new AStarLocation(0, -1),
+            new AStarLocation(-1, 0),
+            new AStarLocation(0, 1)
         };
 
         public int width, height;
-        public HashSet<Location> walls = new HashSet<Location>();
-        public HashSet<Location> forests = new HashSet<Location>();
+        public HashSet<AStarLocation> walls = new HashSet<AStarLocation>();
+        public HashSet<AStarLocation> forests = new HashSet<AStarLocation>();
 
         public SquareGrid(int width, int height)
         {
@@ -55,100 +98,63 @@ namespace AdventLibrary.PathFinding
             this.height = height;
         }
 
-        public bool InBounds(Location id)
+        public bool InBounds(AStarLocation id)
         {
-            return 0 <= id.x && id.x < width
-                && 0 <= id.y && id.y < height;
+            return 0 <= id.X && id.X < width
+                && 0 <= id.Y && id.Y < height;
         }
 
-        public bool Passable(Location id)
+        public bool Passable(AStarLocation id)
         {
             return !walls.Contains(id);
         }
 
-        public double Cost(Location a, Location b)
+        public double Cost(AStarLocation a)
         {
-            return forests.Contains(b) ? 5 : 1;
+            return forests.Contains(a) ? 5 : 1;
         }
-        
-        public IEnumerable<Location> Neighbors(Location id)
+
+        public IEnumerable<AStarLocation> Neighbors(AStarLocation id)
         {
-            foreach (var dir in DIRS) {
-                Location next = new Location(id.x + dir.x, id.y + dir.y);
-                if (InBounds(next) && Passable(next)) {
+            foreach (var dir in DIRS)
+            {
+                AStarLocation next = new AStarLocation(id.X + dir.X, id.Y + dir.Y);
+                if (InBounds(next) && Passable(next))
+                {
                     yield return next;
                 }
             }
         }
     }
 
-
-    public class PriorityQueue2<T>
+    public class AStarSearch<T>
     {
-        // I'm using an unsorted array for this example, but ideally this
-        // would be a binary heap. There's an open issue for adding a binary
-        // heap to the standard C# library: https://github.com/dotnet/corefx/issues/574
-        //
-        // Until then, find a binary heap class:
-        // * https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp
-        // * http://visualstudiomagazine.com/articles/2012/11/01/priority-queues-with-c.aspx
-        // * http://xfleury.github.io/graphsearch.html
-        // * http://stackoverflow.com/questions/102398/priority-queue-in-net
-        
-        private List<Tuple<T, double>> elements = new List<Tuple<T, double>>();
+        public Dictionary<T, T> cameFrom
+            = new Dictionary<T, T>();
 
-        public int Count
-        {
-            get { return elements.Count; }
-        }
-        
-        public void Enqueue(T item, double priority)
-        {
-            elements.Add(Tuple.Create(item, priority));
-        }
+        public Dictionary<T, double> costSoFar
+            = new Dictionary<T, double>();
 
-        public T Dequeue()
+        // A better version would abstract this out more
+        public static double Heuristic(T a, T b)
         {
-            int bestIndex = 0;
-
-            for (int i = 0; i < elements.Count; i++) {
-                if (elements[i].Item2 < elements[bestIndex].Item2) {
-                    bestIndex = i;
-                }
+            if (a is AStarLocation aLoc && b is AStarLocation bLoc)
+            {
+                return Math.Abs(aLoc.X - bLoc.X) + Math.Abs(aLoc.Y - bLoc.Y);
             }
-
-            T bestItem = elements[bestIndex].Item1;
-            elements.RemoveAt(bestIndex);
-            return bestItem;
-        }
-    }
-
-
-    /* NOTE about types: in the main article, in the Python code I just
-    * use numbers for costs, heuristics, and priorities. In the C++ code
-    * I use a typedef for this, because you might want int or double or
-    * another type. In this C# code I use double for costs, heuristics,
-    * and priorities. You can use an int if you know your values are
-    * always integers, and you can use a smaller size number if you know
-    * the values are always small. */
-
-    public class AStarSearch
-    {
-        public Dictionary<Location, Location> cameFrom
-            = new Dictionary<Location, Location>();
-        public Dictionary<Location, double> costSoFar
-            = new Dictionary<Location, double>();
-
-        // Note: a generic version of A* would abstract over Location and
-        // also Heuristic
-        static public double Heuristic(Location a, Location b)
-        {
-            return Math.Abs(a.x - b.x) + Math.Abs(a.y - b.y);
+            else if (a is GridLocation<int> aGridLoc && b is GridLocation<int> bGridLoc)
+            {
+                return Math.Abs(aGridLoc.X - bGridLoc.X) + Math.Abs(aGridLoc.Y - bGridLoc.Y);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid types for A* heuristic");
+            }
         }
 
-        public AStarSearch(WeightedGraph<Location> graph, Location start, Location goal)
+        public AStarSearch(WeightedGraph<T> graph, T start, T goal)
         {
-            var frontier = new PriorityQueue2<Location>();
+            var frontier = new PriorityQueue<T, double>();
             frontier.Enqueue(start, 0);
 
             cameFrom[start] = start;
@@ -166,7 +172,7 @@ namespace AdventLibrary.PathFinding
                 foreach (var next in graph.Neighbors(current))
                 {
                     double newCost = costSoFar[current]
-                        + graph.Cost(current, next);
+                        + graph.Cost(next);
                     if (!costSoFar.ContainsKey(next)
                         || newCost < costSoFar[next])
                     {

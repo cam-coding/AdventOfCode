@@ -29,7 +29,7 @@ namespace aoc2024
 			var numbers = input.Longs;
             var longLines = input.LongLines;
             var nodes = input.Graph;
-            var grid = input.CharGrid;
+            var grid = input.GridChar;
             var gridStart = new GridLocation<int>(0, 0);
             var hashy = new HashSet<char>();
             var count = 0;
@@ -99,7 +99,7 @@ namespace aoc2024
             var numbers = input.Longs;
             var longLines = input.LongLines;
             var nodes = input.Graph;
-            var grid = input.CharGrid;
+            var grid = input.GridChar;
             var gridStart = new GridLocation<int>(0, 0);
             var hashy = new HashSet<char>();
             var count = 0;

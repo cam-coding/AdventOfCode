@@ -25,7 +25,7 @@ namespace aoc2017
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
 			var numbers = input.Longs;
-            var grid = input.CharGrid;
+            var grid = input.GridChar;
             long total = 1000000;
 			long count = 0;
             long number = input.Long;
@@ -61,7 +61,7 @@ namespace aoc2017
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
             var numbers = input.Longs;
-            var grid = input.CharGrid;
+            var grid = input.GridChar;
             long total = 1000000;
             long count = 0;
             long number = input.Long;

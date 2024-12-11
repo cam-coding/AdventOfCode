@@ -34,55 +34,56 @@ namespace AdventLibraryUnitTests
             {
                 for (var y = 7; y < 9; y++)
                 {
-                    grid.walls.Add(new Location(x, y));
+                    grid.walls.Add(new AStarLocation(x, y));
                 }
             }
-            grid.forests = new HashSet<Location>
+            grid.forests = new HashSet<AStarLocation>
                 {
-                    new Location(3, 4), new Location(3, 5),
-                    new Location(4, 1), new Location(4, 2),
-                    new Location(4, 3), new Location(4, 4),
-                    new Location(4, 5), new Location(4, 6),
-                    new Location(4, 7), new Location(4, 8),
-                    new Location(5, 1), new Location(5, 2),
-                    new Location(5, 3), new Location(5, 4),
-                    new Location(5, 5), new Location(5, 6),
-                    new Location(5, 7), new Location(5, 8),
-                    new Location(6, 2), new Location(6, 3),
-                    new Location(6, 4), new Location(6, 5),
-                    new Location(6, 6), new Location(6, 7),
-                    new Location(7, 3), new Location(7, 4),
-                    new Location(7, 5)
+                    new AStarLocation(3, 4), new AStarLocation(3, 5),
+                    new AStarLocation(4, 1), new AStarLocation(4, 2),
+                    new AStarLocation(4, 3), new AStarLocation(4, 4),
+                    new AStarLocation(4, 5), new AStarLocation(4, 6),
+                    new AStarLocation(4, 7), new AStarLocation(4, 8),
+                    new AStarLocation(5, 1), new AStarLocation(5, 2),
+                    new AStarLocation(5, 3), new AStarLocation(5, 4),
+                    new AStarLocation(5, 5), new AStarLocation(5, 6),
+                    new AStarLocation(5, 7), new AStarLocation(5, 8),
+                    new AStarLocation(6, 2), new AStarLocation(6, 3),
+                    new AStarLocation(6, 4), new AStarLocation(6, 5),
+                    new AStarLocation(6, 6), new AStarLocation(6, 7),
+                    new AStarLocation(7, 3), new AStarLocation(7, 4),
+                    new AStarLocation(7, 5)
                 };
 
             // Run A*
-            var astar = new AStarSearch(grid, new Location(1, 4),
-                                        new Location(3,4));
+            var astar = new AStarSearch<AStarLocation>(grid, new AStarLocation(1, 4),
+                                        new AStarLocation(3, 4));
 
             DrawGrid(grid, astar);
         }
 
-        private void DrawGrid(SquareGrid grid, AStarSearch astar) {
-        // Print out the cameFrom array
-        for (var y = 0; y < 10; y++)
+        private void DrawGrid(SquareGrid grid, AStarSearch<AStarLocation> astar)
         {
-            for (var x = 0; x < 10; x++)
+            // Print out the cameFrom array
+            for (var y = 0; y < 10; y++)
             {
-                Location id = new Location(x, y);
-                Location ptr = id;
-                if (!astar.cameFrom.TryGetValue(id, out ptr))
+                for (var x = 0; x < 10; x++)
                 {
-                    ptr = id;
+                    AStarLocation id = new AStarLocation(x, y);
+                    AStarLocation ptr = id;
+                    if (!astar.cameFrom.TryGetValue(id, out ptr))
+                    {
+                        ptr = id;
+                    }
+                    if (grid.walls.Contains(id)) { Console.Write("##"); }
+                    else if (ptr.X == x + 1) { Console.Write("\u2190 "); }
+                    else if (ptr.X == x - 1) { Console.Write("\u2190 "); }
+                    else if (ptr.Y == y + 1) { Console.Write("\u2193 "); }
+                    else if (ptr.Y == y - 1) { Console.Write("\u2191 "); }
+                    else { Console.Write("* "); }
                 }
-                if (grid.walls.Contains(id)) { Console.Write("##"); }
-                else if (ptr.x == x+1) { Console.Write("\u2190 "); }
-                else if (ptr.x == x-1) { Console.Write("\u2190 "); }
-                else if (ptr.y == y+1) { Console.Write("\u2193 "); }
-                else if (ptr.y == y-1) { Console.Write("\u2191 "); }
-                else { Console.Write("* "); }
+                Console.WriteLine();
             }
-            Console.WriteLine();
         }
-    }
     }
 }

@@ -82,6 +82,16 @@ namespace AdventLibrary.Helpers.Grids
             return Get(location.X, location.Y);
         }
 
+        public GridLocation<int> GetTopLeftLocation()
+        {
+            return new GridLocation<int>(0, 0);
+        }
+
+        public GridLocation<int> GetBottomRightLocation()
+        {
+            return new GridLocation<int>(Width - 1, Height - 1);
+        }
+
         public GridLocation<int> GetLocationWhereCellEqualsValue(T value)
         {
             for (var i = 0; i < Width; i++)

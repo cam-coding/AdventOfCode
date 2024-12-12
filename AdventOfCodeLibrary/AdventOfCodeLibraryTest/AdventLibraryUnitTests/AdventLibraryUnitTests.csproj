@@ -17,4 +17,13 @@
     <ProjectReference Include="..\..\AdventLibrary\AdventLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestData\Pathfinding\2021day15part1example.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\Pathfinding\2021day15part2example.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

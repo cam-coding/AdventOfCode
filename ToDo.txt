@@ -1,3 +1,6 @@
+Clean out old AStar code and remove old usages of it
+Setup AStar to also work for graphs
+
 Dec 4th 2024
 look into GridWalker and see if needs doing
 	Maybe hash the history?

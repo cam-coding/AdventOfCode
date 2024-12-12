@@ -32,6 +32,11 @@ namespace AdventLibrary
             return null;
         }
 
+        public static List<string> GetLinesFromText(string text)
+        {
+            return text.Split(new string[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        }
+
         public static T ChangeType<T>(this string value)
         {
             return (T)Convert.ChangeType(value, typeof(T));

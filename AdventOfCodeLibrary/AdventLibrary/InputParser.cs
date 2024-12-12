@@ -28,6 +28,17 @@ namespace AdventLibrary
             _textNoLineBreaks = GetTextWithoutLineBreaks();
         }
 
+        public InputParser()
+        {
+        }
+
+        public void TestSetup(string text)
+        {
+            _text = text;
+            _lines = ParseInput.GetLinesFromText(text);
+            _textNoLineBreaks = GetTextWithoutLineBreaks();
+        }
+
         public List<long> GetTextAsLongs()
         {
             try

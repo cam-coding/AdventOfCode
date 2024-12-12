@@ -20,7 +20,7 @@ namespace AdventLibrary.PathFinding
          * Find any path
          * */
 
-        public static void BFS_EXAMPLE()
+        public static void BFS_Example()
         {
             var exampleGrid = new GridObject<int>(new List<List<int>>());
             Queue<List<GridLocation<int>>> q = new Queue<List<GridLocation<int>>>();
@@ -74,7 +74,7 @@ namespace AdventLibrary.PathFinding
             }
         }
 
-        private static void DFS_EXAMPLE()
+        private static void DFS_Example()
         {
             var exampleGrid = new List<List<int>>();
             var exampleGridObject = new GridObject<int>(exampleGrid);
@@ -101,6 +101,41 @@ namespace AdventLibrary.PathFinding
             var start = (0, new List<GridLocation<int>>() { new GridLocation<int>(0, 0) });
             var DFS = new DepthFirstSearch<GridLocation<int>>();
             DFS.DFSgeneric(start, NeighboursFunc, GoalFunc, WeightFunc);
+        }
+
+        /* Use BFS as your search algorithm if you want to:
+         * Find shortest path/most effecient path
+         * Find paths from one location to all others
+         * Best fast AF
+         * */
+
+        private static void AStar_Example()
+        {
+            var exampleGrid = new List<List<int>>();
+            var exampleGridObject = new GridObject<int>(exampleGrid);
+            var startLocation = exampleGridObject.GetTopLeftLocation();
+            var endLocation = exampleGridObject.GetBottomRightLocation();
+
+            // Create A* from a grid
+
+            // any items in this list will be "walls" and those nodes will be ignored
+            var wallValues = new List<int>();
+
+            // how you want to calculate neighbours.
+            var func = exampleGridObject.GetOrthogonalNeighbours;
+
+            var aStarGrid = new AStar_GridObject<int>(exampleGridObject, wallValues, func);
+            var astar = AStarFactory.CreateFromGrid(exampleGridObject);
+
+            // Run A*
+            astar.Search(startLocation, endLocation);
+
+            // this will get you the cost of the shortest path going from the start to any location
+            // note this doesn't include the value of the starting location
+            var costToReachEnd = astar.GetCost(endLocation);
+
+            // note this includes the first location
+            var pathToReachEnd = astar.GetPath(endLocation);
         }
     }
 }

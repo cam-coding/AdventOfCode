@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using AdventLibrary.Helpers.Grids;
+using AStarSharp;
 
 /*
 * Taken from RedBlobGames https://www.redblobgames.com/pathfinding/a-star/implementation.html#python-dijkstra
@@ -10,7 +11,7 @@ namespace AdventLibrary.PathFinding
 {
     // A* needs only a WeightedGraph and a location type L, and does *not*
     // have to be a grid. However, in the example code I am using a grid.
-    public interface WeightedGraph<T>
+    public interface AStarWeightedGraph<T>
     {
         double Cost(T location);
 
@@ -32,7 +33,7 @@ namespace AdventLibrary.PathFinding
         }
     }
 
-    public class AStar_GridObject<T> : WeightedGraph<GridLocation<int>>
+    public class AStar_GridObject<T> : AStarWeightedGraph<GridLocation<int>>
     {
         private GridObject<T> _grid;
         private List<T> _walls;
@@ -74,7 +75,7 @@ namespace AdventLibrary.PathFinding
         }
     }
 
-    public class SquareGrid : WeightedGraph<AStarLocation>
+    public class SquareGrid : AStarWeightedGraph<AStarLocation>
     {
         // Implementation notes: I made the fields public for convenience,
         // but in a real project you'll probably want to follow standard
@@ -127,8 +128,12 @@ namespace AdventLibrary.PathFinding
         }
     }
 
-    public class AStarSearch<T>
+    public class AStarSearcher<T>
     {
+        private AStarWeightedGraph<T> _graph;
+        private T _start;
+        private T _end;
+
         public Dictionary<T, T> cameFrom
             = new Dictionary<T, T>();
 
@@ -152,8 +157,16 @@ namespace AdventLibrary.PathFinding
             }
         }
 
-        public AStarSearch(WeightedGraph<T> graph, T start, T goal)
+        public AStarSearcher(AStarWeightedGraph<T> graph)
         {
+            _graph = graph;
+        }
+
+        public void Search(T start, T end)
+        {
+            _start = start;
+            _end = end;
+
             var frontier = new PriorityQueue<T, double>();
             frontier.Enqueue(start, 0);
 
@@ -164,25 +177,44 @@ namespace AdventLibrary.PathFinding
             {
                 var current = frontier.Dequeue();
 
-                if (current.Equals(goal))
+                if (current.Equals(end))
                 {
                     break;
                 }
 
-                foreach (var next in graph.Neighbors(current))
+                foreach (var next in _graph.Neighbors(current))
                 {
                     double newCost = costSoFar[current]
-                        + graph.Cost(next);
+                        + _graph.Cost(next);
                     if (!costSoFar.ContainsKey(next)
                         || newCost < costSoFar[next])
                     {
                         costSoFar[next] = newCost;
-                        double priority = newCost + Heuristic(next, goal);
+                        double priority = newCost + Heuristic(next, end);
                         frontier.Enqueue(next, priority);
                         cameFrom[next] = current;
                     }
                 }
             }
+        }
+
+        public List<T> GetPath(T node)
+        {
+            var path = new List<T>();
+            T current = node;
+            while (!current.Equals(_start))
+            {
+                path.Add(current);
+                current = cameFrom[current];
+            }
+            path.Add(_start);
+            path.Reverse();
+            return path;
+        }
+
+        public double GetCost(T node)
+        {
+            return costSoFar[node];
         }
     }
 }

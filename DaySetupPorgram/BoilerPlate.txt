@@ -34,8 +34,6 @@ namespace aoc{YEAR}
 			long count = 0;
             long number = input.Long;
 
-            var ln1 = lines != null && lines.Count > 0 ? lines[0] : string.Empty;
-            var ln2 = lines != null && lines.Count > 1 ? lines[1] : string.Empty;
             for (var i = 0; i < lines.Count; i++)
             {
 
@@ -43,13 +41,6 @@ namespace aoc{YEAR}
 
 			foreach (var line in lines)
 			{
-                var tokens = line.GetRealTokens(delimiterChars);
-				var nums = StringParsing.GetNumbersFromString(line);
-
-				foreach (var num in nums)
-				{
-				}
-
                 for (var i = 0; i < 0; i++)
                 {
                     for (var j = 0; j < 0; j++)

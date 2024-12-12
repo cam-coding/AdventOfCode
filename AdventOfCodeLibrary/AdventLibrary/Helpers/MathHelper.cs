@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.Intrinsics;
 using AdventLibrary.Helpers.Grids;
 
 namespace AdventLibrary.Helpers
@@ -148,7 +149,7 @@ namespace AdventLibrary.Helpers
             return Math.Abs(a + points[n - 1].Y * points[0].X - points[0].Y * points[n - 1].X) / 2;
         }
 
-        public static long PicksAndShoelaceArea(List<GridLocation<long>> points)
+        public static double PicksAndShoelaceArea(List<GridLocation<int>> points)
         {
             long edgeLength = 1;
             var previous = points[^1];

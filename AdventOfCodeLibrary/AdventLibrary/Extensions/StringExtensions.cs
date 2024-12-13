@@ -143,6 +143,18 @@ namespace AdventLibrary.Extensions
             return strOrdered.Equals(otherStrOrdered);
         }
 
+        public static int CountMatchingCharacters(this string str, string characters)
+        {
+            return CountMatchingCharacters(str, characters.ToList());
+        }
+
+        // count how many characters in str appear in the list of characters
+        // str = "abcdef" characters {a,b,c} return = 3
+        public static int CountMatchingCharacters(this string str, List<char> characters)
+        {
+            return str.Count(x => characters.Contains(x));
+        }
+
         public static int CountPairs_NonOverlapping(this string str)
         {
             return CountGroups_NonOverlapping(str, 2);

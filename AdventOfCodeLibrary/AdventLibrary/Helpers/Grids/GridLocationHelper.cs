@@ -1,7 +1,6 @@
 ﻿using AdventLibrary.CustomObjects;
 using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
 using System.Numerics;
 
 namespace AdventLibrary.Helpers.Grids

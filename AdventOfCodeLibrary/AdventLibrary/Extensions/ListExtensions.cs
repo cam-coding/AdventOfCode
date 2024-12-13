@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace AdventLibrary.Extensions
@@ -201,6 +202,25 @@ namespace AdventLibrary.Extensions
             {
                 return (index - 1, index + 1);
             }
+        }
+
+        public static List<T> SubList<T>(this List<T> list, int start, int length)
+        {
+            return list.Slice(start, length);
+        }
+
+        // lst = [ 1, 2, 3, 4, 5, 6 ] and n = 3, result is [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ], and [ 4, 5, 6 ]
+        // great for sliding window problems
+        public static IEnumerable<IEnumerable<T>> GetOverlappingGroupsOfSize<T>(this List<T> list, int length)
+        {
+            if (list.Count < length)
+                throw new ArgumentException("list must be at least size of length");
+            var result = new List<List<T>>();
+            for (var i = 0; i < list.Count - (length-1); i++)
+            {
+                result.Add(list.Slice(i, length));
+            }
+            return result;
         }
 
         // hard to decipher, here are clearer ones https://rosettacode.org/wiki/Combinations#C.2B.2B

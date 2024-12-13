@@ -67,129 +67,6 @@ namespace AdventLibrary
             return grid;
         }
 
-        public static List<GridLocation<int>> GetPointsBetweenStartAndEndInclusive(GridLocation<int> start, GridLocation<int> end)
-        {
-            return GetPointsBetweenStartAndEndInclusive(start.X, start.Y, end.X, end.Y);
-        }
-
-        // rework for y,x
-        public static List<GridLocation<int>> GetPointsBetweenStartAndEndInclusive(int startX, int startY, int endX, int endY)
-        {
-            List<GridLocation<int>> points = new List<GridLocation<int>>();
-            if (startX == endX)
-            {
-                if (startY > endY)
-                {
-                    for (int i = startY; i >= endY; i--)
-                    {
-                        points.Add(new GridLocation<int>(startX, i));
-                    }
-                }
-                else
-                {
-                    for (int i = startY; i <= endY; i++)
-                    {
-                        points.Add(new GridLocation<int>(startX, i));
-                    }
-                }
-            }
-            else if (startY == endY)
-            {
-                var min = Math.Min(endX, startX);
-                var max = Math.Max(endX, startX);
-                for (int i = min; i <= max; i++)
-                {
-                    points.Add(new GridLocation<int>(i, startY));
-                }
-            }
-            else
-            {
-                int x = startX;
-                int y = startY;
-                int xIncrement = 1;
-                int yIncrement = 1;
-                if (startX > endX)
-                {
-                    xIncrement = -1;
-                }
-                if (startY > endY)
-                {
-                    yIncrement = -1;
-                }
-                while (x != endX || y != endY)
-                {
-                    points.Add(new GridLocation<int>(x, y));
-                    x += xIncrement;
-                    y += yIncrement;
-                }
-                points.Add(new GridLocation<int>(endX, endY));
-            }
-            return points;
-        }
-
-        public static List<GridLocation<int>> GetPointsBetweenStartAndEndExclusive(int startX, int startY, int endX, int endY)
-        {
-            List<GridLocation<int>> points = new List<GridLocation<int>>();
-            if (startX == endX)
-            {
-                if (startY > endY)
-                {
-                    for (int i = startY - 1; i > endY; i--)
-                    {
-                        points.Add(new GridLocation<int>(startX, i));
-                    }
-                }
-                else
-                {
-                    for (int i = startY + 1; i < endY; i++)
-                    {
-                        points.Add(new GridLocation<int>(startX, i));
-                    }
-                }
-            }
-            else if (startY == endY)
-            {
-                if (startX > endX)
-                {
-                    for (int i = startX - 1; i > endX; i--)
-                    {
-                        points.Add(new GridLocation<int>(i, startY));
-                    }
-                }
-                else
-                {
-                    for (int i = startX + 1; i < endX; i++)
-                    {
-                        points.Add(new GridLocation<int>(i, startY));
-                    }
-                }
-            }
-            else
-            {
-                int x = startX + 1;
-                int y = startY + 1;
-                int xIncrement = 1;
-                int yIncrement = 1;
-                if (startX > endX)
-                {
-                    xIncrement = -1;
-                    x = x - 2;
-                }
-                if (startY > endY)
-                {
-                    yIncrement = -1;
-                    y = y - 2;
-                }
-                while (x != endX || y != endY)
-                {
-                    points.Add(new GridLocation<int>(x, y));
-                    x += xIncrement;
-                    y += yIncrement;
-                }
-            }
-            return points;
-        }
-
         /* Assume offset already applied*/
 
         public static GridLocation<int> MoveByOffset(int y, int x, int width, int height, bool wrap)
@@ -266,70 +143,8 @@ namespace AdventLibrary
             return dict;
         }
 
-        public static List<List<T>> RotateColumnDownWithWrap<T>(List<List<T>> grid, int column)
+        public static class Rotations
         {
-            var length = grid.Count;
-            var temp = grid[length - 1][column];
-            for (var j = length - 1; j > 0; j--)
-            {
-                grid[j][column] = grid[j - 1][column];
-            }
-            grid[0][column] = temp;
-            return grid;
-        }
-
-        public static List<List<T>> RotateColumnUpWithWrap<T>(List<List<T>> grid, int column)
-        {
-            var length = grid.Count;
-            var temp = grid[0][column];
-            for (var j = 0; j < length - 1; j++)
-            {
-                grid[j][column] = grid[j + 1][column];
-            }
-            grid[length - 1][column] = temp;
-            return grid;
-        }
-
-        public static List<List<T>> RotateGridDownWithWrap<T>(List<List<T>> grid)
-        {
-            for (var i = 0; i < grid[0].Count; i++)
-            {
-                grid = RotateColumnDownWithWrap(grid, i);
-            }
-            return grid;
-        }
-
-        public static List<List<T>> RotateGridUpWithWrap<T>(List<List<T>> grid)
-        {
-            for (var i = 0; i < grid[0].Count; i++)
-            {
-                grid = RotateColumnUpWithWrap(grid, i);
-            }
-            return grid;
-        }
-
-        public static List<List<T>> RotateRowRightWithWrap<T>(List<List<T>> grid, int row)
-        {
-            var length = grid[0].Count;
-            var temp = grid[row][length - 1];
-            for (var j = length - 1; j > 0; j--)
-            {
-                grid[row][j] = grid[row][j - 1];
-            }
-            grid[row][0] = temp;
-            return grid;
-        }
-
-        public static List<List<T>> RotateRowLeftWithWrap<T>(List<List<T>> grid, int row)
-        {
-            var length = grid[0].Count;
-            var temp = grid[row][0];
-            for (var j = 0; j < length - 1; j++)
-            {
-                grid[row][j] = grid[row][j + 1];
-            }
-            grid[row][length - 1] = temp;
-            return grid;
         }
 
         public static void PrintGrid<T>(List<List<T>> grid)
@@ -347,120 +162,272 @@ namespace AdventLibrary
             }
         }
 
-        // Get distance using Pythagoras's theorem
-        //0,0 to 2,2 would be sqrt(8)/~2.82
-        // https://en.wikipedia.org/wiki/Chebyshev_distance#Properties
-        public static double EuclidianDistance((int, int) a, (int, int) b)
+        public static class Distances
         {
-            var x = Math.Pow(a.Item1 - b.Item1, 2);
-            var y = Math.Pow(a.Item2 - b.Item2, 2);
-            return Math.Pow(x + y, .5);
-        }
+            /* Chebyshev distance aka king's move aka 8 directions aka all directions = 1 movement
+             * Euclidian distance aka direct line distance ignoring grid movement rules.
+             *  Uses Pythagoras' theorem
+             * Taxicab distance aka manhattan distance aka 4 directions aka up, down, left, right = 1 movement
+             * https://en.wikipedia.org/wiki/Chebyshev_distance#Properties
+             * */
 
-        public static double EuclidianDistance((int, int, int) a, (int, int, int) b)
-        {
-            var x = Math.Pow(a.Item1 - b.Item1, 2);
-            var y = Math.Pow(a.Item2 - b.Item2, 2);
-            var z = Math.Pow(a.Item3 - b.Item3, 2);
-            return Math.Pow(x + y + z, .5);
-        }
-
-        //Manhattan/taxicab distance aka routing through the grid system
-        //distance between 0,0 and 2,2 would be 4.
-        // https://en.wikipedia.org/wiki/Chebyshev_distance#Properties
-        public static int TaxicabDistance((int, int) a, (int, int) b)
-        {
-            var x = Math.Abs(a.Item1 - b.Item1);
-            var y = Math.Abs(a.Item2 - b.Item2);
-            return x + y;
-        }
-
-        public static int TaxicabDistance((int, int, int) a, (int, int, int) b)
-        {
-            var x = Math.Abs(a.Item1 - b.Item1);
-            var y = Math.Abs(a.Item2 - b.Item2);
-            var z = Math.Abs(a.Item3 - b.Item3);
-            return x + y + z;
-        }
-
-        // Getting distance allowing diagonal moves
-        // distance 0,0 to 2,2 is 2.
-        // https://en.wikipedia.org/wiki/Chebyshev_distance#Properties
-        public static int ChebyshevDistance((int, int) a, (int, int) b)
-        {
-            var x = Math.Abs(a.Item1 - b.Item1);
-            var y = Math.Abs(a.Item2 - b.Item2);
-            return Math.Max(x, y);
-        }
-
-        public static int ChebyshevDistance((int, int, int) a, (int, int, int) b)
-        {
-            var x = Math.Abs(a.Item1 - b.Item1);
-            var y = Math.Abs(a.Item2 - b.Item2);
-            var z = Math.Abs(a.Item3 - b.Item3);
-            return Math.Min(x, Math.Max(y, z));
-        }
-
-        public static (int y, int x) GetPointWhere<T>(List<List<T>> grid, T value)
-        {
-            return GetPointWhere(grid, x => x.Equals(value));
-        }
-
-        public static (int y, int x) GetPointWhere<T>(List<List<T>> grid, Predicate<T> pred)
-        {
-            for (var y = 0; y < grid.Count; y++)
+            // Get distance using Pythagoras's theorem
+            //0,0 to 2,2 would be sqrt(8)/~2.82
+            public static double EuclidianDistance((int, int) a, (int, int) b)
             {
-                for (var x = 0; x < grid[y].Count; x++)
+                var x = Math.Pow(a.Item1 - b.Item1, 2);
+                var y = Math.Pow(a.Item2 - b.Item2, 2);
+                return Math.Pow(x + y, .5);
+            }
+
+            public static double EuclidianDistance((int, int, int) a, (int, int, int) b)
+            {
+                var x = Math.Pow(a.Item1 - b.Item1, 2);
+                var y = Math.Pow(a.Item2 - b.Item2, 2);
+                var z = Math.Pow(a.Item3 - b.Item3, 2);
+                return Math.Pow(x + y + z, .5);
+            }
+
+            public static double EuclidianDistance(GridLocation<int> a, GridLocation<int> b)
+            {
+                return EuclidianDistance((a.X, a.Y), (b.X, b.Y));
+            }
+
+            //Manhattan/taxicab distance aka routing through the grid system
+            //distance between 0,0 and 2,2 would be 4.
+            public static int TaxicabDistance((int, int) a, (int, int) b)
+            {
+                var x = Math.Abs(a.Item1 - b.Item1);
+                var y = Math.Abs(a.Item2 - b.Item2);
+                return x + y;
+            }
+
+            public static int TaxicabDistance((int, int, int) a, (int, int, int) b)
+            {
+                var x = Math.Abs(a.Item1 - b.Item1);
+                var y = Math.Abs(a.Item2 - b.Item2);
+                var z = Math.Abs(a.Item3 - b.Item3);
+                return x + y + z;
+            }
+
+            public static double TaxicabDistance(GridLocation<int> a, GridLocation<int> b)
+            {
+                return TaxicabDistance((a.X, a.Y), (b.X, b.Y));
+            }
+
+            // Getting distance allowing diagonal moves
+            // distance 0,0 to 2,2 is 2.
+            public static int ChebyshevDistance((int, int) a, (int, int) b)
+            {
+                var x = Math.Abs(a.Item1 - b.Item1);
+                var y = Math.Abs(a.Item2 - b.Item2);
+                return Math.Max(x, y);
+            }
+
+            public static int ChebyshevDistance((int, int, int) a, (int, int, int) b)
+            {
+                var x = Math.Abs(a.Item1 - b.Item1);
+                var y = Math.Abs(a.Item2 - b.Item2);
+                var z = Math.Abs(a.Item3 - b.Item3);
+                return Math.Min(x, Math.Max(y, z));
+            }
+
+            public static double ChebyshevDistance(GridLocation<int> a, GridLocation<int> b)
+            {
+                return ChebyshevDistance((a.X, a.Y), (b.X, b.Y));
+            }
+        }
+
+        public static class GetPointsIn
+        {
+            // assumes a straight line between the two points
+            public static List<GridLocation<int>> GetPointsBetween(GridLocation<int> start, GridLocation<int> end, bool inclusive = false)
+            {
+                return GetPointsBetween(start.X, start.Y, end.X, end.Y, inclusive);
+            }
+
+            public static List<GridLocation<int>> GetPointsBetween(int startX, int startY, int endX, int endY, bool inclusive = false)
+            {
+                if (!PointsFormStraightLine(startX, startY, endX, endY))
                 {
-                    if (pred(grid[y][x]))
+                    throw new ArgumentException("Points do not form a straight line");
+                }
+
+                if (inclusive)
+                    return GetPointsBetweenStartAndEndInclusive(startX, startY, endX, endY);
+                else
+                    return GetPointsBetweenStartAndEndExclusive(startX, startY, endX, endY);
+            }
+
+            public static List<GridLocation<int>> GetPointsWithinRectangle(List<GridLocation<int>> corners)
+            {
+                if (!PointsFormRectangle(corners))
+                {
+                    throw new ArgumentException("Points do not form a rectangle");
+                }
+
+                var xMax = corners.Max(x => x.X);
+                var xMin = corners.Min(x => x.X);
+                var yMax = corners.Max(y => y.Y);
+                var yMin = corners.Min(y => y.Y);
+
+                var points = new List<GridLocation<int>>();
+                for (var y = yMin; y <= yMax; y++)
+                {
+                    for (var x = xMin; x <= xMax; x++)
                     {
-                        return (y, x);
+                        points.Add(new GridLocation<int>(x, y));
                     }
                 }
+                return points;
             }
-            return (-1, -1);
-        }
 
-        public static List<(int, int)> GetPointsWhere<T>(List<List<T>> grid, T value)
-        {
-            return GetPointsWhere(grid, x => x.Equals(value));
-        }
-
-        public static List<(int, int)> GetPointsWhere<T>(List<List<T>> grid, Predicate<T> pred)
-        {
-            var values = new List<(int, int)>();
-            for (var y = 0; y < grid.Count; y++)
+            private static List<GridLocation<int>> GetPointsBetweenStartAndEndInclusive(GridLocation<int> start, GridLocation<int> end)
             {
-                for (var x = 0; x < grid[y].Count; x++)
+                return GetPointsBetweenStartAndEndInclusive(start.X, start.Y, end.X, end.Y);
+            }
+
+            private static List<GridLocation<int>> GetPointsBetweenStartAndEndInclusive(int startX, int startY, int endX, int endY)
+            {
+                List<GridLocation<int>> points = new List<GridLocation<int>>();
+                if (startX == endX)
                 {
-                    if (pred(grid[y][x]))
+                    if (startY > endY)
                     {
-                        values.Add((y, x));
+                        for (int i = startY; i >= endY; i--)
+                        {
+                            points.Add(new GridLocation<int>(startX, i));
+                        }
+                    }
+                    else
+                    {
+                        for (int i = startY; i <= endY; i++)
+                        {
+                            points.Add(new GridLocation<int>(startX, i));
+                        }
                     }
                 }
-            }
-            return values;
-        }
-
-        public static int GetCountWhere<T>(List<List<T>> grid, T value)
-        {
-            return GetCountWhere(grid, x => x.Equals(value));
-        }
-
-        public static int GetCountWhere<T>(List<List<T>> grid, Predicate<T> pred)
-        {
-            var total = 0;
-            for (var y = 0; y < grid.Count; y++)
-            {
-                for (var x = 0; x < grid[y].Count; x++)
+                else if (startY == endY)
                 {
-                    if (pred(grid[y][x]))
+                    var min = Math.Min(endX, startX);
+                    var max = Math.Max(endX, startX);
+                    for (int i = min; i <= max; i++)
                     {
-                        total++;
+                        points.Add(new GridLocation<int>(i, startY));
                     }
                 }
+                else
+                {
+                    int x = startX;
+                    int y = startY;
+                    int xIncrement = 1;
+                    int yIncrement = 1;
+                    if (startX > endX)
+                    {
+                        xIncrement = -1;
+                    }
+                    if (startY > endY)
+                    {
+                        yIncrement = -1;
+                    }
+                    while (x != endX || y != endY)
+                    {
+                        points.Add(new GridLocation<int>(x, y));
+                        x += xIncrement;
+                        y += yIncrement;
+                    }
+                    points.Add(new GridLocation<int>(endX, endY));
+                }
+                return points;
             }
-            return total;
+
+            private static List<GridLocation<int>> GetPointsBetweenStartAndEndExclusive(GridLocation<int> start, GridLocation<int> end)
+            {
+                return GetPointsBetweenStartAndEndExclusive(start.X, start.Y, end.X, end.Y);
+            }
+
+            private static List<GridLocation<int>> GetPointsBetweenStartAndEndExclusive(int startX, int startY, int endX, int endY)
+            {
+                List<GridLocation<int>> points = new List<GridLocation<int>>();
+                if (startX == endX)
+                {
+                    if (startY > endY)
+                    {
+                        for (int i = startY - 1; i > endY; i--)
+                        {
+                            points.Add(new GridLocation<int>(startX, i));
+                        }
+                    }
+                    else
+                    {
+                        for (int i = startY + 1; i < endY; i++)
+                        {
+                            points.Add(new GridLocation<int>(startX, i));
+                        }
+                    }
+                }
+                else if (startY == endY)
+                {
+                    if (startX > endX)
+                    {
+                        for (int i = startX - 1; i > endX; i--)
+                        {
+                            points.Add(new GridLocation<int>(i, startY));
+                        }
+                    }
+                    else
+                    {
+                        for (int i = startX + 1; i < endX; i++)
+                        {
+                            points.Add(new GridLocation<int>(i, startY));
+                        }
+                    }
+                }
+                else
+                {
+                    int x = startX + 1;
+                    int y = startY + 1;
+                    int xIncrement = 1;
+                    int yIncrement = 1;
+                    if (startX > endX)
+                    {
+                        xIncrement = -1;
+                        x = x - 2;
+                    }
+                    if (startY > endY)
+                    {
+                        yIncrement = -1;
+                        y = y - 2;
+                    }
+                    while (x != endX || y != endY)
+                    {
+                        points.Add(new GridLocation<int>(x, y));
+                        x += xIncrement;
+                        y += yIncrement;
+                    }
+                }
+                return points;
+            }
+        }
+
+        public static bool PointsFormStraightLine(int startX, int startY, int endX, int endY)
+        {
+            if (startX == endX || startY == endY)
+            {
+                return true;
+            }
+            return Math.Abs(startX - endX) == Math.Abs(startY - endY);
+        }
+
+        public static bool PointsFormRectangle(List<GridLocation<int>> corners)
+        {
+            if (corners.Count != 4 || corners.Distinct().Count() == 4)
+            {
+                return false;
+            }
+            var xValues = corners.Select(x => x.X).Distinct().ToList();
+            var yValues = corners.Select(x => x.Y).Distinct().ToList();
+            return xValues.Count == 2 && yValues.Count == 2;
         }
 
         public static List<string> GetColumns(this List<string> grid)
@@ -560,44 +527,6 @@ namespace AdventLibrary
                 }
             }
             return grid;
-        }
-
-        // starts in top left and works way to bottom right
-        public static GridLocation<int> GetFirstLocationOf<T>(List<List<T>> grid, T value)
-        {
-            // increase the horizontal/row second
-            for (var y = 0; y < grid.Count; y++)
-            {
-                // increase vertical/column first
-                for (var x = 0; x < grid[0].Count; x++)
-                {
-                    if (grid[y][x].Equals(value))
-                    {
-                        return new GridLocation<int>(x, y);
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        // starts in top left and works way to bottom right
-        public static GridLocation<int> GetLastLocationOf<T>(List<List<T>> grid, T value)
-        {
-            // increase the horizontal/row second
-            for (var y = grid.Count-1; y >= 0 ; y--)
-            {
-                // increase vertical/column first
-                for (var x = grid[0].Count-1; x >= 0 ; x--)
-                {
-                    if (grid[y][x].Equals(value))
-                    {
-                        return new GridLocation<int>(x, y);
-                    }
-                }
-            }
-
-            return null;
         }
     }
 }

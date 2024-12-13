@@ -8,10 +8,11 @@ using AdventLibrary.Helpers.Grids;
 
 namespace aoc2017
 {
-    public class Day03: ISolver
+    public class Day03 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -25,11 +26,11 @@ namespace aoc2017
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
-			var numbers = input.Longs;
+            var numbers = input.Longs;
             var nodes = input.Graph;
             var grid = input.GridChar;
             long total = 1000000;
-			long count = 0;
+            long count = 0;
 
             var currentLayer = 1;
             var baseFactor = 2;
@@ -50,7 +51,7 @@ namespace aoc2017
             // corners, [3] is bottom right aka the high
             var corners = new List<long>() { high - factor * 3, high - factor * 2, high - factor, high };
             // mids, [3] is bottom, [2] left, [1] top, [0] right
-            var mids = corners.Select(x => x-currentLayer).ToList();
+            var mids = corners.Select(x => x - currentLayer).ToList();
 
             var best = long.MaxValue;
 
@@ -59,12 +60,11 @@ namespace aoc2017
                 best = Math.Min(best, (long)Math.Abs(m - numbers[0]));
             }
 
-            return GridHelper.TaxicabDistance((0, 0), ((int)currentLayer, (int)best));
-
+            return GridHelper.Distances.TaxicabDistance((0, 0), ((int)currentLayer, (int)best));
 
             /*
             var mid1 = lastHigh + layer;
-            var mid2 = 
+            var mid2 =
 
             double power = 0;
             var index = 7;
@@ -96,7 +96,7 @@ namespace aoc2017
             {
                 var currentLocation = new GridLocation<int>(currentx, currenty);
                 current = gridObject.GetAllNeighbours(currentLocation).Sum(node => gridObject.Get(node));
-                gridObject.Set(currentLocation,current);
+                gridObject.Set(currentLocation, current);
 
                 if (spiralState == 0)
                 {
@@ -112,7 +112,7 @@ namespace aoc2017
                 }
                 else if (spiralState == 1)
                 {
-                    if (gridObject.Get(currentx,currenty-1) == 0)
+                    if (gridObject.Get(currentx, currenty - 1) == 0)
                     {
                         spiralState++;
                         currenty--;
@@ -124,7 +124,7 @@ namespace aoc2017
                 }
                 else if (spiralState == 2)
                 {
-                    if (gridObject.Get(currentx+1, currenty) == 0)
+                    if (gridObject.Get(currentx + 1, currenty) == 0)
                     {
                         spiralState++;
                         currentx++;

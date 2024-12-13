@@ -42,8 +42,8 @@ namespace AdventLibraryUnitTests
             var inputFilepath = UnitTestStaticValues.TestDataPath + "Pathfinding\\2021day15part1example.txt";
             var parser = new InputParser(inputFilepath);
             var grid = parser.GetLinesAsGrid<int>();
-            var startLocation = grid.GetTopLeftLocation();
-            var endLocation = grid.GetBottomRightLocation();
+            var startLocation = grid.GetTopLeftCorner();
+            var endLocation = grid.GetBottomRightCorner();
 
             // Run A*
             var aStarGrid = new AStar_GridObject<int>(grid, new List<int>(), grid.GetOrthogonalNeighbours);
@@ -60,8 +60,8 @@ namespace AdventLibraryUnitTests
             var inputFilepath = UnitTestStaticValues.TestDataPath + "Pathfinding\\2021day15part2example.txt";
             var parser = new InputParser(inputFilepath);
             var grid = parser.GetLinesAsGrid<int>();
-            var startLocation = grid.GetTopLeftLocation();
-            var endLocation = grid.GetBottomRightLocation();
+            var startLocation = grid.GetTopLeftCorner();
+            var endLocation = grid.GetBottomRightCorner();
 
             // Run A*
             var aStarGrid = new AStar_GridObject<int>(grid, new List<int>(), grid.GetOrthogonalNeighbours);

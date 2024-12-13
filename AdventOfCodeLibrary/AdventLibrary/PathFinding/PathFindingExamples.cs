@@ -113,8 +113,8 @@ namespace AdventLibrary.PathFinding
         {
             var exampleGrid = new List<List<int>>();
             var exampleGridObject = new GridObject<int>(exampleGrid);
-            var startLocation = exampleGridObject.GetTopLeftLocation();
-            var endLocation = exampleGridObject.GetBottomRightLocation();
+            var startLocation = exampleGridObject.GetTopLeftCorner();
+            var endLocation = exampleGridObject.GetBottomRightCorner();
 
             // Create A* from a grid
 

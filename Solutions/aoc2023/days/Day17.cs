@@ -7,10 +7,11 @@ using System.Numerics;
 
 namespace aoc2023
 {
-    public class Day17: ISolver
+    public class Day17 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -55,6 +56,7 @@ namespace aoc2023
             var grid = ParseInput.ParseFileAsGrid(_filePath);
             return BFS_Generic3_Part2(grid);
         }
+
         private List<List<AStarSharp.Node>> MakeMyGrid(List<List<int>> grid)
         {
             List<List<AStarSharp.Node>> nodeGrid = new List<List<AStarSharp.Node>>();
@@ -72,7 +74,7 @@ namespace aoc2023
         public static int BFS_Generic(List<List<int>> grid)
         {
             PriorityQueue<List<(int, int)>, int> q = new PriorityQueue<List<(int, int)>, int>();
-            var visited = new Dictionary<((int, int),(int,int)), int>();
+            var visited = new Dictionary<((int, int), (int, int)), int>();
             // (0,0) can be anything, just needs to be your root item.
             q.Enqueue(new List<(int, int)>() { (0, 0) }, 0);
             var best = 150;
@@ -131,7 +133,6 @@ namespace aoc2023
                             }
                             else
                             {
-
                             }
                         }
                     }
@@ -179,7 +180,7 @@ namespace aoc2023
             var visited = new Dictionary<(GridLocation<int>, GridLocation<int>, int), int>();
             var distances = AdventLibrary.PathFinding.DijkstraTuple.Search(grid, new Tuple<int, int>(grid.Count - 1, grid[0].Count - 1));
             // (0,0) can be anything, just needs to be your root item.
-            q.Enqueue((new GridWalker(new GridLocation<int>(0,0), Directions.Right), grid[0][0] * -1), 0);
+            q.Enqueue((new GridWalker(new GridLocation<int>(0, 0), Directions.Right), grid[0][0] * -1), 0);
             q.Enqueue((new GridWalker(new GridLocation<int>(0, 0), Directions.Down), grid[0][0] * -1), 0);
             var best = 1104;
             while (q.Count > 0)
@@ -245,7 +246,7 @@ namespace aoc2023
                         visited[key] = distanceSoFar;
                     }
                 }
-                if (cur == new GridLocation<int> (grid.Count-1, grid[0].Count - 1))
+                if (cur == new GridLocation<int>(grid.Count - 1, grid[0].Count - 1))
                 {
                     if (distanceSoFar < best)
                     {
@@ -254,7 +255,7 @@ namespace aoc2023
                     }
                 }
 
-                if (distanceSoFar + distances[new Tuple<int,int>(cur.X, cur.Y)] > best)
+                if (distanceSoFar + distances[new Tuple<int, int>(cur.X, cur.Y)] > best)
                 {
                     continue;
                 }
@@ -265,10 +266,10 @@ namespace aoc2023
                         var temp = new GridWalker(current);
                         temp.Direction = item;
                         temp.Walk();
-                        if (GridHelperWeirdTypes.WithinGrid(grid, temp.Current)  && !temp.Looping)
+                        if (GridHelperWeirdTypes.WithinGrid(grid, temp.Current) && !temp.Looping)
                         {
-                            var priority = GridHelper.TaxicabDistance((cur.X,cur.Y), (grid.Count - 1, grid[0].Count - 1));
-                            q.Enqueue((temp,distanceSoFar), priority);
+                            var priority = GridHelper.Distances.TaxicabDistance((cur.X, cur.Y), (grid.Count - 1, grid[0].Count - 1));
+                            q.Enqueue((temp, distanceSoFar), priority);
                         }
                     }
                 }
@@ -283,7 +284,7 @@ namespace aoc2023
         public static int BFS_Generic3(List<List<int>> grid)
         {
             PriorityQueue<(GridWalker, int), int> q = new PriorityQueue<(GridWalker, int), int>();
-            var visited = new HashSet<(int, int, int,int, int)>();
+            var visited = new HashSet<(int, int, int, int, int)>();
             var distances = AdventLibrary.PathFinding.DijkstraTuple.Search(grid, new Tuple<int, int>(grid.Count - 1, grid[0].Count - 1));
             // (0,0) can be anything, just needs to be your root item.
             q.Enqueue((new GridWalker(new GridLocation<int>(0, 0), Directions.Right), grid[0][0] * -1), 0);
@@ -431,7 +432,6 @@ namespace aoc2023
                             }
                             else
                             {
-
                             }
                         }
                     }
@@ -445,10 +445,10 @@ namespace aoc2023
             public int Compare(int x, int y) => y.CompareTo(x);
         }
 
-        private static int Total(List<List<int>> grid, List<(int,int)> visited)
+        private static int Total(List<List<int>> grid, List<(int, int)> visited)
         {
             var total = 0;
-            foreach(var item in visited)
+            foreach (var item in visited)
             {
                 total += grid[item.Item1][item.Item2];
             }

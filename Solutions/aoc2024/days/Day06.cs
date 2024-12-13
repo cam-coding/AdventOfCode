@@ -23,7 +23,7 @@ namespace aoc2024
             var input = new InputObjectCollection(_filePath);
             var grid = input.GridChar;
 
-            GridLocation<int> loc = grid.GetLocationWhereCellEqualsValue('^');
+            GridLocation<int> loc = grid.GetFirstLocationWhereCellEqualsValue('^');
 
             var walker = new GridWalker(loc, Directions.Up);
             while (grid.WithinGrid(walker.Current))
@@ -49,7 +49,7 @@ namespace aoc2024
             var grid = input.GridChar;
             long count = 0;
 
-            GridLocation<int> startingLoc = grid.GetLocationWhereCellEqualsValue('^');
+            GridLocation<int> startingLoc = grid.GetFirstLocationWhereCellEqualsValue('^');
             var places = _uniqueLocationsPart1;
 
             foreach (var place in places)

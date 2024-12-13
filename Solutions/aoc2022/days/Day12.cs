@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.CustomObjects;
 using AdventLibrary.Helpers.Grids;
@@ -8,10 +7,11 @@ using AdventLibrary.PathFinding;
 
 namespace aoc2022
 {
-    public class Day12: ISolver
+    public class Day12 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -21,10 +21,9 @@ namespace aoc2022
         private object Part1(bool isTest = false)
         {
             var grid = ParseInput.ParseFileAsCharGrid(_filePath);
-            var startTuple2 = GridHelper.GetPointWhere(grid, 'S');
-            var startTuple = new GridLocation<int>(startTuple2.x, startTuple2.y);
-            var endTuple2 = GridHelper.GetPointWhere(grid, 'E');
-            var endTuple = new GridLocation<int>(endTuple2.x, endTuple2.y);
+            var gridObject = new GridObject<char>(grid);
+            var startTuple = gridObject.GetFirstLocationWhereCellEqualsValue('S');
+            var endTuple = gridObject.GetFirstLocationWhereCellEqualsValue('E');
             grid[startTuple.Y][startTuple.X] = 'a';
             grid[endTuple.Y][endTuple.X] = 'z';
 
@@ -52,10 +51,9 @@ namespace aoc2022
         private object Part2(bool isTest = false)
         {
             var grid = ParseInput.ParseFileAsCharGrid(_filePath);
-            var startTuple2 = GridHelper.GetPointWhere(grid, 'S');
-            var startTuple = new GridLocation<int>(startTuple2.x, startTuple2.y);
-            var endTuple2 = GridHelper.GetPointWhere(grid, 'E');
-            var endTuple = new GridLocation<int>(endTuple2.x, endTuple2.y);
+            var gridObject = new GridObject<char>(grid);
+            var startTuple = gridObject.GetFirstLocationWhereCellEqualsValue('S');
+            var endTuple = gridObject.GetFirstLocationWhereCellEqualsValue('E');
             grid[startTuple.Y][startTuple.X] = 'a';
             grid[endTuple.Y][endTuple.X] = 'z';
 

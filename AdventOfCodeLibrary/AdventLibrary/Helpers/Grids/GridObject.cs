@@ -25,6 +25,10 @@ namespace AdventLibrary.Helpers.Grids
 
         public T DefaultValue { get; set; }
 
+        public int MaxX => Width - 1;
+
+        public int MaxY => Height - 1;
+
         public bool TryGet(out T value, GridLocation<int> location)
         {
             value = DefaultValue;
@@ -39,6 +43,31 @@ namespace AdventLibrary.Helpers.Grids
             }
         }
 
+        public T Get(int x, int y)
+        {
+            return Grid[y][x];
+        }
+
+        public T Get(GridLocation<int> location)
+        {
+            return Get(location.X, location.Y);
+        }
+
+        public void Set(int x, int y, T value)
+        {
+            Grid[y][x] = value;
+        }
+
+        public void Set(GridLocation<int> location, T value)
+        {
+            Set(location.X, location.Y, value);
+        }
+
+        public void Print()
+        {
+            GridHelper.PrintGrid(Grid);
+        }
+
         public bool WithinGrid(int x, int y)
         {
             return x >= 0 && x < Width && y >= 0 && y < Height;
@@ -47,6 +76,39 @@ namespace AdventLibrary.Helpers.Grids
         public bool WithinGrid(GridLocation<int> location)
         {
             return location.X >= 0 && location.X < Width && location.Y >= 0 && location.Y < Height;
+        }
+
+        public GridLocation<int> GetFirstLocationWhereCellEqualsValue(T value)
+        {
+            for (var y = 0; y < Height; y++)
+            {
+                for (var x = 0; x < Width; x++)
+                {
+                    if (Get(x, y).Equals(value))
+                    {
+                        return new GridLocation<int>(x, y);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public List<GridLocation<int>> GetAllLocationWhereCellEqualsValue(T value)
+        {
+            var listy = new List<GridLocation<int>>();
+            for (var y = 0; y < Height; y++)
+            {
+                for (var x = 0; x < Width; x++)
+                {
+                    if (Get(x, y).Equals(value))
+                    {
+                        listy.Add(new GridLocation<int>(x, y));
+                    }
+                }
+            }
+
+            return listy;
         }
 
         // Gets 4 neighbours that are directly N/E/S/W aka Up/Right/Down/Left
@@ -65,74 +127,6 @@ namespace AdventLibrary.Helpers.Grids
         public List<GridLocation<int>> GetAllNeighbours(GridLocation<int> location)
         {
             return GetNeighbours(location, Directions.AllDirections);
-        }
-
-        public void Print()
-        {
-            GridHelper.PrintGrid(Grid);
-        }
-
-        public T Get(int x, int y)
-        {
-            return Grid[y][x];
-        }
-
-        public T Get(GridLocation<int> location)
-        {
-            return Get(location.X, location.Y);
-        }
-
-        public GridLocation<int> GetTopLeftLocation()
-        {
-            return new GridLocation<int>(0, 0);
-        }
-
-        public GridLocation<int> GetBottomRightLocation()
-        {
-            return new GridLocation<int>(Width - 1, Height - 1);
-        }
-
-        public GridLocation<int> GetLocationWhereCellEqualsValue(T value)
-        {
-            for (var i = 0; i < Width; i++)
-            {
-                for (var j = 0; j < Height; j++)
-                {
-                    if (Get(i, j).Equals(value))
-                    {
-                        return new GridLocation<int>(i, j);
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        public List<GridLocation<int>> GetAllLocationWhereCellEqualsValue(T value)
-        {
-            var listy = new List<GridLocation<int>>();
-            for (var i = 0; i < Width; i++)
-            {
-                for (var j = 0; j < Height; j++)
-                {
-                    if (Get(i, j).Equals(value))
-                    {
-                        listy.Add(new GridLocation<int>(i, j));
-                    }
-                }
-            }
-
-            return listy;
-        }
-
-        public void Set(int x, int y, T value)
-        {
-            Grid[y][x] = value;
-        }
-
-        public void Set(GridLocation<int> location, T value)
-        {
-            Set(location.X, location.Y, value);
         }
 
         private List<GridLocation<int>> GetNeighbours(GridLocation<int> currentLocation, List<GridLocation<int>> directions)

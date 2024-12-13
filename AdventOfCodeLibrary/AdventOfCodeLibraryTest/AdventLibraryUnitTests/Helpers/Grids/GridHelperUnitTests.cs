@@ -9,7 +9,6 @@ namespace AdventLibraryUnitTests.Helpers.Grids
 {
     public class GridHelperUnitTests
     {
-        #region InclusiveLine
         [Fact]
         public void GridHelper_InclusiveLine_StraightForward_ReturnsExpected()
         {
@@ -21,7 +20,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(3, 3),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndInclusive(0, 0, 3, 3);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(0, 0, 3, 3, true);
             Assert.Equal(expected, actual);
         }
 
@@ -36,7 +35,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(3, 3),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndInclusive(0, 0, 3, 3);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(0, 0, 3, 3, true);
             Assert.Equal(expected, actual);
         }
 
@@ -51,7 +50,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(0, 0),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndInclusive(3, 3, 0, 0);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(3, 3, 0, 0, true);
             Assert.Equal(expected, actual);
         }
 
@@ -66,7 +65,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(0, 3),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndInclusive(0, 0, 0, 3);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(0, 0, 0, 3, true);
             Assert.Equal(expected, actual);
         }
 
@@ -81,7 +80,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(0, 0),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndInclusive(0, 3, 0, 0);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(0, 3, 0, 0, true);
             Assert.Equal(expected, actual);
         }
 
@@ -96,7 +95,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(3, 3),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndInclusive(0, 0, 3, 3);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(0, 0, 3, 3, true);
             Assert.Equal(expected, actual);
         }
 
@@ -111,7 +110,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(3, 0),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndInclusive(0, 3, 3, 0);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(0, 3, 3, 0, true);
             Assert.Equal(expected, actual);
         }
 
@@ -126,7 +125,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(0, 3),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndInclusive(3, 0, 0, 3);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(3, 0, 0, 3, true);
             Assert.Equal(expected, actual);
         }
 
@@ -141,11 +140,10 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(0, 0),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndInclusive(3, 3, 0, 0);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(3, 3, 0, 0, true);
             Assert.Equal(expected, actual);
         }
-        #endregion InclusiveLine
-        #region ExclusiveLine
+
         [Fact]
         public void GridHelper_ExclusiveLine_StraightForward_ReturnsExpected()
         {
@@ -155,7 +153,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(2, 0),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndExclusive(0, 0, 3, 0);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(0, 0, 3, 0);
             Assert.Equal(expected, actual);
         }
 
@@ -168,7 +166,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(1, 0),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndExclusive(3, 0, 0, 0);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(3, 0, 0, 0);
             Assert.Equal(expected, actual);
         }
 
@@ -181,7 +179,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(0, 2),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndExclusive(0, 0, 0, 3);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(0, 0, 0, 3);
             Assert.Equal(expected, actual);
         }
 
@@ -194,7 +192,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(0, 2),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndExclusive(0, 0, 0, 3);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(0, 0, 0, 3);
             Assert.Equal(expected, actual);
         }
 
@@ -207,7 +205,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(2, 2),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndExclusive(0, 0, 3, 3);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(0, 0, 3, 3);
             Assert.Equal(expected, actual);
         }
 
@@ -220,7 +218,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(2, 1),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndExclusive(0, 3, 3, 0);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(0, 3, 3, 0);
             Assert.Equal(expected, actual);
         }
 
@@ -233,7 +231,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(1, 2),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndExclusive(3, 0, 0, 3);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(3, 0, 0, 3);
             Assert.Equal(expected, actual);
         }
 
@@ -246,10 +244,9 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new GridLocation<int>(1, 1),
             };
 
-            var actual = GridHelper.GetPointsBetweenStartAndEndExclusive(3, 3, 0, 0);
+            var actual = GridHelper.GetPointsIn.GetPointsBetween(3, 3, 0, 0);
             Assert.Equal(expected, actual);
         }
-        #endregion ExclusiveLine
 
         private List<List<int>> GenerateEmptyGrid()
         {
@@ -364,24 +361,6 @@ namespace AdventLibraryUnitTests.Helpers.Grids
             };
             var actual = start.GetColumns();
             Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void GridHelper_FindFirst_ReturnsExpected()
-        {
-            var grid = GenerateEmptyGrid();
-            var loc = GridHelper.GetFirstLocationOf(grid, 0);
-            Assert.Equal(new GridLocation<int>(0, 0), loc);
-        }
-
-        [Fact]
-        public void GridHelper_FindLast_ReturnsExpected()
-        {
-            var grid = GenerateEmptyGrid();
-            // make the grid not a square
-            grid.Add(new List<int> { 0, 0, 0, 0 });
-            var loc = GridHelper.GetLastLocationOf(grid, 0);
-            Assert.Equal(new GridLocation<int>(3, 4), loc);
         }
     }
 }

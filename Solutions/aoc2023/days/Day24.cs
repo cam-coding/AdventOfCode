@@ -87,51 +87,54 @@ namespace aoc2023
             var context = new Context();
             var solver = context.MkSolver();
 
+            // the following are the 6 values we are solving for
             // Coordinates of the stone
-            var constantX = context.MkIntConst("x");
-            var constantY = context.MkIntConst("y");
-            var constantZ = context.MkIntConst("z");
+            var uknownStoneStartingX = context.MkIntConst("x");
+            var unkownStoneStartingY = context.MkIntConst("y");
+            var unkownStoneStartingZ = context.MkIntConst("z");
 
             // Velocity of the stone
-            var constantVelocityX = context.MkIntConst("vx");
-            var constantVelocityY = context.MkIntConst("vy");
-            var constantVelocityZ = context.MkIntConst("vz");
+            var stoneVelocityX = context.MkIntConst("vx");
+            var stoneVelocityY = context.MkIntConst("vy");
+            var stoneVelocityZ = context.MkIntConst("vz");
 
             for (var i = 0; i < 3; i++)
             {
                 var currentTime = context.MkIntConst($"t{i}");
                 var hail = allHailstones[i];
 
-                var xPoint = context.MkInt(hail.X);
-                var yPoint = context.MkInt(hail.Y);
-                var zPoint = context.MkInt(hail.Z);
+                var hailStartingX = context.MkInt(hail.X);
+                var hailStartingY = context.MkInt(hail.Y);
+                var hailStartingZ = context.MkInt(hail.Z);
 
-                var velocityX = context.MkInt(hail.VelocityX);
-                var velocityY = context.MkInt(hail.VelocityY);
-                var velocityZ = context.MkInt(hail.VelocityZ);
+                var hailVelocityX = context.MkInt(hail.VelocityX);
+                var hailVelocityY = context.MkInt(hail.VelocityY);
+                var hailVelocityZ = context.MkInt(hail.VelocityZ);
 
-                var x1 = context.MkAdd(constantX, context.MkMul(currentTime, constantVelocityX));
-                var y1 = context.MkAdd(constantY, context.MkMul(currentTime, constantVelocityY));
-                var z1 = context.MkAdd(constantZ, context.MkMul(currentTime, constantVelocityZ));
+                // give the formula for calculating these values
+                var stoneCurrentX = context.MkAdd(uknownStoneStartingX, context.MkMul(currentTime, stoneVelocityX));
+                var stoneCurrentY = context.MkAdd(unkownStoneStartingY, context.MkMul(currentTime, stoneVelocityY));
+                var stoneCurrentZ = context.MkAdd(unkownStoneStartingZ, context.MkMul(currentTime, stoneVelocityZ));
 
-                var x2 = context.MkAdd(xPoint, context.MkMul(currentTime, velocityX));
-                var y2 = context.MkAdd(yPoint, context.MkMul(currentTime, velocityY));
-                var z2 = context.MkAdd(zPoint, context.MkMul(currentTime, velocityZ));
+                // give the formula for calculating these values
+                var hailCurrentX = context.MkAdd(hailStartingX, context.MkMul(currentTime, hailVelocityX));
+                var hailCurrentY = context.MkAdd(hailStartingY, context.MkMul(currentTime, hailVelocityY));
+                var hailCurrentZ = context.MkAdd(hailStartingZ, context.MkMul(currentTime, hailVelocityZ));
 
                 solver.Add(currentTime >= 0); // annoying wrinkle of only looking forward in time
-                solver.Add(context.MkEq(x1, x2));
-                solver.Add(context.MkEq(y1, y2));
-                solver.Add(context.MkEq(z1, z2));
+                solver.Add(context.MkEq(stoneCurrentX, hailCurrentX));
+                solver.Add(context.MkEq(stoneCurrentY, hailCurrentY));
+                solver.Add(context.MkEq(stoneCurrentZ, hailCurrentZ));
             }
 
             solver.Check();
             var model = solver.Model;
 
-            var rx = model.Eval(constantX).ToString();
-            var ry = model.Eval(constantY).ToString();
-            var rz = model.Eval(constantZ).ToString();
+            var stoneStartingX = model.Eval(uknownStoneStartingX).ToString();
+            var stoneStartingY = model.Eval(unkownStoneStartingY).ToString();
+            var stoneStartingZ = model.Eval(unkownStoneStartingZ).ToString();
 
-            return Convert.ToInt64(rx) + Convert.ToInt64(ry) + Convert.ToInt64(rz);
+            return Convert.ToInt64(stoneStartingX) + Convert.ToInt64(stoneStartingY) + Convert.ToInt64(stoneStartingZ);
         }
 
         private class Hailstone

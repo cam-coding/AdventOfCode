@@ -7,6 +7,7 @@ using AdventLibrary.Helpers;
 using AdventLibrary.Helpers.Grids;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
+using Microsoft.Z3;
 
 namespace aoc2024
 {
@@ -51,12 +52,54 @@ namespace aoc2024
                 var goal = new GridLocation<double>(goalNums[0], goalNums[1]);
 
                 var result = GoTime(aButton, bButton, goal);
+                var result2 = GoTime2(
+                    new GridLocation<long>(aNums[0], aNums[1]),
+                    new GridLocation<long>(bNums[0], bNums[1]),
+                    new GridLocation<long>(goalNums[0], goalNums[1]));
                 if (result != int.MaxValue)
                 {
                     count += result;
                 }
             }
             return (long)count;
+        }
+
+        private long GoTime2(
+            GridLocation<long> aButton,
+            GridLocation<long> bButton,
+            GridLocation<long> goal)
+        {
+            var context = new Context();
+            var solver = context.MkSolver();
+
+            var pressCountA = context.MkIntConst("a");
+            var pressCountB = context.MkIntConst("b");
+
+            var xFromA = context.MkInt(aButton.X);
+            var yFromA = context.MkInt(aButton.Y);
+            var xFromB = context.MkInt(bButton.X);
+            var yFromB = context.MkInt(bButton.Y);
+
+            var xVal = context.MkAdd(context.MkMul(pressCountA, xFromA), context.MkMul(pressCountB, xFromB));
+            var yVal = context.MkAdd(context.MkMul(pressCountA, yFromA), context.MkMul(pressCountB, yFromB));
+
+            var contextGoalX = context.MkInt(goal.X);
+            var contextGoalY = context.MkInt(goal.Y);
+            solver.Add(context.MkEq(contextGoalX, xVal));
+            solver.Add(context.MkEq(contextGoalY, yVal));
+
+
+            var status = solver.Check();
+            if (status.Equals(Status.SATISFIABLE))
+            {
+                var model = solver.Model;
+
+                var aPresses = long.Parse(model.Eval(pressCountA).ToString());
+                var bPresses = long.Parse(model.Eval(pressCountB).ToString());
+                return aPresses * 3 + bPresses;
+            }
+
+            return int.MaxValue;
         }
 
         private double GoTime(GridLocation<double> aButton, GridLocation<double> bButton, GridLocation<double> goal)
@@ -76,7 +119,6 @@ namespace aoc2024
                                                     });
             var B = Vector<double>.Build.Dense(new double[] { goal.X, goal.Y});
             var x = A.Solve(B);
-            var vals = x.Norm(2);
             var blah = Math.Round(x.First());
             var blah2 = Math.Round(x.Last());
 

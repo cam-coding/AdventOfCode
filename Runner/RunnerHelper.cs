@@ -92,7 +92,7 @@ namespace Runner
 
         public string GetHistoryPath(string day, string year)
         {
-            var historyPath = _solutionRoot + $"\\Output\\{year}\\Day{day}History.txt";
+            var historyPath = _solutionRoot + $"\\OutputProject\\Output\\{year}\\Day{day}History.txt";
             Directory.CreateDirectory(Path.GetDirectoryName(historyPath));
             if (!File.Exists(historyPath))
             {

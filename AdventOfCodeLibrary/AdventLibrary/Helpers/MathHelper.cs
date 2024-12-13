@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.Intrinsics;
 using AdventLibrary.Helpers.Grids;
+using Microsoft.Z3;
 
 namespace AdventLibrary.Helpers
 {
@@ -189,6 +190,72 @@ namespace AdventLibrary.Helpers
         {
             if (number == 0) return 1;
             return Math.Floor(Math.Log10(number)) + 1;
+        }
+
+        // This example is from 2024 Day 13
+        // solve two unknowns between two equations
+        public static void SolveLinearSystemExample(
+            long x1mult,
+            long y1mult,
+            long x2mult,
+            long y2mult,
+            long xGoal,
+            long yGoal)
+        {
+            /* This setup is solving the following system
+             * x1mult * A + x2mult * B = xGoal
+             * y1mult * A + y2mult * B = yGoal
+             * 
+             * or the more concrete example
+             * 94*A + 22*B = 8400
+             * 34*A + 67*B = 5400
+             * 
+             * The system may or may not have a solution.
+             * */
+            var context = new Context();
+            var solver = context.MkSolver();
+
+            // setup our constansts we are solving for
+            // aka A and B from the above equation comment.
+            var pressCountA = context.MkIntConst("a");
+            var pressCountB = context.MkIntConst("b");
+
+            // convert our needed values to Z3 values
+            // aka 94, 34, 22, 67
+            var xFromA = context.MkInt(x1mult);
+            var yFromA = context.MkInt(y1mult);
+            var xFromB = context.MkInt(x2mult);
+            var yFromB = context.MkInt(y2mult);
+
+            // Make the left side of the equations
+            // x1mult * A + x2mult * B OR 94*A + 22*B
+            // y1mult * A + y2mult * B OR 34*A + 67*B
+            var xVal = context.MkAdd(context.MkMul(pressCountA, xFromA), context.MkMul(pressCountB, xFromB));
+            var yVal = context.MkAdd(context.MkMul(pressCountA, yFromA), context.MkMul(pressCountB, yFromB));
+
+            // make the right side
+            // = xGoal OR = 8400
+            // = yGoal OR = 5400
+            var contextGoalX = context.MkInt(xGoal);
+            var contextGoalY = context.MkInt(yGoal);
+
+            // Tell it that left and right are equal
+            // aka fully assemble the original equation
+            solver.Add(context.MkEq(contextGoalX, xVal));
+            solver.Add(context.MkEq(contextGoalY, yVal));
+
+            // solve
+            var status = solver.Check();
+
+            // we only care about when reaching the goal point is possible
+            if (status.Equals(Status.SATISFIABLE))
+            {
+                var model = solver.Model;
+
+                // these are our answers and the values we were trying to find.
+                var aPresses = long.Parse(model.Eval(pressCountA).ToString());
+                var bPresses = long.Parse(model.Eval(pressCountB).ToString());
+            }
         }
     }
 }

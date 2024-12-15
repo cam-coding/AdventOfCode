@@ -59,21 +59,34 @@ namespace AdventLibrary.Helpers.Grids
             { UpLeft, DownRight },
         };
 
-        public static Dictionary<List<string>, GridLocation<int>> StringLookup = new Dictionary<List<string>, GridLocation<int>>()
+        private static Dictionary<string, GridLocation<int>> StringLookup = new Dictionary<string, GridLocation<int>>()
         {
-            { new List<string>() { "U", "UP", "^" }, Up },
-            { new List<string>() { "R", "RIGHT", ">" }, Right },
-            { new List<string>() { "D", "DOWN", "V" }, Down },
-            { new List<string>() { "L", "LEFT", "<" }, Left },
+            { "U", Up},
+            { "UP", Up},
+            { "^", Up},
+            { "R", Right},
+            { "RIGHT", Right},
+            { ">", Right},
+            { "D", Down},
+            { "DOWN", Down},
+            { "V", Down},
+            { "L", Left},
+            { "LEFT", Left},
+            { "<", Left},
         };
+
+        public static GridLocation<int> GetDirectionByString(char chr)
+        {
+            return GetDirectionByString(chr.ToString());
+        }
 
         public static GridLocation<int> GetDirectionByString(string str)
         {
             var upper = str.ToUpper();
-            var key = StringLookup.Keys.FirstOrDefault(x => x.Contains(upper));
-            if (key != null)
+            GridLocation<int> result;
+            if (StringLookup.TryGetValue(upper, out result))
             {
-                return StringLookup[key];
+                return result;
             }
             return null;
         }

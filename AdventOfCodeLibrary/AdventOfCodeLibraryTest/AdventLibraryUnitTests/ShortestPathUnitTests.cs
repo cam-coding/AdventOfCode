@@ -40,7 +40,7 @@ namespace AdventLibraryUnitTests
         public void AstarTest_SmallInput()
         {
             var inputFilepath = UnitTestStaticValues.TestDataPath + "Pathfinding\\2021day15part1example.txt";
-            var parser = new InputParser(inputFilepath);
+            var parser = InputParserFactory.CreateFromFile(inputFilepath);
             var grid = parser.GetLinesAsGrid<int>();
             var startLocation = grid.GetTopLeftCorner();
             var endLocation = grid.GetBottomRightCorner();
@@ -58,7 +58,7 @@ namespace AdventLibraryUnitTests
         public void AstarTest_LargeInput()
         {
             var inputFilepath = UnitTestStaticValues.TestDataPath + "Pathfinding\\2021day15part2example.txt";
-            var parser = new InputParser(inputFilepath);
+            var parser = InputParserFactory.CreateFromFile(inputFilepath);
             var grid = parser.GetLinesAsGrid<int>();
             var startLocation = grid.GetTopLeftCorner();
             var endLocation = grid.GetBottomRightCorner();

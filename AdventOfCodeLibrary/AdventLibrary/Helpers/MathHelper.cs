@@ -107,6 +107,44 @@ namespace AdventLibrary.Helpers
             return a | b;
         }
 
+        public static int ChineseRemainderTheorem(List<int> n, List<int> a)
+        {
+            return (int)ChineseRemainderTheorem(n.Select(x => (long)x).ToList(), a.Select(x => (long)x).ToList());
+        }
+
+        /* Format usually something like
+         *  x ≡ rem ( mod val)
+         *  x ≡ 3 (mod 5) 
+            x ≡ 2 (mod 7) 
+            x ≡ 5 (mod 9)
+            so in this case I would call ChineseRemainderTheorem({5,7,9}, {3,2,5})
+        */
+        public static long ChineseRemainderTheorem(List<long> values, List<long> remainders)
+        {
+            long prod = values.Aggregate(1, (long i, long j) => i * j);
+            long divResult;
+            long sum = 0;
+            for (var i = 0; i < values.Count; i++)
+            {
+                divResult = prod / values[i];
+                sum += remainders[i] * ModularMultiplicativeInverse(divResult, values[i]) * divResult;
+            }
+            return sum % prod;
+        }
+
+        private static long ModularMultiplicativeInverse(long num, long modValue)
+        {
+            long remainder = num % modValue;
+            for (long i = 1; i < modValue; i++)
+            {
+                if ((remainder * i) % modValue == 1)
+                {
+                    return i;
+                }
+            }
+            return 1;
+        }
+
         public static (int, int) Fibonacci(int n)
         {
             if (n == 0)
@@ -191,139 +229,6 @@ namespace AdventLibrary.Helpers
         {
             if (number == 0) return 1;
             return Math.Floor(Math.Log10(number)) + 1;
-        }
-
-        public static long ChineseRemainderTheorem(List<long> nums, List<long> remainders)
-        {
-            long prod = 1;
-            for (var i = 0; i < nums.Count; i++)
-                prod *= nums[i];
-
-            // Initialize result  
-            long result = 0;
-
-            // Apply above formula  
-            for (var i = 0; i < nums.Count; i++)
-            {
-                long pp = prod / nums[i];
-                result += remainders[i] *
-                        ChineseRemainderTheorem_Inverse(pp, nums[i]) * pp;
-            }
-
-            return result % prod;
-        }
-
-        public static long ChineseRemainderTheorem_Inverse(long a, long m)
-        {
-            long m0 = m, t, q;
-            long x0 = 0, x1 = 1;
-
-            if (m == 1)
-                return 0;
-
-            // Apply extended  
-            // Euclid Algorithm  
-            while (a > 1)
-            {
-                // q is quotient  
-                q = a / m;
-
-                t = m;
-
-                // m is remainder now,  
-                // process same as  
-                // euclid's algo  
-                m = a % m; a = t;
-
-                t = x0;
-
-                x0 = x1 - q * x0;
-
-                x1 = t;
-            }
-
-            // Make x1 positive  
-            if (x1 < 0)
-                x1 += m0;
-
-            return x1;
-        }
-
-        public static int Gcd(int a, int b)
-        {
-            if (b == 0)
-            {
-                return a;
-            }
-
-            return Gcd(b, a % b);
-        }
-
-        // function to determine whether a solution is possible
-        public static int Check(List<int> b, int n)
-        {
-            for (int x = 0; x < n; x++)
-            {
-                for (int y = x + 1; y < n; y++)
-                {
-                    if (Gcd(b[x], b[y]) != 1)
-                    {
-                        return 1;
-                    }
-                }
-            }
-            return 0;
-        }
-
-        // Chinese Remainder Theorem
-        public static int Evaluate(List<int> a, List<int> b, int n)
-        {
-            var Minv = new List<int>().FillEmptyListWithValue(0,n);
-            int q, r, r1, r2, t, t1, t2;
-
-            int total = 1;
-            for (int k = 0; k < n; k++)
-            {
-                total *= b[k];
-            }
-
-            for (int k = 0; k < n; k++)
-            {
-                r1 = b[k];
-                r2 = total / b[k];
-                t1 = 0;
-                t2 = 1;
-
-                while (r2 > 0)
-                {
-                    q = r1 / r2;
-                    r = r1 - q * r2;
-                    r1 = r2;
-                    r2 = r;
-
-                    t = t1 - q * t2;
-                    t1 = t2;
-                    t2 = t;
-                }
-
-                if (r1 == 1)
-                {
-                    Minv[k] = t1;
-                }
-
-                if (Minv[k] < 0)
-                {
-                    Minv[k] = Minv[k] + b[k];
-                }
-            }
-
-            int x = 0;
-            for (int k = 0; k < n; k++)
-            {
-                x += (a[k] * total * Minv[k]) / b[k];
-            }
-
-            return x;
         }
 
         // This example is from 2024 Day 13

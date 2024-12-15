@@ -3,7 +3,6 @@ using AdventLibrary.Helpers.Grids;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace AdventLibrary
 {
@@ -14,22 +13,40 @@ namespace AdventLibrary
 
     public class InputParser
     {
-        private static char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t', '\n', '\r' };
-        private static char[] delimiterCharsSansPeriod = { ' ', ',', ':', '-', '>', '<', '+', '\t', '\n', '\r' };
-        private static char[] lineEndingChars = { '\n', '\r' };
+        private static char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t', '\n', '\r' };
+        private static char[] _delimiterCharsSansPeriod = { ' ', ',', ':', '-', '>', '<', '+', '\t', '\n', '\r' };
+        private static char[] _lineEndingChars = { '\n', '\r' };
         private string _text;
         private string _textNoLineBreaks;
         private List<string> _lines;
+        private bool _initialized;
 
-        public InputParser(string filePath)
+        public InputParser()
+        {
+            _initialized = false;
+        }
+        internal void SetupFromFile(string filePath)
         {
             _text = System.IO.File.ReadAllText(filePath);
             _lines = System.IO.File.ReadAllLines(filePath).ToList();
             _textNoLineBreaks = GetTextWithoutLineBreaks();
+            _initialized = true;
         }
 
-        public InputParser()
+        internal void SetupFromText(string text)
         {
+            _text = text;
+            _lines = ParseInput.GetLinesFromText(text);
+            _textNoLineBreaks = GetTextWithoutLineBreaks();
+            _initialized = true;
+        }
+
+        internal void SetupFromLines(List<string> lines)
+        {
+            _text = StringExtensions.ConcatListOfStrings(lines);
+            _lines = lines;
+            _textNoLineBreaks = GetTextWithoutLineBreaks();
+            _initialized = true;
         }
 
         public void TestSetup(string text)
@@ -43,7 +60,7 @@ namespace AdventLibrary
         {
             try
             {
-                var tokens = _text.Split(delimiterChars, StringSplitOptions.RemoveEmptyEntries);
+                var tokens = _text.Split(_delimiterChars, StringSplitOptions.RemoveEmptyEntries);
                 var ret = new List<long>();
                 foreach (var token in tokens)
                 {
@@ -98,7 +115,7 @@ namespace AdventLibrary
                 var returnList = new List<List<long>>();
                 foreach (var line in _lines)
                 {
-                    var tokens = line.Split(delimiterChars, StringSplitOptions.RemoveEmptyEntries);
+                    var tokens = line.Split(_delimiterChars, StringSplitOptions.RemoveEmptyEntries);
                     var longs = tokens.Select(x => Int64.Parse(x)).ToList();
                     returnList.Add(longs);
                 }
@@ -144,7 +161,7 @@ namespace AdventLibrary
         {
             try
             {
-                var tokens = _text.Split(delimiterCharsSansPeriod, StringSplitOptions.RemoveEmptyEntries);
+                var tokens = _text.Split(_delimiterCharsSansPeriod, StringSplitOptions.RemoveEmptyEntries);
                 var doubles = tokens.Select(x => Double.Parse(x)).ToList();
                 return doubles;
             }
@@ -161,7 +178,7 @@ namespace AdventLibrary
                 var returnList = new List<List<double>>();
                 foreach (var line in _lines)
                 {
-                    var tokens = line.Split(delimiterCharsSansPeriod, StringSplitOptions.RemoveEmptyEntries);
+                    var tokens = line.Split(_delimiterCharsSansPeriod, StringSplitOptions.RemoveEmptyEntries);
                     var longs = tokens.Select(x => Double.Parse(x)).ToList();
                     returnList.Add(longs);
                 }
@@ -175,7 +192,7 @@ namespace AdventLibrary
 
         public List<string> GetTextAsTokenList()
         {
-            var lines = _text.Split(delimiterChars, StringSplitOptions.RemoveEmptyEntries);
+            var lines = _text.Split(_delimiterChars, StringSplitOptions.RemoveEmptyEntries);
             var list = new List<string>();
             foreach (var line in lines)
             {
@@ -194,7 +211,7 @@ namespace AdventLibrary
             foreach (var line in _lines)
             {
                 var currentList = new List<string>();
-                var tokens = line.Split(delimiterChars, StringSplitOptions.RemoveEmptyEntries);
+                var tokens = line.Split(_delimiterChars, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var token in tokens)
                 {
                     var cleanLine = token.Trim();
@@ -246,7 +263,7 @@ namespace AdventLibrary
                 }
                 foreach (var line in _lines)
                 {
-                    var tokens = line.Split(delimiterChars);
+                    var tokens = line.Split(_delimiterChars);
                     if (nodes.ContainsKey(tokens[0]))
                     {
                         nodes[tokens[0]].Add(tokens[1]);
@@ -320,7 +337,7 @@ namespace AdventLibrary
 
         private string GetTextWithoutLineBreaks()
         {
-            var tokens = _text.Split(lineEndingChars, StringSplitOptions.RemoveEmptyEntries);
+            var tokens = _text.Split(_lineEndingChars, StringSplitOptions.RemoveEmptyEntries);
             return StringExtensions.ConcatListOfStrings(tokens.ToList());
         }
     }

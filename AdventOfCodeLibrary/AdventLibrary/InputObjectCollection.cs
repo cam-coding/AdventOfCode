@@ -8,7 +8,7 @@ namespace AdventLibrary
     {
         public InputObjectCollection(string filePath)
         {
-            InputParser = new InputParser(filePath);
+            InputParser = InputParserFactory.CreateFromFile(filePath);
 
             Text = System.IO.File.ReadAllText(filePath);
             Lines = System.IO.File.ReadAllLines(filePath).ToList();

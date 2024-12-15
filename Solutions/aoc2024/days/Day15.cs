@@ -29,52 +29,29 @@ namespace aoc2024
             var groups = input.LineGroupsSeperatedByWhiteSpace;
 
             var text = groups[0];
-            var str = string.Empty;
-            var gridStrings = new List<List<char>>();
-            foreach (var g in text)
-            {
-                gridStrings.Add(g.ToList());
-            }
-            var grid = new GridObject<char>(gridStrings);
+            var parser = InputParserFactory.CreateFromText(text);
+            var grid = parser.GetLinesAsGrid<char>();
             var gridStart = grid.GetFirstLocationWhereCellEqualsValue('@');
 
 
-            var text2 = groups[1];
-            var str2 = string.Empty;
-            foreach (var g in text2)
-            {
-                str2 += g;
-            }
+            var movements = StringExtensions.ConcatListOfStrings(groups[1]);
 
-            var inputs = str2.ToList();
-
-            Dictionary<char, GridLocation<int>> StringLookup = new Dictionary<char, GridLocation<int>>()
-        {
-            { '^', Directions.Up },
-            { '<', Directions.Left },
-            { 'v', Directions.Down },
-            { '>', Directions.Right },
-        };
-            var roller = new GridRoller2(
+            var roller = new GridPusher<char>(
                 grid,
                 gridStart,
+                '@',
                 '.',
                 '#',
                 'O'
                 );
-            foreach (var move in inputs)
+            foreach (var move in movements)
             {
-                var dir = StringLookup[move];
-                roller.Roll(dir);
+                var dir = Directions.GetDirectionByString(move);
+                roller.MoveAndPush(dir);
             }
 
-            var posy = grid.GetAllLocationWhereCellEqualsValue('O');
-            foreach (var t in posy)
-            {
-                count += t.Y * 100 + t.X;
-            }
-            // roller.Grid.Print();
-            return count;
+            var boxPosistions = grid.GetAllLocationWhereCellEqualsValue('O');
+            return boxPosistions.Sum(box => box.Y * 100 + box.X);
         }
 
         private object Part2(bool isTest = false)
@@ -89,47 +66,31 @@ namespace aoc2024
             var gridStrings = new List<List<char>>();
             foreach (var g in text)
             {
-                var tempoList = new List<char>();
+                var currentRow = new List<char>();
                 foreach (var c in g)
                 {
                     if (c == '#')
                     {
-                        tempoList.Add('#');
-                        tempoList.Add('#');
+                        currentRow.Add('#');
+                        currentRow.Add('#');
                     }
                     else if (c == 'O')
                     {
-                        tempoList.Add('[');
-                        tempoList.Add(']');
+                        currentRow.Add('[');
+                        currentRow.Add(']');
                     }
                     else
                     {
-                        tempoList.Add(c);
-                        tempoList.Add('.');
+                        currentRow.Add(c);
+                        currentRow.Add('.');
                     }
                 }
-                gridStrings.Add(tempoList);
+                gridStrings.Add(currentRow);
             }
             var grid = new GridObject<char>(gridStrings);
             var gridStart = grid.GetFirstLocationWhereCellEqualsValue('@');
-            // grid.Print();
 
-            var text2 = groups[1];
-            var str2 = string.Empty;
-            foreach (var g in text2)
-            {
-                str2 += g;
-            }
-
-            var inputs = str2.ToList();
-
-            Dictionary<char, GridLocation<int>> StringLookup = new Dictionary<char, GridLocation<int>>()
-        {
-            { '^', Directions.Up },
-            { '<', Directions.Left },
-            { 'v', Directions.Down },
-            { '>', Directions.Right },
-        };
+            var movements = StringExtensions.ConcatListOfStrings(groups[1]);
             var roller = new GridRoller3(
                 grid,
                 gridStart,
@@ -137,95 +98,17 @@ namespace aoc2024
                 '#',
                 new List<char>() { '[', ']' }
                 );
-            foreach (var move in inputs)
+            foreach (var move in movements)
             {
-                var dir = StringLookup[move];
-                roller.Roll(dir);
-                // roller.Grid.Print();
+                var dir = Directions.GetDirectionByString(move);
+                roller.MoveAndPush(dir);
             }
 
-            var posy = grid.GetAllLocationWhereCellEqualsValue('[');
-            foreach (var t in posy)
-            {
-                count += t.Y * 100 + t.X;
-            }
-            roller.Grid.Print();
-            return count;
+            var boxPosistions = grid.GetAllLocationWhereCellEqualsValue('[');
+            return boxPosistions.Sum(box => box.Y * 100 + box.X);
         }
     }
-    public class GridRoller2
-    {
-        public GridRoller2(
-            GridObject<char> grid,
-            GridLocation<int> hero,
-            char emptySpaceValues,
-            char wallValues,
-            char movableValues)
-        {
-            Grid = grid;
-            Hero = hero;
-            EmptySpaceValues = emptySpaceValues;
-            WallValues = wallValues;
-            MovableValues = movableValues;
-        }
 
-        public GridObject<char> Grid { get; set; }
-
-        public char EmptySpaceValues { get; set; }
-
-        public char WallValues { get; set; }
-
-        public char MovableValues { get; set; }
-
-        public GridLocation<int> Hero { get; set; }
-
-        public void Roll(GridLocation<int> dir)
-        {
-            if (EmptySpaceValues.Equals(Grid.Get(Hero + dir)))
-            {
-                var old = Hero;
-                Hero = Hero + dir;
-                Grid.Set(old, EmptySpaceValues);
-                Grid.Set(Hero, '@');
-            }
-            else if (WallValues.Equals(Grid.Get(Hero + dir)))
-            {
-                return;
-            }
-            else if (MovableValues.Equals(Grid.Get(Hero + dir)))
-            {
-                var listy = new List<(GridLocation<int>, char)>() { (Hero + dir, Grid.Get(Hero + dir)) };
-                var count = 1;
-                var old = Hero;
-                var current = Hero + dir + dir;
-                while (Grid.Get(current).Equals(MovableValues))
-                {
-                    listy.Add((current, Grid.Get(current)));
-                    current = current + dir;
-                    count++;
-                }
-
-                var val = Grid.Get(current);
-                if (WallValues.Equals(val))
-                {
-                    return;
-                }
-                else
-                {
-                    for (var i = count; i > 0; i--)
-                    {
-                        Grid.Set(current, MovableValues);
-                        current = current - dir;
-                    }
-
-                    Grid.Set(current, '@');
-                    Hero = current;
-                    current = current - dir;
-                    Grid.Set(old, '.');
-                }
-            }
-        }
-    }
     public class GridRoller3
     {
         public GridRoller3(
@@ -252,7 +135,7 @@ namespace aoc2024
 
         public GridLocation<int> Hero { get; set; }
 
-        public void Roll(GridLocation<int> dir)
+        public void MoveAndPush(GridLocation<int> dir)
         {
             if (EmptySpaceValues.Equals(Grid.Get(Hero + dir)))
             {

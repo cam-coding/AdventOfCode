@@ -112,7 +112,7 @@ namespace aoc2024
             }
             var grid = new GridObject<char>(gridStrings);
             var gridStart = grid.GetFirstLocationWhereCellEqualsValue('@');
-            grid.Print();
+            // grid.Print();
 
             var text2 = groups[1];
             var str2 = string.Empty;
@@ -141,10 +141,10 @@ namespace aoc2024
             {
                 var dir = StringLookup[move];
                 roller.Roll(dir);
-                roller.Grid.Print();
+                // roller.Grid.Print();
             }
 
-            var posy = grid.GetAllLocationWhereCellEqualsValue('O');
+            var posy = grid.GetAllLocationWhereCellEqualsValue('[');
             foreach (var t in posy)
             {
                 count += t.Y * 100 + t.X;
@@ -267,6 +267,7 @@ namespace aoc2024
             }
             else if (MovableValues.Contains(Grid.Get(Hero + dir)))
             {
+                // move boxes left and right
                 if (dir == Directions.Left || dir == Directions.Right)
                 {
                     var old3 = Hero;
@@ -290,6 +291,7 @@ namespace aoc2024
                             current3 = current3 - dir;
                         }
                         Grid.Set(current3, '.');
+                        Hero = current3 + dir;
                         return;
                     }
                 }
@@ -298,7 +300,7 @@ namespace aoc2024
 
                 if (Grid.Get(currentHalf) == ']')
                 {
-                    otherHalf = currentHalf - Directions.Left;
+                    otherHalf = currentHalf + Directions.Left;
                 }
                 else
                 {
@@ -310,139 +312,108 @@ namespace aoc2024
                 // var listy = new List<(GridLocation<int>, char)>() { (currentHalf, Grid.Get(Hero + dir)) };
                 var count = 1;
                 var old = Hero;
-                var current = Hero + dir + dir;
-                while (MovableValues.Contains(Grid.Get(current)))
-                {
-                    current = current + dir;
-                    count++;
-                }
+                var boxesOut = new List<GridLocation<int>>();
+                var res = Recursion(
+                    boxesIn,
+                    dir,
+                    out boxesOut);
 
-                var val = Grid.Get(current);
-                if (WallValues.Equals(val))
+                if (!res)
                 {
                     return;
                 }
-                else
+                var blah = boxesIn.Clone();
+                blah.AddRange(boxesOut);
+                if (dir == Directions.Up)
                 {
-                    var boxesOut = new List<GridLocation<int>>();
-                    var res = Recursion(
-                        boxesIn,
-                        current,
-                        dir,
-                        out boxesOut);
-
-                    if (!res)
+                    var startingY = blah.Min(x => x.Y);
+                    while (blah.Count > 0)
                     {
-                        return;
-                    }
-
-                    if (dir == Directions.Left || dir == Directions.Right)
-                    {
-                        var currentSpot = boxesOut.Last() + dir * 2;
-                        for (var i = boxesOut.Count - 1; i > 0; i--)
+                        var movingBoxes = blah.Where(x => x.Y == startingY).ToList();
+                        foreach (var item in movingBoxes)
                         {
-                            var val2 = Grid.Get(currentSpot - dir);
-                            Grid.Set(currentSpot, val2);
-                            currentSpot = currentSpot - dir;
+                            var val2 = Grid.Get(item);
+                            Grid.Set(item + dir, val2);
+                            Grid.Set(item, '.');
                         }
-                        Hero = currentSpot + dir;
-                        Grid.Set(Hero, '@');
-                        Grid.Set(old, '.');
+                        movingBoxes.ForEach(x => blah.Remove(x));
+                        startingY++;
                     }
-                    else if (dir == Directions.Down)
+                    Hero = Hero + dir;
+                    Grid.Set(Hero, '@');
+                    Grid.Set(old, '.');
+                }
+                else if (dir == Directions.Down)
+                {
+                    var startingY = blah.Max(x => x.Y);
+                    while (blah.Count > 0)
                     {
-                        var startingY = boxesOut.Max(x => x.Y);
-                        while (boxesOut.Count > 0)
+                        var movingBoxes = blah.Where(x => x.Y == startingY).ToList();
+                        foreach (var item in movingBoxes)
                         {
-                            var movingBoxes = boxesOut.Where(x => x.Y == startingY).ToList();
-                            foreach (var item in movingBoxes)
-                            {
-                                var val2 = Grid.Get(item);
-                                Grid.Set(item + dir, val2);
-                                Grid.Set(item, '.');
-                            }
-                            movingBoxes.ForEach(x => boxesOut.Remove(x));
+                            var val2 = Grid.Get(item);
+                            Grid.Set(item + dir, val2);
+                            Grid.Set(item, '.');
                         }
-                        Hero = Hero + dir;
-                        Grid.Set(Hero, '@');
-                        Grid.Set(old, '.');
+                        movingBoxes.ForEach(x => blah.Remove(x));
+                        startingY--;
                     }
+                    Hero = Hero + dir;
+                    Grid.Set(Hero, '@');
+                    Grid.Set(old, '.');
                 }
             }
         }
 
         bool Recursion(
             List<GridLocation<int>> boxesIn,
-            GridLocation<int> current,
             GridLocation<int> dir,
             out List<GridLocation<int>> boxesOut)
         {
-            boxesOut = boxesIn.Clone();
-            if (dir == Directions.Left || dir == Directions.Right)
+            boxesOut = new List<GridLocation<int>>();
+            // should be passing in a list of all the box points being considered tbh
+            // loop all of them looking above/below them
+            // for any that are free, don't keep looking
+            // any are walls? return false
+            // any others are boxes for the next layer to consider.
+            var nextSpaces = new HashSet<GridLocation<int>>();
+            foreach (var box in boxesIn)
             {
-                var nextSpace = current + dir * 2;
+                var nextSpace = box + dir;
                 if (Grid.Get(nextSpace).Equals(WallValues))
                 {
                     return false;
                 }
                 else if (Grid.Get(nextSpace).Equals(EmptySpaceValues))
                 {
-                    return true;
                 }
                 else
                 {
-                    var newBox = new List<GridLocation<int>>() { nextSpace, nextSpace + dir };
-                    List<GridLocation<int>> newBoxes;
-                    if (Recursion(newBox, nextSpace, dir, out newBoxes))
+                    if (nextSpaces.Add(nextSpace))
                     {
-                        boxesOut.AddRange(newBoxes);
-                        return true;
+                        GridLocation<int> otherHalf;
+                        GridLocation<int> currentHalf = nextSpace;
+
+                        if (Grid.Get(currentHalf) == ']')
+                        {
+                            otherHalf = currentHalf + Directions.Left;
+                        }
+                        else
+                        {
+                            otherHalf = currentHalf + Directions.Right;
+                        }
+                        nextSpaces.Add(otherHalf);
                     }
                 }
             }
-            else if (dir == Directions.Up || dir == Directions.Down)
+            if (nextSpaces.Count == 0)
+            { return true; }
+            List<GridLocation<int>> newBoxes;
+            if (Recursion(nextSpaces.ToList(), dir, out newBoxes))
             {
-                // should be passing in a list of all the box points being considered tbh
-                // loop all of them looking above/below them
-                // for any that are free, don't keep looking
-                // any are walls? return false
-                // any others are boxes for the next layer to consider.
-                var nextSpaces = new HashSet<GridLocation<int>>();
-                foreach (var box in boxesIn)
-                {
-                    var nextSpace = box + dir;
-                    if (Grid.Get(nextSpace).Equals(WallValues))
-                    {
-                        return false;
-                    }
-                    else if (Grid.Get(nextSpace).Equals(EmptySpaceValues))
-                    {
-                    }
-                    else
-                    {
-                        if (nextSpaces.Add(nextSpace))
-                        {
-                            GridLocation<int> otherHalf;
-                            GridLocation<int> currentHalf = nextSpace;
-
-                            if (Grid.Get(currentHalf) == ']')
-                            {
-                                otherHalf = currentHalf - Directions.Left;
-                            }
-                            else
-                            {
-                                otherHalf = currentHalf + Directions.Right;
-                            }
-                            nextSpaces.Add(otherHalf);
-                        }
-                    }
-                }
-                List<GridLocation<int>> newBoxes;
-                if (Recursion(nextSpaces.ToList(), current, dir, out newBoxes))
-                {
-                    boxesOut.AddRange(nextSpaces.ToList());
-                    return true;
-                }
+                boxesOut.AddRange(nextSpaces.ToList());
+                boxesOut.AddRange(newBoxes.ToList());
+                return true;
             }
             return false;
         }

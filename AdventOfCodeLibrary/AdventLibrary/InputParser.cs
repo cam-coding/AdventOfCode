@@ -44,8 +44,16 @@ namespace AdventLibrary
             try
             {
                 var tokens = _text.Split(delimiterChars, StringSplitOptions.RemoveEmptyEntries);
-                var longs = tokens.Select(x => Int64.Parse(x)).ToList();
-                return longs;
+                var ret = new List<long>();
+                foreach (var token in tokens)
+                {
+                    long val;
+                    if (long.TryParse(token, out val))
+                    {
+                        ret.Add(val);
+                    }
+                }
+                return ret;
             }
             catch (Exception e)
             {

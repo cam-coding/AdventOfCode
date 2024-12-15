@@ -6,7 +6,7 @@
 SessionCookie.txt
 
 #No need to upload my attempted answers.
-/OutputProject/**/**
+OutputProject/**/**
 
 # User-specific files
 *.rsuser

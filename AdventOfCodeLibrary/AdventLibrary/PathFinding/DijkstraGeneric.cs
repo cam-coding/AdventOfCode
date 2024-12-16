@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
-using AStarSharp;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace AdventLibrary.PathFinding
 {
@@ -34,9 +31,11 @@ namespace AdventLibrary.PathFinding
         public Tedge Edge { get; set; }
     }
 
-    internal class Node { }
+    internal class Node
+    { }
 
-    internal class Edge { }
+    internal class Edge
+    { }
 
     public class DijkstraGeneric<Tnode, Tedge>()
     {
@@ -52,11 +51,12 @@ namespace AdventLibrary.PathFinding
                 node where to stop the computation.
             * target=None: optional target node. The algorithm stops once
                 a shortest path to this target has been found.*/
-        public DijkstraGeneric(Tnode node, int maxItems = 10000, int maxDist = 0, Tnode target = default) :this()
+
+        public DijkstraGeneric(Tnode node, int maxItems = 10000, int maxDist = 0, Tnode target = default) : this()
         {
             var root = node;
-            var scores = new List<Score<Tnode,Tedge>>();
-            ScoresLookup = new Dictionary<Tnode, Score<Tnode,Tedge>>();
+            var scores = new List<Score<Tnode, Tedge>>();
+            ScoresLookup = new Dictionary<Tnode, Score<Tnode, Tedge>>();
             var score = new Score<Tnode, Tedge>(0, /*huh*/0, node, default, default);
             ScoresLookup.Add(node, score);
             Priority = new PriorityQueue<Score<Tnode, Tedge>, int>();
@@ -75,7 +75,6 @@ namespace AdventLibrary.PathFinding
                     {
                         History.Add(currentNode);
                         //maybe have a method here to find neighbours?
-
                     }
                 }
                 return null;
@@ -110,19 +109,19 @@ namespace AdventLibrary.PathFinding
                 }
                 return null;
             };
-                /*
-            for s in seq:
-            expanded_nodes.add(s.node)
-            sd = s.dist
-            for d, neigh, edge in neighbors(s.node):
-                t = scores.get(neigh, None)
-                if t and(t.dist <= sd + d):
-                    # can't improve known shortest path to neighbor
-                    continue
-                t = scores[neigh] = Score(
-                    sd + d, next(cnt), neigh, s.node, edge)
-                hq.heappush(heap, t)
-            };*/
+            /*
+        for s in seq:
+        expanded_nodes.add(s.node)
+        sd = s.dist
+        for d, neigh, edge in neighbors(s.node):
+            t = scores.get(neigh, None)
+            if t and(t.dist <= sd + d):
+                # can't improve known shortest path to neighbor
+                continue
+            t = scores[neigh] = Score(
+                sd + d, next(cnt), neigh, s.node, edge)
+            hq.heappush(heap, t)
+        };*/
         }
 
         internal PriorityQueue<Score<Tnode, Tedge>, int> Priority { get; set; }
@@ -166,7 +165,6 @@ namespace AdventLibrary.PathFinding
             * target = None: optional target node.The algorithm stops once
                 a shortest path to this target has been found.
 
-
         The 'neighbors' argument must be a function of a single
         node argument, returning or generating a sequence
         of tuples with 3 elements
@@ -180,7 +178,6 @@ namespace AdventLibrary.PathFinding
         algorithm to compute the shortest path from the initial node
         to the nodes discovered by successive calls of the
         neighbors() function.
-
 
         The instance itself is a dictionary that maps nodes to
         'Score' objects.These are namedtuples with fields
@@ -197,7 +194,6 @@ namespace AdventLibrary.PathFinding
         distance to some nodes of the graph is shorter than the
         distance actually computed. A method is provided:
 
-
             self.is_shortest(node)
 
         returns True if the found distance is guaranteed to be the
@@ -206,19 +202,15 @@ namespace AdventLibrary.PathFinding
         guaranteed to be optimal if and only if it is smaller or
         equal to the threshold.
 
-
         To retrieve paths from the initial node to a given node,
         a method is provided:
 
-
             self.rev_path_to(node)
-
 
         this method generates the sequence of nodes leading from
         the initial node to this node in reverse order. The Score
         objects stored in self can be used to obtain details about
         the path.
-
 
         Remark: node objects must all be different from None.
         """
@@ -281,7 +273,6 @@ namespace AdventLibrary.PathFinding
 if __name__ == '__main__':
     """As an example, we generate a shortest path of transpositions
     leading from one permutation of 7 elements to another one.
-
 
     Of course this problem is very simple to solve by other means
     but it is interesting to see Dijkstra's algorithm find the

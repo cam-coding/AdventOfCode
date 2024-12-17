@@ -37,6 +37,18 @@ namespace AdventLibrary.Helpers.Grids
             return new GridLocation<int>(grid.MaxX, grid.MaxY);
         }
 
+        public static GridObject<T> GetSubGrid<T>(this GridObject<T> grid, GridLocation<int> topLeftCorner, GridLocation<int> bottomRightCorner)
+        {
+            var newGrid = new List<List<T>>();
+            for (var y = topLeftCorner.Y; y <= bottomRightCorner.Y; y++)
+            {
+                var length = 1 + bottomRightCorner.X - topLeftCorner.X;
+                newGrid.Add(grid.Grid[y].SubList(topLeftCorner.X, length));
+            }
+
+            return new GridObject<T>(newGrid);
+        }
+
         public static List<List<T>> GetColumns<T>(this GridObject<T> grid)
         {
             var columns = new List<List<T>>();

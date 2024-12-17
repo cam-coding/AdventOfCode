@@ -20,74 +20,78 @@ namespace aoc2022
 
         private object Part1(bool isTest = false)
         {
-            var grid = ParseInput.ParseFileAsCharGrid(_filePath);
-            var gridObject = new GridObject<char>(grid);
-            var startTuple = gridObject.GetFirstLocationWhereCellEqualsValue('S');
-            var endTuple = gridObject.GetFirstLocationWhereCellEqualsValue('E');
-            grid[startTuple.Y][startTuple.X] = 'a';
-            grid[endTuple.Y][endTuple.X] = 'z';
+            var charGrid = ParseInput.ParseFileAsCharGrid(_filePath);
+            var grid = new GridObject<char>(charGrid);
+            var startLocation = grid.GetFirstLocationWhereCellEqualsValue('S');
+            var endLocation = grid.GetFirstLocationWhereCellEqualsValue('E');
+            grid.Set(startLocation, 'a');
+            grid.Set(endLocation, 'z');
 
-            // get grid as graph
-            var nodeLookup = GraphHelper.TransformGridToGraph(grid);
-
-            Func<CustomNode<char>, List<CustomEdge<char>>> NeighboursFunct = (node) =>
+            Func<GridLocation<int>, List<GridLocation<int>>> NeighboursFunc = (node) =>
             {
-                var neighbours = new List<CustomEdge<char>>();
-                foreach (var edge in node.EdgesOut)
+                var neighbours = new List<GridLocation<int>>();
+                foreach (var edge in grid.GetOrthogonalNeighbours(node))
                 {
-                    var otherNode = edge.GetOtherEnd(node);
                     // remove any edges where the height difference is too great
-                    if (otherNode.Value - 1 <= node.Value)
+                    if (grid.Get(edge) - 1 <= grid.Get(node))
                     {
                         neighbours.Add(edge);
                     }
                 }
                 return neighbours;
             };
-            var results = Dijkstra<char>.SearchEverywhereGeneric(nodeLookup[startTuple], NeighboursFunct, nodeLookup[endTuple]);
-            return results[nodeLookup[endTuple]].Distance;
+            Func<GridLocation<int>, GridLocation<int>, int> WeightFunc = (current, neigh) =>
+            {
+                return 1;
+            };
+
+            Func<GridLocation<int>, bool> GoalFunc = (current) =>
+            {
+                return current == endLocation;
+            };
+            var res = Dijkstra<GridLocation<int>>.SearchEverywhere(startLocation, NeighboursFunc, WeightFunc, GoalFunc);
+            return res[endLocation].Distance;
         }
 
         private object Part2(bool isTest = false)
         {
-            var grid = ParseInput.ParseFileAsCharGrid(_filePath);
-            var gridObject = new GridObject<char>(grid);
-            var startTuple = gridObject.GetFirstLocationWhereCellEqualsValue('S');
-            var endTuple = gridObject.GetFirstLocationWhereCellEqualsValue('E');
-            grid[startTuple.Y][startTuple.X] = 'a';
-            grid[endTuple.Y][endTuple.X] = 'z';
+            var charGrid = ParseInput.ParseFileAsCharGrid(_filePath);
+            var grid = new GridObject<char>(charGrid);
+            var startLocation = grid.GetFirstLocationWhereCellEqualsValue('S');
+            var endLocation = grid.GetFirstLocationWhereCellEqualsValue('E');
+            grid.Set(startLocation, 'a');
+            grid.Set(endLocation, 'z');
 
-            // get grid as graph
-            var nodeLookup = GraphHelper.TransformGridToGraph(grid);
-            foreach (var pair in nodeLookup)
+            Func<GridLocation<int>, List<GridLocation<int>>> NeighboursFunc = (node) =>
             {
-                var node = pair.Value;
-                var removable = new List<CustomEdge<char>>();
-                foreach (var edge in node.EdgesOut)
+                var neighbours = new List<GridLocation<int>>();
+                foreach (var edge in grid.GetOrthogonalNeighbours(node))
                 {
-                    var otherNode = edge.GetOtherEnd(node);
                     // remove any edges where the height difference is too great
-                    if (otherNode.Value - 1 > node.Value)
+                    if (grid.Get(edge) - 1 <= grid.Get(node))
                     {
-                        removable.Add(edge);
+                        neighbours.Add(edge);
                     }
                 }
-                foreach (var edge in removable)
-                {
-                    node.EdgesOut.Remove(edge);
-                }
-            }
+                return neighbours;
+            };
+            Func<GridLocation<int>, GridLocation<int>, int> WeightFunc = (current, neigh) =>
+            {
+                return 1;
+            };
+
+            Func<GridLocation<int>, bool> GoalFunc = (current) =>
+            {
+                return current == endLocation;
+            };
 
             var best = int.MaxValue;
-            foreach (var start in nodeLookup)
+            foreach (var start in grid.GetAllLocationWhereCellEqualsValue('a'))
             {
-                if (start.Value.Value.Equals('a'))
+                var res = Dijkstra<GridLocation<int>>.SearchEverywhere(start, NeighboursFunc, WeightFunc, GoalFunc);
+                if (res.ContainsKey(endLocation))
                 {
-                    var results = Dijkstra<char>.SearchToEnd(nodeLookup[start.Key], nodeLookup[endTuple]);
-                    if (results != default)
-                    {
-                        best = Math.Min(best, results.Distance);
-                    }
+                    best = Math.Min(best, res[endLocation].Distance);
                 }
             }
             return best;

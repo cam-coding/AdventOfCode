@@ -25,6 +25,45 @@ namespace aoc2024
 
         private object Part1(bool isTest = false)
         {
+            var input = new InputObjectCollection(_filePath);
+            var grid = input.GridChar;
+            var start = grid.GetFirstLocationWhereCellEqualsValue('S');
+            var end = grid.GetFirstLocationWhereCellEqualsValue('E');
+
+            Func<(GridLocation<int> node, GridLocation<int> dir), List<(GridLocation<int> node, GridLocation<int> dir)>> NeighboursFunc = (tup) =>
+            {
+                var neighbours = new List<(GridLocation<int> node, GridLocation<int> dir)>();
+                foreach (var neighbour in grid.GetOrthogonalNeighbours(tup.node))
+                {
+                    var neighbourDir = neighbour - tup.node;
+                    if (grid.Get(neighbour) != '#' && tup.dir != Directions.Opposites[neighbourDir])
+                    {
+                        neighbours.Add((neighbour, neighbourDir));
+                    }
+                }
+                return neighbours;
+            };
+
+            Func<(GridLocation<int> node, GridLocation<int> dir), (GridLocation<int> node, GridLocation<int> dir), int> WeightFunc = (current, neigh) =>
+            {
+                return current.dir == neigh.dir ? 1 : 1001;
+            };
+
+            Func<(GridLocation<int> node, GridLocation<int> dir), bool> GoalFunc = (tup) =>
+            {
+                return tup.node == end;
+            };
+            var res = Dijkstra<(GridLocation<int> node, GridLocation<int> dir)>.SearchEverywhere((start, Directions.Right), NeighboursFunc, WeightFunc, GoalFunc);
+            var blah = res[(start, Directions.Right)];
+            var best = int.MaxValue;
+            foreach (var item in Directions.OrthogonalDirections)
+            {
+                if (res.ContainsKey((end, item)))
+                {
+                    best = Math.Min(best, res[(end, item)].Distance);
+                }
+            }
+
             return GoTime(out var i);
         }
 

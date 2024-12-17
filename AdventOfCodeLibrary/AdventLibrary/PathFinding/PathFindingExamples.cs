@@ -105,8 +105,9 @@ namespace AdventLibrary.PathFinding
 
         /* Use BFS as your search algorithm if you want to:
          * Find shortest path/most effecient path
-         * Find paths from one location to all others
-         * Best fast AF
+         * Find a SINGLE best path from one location to all others
+         * Need a heuristic to guide the search
+         * Be fast AF
          * */
 
         private static void AStar_Example()
@@ -136,6 +137,46 @@ namespace AdventLibrary.PathFinding
 
             // note this includes the first location
             var pathToReachEnd = astar.GetPath(endLocation);
+        }
+
+        /* Use Dijkstra as your search algorithm if you want to:
+         * Find shortest path/most effecient path
+         * Find a SINGLE best path from one location to all others
+         * */
+
+        private static int Dijkstra_Example()
+        {
+            var charGrid = ParseInput.ParseFileAsCharGrid("");
+            var grid = new GridObject<char>(charGrid);
+            var startLocation = grid.GetFirstLocationWhereCellEqualsValue('S');
+            var endLocation = grid.GetFirstLocationWhereCellEqualsValue('E');
+            grid.Set(startLocation, 'a');
+            grid.Set(endLocation, 'z');
+
+            Func<GridLocation<int>, List<GridLocation<int>>> NeighboursFunc = (node) =>
+            {
+                var neighbours = new List<GridLocation<int>>();
+                foreach (var edge in grid.GetOrthogonalNeighbours(node))
+                {
+                    // remove any edges where the height difference is too great
+                    if (grid.Get(edge) - 1 <= grid.Get(node))
+                    {
+                        neighbours.Add(edge);
+                    }
+                }
+                return neighbours;
+            };
+            Func<GridLocation<int>, GridLocation<int>, int> WeightFunc = (current, neigh) =>
+            {
+                return grid.Get(neigh) - grid.Get(current);
+            };
+
+            Func<GridLocation<int>, bool> GoalFunc = (current) =>
+            {
+                return current == endLocation;
+            };
+            var res = Dijkstra<GridLocation<int>>.SearchEverywhere(startLocation, NeighboursFunc, WeightFunc, GoalFunc);
+            return res[endLocation].Distance;
         }
     }
 }

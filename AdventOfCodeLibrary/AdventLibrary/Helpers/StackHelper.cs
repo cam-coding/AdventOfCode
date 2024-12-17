@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AdventLibrary
+namespace AdventLibrary.Helpers
 {
     public static class StackHelper
     {

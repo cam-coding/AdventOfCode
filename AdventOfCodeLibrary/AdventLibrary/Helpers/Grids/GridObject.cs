@@ -6,6 +6,7 @@ namespace AdventLibrary.Helpers.Grids
 {
     public class GridObject<T>
     {
+        private List<List<T>> _grid;
         public GridObject(List<List<T>> grid)
         {
             Grid = grid.Clone2dList();
@@ -15,7 +16,16 @@ namespace AdventLibrary.Helpers.Grids
             Infinite = false;
         }
 
-        public List<List<T>> Grid { get; set; }
+        public List<List<T>> Grid
+        {
+            get => _grid;
+            set
+            {
+                _grid = value;
+                Height = _grid.Count;
+                Width = _grid[0].Count;
+            }
+        }
 
         public int Width { get; set; }
 

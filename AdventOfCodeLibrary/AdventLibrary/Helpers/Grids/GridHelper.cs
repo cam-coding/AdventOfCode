@@ -476,6 +476,133 @@ namespace AdventLibrary
             x < grid[y].Count;
         }
 
+        public static int GetWidth<T>(List<List<T>> grid)
+        {
+            return grid[0].Count;
+        }
+
+        public static int GetHeight<T>(List<List<T>> grid)
+        {
+            return grid.Count;
+        }
+
+        public static int GetMaxY<T>(List<List<T>> grid)
+        {
+            return grid.Count - 1;
+        }
+        public static int GetMaxX<T>(List<List<T>> grid)
+        {
+            return grid[0].Count - 1;
+        }
+
+        public static void RotateColumnDownWithWrap<T>(List<List<T>> grid, int column)
+        {
+            var temp = grid[GetMaxY(grid)][column];
+            for (var currentRow = GetMaxY(grid); currentRow > 0; currentRow--)
+            {
+                var val = grid[currentRow - 1][column];
+                grid[currentRow][column] = val;
+            }
+            grid[0][column] = temp;
+        }
+
+        public static void RotateColumnUpWithWrap<T>(List<List<T>> grid, int column)
+        {
+            var temp = grid[0][column];
+            for (var currentRow = 0; currentRow < GetMaxY(grid); currentRow++)
+            {
+                var val = grid[currentRow + 1][column];
+                grid[currentRow][column] = val;
+            }
+            grid[GetMaxY(grid)][column] = temp;
+        }
+
+        public static void RotateAllColumnsDownWithWrap<T>(List<List<T>> grid)
+        {
+            for (var i = 0; i < GetWidth(grid); i++)
+            {
+                RotateColumnDownWithWrap(grid, i);
+            }
+        }
+
+        public static void RotateAllColumnsUpWithWrap<T>(List<List<T>> grid)
+        {
+            for (var i = 0; i < GetWidth(grid); i++)
+            {
+                RotateColumnUpWithWrap(grid, i);
+            }
+        }
+
+        public static void RotateAllRowsLeftWithWrap<T>(List<List<T>> grid)
+        {
+            for (var i = 0; i < GetHeight(grid); i++)
+            {
+                RotateRowLeftWithWrap(grid, i);
+            }
+        }
+
+        public static void RotateAllRowsRightWithWrap<T>(List<List<T>> grid)
+        {
+            for (var i = 0; i < GetHeight(grid); i++)
+            {
+                RotateRowRightWithWrap(grid, i);
+            }
+        }
+
+        public static void RotateRowRightWithWrap<T>(List<List<T>> grid, int row)
+        {
+            var temp = grid[row][GetMaxX(grid)];
+            for (var currentColumn = GetMaxY(grid); currentColumn > 0; currentColumn--)
+            {
+                var val = grid[row][currentColumn-1];
+                grid[row][currentColumn] = val;
+            }
+            grid[row][0] = temp;
+        }
+
+        public static void RotateRowLeftWithWrap<T>(List<List<T>> grid, int row)
+        {
+            var temp = grid[row][0];
+            for (var currentColumn = 0; currentColumn < GetMaxY(grid); currentColumn++)
+            {
+                var val = grid[row][currentColumn + 1];
+                grid[row][currentColumn] = val;
+            }
+            grid[row][GetMaxX(grid)] = temp;
+        }
+
+        /* X..      x.x
+         * .X.      .x.
+         * X..      ...
+         *
+        public static List<List<T>> RotateGridRight<T>(List<List<T>> grid)
+        {
+
+        }*/
+
+
+        public static List<List<T>> TransposeGrid<T>(List<List<T>> grid)
+        {
+            var newGrid = new List<List<T>>();
+            var width = grid[0].Count;
+            var height = grid.Count;
+            for (var y = 0; y < width; y++)
+            {
+                var newRow = new List<T>();
+                newRow.FillEmptyListWithValue(default(T), height);
+                newGrid.Add(newRow);
+            }
+            for (var y = 0; y < grid.Count; y++)
+            {
+                for (var x = 0; x < grid[y].Count; x++)
+                {
+                    newGrid[x][y] = grid[y][x];
+                }
+            }
+
+            return newGrid;
+        }
+
         /* Pretty clunky method but it works fairly fast.
          * 1. Assume you have a grid that has a loop/connected path going through it
          * 2. Convert to a numerical grid where any of the special chars are 10000 else 0

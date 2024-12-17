@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace AdventLibrary
+namespace AdventLibrary.Helpers
 {
     public static class HashHelper
     {

@@ -252,6 +252,7 @@ namespace AdventLibrary
             return (T)Convert.ChangeType(value, typeof(T));
         }
 
+        // actually an adj list not a graph
         public Dictionary<string, List<string>> GetLinesAsGraph()
         {
             try

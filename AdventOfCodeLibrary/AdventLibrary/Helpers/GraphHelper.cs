@@ -2,10 +2,9 @@
 using System.Linq;
 using AdventLibrary.CustomObjects;
 using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
 using AdventLibrary.Helpers.Grids;
 
-namespace AdventLibrary
+namespace AdventLibrary.Helpers
 {
     public static class GraphHelper
     {
@@ -43,7 +42,7 @@ namespace AdventLibrary
             }
         }
 
-        private static Dictionary<T, CustomNode<T>> AdjacencyListToGraph<T>(Dictionary<T, List<T>> adjList)
+        public static Dictionary<T, CustomNode<T>> AdjacencyListToGraph<T>(Dictionary<T, List<T>> adjList)
         {
             var nodeLookup = new Dictionary<T, CustomNode<T>>();
             foreach (var pair in adjList)
@@ -59,21 +58,6 @@ namespace AdventLibrary
                 }
             }
             return nodeLookup;
-        }
-
-        // loop through the lines and look in the form of "key {seperator} key2, key3, key4"
-        private static Dictionary<string, CustomNode<string>> InputToGraph(List<string> lines, string seperator)
-        {
-            var adjList = new Dictionary<string, List<string>>();
-
-            foreach (var line in lines)
-            {
-                var tokens = line.Split(seperator).ToList().GetRealStrings(delimiterChars);
-                var key = tokens[0];
-                var connectedKeys = tokens[1].Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
-                adjList.Add(key, connectedKeys);
-            }
-            return AdjacencyListToGraph(adjList);
         }
     }
 }

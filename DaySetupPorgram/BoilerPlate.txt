@@ -16,8 +16,8 @@ namespace aoc{YEAR}
         {
             _filePath = filePath;
             var solution = new Solution();
-            solution.Part1 = Part1();
-            solution.Part2 = Part2();
+            solution.Part1 = Part1(isTest);
+            solution.Part2 = Part2(isTest);
             return solution;
         }
 

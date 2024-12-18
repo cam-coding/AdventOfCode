@@ -571,15 +571,71 @@ namespace AdventLibrary
             grid[row][GetMaxX(grid)] = temp;
         }
 
+        public static void FlipAboutHorizontal<T>(List<List<T>> grid)
+        {
+            ReverseGridColumns(grid);
+        }
+
+        public static void FlipAboutVertical<T>(List<List<T>> grid)
+        {
+            ReverseGridRows(grid);
+        }
+
+        public static void ReverseGridRows<T>(List<List<T>> grid)
+        {
+            foreach (var row in grid)
+            {
+                row.Reverse();
+            }
+        }
+
+        public static void ReverseGridColumns<T>(List<List<T>> grid)
+        {
+            for (var currentColumn = 0; currentColumn <= GetMaxX(grid); currentColumn++)
+            {
+                ReverseColumn(grid, currentColumn);
+            }
+        }
+
+        public static void ReverseColumn<T>(List <List<T>> grid, int column)
+        {
+            int start = 0;
+            int end = GetMaxY(grid);
+
+            while (start < end)
+            {
+                var temp = grid[start][column];
+                grid[start][column] = grid[end][column];
+                grid[end][column] = temp;
+
+                start++;
+                end--;
+            }
+        }
+
         /* X..      x.x
          * .X.      .x.
          * X..      ...
-         *
+         **/
         public static List<List<T>> RotateGridRight<T>(List<List<T>> grid)
         {
+            grid = TransposeGrid(grid);
+            ReverseGridRows(grid);
+            return grid;
+        }
 
-        }*/
+        public static List<List<T>> RotateGridLeft<T>(List<List<T>> grid)
+        {
+            ReverseGridRows(grid);
+            grid = TransposeGrid(grid);
+            return grid;
+        }
 
+        public static void RotateGrid180<T>(List<List<T>> grid)
+        {
+            ReverseGridRows(grid);
+            ReverseGridColumns(grid);
+        }
 
         public static List<List<T>> TransposeGrid<T>(List<List<T>> grid)
         {

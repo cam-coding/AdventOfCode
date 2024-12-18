@@ -86,6 +86,7 @@ namespace AdventLibrary.Extensions
             return input.Distinct().Count() == 1;
         }
 
+        // WARNING DO NOT USE THIS FOR 2D LISTS
         public static List<T> Clone<T>(this List<T> original)
         {
             var newList = new List<T>();

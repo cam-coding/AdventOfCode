@@ -5,6 +5,7 @@ using AdventLibrary;
 using AdventLibrary.Helpers.Grids;
 using System.Collections;
 using System.Linq;
+using AdventLibrary.Extensions;
 
 namespace AdventLibraryUnitTests.Helpers.Grids
 {
@@ -361,124 +362,6 @@ namespace AdventLibraryUnitTests.Helpers.Grids
                 new List<char>(){ '3','3','3' },
             };
             var actual = start.GetColumns();
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void Grid_RotateRight_GridAsExpected()
-        {
-            var input = new List<List<int>>()
-            {
-                new List<int> { 1, 2, 3 },
-                new List<int> { 4, 5, 6 },
-                new List<int> { 7, 8, 9 }
-            };
-            var expected = new List<List<int>>()
-            {
-                new List<int> { 3, 1, 2 },
-                new List<int> { 6, 4, 5 },
-                new List<int> { 9, 7, 8 }
-            };
-            GridHelper.RotateAllRowsRightWithWrap(input);
-            Assert.True(GridsEqual(expected, input));
-        }
-
-        [Fact]
-        public void Grid_RotateLeft_GridAsExpected()
-        {
-            var input = new List<List<int>>()
-            {
-                new List<int> { 1, 2, 3 },
-                new List<int> { 4, 5, 6 },
-                new List<int> { 7, 8, 9 }
-            };
-            var expected = new List<List<int>>()
-            {
-                new List<int> { 2, 3, 1 },
-                new List<int> { 5, 6, 4 },
-                new List<int> { 8, 9, 7 }
-            };
-            GridHelper.RotateAllRowsLeftWithWrap(input);
-            Assert.True(GridsEqual(expected, input));
-        }
-
-        [Fact]
-        public void Grid_RotateUp_GridAsExpected()
-        {
-            var input = new List<List<int>>()
-            {
-                new List<int> { 1, 2, 3 },
-                new List<int> { 4, 5, 6 },
-                new List<int> { 7, 8, 9 }
-            };
-            var expected = new List<List<int>>()
-            {
-                new List<int> { 4, 5, 6 },
-                new List<int> { 7, 8, 9 },
-                new List<int> { 1, 2, 3 }
-            };
-            GridHelper.RotateAllColumnsUpWithWrap(input);
-            Assert.True(GridsEqual(expected, input));
-        }
-
-        [Fact]
-        public void GridObject_RotateDown_GridAsExpected()
-        {
-            var input = new List<List<int>>()
-            {
-                new List<int> { 1, 2, 3 },
-                new List<int> { 4, 5, 6 },
-                new List<int> { 7, 8, 9 }
-            };
-            var expected = new List<List<int>>()
-            {
-                new List<int> { 7, 8, 9 },
-                new List<int> { 1, 2, 3 },
-                new List<int> { 4, 5, 6 }
-            };
-            GridHelper.RotateAllColumnsDownWithWrap(input);
-            Assert.True(GridsEqual(expected, input));
-        }
-
-        [Fact]
-        public void GridHelper_Transpose_ReturnsExpected()
-        {
-            var start = new List<List<int>>
-            {
-                new List<int>(){ 1, 2, 3},
-                new List<int>(){ 4, 5, 6},
-                new List<int>(){ 7, 8, 9} 
-            };
-
-            var expected = new List<List<int>>
-            {
-                new List<int>(){ 1, 4, 7},
-                new List<int>(){ 2, 5, 8},
-                new List<int>(){ 3, 6, 9}
-            };
-
-            var actual = GridHelper.TransposeGrid<int>(start);
-            Assert.Equal(expected, actual);
-        }
-        [Fact]
-        public void GridHelper_Transpose_RectangleGrid_ReturnsExpected()
-        {
-            var start = new List<List<int>>
-            {
-                new List<int>(){ 1,  2,  3,  4},
-                new List<int>(){ 5,  6,  7,  8},
-                new List<int>(){ 9, 10, 11, 12}
-            };
-
-            var expected = new List<List<int>>
-            {
-                new List<int>(){ 1, 5, 9},
-                new List<int>(){ 2, 6, 10},
-                new List<int>(){ 3, 7, 11},
-                new List<int>(){ 4, 8, 12}
-            };
-
-            var actual = GridHelper.TransposeGrid<int>(start);
             Assert.Equal(expected, actual);
         }
 

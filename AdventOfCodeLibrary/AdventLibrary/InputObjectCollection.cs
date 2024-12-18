@@ -26,6 +26,7 @@ namespace AdventLibrary
             DigitLines = InputParser.GetLinesAsListDigits();
             GridInt = InputParser.GetLinesAsGrid<int>();
             GridChar = InputParser.GetLinesAsGrid<char>();
+            Coords = InputParser.GetLinesAsCoords();
             Graph = InputParser.GetLinesAsGraph();
         }
 
@@ -62,6 +63,8 @@ namespace AdventLibrary
         public GridObject<int> GridInt { get; }
 
         public GridObject<char> GridChar { get; }
+
+        public List<GridLocation<int>> Coords { get; }
 
         public Dictionary<string, List<string>> Graph { get; }
 

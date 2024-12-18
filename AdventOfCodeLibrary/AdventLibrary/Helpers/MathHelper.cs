@@ -16,6 +16,11 @@ namespace AdventLibrary.Helpers
             return left + ((right - left) / 2);
         }
 
+        public static int GetMiddleRoundUp(int left, int right)
+        {
+            return left + (((right - left) + 1) / 2);
+        }
+
         public static int LCM(IEnumerable<int> numbers)
         {
             return numbers.Aggregate((S, val) => S * val / LCM(S, val));
@@ -114,11 +119,12 @@ namespace AdventLibrary.Helpers
 
         /* Format usually something like
          *  x ≡ rem ( mod val)
-         *  x ≡ 3 (mod 5) 
-            x ≡ 2 (mod 7) 
+         *  x ≡ 3 (mod 5)
+            x ≡ 2 (mod 7)
             x ≡ 5 (mod 9)
             so in this case I would call ChineseRemainderTheorem({5,7,9}, {3,2,5})
         */
+
         public static long ChineseRemainderTheorem(List<long> values, List<long> remainders)
         {
             long prod = values.Aggregate(1, (long i, long j) => i * j);
@@ -231,6 +237,59 @@ namespace AdventLibrary.Helpers
             return Math.Floor(Math.Log10(number)) + 1;
         }
 
+        public static int BinarySearchExample()
+        {
+            var fakeList = new List<int>();
+            var min = 0;
+            var max = 1024;
+            var goal = 200;
+            var index = -1;
+            while (index == -1)
+            {
+                var mid = MathHelper.GetMiddle(min, max);
+                var midValue = fakeList[mid];
+                if (goal < midValue)
+                {
+                    max = mid;
+                }
+                else if (midValue < goal)
+                {
+                    min = mid;
+                }
+                else if (mid == goal)
+                {
+                    index = mid;
+                }
+            }
+            return index;
+        }
+
+        public static int BinarySearchFindHighestIndexWhereTrue()
+        {
+            var fakeList = new List<int>();
+            var min = 0;
+            var max = 1024;
+            while (min < max)
+            {
+                if (max - min == 1)
+                {
+                    // if you wanted lowest index where false, return max.
+                    return min;
+                }
+                var mid = MathHelper.GetMiddle(min, max);
+                var midValue = fakeList[mid] == 1;
+                if (midValue)
+                {
+                    min = mid;
+                }
+                else
+                {
+                    max = mid;
+                }
+            }
+            return min;
+        }
+
         // This example is from 2024 Day 13
         // solve two unknowns between two equations
         public static void SolveLinearSystemExample(
@@ -244,11 +303,11 @@ namespace AdventLibrary.Helpers
             /* This setup is solving the following system
              * x1mult * A + x2mult * B = xGoal
              * y1mult * A + y2mult * B = yGoal
-             * 
+             *
              * or the more concrete example
              * 94*A + 22*B = 8400
              * 34*A + 67*B = 5400
-             * 
+             *
              * The system may or may not have a solution.
              * */
             var context = new Context();

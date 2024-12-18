@@ -4,10 +4,11 @@ using Microsoft.Z3;
 
 namespace aoc2024
 {
-    public class Day13: ISolver
+    public class Day13 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;

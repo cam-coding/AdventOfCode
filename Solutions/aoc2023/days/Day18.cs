@@ -12,10 +12,11 @@ using AdventLibrary.PathFinding;
 
 namespace aoc2023
 {
-    public class Day18: ISolver
+    public class Day18 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t', '(', ')' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -42,7 +43,7 @@ namespace aoc2023
                 var tokens = line.Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
                 walker.Direction = dict[tokens[0]];
                 var speed = int.Parse(tokens[1]);
-                for(var i =0; i < speed; i++)
+                for (var i = 0; i < speed; i++)
                 {
                     walker.Walk();
                     maxY = Math.Max(maxY, walker.Current.Y);
@@ -118,11 +119,10 @@ namespace aoc2023
                 { "1",Directions.Down},
                 { "2",Directions.Left},
                 { "3",Directions.Up},
-
             };
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var listy = new List<GridLocation<long>>();
-            var current = new GridLocation<long>(0,0);
+            var listy = new List<GridLocation<int>>();
+            var current = new GridLocation<int>(0, 0);
             var edgeLength = 1;
 
             // #70c710 into 461937 and Right
@@ -133,7 +133,7 @@ namespace aoc2023
                 var hex = specialToken.Substring(0, specialToken.Length - 1);
                 var hexNum = hex.ConvertToHex();
                 var dirInt = dict[specialToken[^1].ToString()];
-                var dir = new GridLocation<long> (dirInt.X, dirInt.Y);
+                var dir = new GridLocation<int>(dirInt.X, dirInt.Y);
 
                 var next = current + (dir * hexNum);
                 listy.Add(next);

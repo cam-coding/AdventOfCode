@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using AdventLibrary.Extensions;
+using AdventLibrary.Helpers.Grids;
 
 namespace AdventLibrary
 {
@@ -105,6 +106,12 @@ namespace AdventLibrary
         {
             var tokens = input.Split(delimiterChars).ToList();
             return tokens.GetRealStrings(delimiterChars);
+        }
+
+        public static GridLocation<int> GetCoordsFromString(this string input)
+        {
+            var nums = GetLongsFromString(input);
+            return new GridLocation<int>((int)nums[0], (int)nums[1]);
         }
     }
 }

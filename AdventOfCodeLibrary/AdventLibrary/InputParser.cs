@@ -25,6 +25,7 @@ namespace AdventLibrary
         {
             _initialized = false;
         }
+
         internal void SetupFromFile(string filePath)
         {
             _text = System.IO.File.ReadAllText(filePath);
@@ -283,6 +284,23 @@ namespace AdventLibrary
                     }
                 }
                 return nodes;
+            }
+            catch (Exception e)
+            {
+            }
+            return null;
+        }
+
+        public List<GridLocation<int>> GetLinesAsCoords()
+        {
+            try
+            {
+                var listy = new List<GridLocation<int>>();
+                foreach (var line in _lines)
+                {
+                    listy.Add(StringParsing.GetCoordsFromString(line));
+                }
+                return listy;
             }
             catch (Exception e)
             {

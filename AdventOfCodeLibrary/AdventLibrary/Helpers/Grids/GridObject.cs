@@ -1,12 +1,12 @@
-﻿using AdventLibrary.Extensions;
-using AdventLibrary.PathFinding;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using AdventLibrary.Extensions;
 
 namespace AdventLibrary.Helpers.Grids
 {
     public class GridObject<T>
     {
         private List<List<T>> _grid;
+
         public GridObject(List<List<T>> grid)
         {
             Grid = grid.Clone2dList();
@@ -38,6 +38,11 @@ namespace AdventLibrary.Helpers.Grids
         public int MaxX => Width - 1;
 
         public int MaxY => Height - 1;
+
+        public GridObject<T> Clone()
+        {
+            return new GridObject<T>(Grid);
+        }
 
         public bool TryGet(out T value, GridLocation<int> location)
         {

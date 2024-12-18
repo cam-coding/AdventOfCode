@@ -64,7 +64,7 @@ namespace aoc2024
                 }
             }
 
-            return GoTime(out var i);
+            return best;
         }
 
         private object Part2(bool isTest = false)

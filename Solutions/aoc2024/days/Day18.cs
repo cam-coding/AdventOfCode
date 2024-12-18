@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 using AdventLibrary.Helpers.Grids;
 using AdventLibrary.PathFinding;
 
 namespace aoc2024
 {
-    public class Day18: ISolver
+    public class Day18 : ISolver
     {
         private string _filePath;
         private char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -25,10 +25,7 @@ namespace aoc2024
         private object Part1(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var lines = input.Lines;
-			var numbers = input.Longs;
-            var longLines = input.LongLines;
-            var nodes = input.Graph;
+            var coords = input.Coords;
             List<List<char>> tempGrid;
             if (isTest)
             {
@@ -40,11 +37,6 @@ namespace aoc2024
             }
 
             var grid = new GridObject<char>(tempGrid);
-
-            var gridStart = new GridLocation<int>(0, 0);
-            long total = 1000000;
-			long count = 0;
-            long number = input.Long;
 
             int magic;
             if (isTest)
@@ -58,27 +50,15 @@ namespace aoc2024
 
             for (var i = 0; i < magic; i++)
             {
-                var digits = StringParsing.GetLongsFromString(lines[i]);
-                var location = new GridLocation<int>((int)digits[0], (int)digits[1]);
-                grid.Set(location, '#');
+                grid.Set(coords[i], '#');
             }
 
-
-            var startLocation = new GridLocation<int>(0,0);
+            var startLocation = new GridLocation<int>(0, 0);
             var endLocation = new GridLocation<int>(grid.MaxX, grid.MaxY);
 
             Func<GridLocation<int>, List<GridLocation<int>>> NeighboursFunc = (node) =>
             {
-                var neighbours = new List<GridLocation<int>>();
-                foreach (var edge in grid.GetOrthogonalNeighbours(node))
-                {
-                    // remove any edges where the height difference is too great
-                    if (grid.Get(edge) != '#')
-                    {
-                        neighbours.Add(edge);
-                    }
-                }
-                return neighbours;
+                return grid.GetOrthogonalNeighbours(node).Where(x => grid.Get(x) != '#').ToList();
             };
             Func<GridLocation<int>, GridLocation<int>, int> WeightFunc = (current, neigh) =>
             {
@@ -96,10 +76,7 @@ namespace aoc2024
         private object Part2(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var lines = input.Lines;
-            var numbers = input.Longs;
-            var longLines = input.LongLines;
-            var nodes = input.Graph;
+            var coords = input.Coords;
             List<List<char>> tempGrid;
             if (isTest)
             {
@@ -111,11 +88,6 @@ namespace aoc2024
             }
 
             var grid = new GridObject<char>(tempGrid);
-
-            var gridStart = new GridLocation<int>(0, 0);
-            long total = 1000000;
-            long count = 0;
-            long number = input.Long;
 
             int magic;
             if (isTest)
@@ -129,27 +101,15 @@ namespace aoc2024
 
             for (var i = 0; i < magic; i++)
             {
-                var digits = StringParsing.GetLongsFromString(lines[i]);
-                var location = new GridLocation<int>((int)digits[0], (int)digits[1]);
-                grid.Set(location, '#');
+                grid.Set(coords[i], '#');
             }
-
 
             var startLocation = new GridLocation<int>(0, 0);
             var endLocation = new GridLocation<int>(grid.MaxX, grid.MaxY);
 
             Func<GridLocation<int>, List<GridLocation<int>>> NeighboursFunc = (node) =>
             {
-                var neighbours = new List<GridLocation<int>>();
-                foreach (var edge in grid.GetOrthogonalNeighbours(node))
-                {
-                    // remove any edges where the height difference is too great
-                    if (grid.Get(edge) != '#')
-                    {
-                        neighbours.Add(edge);
-                    }
-                }
-                return neighbours;
+                return grid.GetOrthogonalNeighbours(node).Where(x => grid.Get(x) != '#').ToList();
             };
             Func<GridLocation<int>, GridLocation<int>, int> WeightFunc = (current, neigh) =>
             {
@@ -167,19 +127,30 @@ namespace aoc2024
                 iter = 12;
             }
 
-            var min = 1024;
-            var max = lines.Count - 1;
-
-            while (valid)
+            var initialGrid = grid.Clone();
+            var min = iter;
+            var max = coords.Count - 1;
+            while (min < max && max - min > 1)
             {
-                var digits = StringParsing.GetLongsFromString(lines[iter]);
-                var location = new GridLocation<int>((int)digits[0], (int)digits[1]);
-                grid.Set(location, '#');
+                grid = initialGrid.Clone();
+                var mid = MathHelper.GetMiddle(min, max);
+
+                for (var i = iter; i <= mid; i++)
+                {
+                    grid.Set(coords[i], '#');
+                }
                 var res = Dijkstra<GridLocation<int>>.SearchEverywhere(startLocation, NeighboursFunc, WeightFunc, GoalFunc);
-                valid = res.ContainsKey(endLocation);
-                iter++;
+                var midValue = res.ContainsKey(endLocation);
+                if (midValue)
+                {
+                    min = mid;
+                }
+                else
+                {
+                    max = mid;
+                }
             }
-            return lines[iter-1];
+            return $"{coords[max].X},{coords[max].Y}";
         }
     }
 }

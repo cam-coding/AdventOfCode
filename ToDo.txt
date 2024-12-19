@@ -6,7 +6,7 @@ look into GridWalker and see if needs doing
 	Maybe hash the history?
 Test GetNeighbour stuff in GridObject
 Grid/line stuff:
-get all points exact distance/ withing distance away
+get all points exact distance/ within distance away
 do 3 GridLocations make a line?
 	Do 3 points make a line in this order?
 	Does this point fall on this non infinite line?

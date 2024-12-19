@@ -78,6 +78,21 @@ namespace AdventLibrary.Helpers.Grids
             Set(location.X, location.Y, value);
         }
 
+        public List<T> GetRow(int y)
+        {
+            return Grid[y];
+        }
+
+        public List<T> GetColumn(int x)
+        {
+            var column = new List<T>();
+            for (var y = 0; y < Height; y++)
+            {
+                column.Add(Get(x, y));
+            }
+            return column;
+        }
+
         public void Print()
         {
             GridHelper.PrintGrid(Grid);

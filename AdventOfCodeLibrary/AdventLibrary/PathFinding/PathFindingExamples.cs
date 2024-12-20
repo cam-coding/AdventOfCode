@@ -40,7 +40,7 @@ namespace AdventLibrary.PathFinding
                 if (
                     fullPath == null ||
                     fullPathHistory.Contains(stringy) ||
-                    fullPath.Count > 10) // Use this as a way to jump out of your current path. Length too long, total val too high, something.
+                    fullPath.Count > 20) // Use this as a way to jump out of your current path. Length too long, total val too high, something.
                     continue;
 
                 // make sure to add current state to history

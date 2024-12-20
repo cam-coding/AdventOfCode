@@ -210,7 +210,7 @@ namespace AdventLibrary
                 return x + y + z;
             }
 
-            public static double TaxicabDistance(GridLocation<int> a, GridLocation<int> b)
+            public static int TaxicabDistance(GridLocation<int> a, GridLocation<int> b)
             {
                 return TaxicabDistance((a.X, a.Y), (b.X, b.Y));
             }
@@ -490,6 +490,7 @@ namespace AdventLibrary
         {
             return grid.Count - 1;
         }
+
         public static int GetMaxX<T>(List<List<T>> grid)
         {
             return grid[0].Count - 1;
@@ -554,7 +555,7 @@ namespace AdventLibrary
             var temp = grid[row][GetMaxX(grid)];
             for (var currentColumn = GetMaxY(grid); currentColumn > 0; currentColumn--)
             {
-                var val = grid[row][currentColumn-1];
+                var val = grid[row][currentColumn - 1];
                 grid[row][currentColumn] = val;
             }
             grid[row][0] = temp;
@@ -597,7 +598,7 @@ namespace AdventLibrary
             }
         }
 
-        public static void ReverseColumn<T>(List <List<T>> grid, int column)
+        public static void ReverseColumn<T>(List<List<T>> grid, int column)
         {
             int start = 0;
             int end = GetMaxY(grid);
@@ -617,6 +618,7 @@ namespace AdventLibrary
          * .X.      .x.
          * X..      ...
          **/
+
         public static List<List<T>> RotateGridRight<T>(List<List<T>> grid)
         {
             grid = TransposeGrid(grid);

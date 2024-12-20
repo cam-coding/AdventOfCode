@@ -167,49 +167,36 @@ namespace aoc2024
 
             var tempDict = new Dictionary<int, int>();
 
+            var allValidLocations = grid.GetAllLocationWhereCellEqualsValue('.').Where(x => distancesFromEnd.ContainsKey(x)).ToList();
+            allValidLocations.Add(startLocation);
+            allValidLocations.Add(endLocation);
+
             foreach (var node in firstPath)
             {
                 var movesLeft = totalMoves - (firstPath.IndexOf(node) + 1);
-                Func<GridLocation<int>, (int Distance, List<GridLocation<int>> Path), List<GridLocation<int>>> nFunc = (node, nodeHistory) =>
-                {
-                    var neighbours = new List<GridLocation<int>>();
-                    if (nodeHistory.Path.Count <= 20)
-                    {
-                        foreach (var edge in grid.GetOrthogonalNeighbours(node))
-                        {
-                            neighbours.Add(edge);
-                        }
-                    }
-                    return neighbours;
-                };
-                Func<GridLocation<int>, GridLocation<int>, int> wFunc = (current, neigh) =>
-                {
-                    return 1;
-                };
 
-                Func<GridLocation<int>, bool> gFunc = (current) =>
+                var possiblePlaces = new Dictionary<GridLocation<int>, int>();
+
+                foreach (var place in allValidLocations)
                 {
-                    return current == endLocation;
-                };
-                var nodeDijk = new Day20Dijkstra<GridLocation<int>>(null, 0);
-                var nodeDistances = nodeDijk.SearchEverywhere(node, nFunc, wFunc, gFunc, out validCheat);
-                /*
-                if (nodeDistances.ContainsKey(endLocation))
-                {
-                    realCount++;
-                }
-                else
-                {*/
-                foreach (var item in nodeDistances)
-                {
-                    if (distancesFromEnd.ContainsKey(item.Key))
+                    var dist = GridHelper.Distances.TaxicabDistance(place, node);
+                    if (dist <= 20)
                     {
-                        var distancyFromEnd = distancesFromEnd[item.Key].Distance;
-                        var cheatLength = item.Value.Distance;
+                        possiblePlaces.Add(place, dist);
+                    }
+                }
+
+                foreach (var place in possiblePlaces)
+                {
+                    var diff = 20 - place.Value;
+                    for (var i = 0; i <= 0; i += 2)
+                    {
+                        var cheatLength = place.Value + i;
+                        var distancyFromEnd = distancesFromEnd[place.Key].Distance;
                         var improve = movesLeft - distancyFromEnd - cheatLength;
                         if (improve >= trueSpecial)
                         {
-                            if (improve == 70)
+                            if (improve == 74)
                             {
                             }
                             realCount++;

@@ -6,6 +6,7 @@ using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 using AdventLibrary.Helpers.Grids;
 using AdventLibrary.PathFinding;
+using AStarSharp;
 
 namespace aoc2024
 {
@@ -13,7 +14,6 @@ namespace aoc2024
     {
         private string _filePath;
         private char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
-        private Dictionary<GridLocation<int>, (int Distance, List<GridLocation<int>> Path)> _firstDict;
 
         public Solution Solve(string filePath, bool isTest = false)
         {
@@ -26,95 +26,20 @@ namespace aoc2024
 
         private object Part1(bool isTest = false)
         {
-            return "skipped";
-            var input = new InputObjectCollection(_filePath);
-            var count = 0;
-            var grid = input.GridChar;
-
-            var startLocation = grid.GetFirstLocationWhereCellEqualsValue('S');
-            var endLocation = grid.GetFirstLocationWhereCellEqualsValue('E');
-            grid.Set(startLocation, 'a');
-            grid.Set(endLocation, 'z');
-
-            GridLocation<int> magic = null;
-
-            Func<GridLocation<int>, (int Distance, List<GridLocation<int>> Path), List<GridLocation<int>>> NeighboursFunc = (node, nodeHistory) =>
-            {
-                var neighbours = new List<GridLocation<int>>();
-                foreach (var edge in grid.GetOrthogonalNeighbours(node))
-                {
-                    if (grid.Get(edge) != '#' || edge == magic)
-                    {
-                        neighbours.Add(edge);
-                    }
-                }
-                return neighbours;
-            };
-            Func<GridLocation<int>, GridLocation<int>, int> WeightFunc = (current, neigh) =>
-            {
-                return 1;
-            };
-
-            Func<GridLocation<int>, bool> GoalFunc = (current) =>
-            {
-                return current == endLocation;
-            };
-            var validCheat = false;
-            var blah = new Day20Dijkstra<GridLocation<int>>(null, 0);
-            _firstDict = blah.SearchEverywhere(startLocation, NeighboursFunc, WeightFunc, GoalFunc, out validCheat);
-            var firstRun = _firstDict[endLocation].Distance;
-
-            Func<GridLocation<int>, bool> FindStart = (current) =>
-            {
-                return current == startLocation;
-            };
-
-            var distancesFromEnd = blah.SearchEverywhere(endLocation, NeighboursFunc, WeightFunc, FindStart, out validCheat);
-
-            var firstPath = _firstDict[endLocation].Path;
-            var totalMoves = firstPath.Count;
-
-            var special = isTest ? 2 : 100;
-            var trueSpecial = special;
-            var realCount = 0;
-
-            var tempDict = new Dictionary<int, int>();
-
-            foreach (var node in firstPath)
-            {
-                var neighs = grid.GetOrthogonalNeighbours(node);
-                var movesLeft = totalMoves - firstPath.IndexOf(node) + 1;
-                foreach (var neigh in neighs)
-                {
-                    if (grid.Get(neigh) == '#')
-                    {
-                        var dif = neigh - node;
-                        var nextLoc = neigh + dif;
-                        if (distancesFromEnd.ContainsKey(nextLoc))
-                        {
-                            var improve = distancesFromEnd[nextLoc].Distance - movesLeft;
-                            if (improve >= trueSpecial)
-                            {
-                                realCount++;
-                                if (tempDict.ContainsKey(improve))
-                                {
-                                    tempDict[improve]++;
-                                }
-                                else
-                                {
-                                    tempDict.Add(improve, 1);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            return realCount;
+            var minCheatImprovement = isTest ? 2 : 100;
+            var maxCheatLength = 2;
+            return GoTime(maxCheatLength, minCheatImprovement);
         }
 
         private object Part2(bool isTest = false)
         {
+            var minCheatImprovement2 = isTest ? 50 : 100;
+            var maxCheatLength2 = 20;
+            return GoTime(maxCheatLength2, minCheatImprovement2);
+        }
+
+        private int GoTime(int maxCheatLength, int minCheatImprovement)
+        {
             var input = new InputObjectCollection(_filePath);
             var count = 0;
             var grid = input.GridChar;
@@ -122,14 +47,12 @@ namespace aoc2024
             var startLocation = grid.GetFirstLocationWhereCellEqualsValue('S');
             var endLocation = grid.GetFirstLocationWhereCellEqualsValue('E');
 
-            GridLocation<int> magic = null;
-
-            Func<GridLocation<int>, (int Distance, List<GridLocation<int>> Path), List<GridLocation<int>>> NeighboursFunc = (node, nodeHistory) =>
+            Func<GridLocation<int>, List<GridLocation<int>>> NeighboursFunc = (node) =>
             {
                 var neighbours = new List<GridLocation<int>>();
                 foreach (var edge in grid.GetOrthogonalNeighbours(node))
                 {
-                    if (grid.Get(edge) != '#' || edge == magic)
+                    if (grid.Get(edge) != '#')
                     {
                         neighbours.Add(edge);
                     }
@@ -145,243 +68,37 @@ namespace aoc2024
             {
                 return current == endLocation;
             };
-            var validCheat = false;
-            var blah = new Day20Dijkstra<GridLocation<int>>(null, 0);
-            _firstDict = blah.SearchEverywhere(startLocation, NeighboursFunc, WeightFunc, GoalFunc, out validCheat);
-            var firstRun = _firstDict[endLocation].Distance;
+            var res = Dijkstra<GridLocation<int>>.SearchEverywhere(startLocation, NeighboursFunc, WeightFunc, GoalFunc);
+            var firstRun = res[endLocation].Distance;
+            var nonCheatPath = res[endLocation].Path;
+            nonCheatPath.Insert(0, startLocation);
 
-            Func<GridLocation<int>, bool> FindStart = (current) =>
-            {
-                return current == startLocation;
-            };
-
-            var distancesFromEnd = blah.SearchEverywhere(endLocation, NeighboursFunc, WeightFunc, FindStart, out validCheat);
-
-            var firstPath = _firstDict[endLocation].Path;
-            firstPath.Insert(0, startLocation);
-            var totalMoves = firstPath.Count;
-
-            var special = isTest ? 50 : 100;
-            var trueSpecial = special;
             var realCount = 0;
 
-            var tempDict = new Dictionary<int, int>();
-
-            var allValidLocations = grid.GetAllLocationWhereCellEqualsValue('.').Where(x => distancesFromEnd.ContainsKey(x)).ToList();
-            allValidLocations.Add(startLocation);
-            allValidLocations.Add(endLocation);
-
-            foreach (var node in firstPath)
+            for (var i = 0; i < nonCheatPath.Count; i++)
             {
-                var movesLeft = totalMoves - (firstPath.IndexOf(node) + 1);
-
-                var possiblePlaces = new Dictionary<GridLocation<int>, int>();
-
-                foreach (var place in allValidLocations)
+                // we only need to look at points that are further ahead and are at least the min cheat improvement
+                for (var j = i + minCheatImprovement; j < nonCheatPath.Count; j++)
                 {
-                    var dist = GridHelper.Distances.TaxicabDistance(place, node);
-                    if (dist <= 20)
-                    {
-                        possiblePlaces.Add(place, dist);
-                    }
-                }
+                    var cheatStart = nonCheatPath[i];
+                    var cheatEnd = nonCheatPath[j];
+                    var cheatLength = GridHelper.Distances.TaxicabDistance(cheatStart, cheatEnd);
 
-                foreach (var place in possiblePlaces)
-                {
-                    var diff = 20 - place.Value;
-                    for (var i = 0; i <= 0; i += 2)
+                    // only care if we can get to it in our cheat length
+                    if (cheatLength <= maxCheatLength)
                     {
-                        var cheatLength = place.Value + i;
-                        var distancyFromEnd = distancesFromEnd[place.Key].Distance;
-                        var improve = movesLeft - distancyFromEnd - cheatLength;
-                        if (improve >= trueSpecial)
+                        // improvement is the index difference - how long the cheat was.
+                        // aka we skipped ahead X steps in the path but it took cheatLength seconds to do it
+                        var improve = j - i - cheatLength;
+                        if (improve >= minCheatImprovement)
                         {
-                            if (improve == 74)
-                            {
-                            }
                             realCount++;
-                            if (tempDict.ContainsKey(improve))
-                            {
-                                tempDict[improve]++;
-                            }
-                            else
-                            {
-                                tempDict.Add(improve, 1);
-                            }
                         }
                     }
                 }
             }
 
             return realCount;
-        }
-
-        public class Day20Dijkstra<T>
-        {
-            private int _turn;
-            private Dictionary<T, (int Distance, List<T> Path)> _myDict;
-            private int _magic;
-
-            public Day20Dijkstra(Dictionary<T, (int Distance, List<T> Path)> dict, int magic)
-            {
-                _myDict = dict;
-                _magic = magic;
-            }
-
-            public Dictionary<T, (int Distance, List<T> Path)> SearchEverywhere(
-                T start,
-                Func<T, (int Distance, List<T> Path), List<T>> getNeighboursFunc,
-                Func<T, T, int> getWeightFunc,
-                Func<T, bool> goalFunc,
-                out bool validCheat)
-            {
-                validCheat = false;
-                var distanceDictionary = new Dictionary<T, (int Distance, List<T> Path)>();
-                // only visit each node once
-                var processed = new HashSet<T>();
-                var queue = new PriorityQueue<(T CurrentNode, List<T> Path), int>();
-                distanceDictionary.Add(start, (0, new List<T>()));
-                queue.Enqueue((start, new List<T>()), 0);
-
-                while (queue.Count != 0)
-                {
-                    var current = queue.Dequeue();
-                    var currentNode = current.CurrentNode;
-                    var path = current.Path;
-
-                    if (_myDict != null && _myDict.ContainsKey(currentNode) && distanceDictionary.ContainsKey(currentNode))
-                    {
-                        var weight = distanceDictionary[currentNode].Distance;
-                        if (weight <= _myDict[currentNode].Distance - _magic)
-                        {
-                            validCheat = true;
-                            return distanceDictionary;
-                        }
-                    }
-
-                    if (goalFunc(currentNode))
-                    {
-                        return distanceDictionary;
-                    }
-
-                    // only process each node once
-                    if (processed.Contains(currentNode))
-                    {
-                        continue;
-                    }
-                    processed.Add(currentNode);
-
-                    // each node we see starts with an infinite distance
-                    if (!distanceDictionary.ContainsKey(currentNode))
-                    {
-                        distanceDictionary.Add(currentNode, (Int32.MaxValue, path));
-                    }
-
-                    // Neighbours are figured out before objects are passed in, so no logic around that here.
-                    foreach (var neighbour in getNeighboursFunc(currentNode, distanceDictionary[currentNode]))
-                    {
-                        var newPath = path.Clone();
-                        newPath.Add(neighbour);
-                        if (!distanceDictionary.ContainsKey(neighbour))
-                        {
-                            distanceDictionary.Add(neighbour, (Int32.MaxValue, newPath));
-                        }
-                        var weight = getWeightFunc(currentNode, neighbour);
-                        if (distanceDictionary[currentNode].Distance + weight < distanceDictionary[neighbour].Distance)
-                        {
-                            var neighbourDistance = distanceDictionary[currentNode].Distance + weight;
-                            distanceDictionary[neighbour] = (neighbourDistance, newPath);
-                            queue.Enqueue((neighbour, newPath), neighbourDistance);
-                        }
-                    }
-                }
-
-                return distanceDictionary;
-            }
-        }
-
-        public class Day20DijkstraPart2<T>
-        {
-            private int _turn;
-            private Dictionary<T, (int Distance, List<T> Path)> _myDict;
-            private int _magic;
-
-            public Day20DijkstraPart2(Dictionary<T, (int Distance, List<T> Path)> dict, int magic)
-            {
-                _myDict = dict;
-                _magic = magic;
-            }
-
-            public Dictionary<T, (int Distance, List<T> Path)> SearchEverywhere(
-                T start,
-                Func<T, (int Distance, List<T> Path), List<T>> getNeighboursFunc,
-                Func<T, T, int> getWeightFunc,
-                Func<T, bool> goalFunc,
-                out bool validCheat)
-            {
-                validCheat = false;
-                var distanceDictionary = new Dictionary<T, (int Distance, List<T> Path)>();
-                // only visit each node once
-                var processed = new HashSet<T>();
-                var queue = new PriorityQueue<(T CurrentNode, List<T> Path), int>();
-                distanceDictionary.Add(start, (0, new List<T>()));
-                queue.Enqueue((start, new List<T>()), 0);
-
-                while (queue.Count != 0)
-                {
-                    var current = queue.Dequeue();
-                    var currentNode = current.CurrentNode;
-                    var path = current.Path;
-
-                    if (_myDict != null && _myDict.ContainsKey(currentNode) && distanceDictionary.ContainsKey(currentNode))
-                    {
-                        var weight = distanceDictionary[currentNode].Distance;
-                        if (weight <= _myDict[currentNode].Distance - _magic)
-                        {
-                            validCheat = true;
-                            return distanceDictionary;
-                        }
-                    }
-
-                    if (goalFunc(currentNode))
-                    {
-                        return distanceDictionary;
-                    }
-
-                    // only process each node once
-                    if (processed.Contains(currentNode))
-                    {
-                        continue;
-                    }
-                    processed.Add(currentNode);
-
-                    // each node we see starts with an infinite distance
-                    if (!distanceDictionary.ContainsKey(currentNode))
-                    {
-                        distanceDictionary.Add(currentNode, (Int32.MaxValue, path));
-                    }
-
-                    // Neighbours are figured out before objects are passed in, so no logic around that here.
-                    foreach (var neighbour in getNeighboursFunc(currentNode, distanceDictionary[currentNode]))
-                    {
-                        var newPath = path.Clone();
-                        newPath.Add(neighbour);
-                        if (!distanceDictionary.ContainsKey(neighbour))
-                        {
-                            distanceDictionary.Add(neighbour, (Int32.MaxValue, newPath));
-                        }
-                        var weight = getWeightFunc(currentNode, neighbour);
-                        if (distanceDictionary[currentNode].Distance + weight < distanceDictionary[neighbour].Distance)
-                        {
-                            var neighbourDistance = distanceDictionary[currentNode].Distance + weight;
-                            distanceDictionary[neighbour] = (neighbourDistance, newPath);
-                            queue.Enqueue((neighbour, newPath), neighbourDistance);
-                        }
-                    }
-                }
-
-                return distanceDictionary;
-            }
         }
     }
 }

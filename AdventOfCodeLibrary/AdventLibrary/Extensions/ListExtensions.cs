@@ -217,7 +217,7 @@ namespace AdventLibrary.Extensions
             if (list.Count < length)
                 throw new ArgumentException("list must be at least size of length");
             var result = new List<List<T>>();
-            for (var i = 0; i < list.Count - (length-1); i++)
+            for (var i = 0; i < list.Count - (length - 1); i++)
             {
                 result.Add(list.Slice(i, length));
             }
@@ -406,6 +406,16 @@ namespace AdventLibrary.Extensions
             }
 
             return newIndex;
+        }
+
+        public static Dictionary<T, int> ToIndexDictionary<T>(this List<T> list)
+        {
+            var dict = new Dictionary<T, int>();
+            for (var i = 0; i < list.Count; i++)
+            {
+                dict.Add(list[i], i);
+            }
+            return dict;
         }
     }
 }

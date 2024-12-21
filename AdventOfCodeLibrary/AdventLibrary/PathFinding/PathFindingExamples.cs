@@ -76,27 +76,27 @@ namespace AdventLibrary.PathFinding
 
         private static void DFS_Example()
         {
-            var exampleGrid = new List<List<int>>();
-            var exampleGridObject = new GridObject<int>(exampleGrid);
+            var basicGrid = new List<List<int>>();
+            var grid = new GridObject<int>(basicGrid);
 
-            Func<GridLocation<int>, List<GridLocation<int>>> NeighboursFunc = (node) =>
+            Func<GridLocation<int>, List<GridLocation<int>>> NeighboursFunc = (current) =>
             {
                 var neighbours = new List<GridLocation<int>>();
-                foreach (var edge in exampleGridObject.GetOrthogonalNeighbours(node))
+                foreach (var edge in grid.GetOrthogonalNeighbours(current))
                 {
                     neighbours.Add(edge);
                 }
                 return neighbours;
             };
 
-            Func<GridLocation<int>, bool> GoalFunc = (node) =>
+            Func<GridLocation<int>, bool> GoalFunc = (current) =>
             {
-                return node.Y == 3 && node.X == 3;
+                return current.Y == 3 && current.X == 3;
             };
 
-            Func<GridLocation<int>, int> WeightFunc = (node) =>
+            Func<GridLocation<int>, int> WeightFunc = (current) =>
             {
-                return exampleGrid[node.Y][node.X];
+                return basicGrid[current.Y][current.X];
             };
             var start = (0, new List<GridLocation<int>>() { new GridLocation<int>(0, 0) });
             var DFS = new DepthFirstSearch<GridLocation<int>>();

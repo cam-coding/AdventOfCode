@@ -43,7 +43,12 @@ namespace AdventLibrary.PathFinding
             var currentNode = current.Path.Last();
             var currentPath = current.Path;
 
-            if (_goalAchieved || (GoalEvaluation != null && GoalEvaluation(currentNode)))
+            if (_goalAchieved)
+            {
+                return;
+            }
+
+            if ((GoalEvaluation != null && GoalEvaluation(currentNode)))
             {
                 _goalAchieved = true;
                 _goalPath = currentPath;
@@ -63,7 +68,7 @@ namespace AdventLibrary.PathFinding
             }
 
             // Neighbours are figured out before objects are passed in, so no logic around that here.
-            foreach (var neighbour in GetNeighboursFunc(currentNode))
+            foreach (var neighbour in GetNeighboursFunc(currentNode).Where(x => !_visited.Contains(x)))
             {
                 var newPath = currentPath.Clone();
                 newPath.Add(neighbour);

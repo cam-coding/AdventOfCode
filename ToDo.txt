@@ -13,24 +13,15 @@ do 3 GridLocations make a line?
 		Do this point fall between these two other points(even not on a line, say the outer points make a square. Are we in the square?)
 
 
-Create grid from list of coords and fill in the blanks
 Make GridHelper method to expand the grid?
 Try and Remove GridHelper Weird Types
 
 Write more unit tests.
 
-Need something for grids and handling "anything beyond of the edges is x" where x is some value he sometimes gives.
-	Maybe just something to autowrap?
-
-Write DFS and BFS into a generic helper.
-
 Write methods to rotate grids around a point? https://en.wikipedia.org/wiki/Cartesian_coordinate_system#Rotation
 
 maybe implement something for altering grids per iteration on an action?
 build something to roll/fall items in a 2D/3D grid.
-
-CreateNewDay should create any missing parts even if solution is there
-	aka testinput/input
 
 Write a line class with start and ends?
 	Maybe something to count the points in it? Might already have in grid helper

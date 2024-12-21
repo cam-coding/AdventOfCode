@@ -238,176 +238,173 @@ namespace AdventLibrary
             }
         }
 
-        public static class GetPointsIn
+        // assumes a straight line between the two points
+        public static List<GridLocation<int>> GetPointsBetween(GridLocation<int> start, GridLocation<int> end, bool inclusive = false)
         {
-            // assumes a straight line between the two points
-            public static List<GridLocation<int>> GetPointsBetween(GridLocation<int> start, GridLocation<int> end, bool inclusive = false)
+            return GetPointsBetween(start.X, start.Y, end.X, end.Y, inclusive);
+        }
+
+        public static List<GridLocation<int>> GetPointsBetween(int startX, int startY, int endX, int endY, bool inclusive = false)
+        {
+            if (!PointsFormStraightLine(startX, startY, endX, endY))
             {
-                return GetPointsBetween(start.X, start.Y, end.X, end.Y, inclusive);
+                throw new ArgumentException("Points do not form a straight line");
             }
 
-            public static List<GridLocation<int>> GetPointsBetween(int startX, int startY, int endX, int endY, bool inclusive = false)
-            {
-                if (!PointsFormStraightLine(startX, startY, endX, endY))
-                {
-                    throw new ArgumentException("Points do not form a straight line");
-                }
+            if (inclusive)
+                return GetPointsBetweenStartAndEndInclusive(startX, startY, endX, endY);
+            else
+                return GetPointsBetweenStartAndEndExclusive(startX, startY, endX, endY);
+        }
 
-                if (inclusive)
-                    return GetPointsBetweenStartAndEndInclusive(startX, startY, endX, endY);
+        public static List<GridLocation<int>> GetPointsWithinRectangle(List<GridLocation<int>> corners)
+        {
+            if (!PointsFormRectangle(corners))
+            {
+                throw new ArgumentException("Points do not form a rectangle");
+            }
+
+            var xMax = corners.Max(x => x.X);
+            var xMin = corners.Min(x => x.X);
+            var yMax = corners.Max(y => y.Y);
+            var yMin = corners.Min(y => y.Y);
+
+            var points = new List<GridLocation<int>>();
+            for (var y = yMin; y <= yMax; y++)
+            {
+                for (var x = xMin; x <= xMax; x++)
+                {
+                    points.Add(new GridLocation<int>(x, y));
+                }
+            }
+            return points;
+        }
+
+        private static List<GridLocation<int>> GetPointsBetweenStartAndEndInclusive(GridLocation<int> start, GridLocation<int> end)
+        {
+            return GetPointsBetweenStartAndEndInclusive(start.X, start.Y, end.X, end.Y);
+        }
+
+        private static List<GridLocation<int>> GetPointsBetweenStartAndEndInclusive(int startX, int startY, int endX, int endY)
+        {
+            List<GridLocation<int>> points = new List<GridLocation<int>>();
+            if (startX == endX)
+            {
+                if (startY > endY)
+                {
+                    for (int i = startY; i >= endY; i--)
+                    {
+                        points.Add(new GridLocation<int>(startX, i));
+                    }
+                }
                 else
-                    return GetPointsBetweenStartAndEndExclusive(startX, startY, endX, endY);
-            }
-
-            public static List<GridLocation<int>> GetPointsWithinRectangle(List<GridLocation<int>> corners)
-            {
-                if (!PointsFormRectangle(corners))
                 {
-                    throw new ArgumentException("Points do not form a rectangle");
-                }
-
-                var xMax = corners.Max(x => x.X);
-                var xMin = corners.Min(x => x.X);
-                var yMax = corners.Max(y => y.Y);
-                var yMin = corners.Min(y => y.Y);
-
-                var points = new List<GridLocation<int>>();
-                for (var y = yMin; y <= yMax; y++)
-                {
-                    for (var x = xMin; x <= xMax; x++)
+                    for (int i = startY; i <= endY; i++)
                     {
-                        points.Add(new GridLocation<int>(x, y));
+                        points.Add(new GridLocation<int>(startX, i));
                     }
                 }
-                return points;
             }
-
-            private static List<GridLocation<int>> GetPointsBetweenStartAndEndInclusive(GridLocation<int> start, GridLocation<int> end)
+            else if (startY == endY)
             {
-                return GetPointsBetweenStartAndEndInclusive(start.X, start.Y, end.X, end.Y);
-            }
-
-            private static List<GridLocation<int>> GetPointsBetweenStartAndEndInclusive(int startX, int startY, int endX, int endY)
-            {
-                List<GridLocation<int>> points = new List<GridLocation<int>>();
-                if (startX == endX)
+                var min = Math.Min(endX, startX);
+                var max = Math.Max(endX, startX);
+                for (int i = min; i <= max; i++)
                 {
-                    if (startY > endY)
+                    points.Add(new GridLocation<int>(i, startY));
+                }
+            }
+            else
+            {
+                int x = startX;
+                int y = startY;
+                int xIncrement = 1;
+                int yIncrement = 1;
+                if (startX > endX)
+                {
+                    xIncrement = -1;
+                }
+                if (startY > endY)
+                {
+                    yIncrement = -1;
+                }
+                while (x != endX || y != endY)
+                {
+                    points.Add(new GridLocation<int>(x, y));
+                    x += xIncrement;
+                    y += yIncrement;
+                }
+                points.Add(new GridLocation<int>(endX, endY));
+            }
+            return points;
+        }
+
+        private static List<GridLocation<int>> GetPointsBetweenStartAndEndExclusive(GridLocation<int> start, GridLocation<int> end)
+        {
+            return GetPointsBetweenStartAndEndExclusive(start.X, start.Y, end.X, end.Y);
+        }
+
+        private static List<GridLocation<int>> GetPointsBetweenStartAndEndExclusive(int startX, int startY, int endX, int endY)
+        {
+            List<GridLocation<int>> points = new List<GridLocation<int>>();
+            if (startX == endX)
+            {
+                if (startY > endY)
+                {
+                    for (int i = startY - 1; i > endY; i--)
                     {
-                        for (int i = startY; i >= endY; i--)
-                        {
-                            points.Add(new GridLocation<int>(startX, i));
-                        }
-                    }
-                    else
-                    {
-                        for (int i = startY; i <= endY; i++)
-                        {
-                            points.Add(new GridLocation<int>(startX, i));
-                        }
+                        points.Add(new GridLocation<int>(startX, i));
                     }
                 }
-                else if (startY == endY)
+                else
                 {
-                    var min = Math.Min(endX, startX);
-                    var max = Math.Max(endX, startX);
-                    for (int i = min; i <= max; i++)
+                    for (int i = startY + 1; i < endY; i++)
+                    {
+                        points.Add(new GridLocation<int>(startX, i));
+                    }
+                }
+            }
+            else if (startY == endY)
+            {
+                if (startX > endX)
+                {
+                    for (int i = startX - 1; i > endX; i--)
                     {
                         points.Add(new GridLocation<int>(i, startY));
                     }
                 }
                 else
                 {
-                    int x = startX;
-                    int y = startY;
-                    int xIncrement = 1;
-                    int yIncrement = 1;
-                    if (startX > endX)
+                    for (int i = startX + 1; i < endX; i++)
                     {
-                        xIncrement = -1;
+                        points.Add(new GridLocation<int>(i, startY));
                     }
-                    if (startY > endY)
-                    {
-                        yIncrement = -1;
-                    }
-                    while (x != endX || y != endY)
-                    {
-                        points.Add(new GridLocation<int>(x, y));
-                        x += xIncrement;
-                        y += yIncrement;
-                    }
-                    points.Add(new GridLocation<int>(endX, endY));
                 }
-                return points;
             }
-
-            private static List<GridLocation<int>> GetPointsBetweenStartAndEndExclusive(GridLocation<int> start, GridLocation<int> end)
+            else
             {
-                return GetPointsBetweenStartAndEndExclusive(start.X, start.Y, end.X, end.Y);
+                int x = startX + 1;
+                int y = startY + 1;
+                int xIncrement = 1;
+                int yIncrement = 1;
+                if (startX > endX)
+                {
+                    xIncrement = -1;
+                    x = x - 2;
+                }
+                if (startY > endY)
+                {
+                    yIncrement = -1;
+                    y = y - 2;
+                }
+                while (x != endX || y != endY)
+                {
+                    points.Add(new GridLocation<int>(x, y));
+                    x += xIncrement;
+                    y += yIncrement;
+                }
             }
-
-            private static List<GridLocation<int>> GetPointsBetweenStartAndEndExclusive(int startX, int startY, int endX, int endY)
-            {
-                List<GridLocation<int>> points = new List<GridLocation<int>>();
-                if (startX == endX)
-                {
-                    if (startY > endY)
-                    {
-                        for (int i = startY - 1; i > endY; i--)
-                        {
-                            points.Add(new GridLocation<int>(startX, i));
-                        }
-                    }
-                    else
-                    {
-                        for (int i = startY + 1; i < endY; i++)
-                        {
-                            points.Add(new GridLocation<int>(startX, i));
-                        }
-                    }
-                }
-                else if (startY == endY)
-                {
-                    if (startX > endX)
-                    {
-                        for (int i = startX - 1; i > endX; i--)
-                        {
-                            points.Add(new GridLocation<int>(i, startY));
-                        }
-                    }
-                    else
-                    {
-                        for (int i = startX + 1; i < endX; i++)
-                        {
-                            points.Add(new GridLocation<int>(i, startY));
-                        }
-                    }
-                }
-                else
-                {
-                    int x = startX + 1;
-                    int y = startY + 1;
-                    int xIncrement = 1;
-                    int yIncrement = 1;
-                    if (startX > endX)
-                    {
-                        xIncrement = -1;
-                        x = x - 2;
-                    }
-                    if (startY > endY)
-                    {
-                        yIncrement = -1;
-                        y = y - 2;
-                    }
-                    while (x != endX || y != endY)
-                    {
-                        points.Add(new GridLocation<int>(x, y));
-                        x += xIncrement;
-                        y += yIncrement;
-                    }
-                }
-                return points;
-            }
+            return points;
         }
 
         public static bool PointsFormStraightLine(int startX, int startY, int endX, int endY)

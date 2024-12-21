@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AdventLibrary.Extensions;
 
 namespace AdventLibrary.Helpers.Grids
@@ -122,6 +123,23 @@ namespace AdventLibrary.Helpers.Grids
             }
 
             return null;
+        }
+
+        public List<GridLocation<int>> GetAllLocationsWhere(Func<T, bool> filter = null)
+        {
+            var listy = new List<GridLocation<int>>();
+            for (var y = 0; y < Height; y++)
+            {
+                for (var x = 0; x < Width; x++)
+                {
+                    if (filter(Get(x, y)))
+                    {
+                        listy.Add(new GridLocation<int>(x, y));
+                    }
+                }
+            }
+
+            return listy;
         }
 
         public List<GridLocation<int>> GetAllLocationWhereCellEqualsValue(T value)

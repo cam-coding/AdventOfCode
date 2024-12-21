@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary;
+using AdventLibrary.Helpers.Grids;
 
 namespace aoc2021
 {
-    public class Day05: ISolver
+    public class Day05 : ISolver
     {
         private string _filePath;
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -38,7 +40,8 @@ namespace aoc2021
         private object BothParts(bool isPart2)
         {
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
-            var grid = new int[1000,1000];
+            var baseGrid = GridHelper.GenerateGrid(1000, 1000, 0);
+            var grid = new GridObject<int>(baseGrid);
 
             foreach (var line in lines)
             {
@@ -46,14 +49,16 @@ namespace aoc2021
 
                 if (isPart2 || (nums[0] == nums[2] || nums[1] == nums[3]))
                 {
-                    var points = AdventLibrary.GridHelperWeirdTypes.GetPointsBetweenStartAndEndInclusive(nums);
+                    var start = new GridLocation<int>(nums[0], nums[1]);
+                    var end = new GridLocation<int>(nums[2], nums[3]);
+                    var points = AdventLibrary.GridHelper.GetPointsBetween(start, end, true);
                     foreach (var point in points)
                     {
-                        grid[point.Item1, point.Item2]++;
+                        grid.Set(point, grid.Get(point) + 1);
                     }
                 }
             }
-            return grid.Cast<int>().ToList().Count(x => x > 1);
+            return grid.GetAllLocationsWhere(x => x > 1).Count;
         }
     }
 }

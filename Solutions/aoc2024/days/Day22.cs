@@ -54,86 +54,50 @@ namespace aoc2024
         private object Part2(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var lines = input.Lines;
-            var numbers = input.Longs;
-            var longLines = input.LongLines;
-            var nodes = input.Graph;
-            var grid = input.GridChar;
-            var gridStart = new GridLocation<int>(0, 0);
-            long total = 1000000;
-            long count = 0;
-            long number = input.Long;
+            long mostBananasPossible = 0;
 
-            for (var i = 0; i < lines.Count; i++)
+            var tempLookup = new Dictionary<(long a, long b, long c, long d), long>();
+            foreach (var myLong in input.Longs)
             {
-            }
-
-            var myList = new List<List<long>>();
-            var pricesList = new List<List<long>>();
-            var myLookup = new List<Dictionary<(long a, long b, long c, long d), long>>();
-            foreach (var line in numbers)
-            {
-                var num = line;
-                long last = num % 10;
-                long diff = 0;
-                var currentList = new List<long>();
-                var currentPrices = new List<long>();
-                var tempLookup = new Dictionary<(long a, long b, long c, long d), long>();
+                var hashy = new HashSet<(long a, long b, long c, long d)>();
+                var num = myLong;
+                long lastDigit = num % 10;
+                var diffsList = new List<long>();
                 for (var i = 0; i < 2000; i++)
                 {
                     num = AllSteps(num);
                     var banana = num % 10;
-                    currentList.Add(banana - last);
-                    currentPrices.Add(banana);
-                    last = banana;
+                    diffsList.Add(banana - lastDigit);
+                    lastDigit = banana;
 
-                    if (currentList.Count > 3)
+                    if (diffsList.Count > 3)
                     {
-                        var index = currentList.Count - 1;
+                        var index = diffsList.Count - 1;
                         var tempTuple = (
-                            currentList[index - 3],
-                            currentList[index - 2],
-                            currentList[index - 1],
-                            currentList[index]);
-                        tempLookup.TryAdd(tempTuple, banana);
-                    }
-                }
-                myList.Add(currentList);
-                pricesList.Add(currentPrices);
-                myLookup.Add(tempLookup);
-                count += num;
-            }
+                            diffsList[index - 3],
+                            diffsList[index - 2],
+                            diffsList[index - 1],
+                            diffsList[index]);
 
-            var listy2 = new List<long>() { -2, 1, -1, 3 };
-            var testy = GoTime(myList, pricesList, listy2);
-
-            long best = 0;
-            for (var i = -9; i < 10; i++)
-            {
-                for (var j = -9; j < 10; j++)
-                {
-                    for (var x = -9; x < 10; x++)
-                    {
-                        for (var y = -9; y < 10; y++)
+                        if (!hashy.Contains(tempTuple))
                         {
-                            long tot = 0;
-                            foreach (var dict in myLookup)
+                            if (tempLookup.ContainsKey(tempTuple))
                             {
-                                var tempTuple = (i, j, x, y);
-                                if (dict.ContainsKey(tempTuple))
-                                {
-                                    tot += dict[tempTuple];
-                                }
+                                tempLookup[tempTuple] += banana;
                             }
-                            best = Math.Max(best, tot);
-                            /*
-                            var listy = new List<long>() { i, j, x, y };
-                            best = Math.Max(best, GoTime(myList, pricesList, listy));*/
+                            else
+                            {
+                                tempLookup.Add(tempTuple, banana);
+                            }
+                            mostBananasPossible = Math.Max(mostBananasPossible, tempLookup[tempTuple]);
                         }
+
+                        hashy.Add(tempTuple);
                     }
                 }
             }
-            return best;
+
+            return mostBananasPossible;
         }
 
         private long GoTime(List<List<long>> diffs, List<List<long>> prices, List<long> seq)

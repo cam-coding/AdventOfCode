@@ -74,6 +74,75 @@ namespace AdventLibrary.PathFinding
             }
         }
 
+        private static void BFS_AllBestPaths_Example()
+        {
+            // just examples for compiling
+            var grid = new GridObject<int>(new List<List<int>>());
+            GridLocation<int> start = new GridLocation<int>(0, 0);
+            GridLocation<int> end = new GridLocation<int>(3, 3);
+
+            Queue<List<GridLocation<int>>> q = new Queue<List<GridLocation<int>>>();
+            var fullPathHistory = new HashSet<string>();
+
+            var bestPaths = new List<List<GridLocation<int>>>();
+            var bestPathLength = int.MaxValue;
+
+            // (0,0) can be anything, just needs to be your starting point.
+            q.Enqueue(new List<GridLocation<int>>() { start });
+            while (q.Count > 0)
+            {
+                var fullPath = q.Dequeue(); // This will contain a list of all the points you visited on the way
+                var currentLocation = fullPath.Last(); // this is just the most recent point
+                var currentValue = grid.Get(currentLocation);
+                var stringy = ListExtensions.Stringify(fullPath);
+
+                if (
+                    fullPathHistory.Contains(stringy) ||
+                    fullPath.Count > 6 ||
+                    fullPath.Count > bestPathLength) // Use this as a way to jump out of your current path. Length too long, total val too high, something.
+                    continue;
+
+                // make sure to add current state to history
+                fullPathHistory.Add(stringy);
+
+                // if we reach the end and it's as good as the best path, save it
+                if (currentLocation == end)
+                {
+                    if (fullPath.Count <= bestPathLength)
+                    {
+                        if (fullPath.Count < bestPathLength)
+                        {
+                            bestPaths = new List<List<GridLocation<int>>>() { fullPath };
+                            bestPathLength = fullPath.Count;
+                        }
+                        else
+                        {
+                            bestPaths.Add(fullPath);
+                        }
+                    }
+                    continue;
+                }
+
+                //Get the next nodes/grids/etc to visit next
+                foreach (var neighbour in grid.GetOrthogonalNeighbours(currentLocation))
+                {
+                    var val = grid.Get(neighbour);
+
+                    if (val == 'X' || // can be any limiter
+                        fullPath.Contains(neighbour)) // assumes we don't want to go to the same node twice
+                    {
+                        continue;
+                    }
+                    var temp = fullPath.Clone(); // very important, do not miss this clone
+                    temp.Add(neighbour);
+                    q.Enqueue(temp);
+                }
+            }
+
+            var allPaths = bestPaths;
+            var length = bestPathLength;
+        }
+
         private static void DFS_Example()
         {
             var basicGrid = new List<List<int>>();

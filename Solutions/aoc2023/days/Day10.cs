@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace aoc2023
 {
-    public class Day10: ISolver
+    public class Day10 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -100,7 +100,7 @@ namespace aoc2023
                 }
                 maxLoop = Math.Max(item.UniqueLocationsVisited.Count, maxLoop);
             }
-            return maxLoop/2;
+            return maxLoop / 2;
         }
 
         private object Part2()
@@ -193,9 +193,9 @@ namespace aoc2023
             //Make a new grid that is the size of the current grid + the in betweens
             // aka 4x4 becomes a 7x7
             var grid3 = new List<List<int>>();
-            for (var i = 0; i < 2*grid2.Count-1; i++)
+            for (var i = 0; i < 2 * grid2.Count - 1; i++)
             {
-                var blah = Enumerable.Repeat(0, 2*grid[0].Count-1).ToList();
+                var blah = Enumerable.Repeat(0, 2 * grid[0].Count - 1).ToList();
                 grid3.Add(blah);
             }
 
@@ -209,37 +209,37 @@ namespace aoc2023
                         var cur = grid2[i][j];
                         if (cur == '-' || cur == 'L' || cur == 'F' || cur == 'J' || cur == '|' || cur == '7' || cur == 'F' || cur == 'S')
                         {
-                            grid3[i*2][j*2] = 10000;
+                            grid3[i * 2][j * 2] = 10000;
                         }
                         if (cur == '-')
                         {
-                            grid3[i * 2][j * 2-1] = 10000;
+                            grid3[i * 2][j * 2 - 1] = 10000;
                             grid3[i * 2][j * 2 + 1] = 10000;
                         }
                         if (cur == '|')
                         {
-                            grid3[i * 2-1][j * 2] = 10000;
-                            grid3[i * 2+1][j * 2] = 10000;
+                            grid3[i * 2 - 1][j * 2] = 10000;
+                            grid3[i * 2 + 1][j * 2] = 10000;
                         }
                         if (cur == 'L')
                         {
-                            grid3[i * 2-1][j * 2] = 10000;
-                            grid3[i * 2][j * 2+1] = 10000;
+                            grid3[i * 2 - 1][j * 2] = 10000;
+                            grid3[i * 2][j * 2 + 1] = 10000;
                         }
                         if (cur == 'J')
                         {
-                            grid3[i * 2-1][j * 2] = 10000;
-                            grid3[i * 2][j * 2-1] = 10000;
+                            grid3[i * 2 - 1][j * 2] = 10000;
+                            grid3[i * 2][j * 2 - 1] = 10000;
                         }
                         if (cur == '7')
                         {
-                            grid3[i * 2+1][j * 2] = 10000;
-                            grid3[i * 2][j * 2-1] = 10000;
+                            grid3[i * 2 + 1][j * 2] = 10000;
+                            grid3[i * 2][j * 2 - 1] = 10000;
                         }
                         if (cur == 'F')
                         {
-                            grid3[i * 2+1][j * 2] = 10000;
-                            grid3[i * 2][j * 2+1] = 10000;
+                            grid3[i * 2 + 1][j * 2] = 10000;
+                            grid3[i * 2][j * 2 + 1] = 10000;
                         }
                     }
                 }
@@ -273,7 +273,7 @@ namespace aoc2023
                     {
                         // If it was to cross a wall, it's clear. Else the value should be 0
                         // if it has to cross a wall that means it's surrounded
-                        if (distances[Tuple.Create(j*2+1,i*2+1)] >= 10000)
+                        if (distances[Tuple.Create(j * 2 + 1, i * 2 + 1)] >= 10000)
                         {
                             myCount++;
                             myList.Add((i, j));

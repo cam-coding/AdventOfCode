@@ -15,16 +15,16 @@ namespace aoc2024
         private Dictionary<
             char,
             GridLocation<int>>
-            _dirPadCharToLocation = new Dictionary<char, GridLocation<int>>();
+            _arrowToGridLocation;
 
         private Dictionary<
             (GridLocation<int> start, GridLocation<int> end),
             List<List<GridLocation<int>>>>
-            _allDirectionPadPaths;
+            _allArrowPadRoutes;
 
         private Dictionary<
             GridLocation<int>,
-            char> _difToChar = new Dictionary<GridLocation<int>, char>()
+            char> _posistionDifToArrowKey = new Dictionary<GridLocation<int>, char>()
         {
             {Directions.Up, '^'},
             {Directions.Down, 'V'},
@@ -48,13 +48,23 @@ namespace aoc2024
 
         private object Part1(bool isTest = false)
         {
-            var dirKeyGridBase = GridHelper.GenerateGrid<char>(3, 2, '.');
-            dirKeyGridBase[0][0] = 'X';
-            dirKeyGridBase[0][1] = '^';
-            dirKeyGridBase[0][2] = 'A';
-            dirKeyGridBase[1][0] = '<';
-            dirKeyGridBase[1][1] = 'V';
-            dirKeyGridBase[1][2] = '>';
+            return GoTime(2);
+        }
+
+        private object Part2(bool isTest = false)
+        {
+            return GoTime(25);
+        }
+
+        private object GoTime(int robotCount)
+        {
+            var arrowPadGridBase = GridHelper.GenerateGrid<char>(3, 2, '.');
+            arrowPadGridBase[0][0] = 'X';
+            arrowPadGridBase[0][1] = '^';
+            arrowPadGridBase[0][2] = 'A';
+            arrowPadGridBase[1][0] = '<';
+            arrowPadGridBase[1][1] = 'V';
+            arrowPadGridBase[1][2] = '>';
 
             var keypadGridBase = GridHelper.GenerateGrid<char>(3, 4, '.');
             keypadGridBase[0][0] = '7';
@@ -70,29 +80,29 @@ namespace aoc2024
             keypadGridBase[3][1] = '0';
             keypadGridBase[3][2] = 'A';
 
-            var directionArrowGrid = new GridObject<char>(dirKeyGridBase);
-            var dirKeyStartLocation = directionArrowGrid.GetFirstLocationWhereCellEqualsValue('A');
-            var dirLocations = directionArrowGrid.GetAllLocationsWhere(x => true);
+            var arrowPadGrid = new GridObject<char>(arrowPadGridBase);
+            var dirLocations = arrowPadGrid.GetAllLocationsWhere(x => true);
+            _arrowToGridLocation = new Dictionary<char, GridLocation<int>>();
             foreach (var item in dirLocations)
             {
-                _dirPadCharToLocation.Add(directionArrowGrid.Get(item), item);
+                _arrowToGridLocation.Add(arrowPadGrid.Get(item), item);
             }
 
             var keypadGrid = new GridObject<char>(keypadGridBase);
 
-            _allDirectionPadPaths = new Dictionary<(GridLocation<int> start, GridLocation<int> end), List<List<GridLocation<int>>>>();
+            _allArrowPadRoutes = new Dictionary<(GridLocation<int> start, GridLocation<int> end), List<List<GridLocation<int>>>>();
 
-            for (var y = 0; y < directionArrowGrid.Height; y++)
+            for (var y = 0; y < arrowPadGrid.Height; y++)
             {
-                for (var x = 0; x < directionArrowGrid.Width; x++)
+                for (var x = 0; x < arrowPadGrid.Width; x++)
                 {
-                    if (directionArrowGrid.Get(x, y) != 'X')
+                    if (arrowPadGrid.Get(x, y) != 'X')
                     {
-                        for (var i = 0; i < directionArrowGrid.Height; i++)
+                        for (var i = 0; i < arrowPadGrid.Height; i++)
                         {
-                            for (var j = 0; j < directionArrowGrid.Width; j++)
+                            for (var j = 0; j < arrowPadGrid.Width; j++)
                             {
-                                if ((directionArrowGrid.Get(j, i) == 'X'))
+                                if ((arrowPadGrid.Get(j, i) == 'X'))
                                 {
                                     continue;
                                 }
@@ -100,11 +110,11 @@ namespace aoc2024
                                 var myEnd = new GridLocation<int>(j, i);
                                 if (myStart == myEnd)
                                 {
-                                    _allDirectionPadPaths.Add((myStart, myEnd), new List<List<GridLocation<int>>>());
+                                    _allArrowPadRoutes.Add((myStart, myEnd), new List<List<GridLocation<int>>>());
                                     continue;
                                 }
-                                var temp = EveryKeyPadPath(myStart, myEnd, directionArrowGrid);
-                                _allDirectionPadPaths.Add((myStart, myEnd), temp);
+                                var temp = AllBestPaths(myStart, myEnd, arrowPadGrid);
+                                _allArrowPadRoutes.Add((myStart, myEnd), temp);
                             }
                         }
                     }
@@ -116,7 +126,7 @@ namespace aoc2024
             long count = 0;
 
             // start at 'A' in the bottom right of the keypad
-            var keypadLocation = new GridLocation<int>(2, 3);
+            var currentKeypadLocation = new GridLocation<int>(2, 3);
             for (var i = 0; i < lines.Count; i++)
             {
                 var line = lines[i];
@@ -127,9 +137,9 @@ namespace aoc2024
                 foreach (var c in line)
                 {
                     var goalLocationKeypad = keypadGrid.GetFirstLocationWhereCellEqualsValue(c);
-                    var keyPadPaths = EveryKeyPadPath(keypadLocation, goalLocationKeypad, keypadGrid);
-                    keypadLocation = goalLocationKeypad;
-                    myTotal += ScorePossible(keyPadPaths, 1);
+                    var keyPadPaths = AllBestPaths(currentKeypadLocation, goalLocationKeypad, keypadGrid);
+                    currentKeypadLocation = goalLocationKeypad;
+                    myTotal += ScorePossible(keyPadPaths, 1, robotCount + 1);
                 }
                 var num1 = numbers[i];
                 count += myTotal * num1;
@@ -137,20 +147,16 @@ namespace aoc2024
             return count;
         }
 
-        private object Part2(bool isTest = false)
-        {
-            return 0;
-        }
-
         private long ScorePossible(
             List<List<GridLocation<int>>> possibleRoutes,
-            int level)
+            int level,
+            int maxLevel)
         {
             if (_memo.ContainsKey((possibleRoutes, level)))
             {
                 return _memo[(possibleRoutes, level)];
             }
-            if (level == 26)
+            if (level == maxLevel)
             {
                 if (possibleRoutes.Count == 0)
                 {
@@ -165,27 +171,25 @@ namespace aoc2024
             long best = long.MaxValue;
             if (possibleRoutes.Count == 0)
             {
-                best = ScorePossible(possibleRoutes, level + 1);
+                return ScorePossible(possibleRoutes, level + 1, maxLevel);
             }
-            // At the base version and assuming: 029A
-            // all possible routes from 0 to 2 let's say
+
             foreach (var route in possibleRoutes)
             {
                 long total = 0;
-                var chars = route.Select(x => _difToChar[x]).ToList();
+                var chars = route.Select(x => _posistionDifToArrowKey[x]).ToList();
 
-                var start = _dirPadCharToLocation['A'];
+                var start = _arrowToGridLocation['A'];
                 for (var i = 0; i < chars.Count; i++)
                 {
-                    var end = _dirPadCharToLocation[chars[i]];
-                    var nextRoutes = _allDirectionPadPaths[(start, end)];
-                    long score = ScorePossible(nextRoutes, level + 1);
-                    total += score;
+                    var end = _arrowToGridLocation[chars[i]];
+                    var nextRoutes = _allArrowPadRoutes[(start, end)];
+                    total += ScorePossible(nextRoutes, level + 1, maxLevel);
 
-                    start = _dirPadCharToLocation[chars[i]];
+                    start = _arrowToGridLocation[chars[i]];
                 }
-                var nextRoutes2 = _allDirectionPadPaths[(start, _dirPadCharToLocation['A'])];
-                total += ScorePossible(nextRoutes2, level + 1);
+                var nextRoutes2 = _allArrowPadRoutes[(start, _arrowToGridLocation['A'])];
+                total += ScorePossible(nextRoutes2, level + 1, maxLevel);
 
                 if (total < best)
                 {
@@ -209,7 +213,7 @@ namespace aoc2024
             return offsetPath;
         }
 
-        private List<List<GridLocation<int>>> EveryKeyPadPath(
+        private List<List<GridLocation<int>>> AllBestPaths(
             GridLocation<int> start,
             GridLocation<int> end,
             GridObject<char> grid)
@@ -223,7 +227,6 @@ namespace aoc2024
 
             // (0,0) can be anything, just needs to be your starting point.
             q.Enqueue(new List<GridLocation<int>>() { start });
-            var endsHash = new HashSet<GridLocation<int>>();
             while (q.Count > 0)
             {
                 var fullPath = q.Dequeue(); // This will contain a list of all the points you visited on the way

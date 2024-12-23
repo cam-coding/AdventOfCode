@@ -43,7 +43,6 @@ namespace AdventLibrary
             var visualizerProcess = new Process();
             visualizerProcess.StartInfo.FileName = _graphVisualizerExePath;  // just for example, you can use yours.
             visualizerProcess.Start();
-            visualizerProcess.WaitForExit();
         }
     }
 }

@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaySetupProgram", "DaySetup
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Output", "OutputProject\Output.csproj", "{EEFF836B-DF39-456B-AD7B-2A4A204708E4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphVisualizerProgram", "GraphVisualizerProgram\GraphVisualizerProgram.csproj", "{648DF9A0-DFA0-4790-8A3F-05309B33589C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,10 @@ Global
 		{EEFF836B-DF39-456B-AD7B-2A4A204708E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEFF836B-DF39-456B-AD7B-2A4A204708E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEFF836B-DF39-456B-AD7B-2A4A204708E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{648DF9A0-DFA0-4790-8A3F-05309B33589C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{648DF9A0-DFA0-4790-8A3F-05309B33589C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{648DF9A0-DFA0-4790-8A3F-05309B33589C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{648DF9A0-DFA0-4790-8A3F-05309B33589C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -210,6 +210,11 @@ namespace AdventLibrary.Extensions
             return list.Slice(start, length);
         }
 
+        public static List<T> SubList<T>(this List<T> list, int start)
+        {
+            return SubList(list, start, list.Count - start);
+        }
+
         // lst = [ 1, 2, 3, 4, 5, 6 ] and n = 3, result is [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ], and [ 4, 5, 6 ]
         // great for sliding window problems
         public static IEnumerable<IEnumerable<T>> GetOverlappingGroupsOfSize<T>(this List<T> list, int length)

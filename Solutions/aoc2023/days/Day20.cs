@@ -8,11 +8,11 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace aoc2023
 {
-    public class Day20: ISolver
+    public class Day20 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
-        public Dictionary<bool,int> myTotals;
+        public Dictionary<bool, int> myTotals;
 
         public Solution Solve(string filePath, bool isTest = false)
         {
@@ -22,21 +22,25 @@ namespace aoc2023
 
         private object Part1(bool isTest = false)
         {
-            var lines = ParseInput.GetLinesFromFile(_filePath);
+            var input = new InputObjectCollection(_filePath);
+            var lines = input.Lines;
+
+            GraphVisualizerWrapper.StartVisualizerProgram(input.Graph);
+
             var dict = new Dictionary<string, IModule>();
 
             myTotals = new Dictionary<bool, int>() { { false, 0 }, { true, 0 } };
 
             foreach (var line in lines)
-			{
-                var firstTokens = line.Split('-','>',' ').ToList().GetRealStrings(delimiterChars);
+            {
+                var firstTokens = line.Split('-', '>', ' ').ToList().GetRealStrings(delimiterChars);
                 if (firstTokens[0].ToLower().Equals("broadcaster"))
                 {
                     dict.Add("broadcaster", new BroadcastModule(myTotals, "broadcaster"));
                 }
                 else
                 {
-                    var tokens = firstTokens[0].Split('%','&', ' ').ToList().GetRealStrings(delimiterChars);
+                    var tokens = firstTokens[0].Split('%', '&', ' ').ToList().GetRealStrings(delimiterChars);
                     if (firstTokens[0][0] == '%')
                     {
                         dict.Add(tokens[0], new FlipFlopModule(myTotals, tokens[0]));
@@ -46,7 +50,7 @@ namespace aoc2023
                         dict.Add(tokens[0], new ConjunctionModule(myTotals, tokens[0]));
                     }
                 }
-			}
+            }
             dict.Add("button", new ButtonModule(myTotals, "button"));
 
             foreach (var line in lines)
@@ -104,7 +108,7 @@ namespace aoc2023
                     }
                     foreach (var item in ripple)
                     {
-                        key = key + item.Item3.Key + ':' + item.Item2.ToString() + ';' ;
+                        key = key + item.Item3.Key + ':' + item.Item2.ToString() + ';';
                     }
                     key += "$";
                     ripple = nextRipple;
@@ -142,7 +146,7 @@ namespace aoc2023
                 listy.Add(key);
                 trackingCounts.Add((currentTotals[false], currentTotals[true]));
             }
-            return myTotals[false]*myTotals[true];
+            return myTotals[false] * myTotals[true];
         }
 
         private int IsCycle(List<string> listy)
@@ -151,10 +155,10 @@ namespace aoc2023
             var fastList = new List<string>();
             var slow = 0;
             var slowList = new List<string>();
-            while (fast < listy.Count-1)
+            while (fast < listy.Count - 1)
             {
                 fastList.Add(listy[fast]);
-                fastList.Add(listy[fast+1]);
+                fastList.Add(listy[fast + 1]);
                 fast += 2;
                 slowList.Add(listy[slow]);
                 slow++;
@@ -285,7 +289,7 @@ namespace aoc2023
 
             public string Key { get; set; }
 
-            public Dictionary<bool,int> Totals { get; set; }
+            public Dictionary<bool, int> Totals { get; set; }
 
             public List<(IModule, bool, IModule)> Pulse(bool isHigh, IModule inputSource);
         }
@@ -302,7 +306,7 @@ namespace aoc2023
                 Key = key;
             }
 
-            public List<IModule> Connections { get ; set; }
+            public List<IModule> Connections { get; set; }
 
             public Dictionary<bool, int> Totals { get; set; }
 
@@ -326,11 +330,12 @@ namespace aoc2023
         public class ConjunctionModule : IModule
         {
             private Dictionary<string, bool> _memory;
+
             public ConjunctionModule(Dictionary<bool, int> totals, string key)
             {
                 Connections = new List<IModule>();
                 Inputs = new List<IModule>();
-                _memory = new Dictionary<string,bool>();
+                _memory = new Dictionary<string, bool>();
                 Totals = totals;
                 Key = key;
             }
@@ -348,7 +353,7 @@ namespace aoc2023
                 var ret = new List<(IModule, bool, IModule)>();
                 if (_memory.Count == 0)
                 {
-                    foreach( var input in Inputs)
+                    foreach (var input in Inputs)
                     {
                         _memory.Add(input.Key, false);
                     }
@@ -407,7 +412,7 @@ namespace aoc2023
 
             public List<(IModule, bool, IModule)> Pulse(bool isHigh, IModule inputSource)
             {
-                var ret = new List<(IModule,bool,IModule)>();
+                var ret = new List<(IModule, bool, IModule)>();
                 foreach (var con in Connections)
                 {
                     ret.Add((con, false, this));

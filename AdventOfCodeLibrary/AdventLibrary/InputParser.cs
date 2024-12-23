@@ -1,5 +1,6 @@
 ﻿using AdventLibrary.Extensions;
 using AdventLibrary.Helpers.Grids;
+using AdventLibrary.PathFinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -265,22 +266,26 @@ namespace AdventLibrary
                 }
                 foreach (var line in _lines)
                 {
-                    var tokens = line.Split(_delimiterChars);
-                    if (nodes.ContainsKey(tokens[0]))
+                    var tokens = StringParsing.GetRealTokens(line, _delimiterChars);
+                    var start = tokens[0];
+                    var ends = tokens.SubList(1);
+                    var myListy = new List<string>();
+
+                    if (!nodes.ContainsKey(start))
                     {
-                        nodes[tokens[0]].Add(tokens[1]);
+                        nodes.Add(start, myListy);
                     }
                     else
                     {
-                        nodes.Add(tokens[0], new List<string>() { tokens[1] });
+                        myListy = nodes[start];
                     }
-                    if (nodes.ContainsKey(tokens[1]))
+
+                    foreach (var end in ends)
                     {
-                        nodes[tokens[1]].Add(tokens[0]);
-                    }
-                    else
-                    {
-                        nodes.Add(tokens[1], new List<string>() { tokens[0] });
+                        if (!myListy.Contains(end))
+                        {
+                            myListy.Add(end);
+                        }
                     }
                 }
                 return nodes;

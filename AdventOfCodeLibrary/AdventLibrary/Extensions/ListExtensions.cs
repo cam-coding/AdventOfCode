@@ -231,19 +231,29 @@ namespace AdventLibrary.Extensions
 
         // hard to decipher, here are clearer ones https://rosettacode.org/wiki/Combinations#C.2B.2B
         // 1,2,3 and length 2 -> (1,2) (1,3) (2,3)
-        public static IEnumerable<IEnumerable<T>> GetKCombinations<T>(this List<T> list, int length) where T : IComparable
+        public static List<List<T>> GetKCombinations<T>(this List<T> list, int length) where T : IComparable
         {
-            if (length == 0) return new List<IEnumerable<T>>();
-            if (length == 1) return list.Select(t => new T[] { t });
+            if (length == 0) return new List<List<T>>();
+            if (length == 1) return list.Select(t => new List<T> { t }).ToList();
             return list.GetKCombinations(length - 1)
                 .SelectMany(t => list.Where(o => o.CompareTo(t.Last()) > 0),
-                    (t1, t2) => t1.Concat(new T[] { t2 }));
+                    (t1, t2) => t1.Concat(new List<T> { t2 }).ToList()).ToList();
         }
 
-        public static IEnumerable<IEnumerable<T>> Get0toKCombinations<T>(this List<T> list, int length) where T : IComparable
+        public static List<List<T>> Get0toKCombinations<T>(this List<T> list, int length) where T : IComparable
         {
-            var result = new List<IEnumerable<T>>() { new List<T>() };
+            var result = new List<List<T>>() { new List<T>() };
             for (int i = 1; i <= length; i++)
+            {
+                result.AddRange(list.GetKCombinations(i).ToList());
+            }
+            return result;
+        }
+
+        public static List<List<T>> GetJtoKCombinations<T>(this List<T> list, int minLength, int maxLength) where T : IComparable
+        {
+            var result = new List<List<T>>() { new List<T>() };
+            for (int i = minLength; i <= maxLength; i++)
             {
                 result.AddRange(list.GetKCombinations(i).ToList());
             }
@@ -344,12 +354,12 @@ namespace AdventLibrary.Extensions
             return count;
         }
 
-        public static string Stringify<T>(this List<T> list)
+        public static string Stringify<T>(this List<T> list, char seperator = ':')
         {
             var str = string.Empty;
             foreach (var item in list)
             {
-                str += item.ToString() + ":";
+                str += item.ToString() + seperator;
             }
             return str;
         }

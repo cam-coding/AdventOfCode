@@ -25,58 +25,7 @@ namespace aoc2024
         private object Part1(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var lines = input.Lines;
-            var numbers = input.Longs;
-            var longLines = input.LongLines;
-            var grid = input.GridChar;
-            var graph = input.Graph;
-            var gridStart = new GridLocation<int>(0, 0);
-            long total = 1000000;
-            long count = 0;
-            long number = input.Long;
-
-            var nodes = new Dictionary<string, List<string>>();
-            foreach (var line in lines)
-            {
-                var tokens = StringParsing.GetRealTokens(line, _delimiterChars);
-                var start = tokens[0];
-                var ends = tokens.SubList(1);
-                var myListy = new List<string>();
-
-                if (!nodes.ContainsKey(start))
-                {
-                    nodes.Add(start, myListy);
-                }
-                else
-                {
-                    myListy = nodes[start];
-                }
-
-                foreach (var end in ends)
-                {
-                    if (!myListy.Contains(end))
-                    {
-                        myListy.Add(end);
-                    }
-
-                    if (!nodes.ContainsKey(end))
-                    {
-                        nodes.Add(end, new List<string>() { start });
-                    }
-                    else
-                    {
-                        if (!nodes[end].Contains(start))
-                        {
-                            nodes[end].Add(start);
-                        }
-                    }
-                }
-            }
-
-            foreach (var item in graph)
-            {
-                graph.TryAdd(item.Value[0], new List<string>() { item.Key });
-            }
+            var nodes = input.GraphUndirected;
 
             var myHashy = new HashSet<(string, string, string)>();
 
@@ -109,72 +58,28 @@ namespace aoc2024
         private object Part2(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-            var lines = input.Lines;
-            var numbers = input.Longs;
-            var longLines = input.LongLines;
-            var grid = input.GridChar;
-            var graph = input.Graph;
-            var gridStart = new GridLocation<int>(0, 0);
-            long total = 1000000;
-            long count = 0;
-            long number = input.Long;
-
-            var nodes = new Dictionary<string, List<string>>();
-            foreach (var line in lines)
-            {
-                var tokens = StringParsing.GetRealTokens(line, _delimiterChars);
-                var start = tokens[0];
-                var ends = tokens.SubList(1);
-                var myListy = new List<string>();
-
-                if (!nodes.ContainsKey(start))
-                {
-                    nodes.Add(start, myListy);
-                }
-                else
-                {
-                    myListy = nodes[start];
-                }
-
-                foreach (var end in ends)
-                {
-                    if (!myListy.Contains(end))
-                    {
-                        myListy.Add(end);
-                    }
-
-                    if (!nodes.ContainsKey(end))
-                    {
-                        nodes.Add(end, new List<string>() { start });
-                    }
-                    else
-                    {
-                        if (!nodes[end].Contains(start))
-                        {
-                            nodes[end].Add(start);
-                        }
-                    }
-                }
-            }
-
-            foreach (var item in graph)
-            {
-                graph.TryAdd(item.Value[0], new List<string>() { item.Key });
-            }
+            var nodes = input.GraphUndirected;
 
             var myHashy = new HashSet<(string, string, string)>();
 
-            var best = 1;
+            var best = 2;
             var bestList = new List<string>();
 
             var county = 0;
 
+            var allCombos = new HashSet<List<string>>();
+
             foreach (var item in nodes)
             {
                 county++;
-                var fullList = new List<string>() { item.Key };
-                fullList.AddRange(item.Value);
-                var res = fullList.Get0toKCombinations(fullList.Count).ToList();
+                var fullList = new List<string>(item.Value);
+                var res = fullList.GetJtoKCombinations(best, fullList.Count).ToList();
+                /*
+                foreach (var combo in res)
+                {
+                    combo.Sort();
+                    allCombos.Add(combo);
+                }*/
                 foreach (var thing in res)
                 {
                     var cur = thing.ToList();
@@ -202,9 +107,10 @@ namespace aoc2024
 
                     if (valid)
                     {
-                        if (cur.Count > best)
+                        if (cur.Count >= best)
                         {
-                            best = cur.Count;
+                            best = cur.Count + 1;
+                            cur.Add(item.Key);
                             bestList = cur;
                         }
                     }
@@ -212,13 +118,8 @@ namespace aoc2024
             }
 
             bestList.Sort();
-
-            var str = string.Empty;
-            foreach (var t in bestList)
-            {
-                str += t + ",";
-            }
-            Console.WriteLine(str);
+            bestList.Stringify(',');
+            Console.WriteLine(bestList.Stringify(','));
             return best;
         }
     }

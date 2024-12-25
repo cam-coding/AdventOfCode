@@ -25,7 +25,7 @@ namespace aoc2023
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
 
-            GraphVisualizerWrapper.StartVisualizerProgram(input.Graph);
+            GraphVisualizerWrapper.StartVisualizerProgram(input.GraphDirected);
 
             var dict = new Dictionary<string, IModule>();
 

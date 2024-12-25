@@ -27,7 +27,7 @@ namespace aoc2020
             var lines = input.Lines;
 			var numbers = input.Longs;
             var longLines = input.LongLines;
-            var nodes = input.Graph;
+            var nodes = input.GraphDirected;
             var grid = input.GridChar;
             var gridStart = new GridLocation<int>(0, 0);
             long total = 1000000;

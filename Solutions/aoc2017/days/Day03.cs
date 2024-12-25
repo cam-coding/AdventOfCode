@@ -27,7 +27,7 @@ namespace aoc2017
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
             var numbers = input.Longs;
-            var nodes = input.Graph;
+            var nodes = input.GraphDirected;
             var grid = input.GridChar;
             long total = 1000000;
             long count = 0;

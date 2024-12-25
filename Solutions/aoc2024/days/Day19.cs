@@ -8,12 +8,13 @@ using AdventLibrary.Helpers.Grids;
 
 namespace aoc2024
 {
-    public class Day19: ISolver
+    public class Day19 : ISolver
     {
         private string _filePath;
         private char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
         private Dictionary<string, bool> _dict;
         private Dictionary<string, long> _dict2;
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -27,13 +28,13 @@ namespace aoc2024
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
-			var numbers = input.Longs;
+            var numbers = input.Longs;
             var longLines = input.LongLines;
-            var nodes = input.Graph;
+            var nodes = input.GraphDirected;
             var grid = input.GridChar;
             var gridStart = new GridLocation<int>(0, 0);
             long total = 1000000;
-			long count = 0;
+            long count = 0;
             long number = input.Long;
 
             var groups = input.LineGroupsSeperatedByWhiteSpace;
@@ -109,7 +110,7 @@ namespace aoc2024
             var lines = input.Lines;
             var numbers = input.Longs;
             var longLines = input.LongLines;
-            var nodes = input.Graph;
+            var nodes = input.GraphDirected;
             var grid = input.GridChar;
             var gridStart = new GridLocation<int>(0, 0);
             long total = 1000000;

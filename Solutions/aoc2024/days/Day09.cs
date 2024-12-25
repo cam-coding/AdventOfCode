@@ -25,7 +25,7 @@ namespace aoc2024
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
             var longLines = input.LongLines;
-            var nodes = input.Graph;
+            var nodes = input.GraphDirected;
             var grid = input.GridChar;
             var gridStart = new GridLocation<int>(0, 0);
             long total = 1000000;
@@ -86,7 +86,7 @@ namespace aoc2024
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
             var longLines = input.LongLines;
-            var nodes = input.Graph;
+            var nodes = input.GraphDirected;
             var grid = input.GridChar;
             var gridStart = new GridLocation<int>(0, 0);
             long total = 1000000;

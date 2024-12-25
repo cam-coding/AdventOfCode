@@ -27,7 +27,8 @@ namespace AdventLibrary
             GridInt = InputParser.GetLinesAsGrid<int>();
             GridChar = InputParser.GetLinesAsGrid<char>();
             Coords = InputParser.GetLinesAsCoords();
-            Graph = InputParser.GetLinesAsGraph();
+            GraphDirected = InputParser.GetLinesAsGraphDirected();
+            GraphUndirected = InputParser.GetLinesAsGraphUndirected();
         }
 
         public InputParser InputParser { get; }
@@ -66,7 +67,9 @@ namespace AdventLibrary
 
         public List<GridLocation<int>> Coords { get; }
 
-        public Dictionary<string, List<string>> Graph { get; }
+        public Dictionary<string, List<string>> GraphDirected { get; }
+
+        public Dictionary<string, List<string>> GraphUndirected { get; }
 
         private List<List<string>> GetLineGroups(List<string> lines)
         {

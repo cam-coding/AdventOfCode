@@ -255,7 +255,7 @@ namespace AdventLibrary
         }
 
         // actually an adj list not a graph
-        public Dictionary<string, List<string>> GetLinesAsGraph()
+        public Dictionary<string, List<string>> GetLinesAsGraphDirected()
         {
             try
             {
@@ -285,6 +285,61 @@ namespace AdventLibrary
                         if (!myListy.Contains(end))
                         {
                             myListy.Add(end);
+                        }
+                    }
+                }
+                return nodes;
+            }
+            catch (Exception e)
+            {
+            }
+            return null;
+        }
+
+        // actually an adj list not a graph
+        public Dictionary<string, List<string>> GetLinesAsGraphUndirected()
+        {
+            try
+            {
+                var nodes = new Dictionary<string, List<string>>();
+                if (_lines.Count < 2)
+                {
+                    return null;
+                }
+                foreach (var line in _lines)
+                {
+                    var tokens = StringParsing.GetRealTokens(line, _delimiterChars);
+                    var start = tokens[0];
+                    var ends = tokens.SubList(1);
+                    var myListy = new List<string>();
+
+                    if (!nodes.ContainsKey(start))
+                    {
+                        nodes.Add(start, myListy);
+                    }
+                    else
+                    {
+                        myListy = nodes[start];
+                    }
+
+                    foreach (var end in ends)
+                    {
+                        if (!myListy.Contains(end))
+                        {
+                            myListy.Add(end);
+                        }
+
+                        if (!nodes.ContainsKey(end))
+                        {
+                            nodes.Add(end, new List<string>() { start });
+                        }
+                        else
+                        {
+                            var otherList = nodes[end];
+                            if (!otherList.Contains(start))
+                            {
+                                otherList.Add(start);
+                            }
                         }
                     }
                 }

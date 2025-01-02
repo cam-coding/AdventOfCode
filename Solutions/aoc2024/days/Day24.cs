@@ -10,10 +10,11 @@ using Microsoft.Win32.SafeHandles;
 
 namespace aoc2024
 {
-    public class Day24: ISolver
+    public class Day24 : ISolver
     {
         private string _filePath;
         private char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -27,12 +28,12 @@ namespace aoc2024
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
-			var numbers = input.Longs;
+            var numbers = input.Longs;
             var longLines = input.LongLines;
             var grid = input.GridChar;
             var gridStart = new GridLocation<int>(0, 0);
             long total = 1000000;
-			long count = 0;
+            long count = 0;
             long number = input.Long;
 
             var myDict = new Dictionary<string, bool>();
@@ -95,7 +96,7 @@ namespace aoc2024
                 }
             }
 
-            var zKeys = myDict.Where(x=> x.Key.StartsWith("z")).Select(x => x.Key).ToList();
+            var zKeys = myDict.Where(x => x.Key.StartsWith("z")).Select(x => x.Key).ToList();
             zKeys = zKeys.SortDescending();
 
             var str = string.Empty;
@@ -104,7 +105,7 @@ namespace aoc2024
             {
                 var val = myDict[key];
                 if (val)
-                                    {
+                {
                     str += "1";
                 }
                 else
@@ -210,7 +211,6 @@ namespace aoc2024
 
             var answer = xNumber + yNumber;
 
-
             var testDict = myDict.ToDictionary(entry => entry.Key,
                                            entry => entry.Value);
             foreach (var key in xKeys)
@@ -240,7 +240,6 @@ namespace aoc2024
                 x.StartsWith(orStr2));
             }
 
-
             Console.WriteLine("Hello");
             for (var i = 0; i < xKeys.Count; i++)
             {
@@ -250,7 +249,6 @@ namespace aoc2024
                 var tempStr = "y" + GetNumberAsStringZeroPadded(i);
 
                 tempDict[tempStr] = true;
-
 
                 var tempAnswer = GetXNum(tempDict) + GetYNum(tempDict);
 
@@ -262,7 +260,7 @@ namespace aoc2024
 
                 if (blah.Count() > 0)
                 {
-                    Console.WriteLine("Hello");
+                    // Console.WriteLine("Hello");
                 }
                 if (tempAnswer != zNum)
                 {

@@ -354,22 +354,17 @@ namespace AdventLibrary.Extensions
             return count;
         }
 
-        public static string Stringify<T>(this List<T> list, char seperator = ':')
+        public static string Stringify<T>(this List<T> list, char separator = ',')
         {
-            var str = string.Empty;
-            foreach (var item in list)
-            {
-                str += item.ToString() + seperator;
-            }
-            return str;
+            return string.Join(separator, list);
         }
 
-        public static string Stringify<T>(this List<List<T>> list)
+        public static string Stringify<T>(this List<List<T>> list, char separator = ',')
         {
             var str = string.Empty;
             foreach (var item in list)
             {
-                str += item.Stringify();
+                str += item.Stringify() + separator;
             }
             return str;
         }

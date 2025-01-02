@@ -67,6 +67,11 @@ namespace AdventLibrary
             return grid;
         }
 
+        public static List<List<char>> GenerateGridFromStrings(List<string> input)
+        {
+            return input.Select(x => x.ToList()).ToList();
+        }
+
         /* Assume offset already applied*/
 
         public static GridLocation<int> MoveByOffset(int y, int x, int width, int height, bool wrap)

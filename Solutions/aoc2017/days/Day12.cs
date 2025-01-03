@@ -66,28 +66,25 @@ namespace aoc2017
 
             foreach (var key in dict.Keys)
             {
-                Queue<List<string>> q = new Queue<List<string>>();
+                Queue<string> q = new Queue<string>();
                 var fullPathHistory = new HashSet<string>();
                 var head = key;
-                q.Enqueue(new List<string>() { head });
+                q.Enqueue(head);
                 var endsHash = new HashSet<string>();
                 while (q.Count > 0)
                 {
-                    var fullPath = q.Dequeue();
-                    var currentValue = fullPath.Last();
+                    var current = q.Dequeue();
 
                     if (
-                        fullPath == null ||
-                        fullPathHistory.Contains(currentValue))
+                        current == null ||
+                        fullPathHistory.Contains(current))
                         continue;
 
-                    fullPathHistory.Add(currentValue);
+                    fullPathHistory.Add(current);
 
-                    foreach (var neighbour in dict[currentValue].Where(x => !fullPathHistory.Contains(x)))
+                    foreach (var neighbour in dict[current].Where(x => !fullPathHistory.Contains(x)))
                     {
-                        var temp = fullPath.Clone();
-                        temp.Add(neighbour);
-                        q.Enqueue(temp);
+                        q.Enqueue(neighbour);
                     }
                 }
 

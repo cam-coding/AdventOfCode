@@ -74,6 +74,45 @@ namespace AdventLibrary.PathFinding
             }
         }
 
+        /* Use this if you want to:
+         * Find all connected nodes
+         * Find a group in a grid/graph
+         * Weights and paths don't matter
+         * Find all transitive neighbours
+         * */
+
+        public static void BFS_AllConnectedNodes_Example()
+        {
+            // start with a dict and a startug node
+            var dict = new Dictionary<string, List<string>>();
+            var start = "0";
+
+            Queue<string> q = new Queue<string>();
+            var fullPathHistory = new HashSet<string>();
+            var head = start;
+            q.Enqueue(head);
+            var endsHash = new HashSet<string>();
+            while (q.Count > 0)
+            {
+                var current = q.Dequeue();
+
+                if (current == null || fullPathHistory.Contains(current))
+                    continue;
+
+                fullPathHistory.Add(current);
+
+                // can replace this with whatever is needed in this scenario
+                var neighbours = dict[current].Where(x => !fullPathHistory.Contains(x));
+
+                foreach (var neighbour in neighbours)
+                {
+                    q.Enqueue(neighbour);
+                }
+            }
+
+            // now fullPathHistory has every interconnected node from the starting node
+        }
+
         private static void BFS_AllBestPaths_Example()
         {
             // just examples for compiling

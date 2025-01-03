@@ -86,5 +86,41 @@ namespace AdventLibrary.PathFinding
                 }
             }
         }
+
+        public void DFS_Weightless(
+            List<T> current,
+            Func<T, List<T>> GetNeighboursFunc,
+            Func<T, bool> GoalEvaluation = null
+            )
+        {
+            var currentNode = current.Last();
+            var currentPath = current;
+
+            if (_goalAchieved)
+            {
+                return;
+            }
+
+            if ((GoalEvaluation != null && GoalEvaluation(currentNode)))
+            {
+                _goalAchieved = true;
+                _goalPath = currentPath;
+                return;
+            }
+
+            // only process each node once
+            if (!_visited.Add(currentNode))
+            {
+                return;
+            }
+
+            // Neighbours are figured out before objects are passed in, so no logic around that here.
+            foreach (var neighbour in GetNeighboursFunc(currentNode).Where(x => !_visited.Contains(x)))
+            {
+                var newPath = currentPath.Clone();
+                newPath.Add(neighbour);
+                DFS_Weightless(newPath, GetNeighboursFunc, GoalEvaluation);
+            }
+        }
     }
 }

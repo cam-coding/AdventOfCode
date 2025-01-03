@@ -7,10 +7,11 @@ using AdventLibrary.Helpers;
 
 namespace aoc2017
 {
-    public class Day09: ISolver
+    public class Day09 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -24,43 +25,134 @@ namespace aoc2017
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
-			var numbers = input.Longs;
-            var nodes = input.GraphDirected;
-            var grid = input.GridChar;
-            long total = 1000000;
-			long count = 0;
-            long number = input.Long;
-            
-            var ln1 = lines != null && lines.Count > 0 ? lines[0] : string.Empty;
-            var ln2 = lines != null && lines.Count > 1 ? lines[1] : string.Empty;
-            for (var i = 0; i < lines.Count; i++)
+            long total = 0;
+
+            foreach (var line in lines)
             {
-
-            }
-
-			foreach (var line in lines)
-			{
-                var tokens = line.GetRealTokens(delimiterChars);
-				var nums = StringParsing.GetNumbersFromString(line);
-
-				foreach (var num in nums)
-				{
-				}
-
-                for (var i = 0; i < 0; i++)
+                var garbageMode = false;
+                var stack = new Stack<char>();
+                var count = 0;
+                for (var i = 0; i < line.Count(); i++)
                 {
-                    for (var j = 0; j < 0; j++)
+                    var current = line[i];
+                    switch (current)
                     {
+                        case '<':
+                            if (!garbageMode)
+                            {
+                                garbageMode = true;
+                            }
+                            break;
 
+                        case '>':
+                            if (garbageMode)
+                            {
+                                garbageMode = false;
+                            }
+                            break;
+
+                        case '{':
+                            if (!garbageMode)
+                            {
+                                stack.Push(current);
+                            }
+                            break;
+
+                        case '}':
+                            if (!garbageMode)
+                            {
+                                count += stack.Count;
+                                stack.Pop();
+                            }
+                            break;
+
+                        case '!':
+                            if (garbageMode)
+                            {
+                                i += 1;
+                            }
+                            break;
                     }
                 }
-			}
-            return 0;
+                total += count;
+            }
+            return total;
         }
 
         private object Part2(bool isTest = false)
         {
-            return 0;
+            var input = new InputObjectCollection(_filePath);
+            var lines = input.Lines;
+            long total = 0;
+
+            foreach (var line in lines)
+            {
+                var garbageMode = false;
+                var stack = new Stack<char>();
+                var count = 0;
+                for (var i = 0; i < line.Count(); i++)
+                {
+                    var current = line[i];
+                    switch (current)
+                    {
+                        case '<':
+                            if (!garbageMode)
+                            {
+                                garbageMode = true;
+                            }
+                            else
+                            {
+                                count++;
+                            }
+                            break;
+
+                        case '>':
+                            if (garbageMode)
+                            {
+                                garbageMode = false;
+                            }
+                            break;
+
+                        case '{':
+                            if (!garbageMode)
+                            {
+                                stack.Push(current);
+                            }
+                            else
+                            {
+                                count++;
+                            }
+                            break;
+
+                        case '}':
+                            if (!garbageMode)
+                            {
+                                stack.Pop();
+                            }
+                            else
+                            {
+                                count++;
+                            }
+                            break;
+
+                        case '!':
+                            if (garbageMode)
+                            {
+                                i += 1;
+                            }
+                            break;
+
+                        default:
+                            if (garbageMode)
+                            {
+                                count++;
+                            }
+                            break;
+                    }
+                }
+                total += count;
+            }
+            return total;
         }
     }
 }

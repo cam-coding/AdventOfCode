@@ -172,7 +172,29 @@ namespace AdventLibrary.PathFinding
             DFS.DFSgeneric(start, NeighboursFunc, GoalFunc, WeightFunc);
         }
 
-        /* Use BFS as your search algorithm if you want to:
+        private static void DFS_Weightless_Example()
+        {
+            var dict = new Dictionary<string, List<string>>();
+            Func<string, List<string>> NeighboursFunc = (current) =>
+            {
+                if (dict.ContainsKey(current))
+                {
+                    return dict[current];
+                }
+                return new List<string>();
+            };
+
+            Func<string, bool> GoalFunc = (current) =>
+            {
+                return current.Equals("0");
+            };
+
+            var start = new List<string>() { "1" };
+            var DFS = new DepthFirstSearch<string>();
+            DFS.DFS_Weightless(start, NeighboursFunc, GoalFunc);
+        }
+
+        /* Use A-Star as your search algorithm if you want to:
          * Find shortest path/most effecient path
          * Find a SINGLE best path from one location to all others
          * Need a heuristic to guide the search

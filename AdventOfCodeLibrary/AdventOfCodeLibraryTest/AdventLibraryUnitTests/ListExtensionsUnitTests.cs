@@ -75,6 +75,13 @@ namespace AdventLibraryUnitTests
             Assert.Equal(expected, result);
         }
 
+        [Theory]
+        [MemberData(nameof(WrappedIndexTestData))]
+        public void WrappedIndex_ReturnsExpectedValue(List<int> list, int index, int expected)
+        {
+            Assert.Equal(expected, list.GetWrappedIndex(index));
+        }
+
         #region TestData
         public static IEnumerable<object[]> GetKCombinationsTestData()
         {
@@ -295,6 +302,58 @@ namespace AdventLibraryUnitTests
                 new List<int>(),
                 new List<int>(),
                 0,
+            };
+        }
+
+        public static IEnumerable<object[]> WrappedIndexTestData()
+        {
+            yield return new object[]
+            {
+                new List<int>() { 1,2,3},
+                3,
+                0,
+            };
+
+            yield return new object[]
+            {
+                new List<int>() { 1,2,3},
+                0,
+                0,
+            };
+
+            yield return new object[]
+            {
+                new List<int>() { 1,2,3},
+                4,
+                1,
+            };
+
+            yield return new object[]
+            {
+                new List<int>() { 1,2,3},
+                6,
+                0,
+            };
+
+            yield return new object[]
+            {
+                new List<int>() { 1,2,3},
+                -1,
+                2,
+            };
+
+            yield return new object[]
+            {
+                new List<int>() { 1,2,3},
+                -2,
+                1,
+            };
+
+            yield return new object[]
+            {
+                new List<int>() { 1,2,3},
+                -4,
+                2,
             };
         }
         #endregion TestData

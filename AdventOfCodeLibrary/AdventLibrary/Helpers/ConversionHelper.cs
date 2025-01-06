@@ -33,7 +33,7 @@ namespace AdventLibrary.Helpers
         // converts to a specific length with leading zeroes
         public static string ConvertToHexString(this int value, int length)
         {
-            return value.ToString($"{length}X");
+            return value.ToString($"X{length}");
         }
 
         public static int ConvertToInt(this string str)

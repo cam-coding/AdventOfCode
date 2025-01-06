@@ -25,45 +25,66 @@ namespace aoc2017
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
-			var numbers = input.Longs;
-            var longLines = input.LongLines;
-            var nodes = input.GraphDirected;
-            var grid = input.GridChar;
-            var gridStart = new GridLocation<int>(0, 0);
-            long total = 1000000;
-			long count = 0;
-            long number = input.Long;
+            var line = lines[0];
+            var count = 0;
 
-            var ln1 = lines != null && lines.Count > 0 ? lines[0] : string.Empty;
-            var ln2 = lines != null && lines.Count > 1 ? lines[1] : string.Empty;
-            for (var i = 0; i < lines.Count; i++)
+            var listGrid = GridHelper.GenerateGrid(128, 128, 0);
+            var grid = new GridObject<int>(listGrid);
+
+            for (var i = 0; i < 128; i++)
             {
-
-            }
-
-			foreach (var line in lines)
-			{
-                var tokens = line.GetRealTokens(delimiterChars);
-				var nums = StringParsing.GetNumbersFromString(line);
-
-				foreach (var num in nums)
-				{
-				}
-
-                for (var i = 0; i < 0; i++)
+                var hasher = new KnotHasher(line+$"-{i}");
+                var hex = hasher.GenerateHash();
+                var binary = string.Empty;
+                for (var k = 0; k < hex.Length; k+= 2)
                 {
-                    for (var j = 0; j < 0; j++)
+                    binary += ConversionHelper.ConvertBaseToBase(16, 2, hex.Substring(k, 2));
+                }
+                for (var j = 0; j < binary.Length; j++)
+                {
+                    if (binary[j] == '1')
                     {
-
+                        grid.Set(new GridLocation<int>(j, i), 1);
+                        count++;
                     }
                 }
-			}
+            }
+
             return count;
         }
 
         private object Part2(bool isTest = false)
         {
-            return 0;
+            var input = new InputObjectCollection(_filePath);
+            var lines = input.Lines;
+            var line = lines[0];
+            var count = 0;
+
+            var listGrid = GridHelper.GenerateGrid(128, 128, 0);
+            var grid = new GridObject<int>(listGrid);
+
+            for (var i = 0; i < 128; i++)
+            {
+                var hasher = new KnotHasher(line + $"-{i}");
+                var hex = hasher.GenerateHash();
+                var binary = string.Empty;
+                for (var k = 0; k < hex.Length; k++)
+                {
+                    binary += ConversionHelper.ConvertBaseToBase(16, 2, hex.Substring(k, 1)).PadLeft(4, '0');
+                }
+                for (var j = 0; j < binary.Length; j++)
+                {
+                    if (binary[j] == '1')
+                    {
+                        grid.Set(new GridLocation<int>(j, i), 1);
+                        count++;
+                    }
+                }
+            }
+
+            var regions = GridObjectExtensions.GetRegions(grid);
+            var validRegions = regions.Where(x => grid.Get(x[0]) == 1);
+            return validRegions.Count();
         }
     }
 }

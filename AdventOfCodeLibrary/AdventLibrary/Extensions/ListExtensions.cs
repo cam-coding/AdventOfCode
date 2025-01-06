@@ -41,6 +41,20 @@ namespace AdventLibrary.Extensions
             return except;
         }
 
+        public static int GetWrappedIndex<T>(this List<T> list, int index)
+        {
+            var realIndex = -1;
+            if (index >= 0)
+            {
+                realIndex = index % list.Count;
+            }
+            else if (index < 0)
+            {
+                realIndex = list.Count + (index % (list.Count * -1));
+            }
+            return realIndex;
+        }
+
         public static T PopFirst<T>(this List<T> list)
         {
             return list.PopAtIndex(0);
@@ -352,6 +366,21 @@ namespace AdventLibrary.Extensions
                 }
             }
             return count;
+        }
+
+        public static string Stringify<T>(this List<T> list, string separator)
+        {
+            return string.Join(separator, list);
+        }
+
+        public static string Stringify<T>(this List<List<T>> list, string separator)
+        {
+            var str = string.Empty;
+            foreach (var item in list)
+            {
+                str += item.Stringify(separator) + separator;
+            }
+            return str;
         }
 
         public static string Stringify<T>(this List<T> list, char separator = ',')

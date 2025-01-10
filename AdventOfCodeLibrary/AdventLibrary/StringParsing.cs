@@ -102,6 +102,11 @@ namespace AdventLibrary
             return output;
         }
 
+        public static List<string> GetRealTokens(this string input, char delimiterChar)
+        {
+            return GetRealTokens(input, [delimiterChar]);
+        }
+
         public static List<string> GetRealTokens(this string input, char[] delimiterChars)
         {
             var tokens = input.Split(delimiterChars).ToList();

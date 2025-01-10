@@ -1,3 +1,7 @@
+Default Dictionary class?
+	Gets the value if the key exists else default
+	Sets the value is the key exists else set to default
+
 Add "MergeGrids" to GridObjectExtensions
 	Code is poor but written in Day 21 2017
 	Already have subdividing grids

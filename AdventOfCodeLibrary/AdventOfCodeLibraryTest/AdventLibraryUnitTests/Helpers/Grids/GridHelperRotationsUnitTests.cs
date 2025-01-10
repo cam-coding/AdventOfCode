@@ -235,7 +235,7 @@ namespace AdventLibraryUnitTests.Helpers.Grids
             };
 
             var test1 = start.Clone2dList();
-            GridHelper.RotateGrid180<int>(test1);
+            test1 = GridHelper.RotateGrid180<int>(test1);
             Assert.Equal(expected, test1);
 
             var test2 = start.Clone2dList();

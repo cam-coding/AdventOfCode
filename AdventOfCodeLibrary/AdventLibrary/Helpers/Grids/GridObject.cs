@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using AdventLibrary.Extensions;
 
 namespace AdventLibrary.Helpers.Grids
@@ -43,6 +45,22 @@ namespace AdventLibrary.Helpers.Grids
         public GridObject<T> Clone()
         {
             return new GridObject<T>(Grid);
+        }
+
+        public bool Equals(GridObject<T> otherGrid)
+        {
+            if (Width == otherGrid.Width && Height == otherGrid.Height)
+            {
+                for (var i = 0; i < Height; i++)
+                {
+                    if (!Grid[i].SequenceEqual(otherGrid.Grid[i]))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
         }
 
         public bool TryGet(out T value, GridLocation<int> location)
@@ -123,6 +141,20 @@ namespace AdventLibrary.Helpers.Grids
             }
 
             return null;
+        }
+
+        public List<GridLocation<int>> GetAllLocations()
+        {
+            var listy = new List<GridLocation<int>>();
+            for (var y = 0; y < Height; y++)
+            {
+                for (var x = 0; x < Width; x++)
+                {
+                    listy.Add(new GridLocation<int>(x, y));
+                }
+            }
+
+            return listy;
         }
 
         public List<GridLocation<int>> GetAllLocationsWhere(Func<T, bool> filter = null)

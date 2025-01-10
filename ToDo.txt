@@ -1,3 +1,7 @@
+Add "MergeGrids" to GridObjectExtensions
+	Code is poor but written in Day 21 2017
+	Already have subdividing grids
+
 Clean out old AStar code and remove old usages of it
 Setup AStar to also work for graphs
 

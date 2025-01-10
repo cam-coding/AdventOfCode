@@ -116,5 +116,29 @@ namespace AdventLibrary.Helpers.Grids
 
             return locations;
         }
+
+        /* Subdivide a grid into smaller grids
+         * input: grid, output grid dimensions
+         * output: N grids of size newGridWidth x newGridHeight
+         *          Output grids are left to right, top down of original grid.
+         * 
+         * Example:
+         * 1 4x4 grid into 4 2x2 grids or 1 9x9 grid into 9 3x3 grids
+         * 1 6x4 grid into 4 3x2 grids
+         * */
+        public static List<GridObject<T>> SubDivideGrid<T>(this GridObject<T> grid, int newGridWith, int newGridHeight)
+        {
+            var newGrids = new List<GridObject<T>>();
+            for (var y = 0; y < grid.Height / newGridHeight; y++)
+            {
+                for (var x = 0; x < grid.Width / newGridWith; x++)
+                {
+                    newGrids.Add(grid.GetSubGrid(
+                        new GridLocation<int>(x * newGridWith, y * newGridHeight),
+                        new GridLocation<int>((x + 1) * newGridWith - 1, (y + 1) * newGridHeight - 1)));
+                }
+            }
+            return newGrids;
+        }
     }
 }

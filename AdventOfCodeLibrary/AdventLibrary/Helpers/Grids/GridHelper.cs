@@ -455,6 +455,11 @@ namespace AdventLibrary
             return columns;
         }
 
+        public static List<List<int>> ConvertToIntGrid<T>(List<List<T>> grid, T searchValue, int trueValue = 1, int falseValue = 0)
+        {
+            return grid.Select(y => y.Select(x => x.Equals(searchValue) ? trueValue : falseValue).ToList()).ToList();
+        }
+
         public static List<string> CharGridToStringList(List<List<char>> grid)
         {
             return grid.Select(x => x.Stringify()).ToList();
@@ -635,10 +640,13 @@ namespace AdventLibrary
             return grid;
         }
 
-        public static void RotateGrid180<T>(List<List<T>> grid)
+        public static List<List<T>> RotateGrid180<T>(List<List<T>> grid)
         {
+            /* also works but does in place changing
             ReverseGridRows(grid);
             ReverseGridColumns(grid);
+            */
+            return RotateGridRight(RotateGridRight(grid));
         }
 
         public static List<List<T>> TransposeGrid<T>(List<List<T>> grid)
@@ -714,6 +722,34 @@ namespace AdventLibrary
                 }
             }
             return grid;
+        }
+
+        public static (int X, int Y) FindCentreOfGrid<T>(List<List<T>> grid)
+        {
+            var width = grid[0].Count;
+            var height = grid.Count;
+
+            return (width / 2, height / 2);
+        }
+
+        public static List<List<T>> InsertGridIntoEmptyGrid<T>(List<List<T>> grid, T defaultValue, int width, int height)
+        {
+            var newGrid = GenerateGrid(width, height, defaultValue);
+            var centre = FindCentreOfGrid(grid);
+            var centreNewGrid = FindCentreOfGrid(newGrid);
+
+            var startX = centreNewGrid.X - centre.X;
+            var startY = centreNewGrid.Y - centre.Y;
+
+            for (var y = 0; y < grid.Count; y++)
+            {
+                for (var x = 0; x < grid[0].Count; x++)
+                {
+                    newGrid[startY + y][startX + x] = grid[y][x];
+                }
+            }
+
+            return newGrid;
         }
     }
 }

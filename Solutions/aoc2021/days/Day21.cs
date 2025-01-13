@@ -1,143 +1,119 @@
-using System;
+using AdventLibrary;
+using AdventLibrary.Extensions;
+using AdventLibrary.Helpers;
 using System.Collections.Generic;
 using System.Linq;
-using AdventLibrary;
 
 namespace aoc2021
 {
     public class Day21: ISolver
     {
-		/*
-		var sub = item.Substring(0, 1);
-		Console.WriteLine();
-		*/
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
-        private Random _random;
+        private List<int> _rollMemo;
+        private Dictionary<(int, int, int, int, int), List<long>> _memo;
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
-            return new Solution(0, Part2());
+            return new Solution(Part1(), Part2());
         }
 
         private object Part1()
         {
-            var lines = ParseInput.GetLinesFromFile(_filePath);
-			var counter = 0;
-
-            var playerPos = new List<int>() { AdventLibrary.StringParsing.GetNumbersFromString(lines[0])[1], AdventLibrary.StringParsing.GetNumbersFromString(lines[1])[1] };
-			var playerScores = new List<int>() { 0, 0 };
-
+            var input = new InputObjectCollection(_filePath);
+            var lines = input.Lines;
+            var playerPositions = new List<long>() { input.Longs[1], input.Longs[3] };
+            var playerScores = new List<long>() { 0, 0 };
+            var currentDiceValue = 0;
             var rollCount = 0;
-            var i = 1;
-            var turn = 0;
+
             while (true)
             {
-                var sum = RollDice(i, out i);
-                var playerCount = i % 2;
-                playerPos[turn] = MoveAndScore(sum, playerPos[turn]);
-                playerScores[turn] = playerScores[turn] + playerPos[turn];
-                rollCount = rollCount + 3;
-
-                if (i == 91)
+                for (var player = 0; player < 2; player++)
                 {
-                    Console.WriteLine("hi");
-                }
+                    var roll = 0;
+                    for (var i = 1; i < 4; i++)
+                    {
+                        currentDiceValue++;
+                        if (currentDiceValue == 101)
+                        {
+                            currentDiceValue = 1;
+                        }
+                        roll += currentDiceValue;
+                    }
+                    rollCount += 3;
 
-                if (playerScores[turn] >= 1000)
-                {
-                    return Math.Min(playerScores[turn], playerScores[(i+1) % 2])* rollCount;
+                    playerPositions[player] += roll;
+                    playerScores[player] += ((playerPositions[player] - 1) % 10) + 1;
+
+                    if (playerScores[player] >= 1000)
+                    {
+                        return playerScores[MathHelper.GetOppositeIntBool(player)] * rollCount;
+                    }
                 }
-                turn = turn == 0? 1: 0;
             }
-            return 0;
+            return "never get here";
         }
         
         private object Part2()
         {
-            var lines = ParseInput.GetLinesFromFile(_filePath);
-            _random = new Random();
-			var counter = 0;
-            var winnerCount = new List<int>() { 0, 0 };
+            var input = new InputObjectCollection(_filePath);
+            var lines = input.Lines;
+            var playerPositions = new List<int>() { (int)input.Longs[1], (int)input.Longs[3] };
+            var playerScores = new List<int>() { 0, 0 };
+            // SetupRollMemo();
 
-            for (var j = 21; j >= 0; j--)
-            {
-                
-            }
+            SetupRollMemo();
+            _memo = new Dictionary<(int, int, int, int, int), List<long>>();
+            var ans = Recursion(0, playerScores, playerPositions);
 
-            for (var x = 0; x < 10000000; x++)
-            {
-                var playerPos = new List<int>() { AdventLibrary.StringParsing.GetNumbersFromString(lines[0])[1], AdventLibrary.StringParsing.GetNumbersFromString(lines[1])[1] };
-                var playerScores = new List<int>() { 0, 0 };
-                if (playerPos[0] != 4)
-                {
-                    return 0;
-                }
-
-                var rollCount = 0;
-                var i = 1;
-                var turn = 0;
-                while (true)
-                {
-                    var sum = RollDice2();
-                    playerPos[turn] = MoveAndScore(sum, playerPos[turn]);
-                    playerScores[turn] = playerScores[turn] + playerPos[turn];
-                    rollCount = rollCount + 3;
-
-                    if (playerScores[turn] >= 21)
-                    {
-                        // var notTurn = turn == 0? 1: 0;
-                        winnerCount[turn]++;
-                        break;
-                    }
-                    turn = turn == 0? 1: 0;
-                }
-            }
-            Console.WriteLine(winnerCount[0].ToString());
-            Console.WriteLine(winnerCount[1].ToString());
-            return 0;
+            return ans.Max();
         }
 
-        private int MoveAndScore(int rolls, int currentSpot)
+        private void SetupRollMemo()
         {
-            var newSpot = currentSpot + rolls;
-
-            if ( newSpot < 11)
+            // pos to all possible scores from there
+            _rollMemo = new List<int>();
+            var listy = new List<int>() { 1, 2, 3 };
+            var blah = listy.GetPermutationsWithRepetitions(3);
+            foreach (var item in blah)
             {
-                return newSpot;
-            }
-            else
-            {
-                var mod = newSpot % 10;
-                if (mod == 0)
-                {
-                    return 10;
-                }
-                return mod;
+                _rollMemo.Add(item.Sum());
             }
         }
 
-        private int RollDice(int start, out int i)
+        private List<long> Recursion(int playerTurn, List<int> playerScores, List<int> playerPositions)
         {
-            i = start;
-            var rolls = new List<int>();
-
-            for (var j = 0; j < 3; j++)
+            var adjustedPositions = playerPositions.Select(x => ((x - 1) % 10) + 1).ToList();
+            var tuple = (playerTurn, playerScores[0], playerScores[1], adjustedPositions[0], adjustedPositions[1]);
+            // check for memo
+            if (_memo.ContainsKey(tuple))
             {
-                rolls.Add(i);
-                i++;
-                if (i > 100)
-                {
-                    i = 1;
-                }
+                return _memo[tuple];
             }
 
-            return rolls.Sum();
-        }
+            var otherPlayer = MathHelper.GetOppositeIntBool(playerTurn);
+            var wins = new List<long>() { 0, 0 };
+            if (playerScores[otherPlayer] >= 21)
+            {
+                wins[otherPlayer]++;
+                _memo.Add(tuple, wins);
+                return wins;
+            }
 
-        private int RollDice2()
-        {
-            return _random.Next(1, 3) + _random.Next(1, 3) + _random.Next(1, 3);
+            foreach (var item in _rollMemo)
+            {
+                var newScores = playerScores.Clone();
+                var newPlayerPositions = playerPositions.Clone();
+                newPlayerPositions[playerTurn] += item;
+                newScores[playerTurn] += ((newPlayerPositions[playerTurn] - 1) % 10) + 1;
+                var results = Recursion(MathHelper.GetOppositeIntBool(playerTurn), newScores, newPlayerPositions);
+                wins[0] += results[0];
+                wins[1] += results[1];
+            }
+            _memo.Add(tuple, wins);
+            return wins;
         }
     }
 }

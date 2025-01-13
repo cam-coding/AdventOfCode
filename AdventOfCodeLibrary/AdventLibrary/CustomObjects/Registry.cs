@@ -6,9 +6,9 @@ namespace AdventLibrary.CustomObjects
 {
     public class Registry
     {
-        public Registry(int count, char starting = 'A', int initialValue = 0)
+        public Registry(int count, char starting = 'A', long initialValue = 0)
         {
-            Registers = new Dictionary<char, int>();
+            Registers = new Dictionary<char, long>();
 
             for (var i = 0; i < count; i++)
             {
@@ -17,13 +17,13 @@ namespace AdventLibrary.CustomObjects
             }
         }
 
-        public Dictionary<char, int> Registers { get; set; }
+        public Dictionary<char, long> Registers { get; set; }
 
-        public int GetValue(string str)
+        public long GetValue(string str)
         {
             if (str.IsNumeric())
             {
-                return Convert.ToInt32(str);
+                return Convert.ToInt64(str);
             }
             else
             {
@@ -33,37 +33,49 @@ namespace AdventLibrary.CustomObjects
 
         public void Set(string reg, string value)
         {
-            int val = GetValue(value);
+            long val = GetValue(value);
             Registers[reg[0]] = val;
+        }
+        public void Set(string reg, int value)
+        {
+            Registers[reg[0]] = value;
+        }
+
+        public void SetAll(int value)
+        {
+            foreach (var key in Registers.Keys)
+            {
+                Registers[key] = value;
+            }
         }
 
         public void Add(string reg, string value)
         {
-            int val = GetValue(value);
+            long val = GetValue(value);
             Registers[reg[0]] = Registers[reg[0]] + val;
         }
 
         public void Sub(string reg, string value)
         {
-            int val = GetValue(value);
+            long val = GetValue(value);
             Registers[reg[0]] = Registers[reg[0]] - val;
         }
 
         public void Mul(string reg, string value)
         {
-            int val = GetValue(value);
+            long val = GetValue(value);
             Registers[reg[0]] = Registers[reg[0]] * val;
         }
 
         public void Div(string reg, string value)
         {
-            int val = GetValue(value);
+            long val = GetValue(value);
             Registers[reg[0]] = Registers[reg[0]] / val;
         }
 
         public void Mod(string reg, string value)
         {
-            int val = GetValue(value);
+            long val = GetValue(value);
             Registers[reg[0]] = Registers[reg[0]] % val;
         }
     }

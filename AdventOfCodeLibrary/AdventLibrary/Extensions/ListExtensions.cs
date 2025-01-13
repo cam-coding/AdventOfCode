@@ -1,3 +1,4 @@
+using Microsoft.Z3;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -280,6 +281,32 @@ namespace AdventLibrary.Extensions
             if (values.Count() == 1)
                 return new[] { values };
             return values.SelectMany(v => GetPermutations(values.Where(x => x.CompareTo(v) != 0)), (v, p) => p.Prepend(v));
+        }
+
+        // hand made and probably reall inefficient
+        // example [1,2,3] 3
+        // output = [1,1,1] [1,1,2] [1,1,3] [1,2,1] [1,2,2] [1,2,3] [1,3,1] [1,3,2] [1,3,3]  ...etc
+        // returns 27 lists aka listSize ^ n
+        public static List<List<T>> GetPermutationsWithRepetitions<T>(this List<T> values, int n)
+        {
+            return GetPermutationsWithRepetitions(values, new List<T>(), n);
+        }
+
+        private static List<List<T>> GetPermutationsWithRepetitions<T>(this List<T> values, List<T> current, int sizeRemaining)
+        {
+            var output = new List<List<T>>();
+            if (sizeRemaining == 0)
+            {
+                output.Add(current);
+                return output;
+            }
+            foreach (var item in values)
+            {
+                var temp = current.Clone();
+                temp.Add(item);
+                output.AddRange(GetPermutationsWithRepetitions(values, temp, sizeRemaining - 1));
+            }
+            return output;
         }
 
         public static List<T> FillWithValue<T>(this List<T> list, T value)

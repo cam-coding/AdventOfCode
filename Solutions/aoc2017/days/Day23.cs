@@ -53,7 +53,7 @@ namespace aoc2017
                 {
                     if (registers.GetValue(tokens[1]) != 0)
                     {
-                        i = i + (registers.GetValue(tokens[2]) - 1);
+                        i = i + (int)(registers.GetValue(tokens[2]) - 1);
                     }
                 }
             }
@@ -125,7 +125,7 @@ namespace aoc2017
                 {
                     if (registry.GetValue(tokens[1]) != 0)
                     {
-                        i = i + (registry.GetValue(tokens[2]) - 1);
+                        i = i + (int)(registry.GetValue(tokens[2]) - 1);
                     }
                 }
             }

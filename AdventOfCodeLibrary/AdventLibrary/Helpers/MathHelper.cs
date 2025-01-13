@@ -11,6 +11,11 @@ namespace AdventLibrary.Helpers
 {
     public static class MathHelper
     {
+        public static int GetOppositeIntBool(int input)
+        {
+            if (input == 0) return 1;
+            return 0;
+        }
         public static int GetMiddle(int left, int right)
         {
             return left + ((right - left) / 2);

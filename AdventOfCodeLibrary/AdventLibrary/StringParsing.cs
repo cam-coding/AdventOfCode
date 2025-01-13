@@ -9,6 +9,8 @@ namespace AdventLibrary
 {
     public static class StringParsing
     {
+        private static char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+
         public static string GetLettersFromString(this string input)
         {
             string output = "";

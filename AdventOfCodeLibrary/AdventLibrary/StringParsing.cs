@@ -70,7 +70,7 @@ namespace AdventLibrary
             return numbers.ToList();
         }
 
-        public static List<(int, int)> GetNumbersWithIndexesFromString(this string input)
+        public static List<(int number, int index)> GetNumbersWithIndexesFromString(this string input)
         {
             var result = new List<(int, int)>();
             for (var i = 0; i < input.Length; i++)

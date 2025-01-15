@@ -483,5 +483,58 @@ namespace AdventLibrary.Extensions
             }
             return dict;
         }
+
+        public static string ConcatListToString<T>(this List<T> list, char? sep = null)
+        {
+            if (sep == null)
+            {
+                return string.Join(string.Empty, list.ToArray());
+            }
+            else
+            {
+                return string.Join(sep.Value, list.ToArray());
+            }
+        }
+
+        public static string ConcatListToString<T>(this List<T> list, string sep)
+        {
+            return ConcatListToString(list, sep[0]);
+        }
+
+        public static List<List<T>> GetNSubLists<T>(this List<T> list, int n)
+        {
+            var subLists = new List<List<T>>();
+            var subListSize = list.Count / n;
+            for (var i = 0; i < n; i++)
+            {
+                var subList = list.GetRange(i * subListSize, subListSize);
+                subLists.Add(subList);
+            }
+            return subLists;
+        }
+
+        public static List<T> GetAllCommonItems<T>(this List<List<T>> list)
+        {
+            var output = new List<T>();
+            var megaList = list.CombineLists().Distinct();
+            foreach (var item in megaList)
+            {
+                if (list.All(x => x.Contains(item)))
+                {
+                    output.Add(item);
+                }
+            }
+            return output;
+        }
+
+        public static List<T> CombineLists<T>(this List<List<T>> list)
+        {
+            var megaList = new List<T>();
+            foreach (var subList in list)
+            {
+                megaList.AddRange(subList);
+            }
+            return megaList;
+        }
     }
 }

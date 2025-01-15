@@ -45,7 +45,7 @@ namespace AdventLibrary
 
         internal void SetupFromLines(List<string> lines)
         {
-            _text = StringExtensions.ConcatListOfStrings(lines);
+            _text = lines.ConcatListToString();
             _lines = lines;
             _textNoLineBreaks = GetTextWithoutLineBreaks();
             _initialized = true;
@@ -417,7 +417,7 @@ namespace AdventLibrary
         private string GetTextWithoutLineBreaks()
         {
             var tokens = _text.Split(_lineEndingChars, StringSplitOptions.RemoveEmptyEntries);
-            return StringExtensions.ConcatListOfStrings(tokens.ToList());
+            return tokens.ToList().ConcatListToString();
         }
     }
 }

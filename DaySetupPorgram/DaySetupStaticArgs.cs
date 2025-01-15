@@ -2,8 +2,8 @@
 {
     public static class DaySetupStaticArgs
     {
-        public static int YEAR => 2020;
+        public static int YEAR => 2022;
 
-        public static int DAY => 23;
+        public static int DAY => 3;
     }
 }

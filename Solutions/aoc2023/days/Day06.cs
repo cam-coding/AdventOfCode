@@ -55,9 +55,9 @@ namespace aoc2023
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var times2 = lines[0].GetNumbersFromStringAsStrings();
-            var times = long.Parse(StringExtensions.ConcatListOfStrings(times2));
+            var times = long.Parse(times2.ConcatListToString());
             var distances2 = lines[1].GetNumbersFromStringAsStrings();
-            var distances = long.Parse(StringExtensions.ConcatListOfStrings(distances2));
+            var distances = long.Parse(distances2.ConcatListToString());
 
             var counter = 0;
             for (var j = 1; j < times; j++)

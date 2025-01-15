@@ -2,50 +2,69 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventLibrary;
+using AdventLibrary.Extensions;
+using AdventLibrary.Helpers;
+using AdventLibrary.Helpers.Grids;
 
 namespace aoc2022
 {
-    public class Day03: ISolver
+    public class Day03 : ISolver
     {
-		/*
-		var sub = item.Substring(0, 1);
-		Console.WriteLine();
-		*/
         private string _filePath;
-        private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
+        private char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
-            return new Solution(Part1(), Part2());
+            var solution = new Solution();
+            solution.Part1 = Part1(isTest);
+            solution.Part2 = Part2(isTest);
+            return solution;
         }
 
-        private object Part1()
+        private object Part1(bool isTest = false)
         {
-            var lines = ParseInput.GetLinesFromFile(_filePath);
-			var counter = 0;
-			
-			foreach (var line in lines)
-			{
-                var half = line.Length / 2;
-                var half1 = line.Substring(0, half);
-                var half2 = line.Substring(half, half);
+            var input = new InputObjectCollection(_filePath);
+            var lines = input.Lines;
+            long count = 0;
 
-                for (var i = 0; i < half; i++)
+            foreach (var line in lines)
+            {
+                var bags = line.ToList().GetNSubLists(2);
+                var letter = bags[0].First(x => bags[1].Contains(x));
+
+                if (char.IsUpper(letter))
                 {
-                    if (half2.Contains(half1[i]))
-                    {
-                        var value = half1[i];
-                        counter += value - 38;
-                    }
-                    
+                    count += 26 + (letter - '@');
                 }
-			}
-            return counter;
+                else
+                {
+                    count += letter - '`';
+                }
+            }
+            return count;
         }
-        
-        private object Part2()
+
+        private object Part2(bool isTest = false)
         {
-            return 0;
+            var input = new InputObjectCollection(_filePath);
+            var lines = input.Lines;
+            long count = 0;
+
+            for (var i = 0; i < lines.Count; i += 3)
+            {
+                var listy = new List<List<char>>() { lines[i].ToList(), lines[i + 1].ToList(), lines[i + 2].ToList() };
+                var letter = listy.GetAllCommonItems().First();
+                if (char.IsUpper(letter))
+                {
+                    count += 26 + (letter - '@');
+                }
+                else
+                {
+                    count += letter - '`';
+                }
+            }
+            return count;
         }
     }
 }

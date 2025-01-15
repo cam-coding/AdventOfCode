@@ -165,7 +165,7 @@ namespace AdventLibrary.Extensions
             return CountGroups_NonOverlapping(str, 2, true);
         }
 
-        public static int CountGroups_NonOverlapping(string str, int size, bool unique = false)
+        public static int CountGroups_NonOverlapping(this string str, int size, bool unique = false)
         {
             var dict = new Dictionary<char, List<int>>();
             for (var i = 0; i < str.Length; i++)
@@ -204,23 +204,6 @@ namespace AdventLibrary.Extensions
             }
 
             return dict.Values.Sum(x => x.Count);
-        }
-
-        public static string ConcatListOfStrings(List<string> list, char? sep = null)
-        {
-            if (sep == null)
-            {
-                return string.Join(string.Empty, list.ToArray());
-            }
-            else
-            {
-                return string.Join(sep.Value, list.ToArray());
-            }
-        }
-
-        public static string ConcatListOfStrings(List<string> list, string sep)
-        {
-            return ConcatListOfStrings(list, sep[0]);
         }
     }
 }

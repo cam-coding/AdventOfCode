@@ -8,10 +8,11 @@ using AdventLibrary.Helpers.Grids;
 
 namespace aoc2024
 {
-    public class Day15: ISolver
+    public class Day15 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -24,7 +25,7 @@ namespace aoc2024
         private object Part1(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-			long count = 0;
+            long count = 0;
 
             var groups = input.LineGroupsSeperatedByWhiteSpace;
 
@@ -33,8 +34,7 @@ namespace aoc2024
             var grid = parser.GetLinesAsGrid<char>();
             var gridStart = grid.GetFirstLocationWhereCellEqualsValue('@');
 
-
-            var movements = StringExtensions.ConcatListOfStrings(groups[1]);
+            var movements = groups[1].ConcatListToString();
 
             var roller = new GridPusher<char>(
                 grid,
@@ -90,7 +90,7 @@ namespace aoc2024
             var grid = new GridObject<char>(gridStrings);
             var gridStart = grid.GetFirstLocationWhereCellEqualsValue('@');
 
-            var movements = StringExtensions.ConcatListOfStrings(groups[1]);
+            var movements = groups[1].ConcatListToString();
             var roller = new GridRoller3(
                 grid,
                 gridStart,
@@ -248,7 +248,7 @@ namespace aoc2024
             }
         }
 
-        bool Recursion(
+        private bool Recursion(
             List<GridLocation<int>> boxesIn,
             GridLocation<int> dir,
             out List<GridLocation<int>> boxesOut)

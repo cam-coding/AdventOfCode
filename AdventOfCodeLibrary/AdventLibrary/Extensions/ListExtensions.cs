@@ -2,6 +2,7 @@ using Microsoft.Z3;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
@@ -535,6 +536,16 @@ namespace AdventLibrary.Extensions
                 megaList.AddRange(subList);
             }
             return megaList;
+        }
+
+        public static T Product<T>(this List<T> list) where T : INumber<T>
+        {
+            dynamic product = 1;
+            foreach (var item in list)
+            {
+                product *= item;
+            }
+            return product;
         }
     }
 }

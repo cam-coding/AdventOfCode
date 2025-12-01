@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32929.385
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11217.181 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions", "Solutions", "{5BDC2669-205D-48B0-BD08-849B51835BB2}"
 EndProject
@@ -48,6 +48,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Output", "OutputProject\Output.csproj", "{EEFF836B-DF39-456B-AD7B-2A4A204708E4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphVisualizerProgram", "GraphVisualizerProgram\GraphVisualizerProgram.csproj", "{648DF9A0-DFA0-4790-8A3F-05309B33589C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aoc2025", "Solutions\aoc2025\aoc2025.csproj", "{43442A73-719C-4EC1-90C3-EA166C1879CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +129,10 @@ Global
 		{648DF9A0-DFA0-4790-8A3F-05309B33589C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{648DF9A0-DFA0-4790-8A3F-05309B33589C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{648DF9A0-DFA0-4790-8A3F-05309B33589C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43442A73-719C-4EC1-90C3-EA166C1879CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43442A73-719C-4EC1-90C3-EA166C1879CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43442A73-719C-4EC1-90C3-EA166C1879CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43442A73-719C-4EC1-90C3-EA166C1879CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,6 +150,7 @@ Global
 		{A5E2F4C2-582C-436C-86CF-E2A8EEB9AFA0} = {4F50EF41-7620-4117-BA43-3E18F9323AB8}
 		{D3C1DBCB-2BD3-4B37-9BBA-44048B6D47AE} = {4F50EF41-7620-4117-BA43-3E18F9323AB8}
 		{9FA4D968-578C-4943-8408-A9E4E9960DBB} = {5BDC2669-205D-48B0-BD08-849B51835BB2}
+		{43442A73-719C-4EC1-90C3-EA166C1879CC} = {5BDC2669-205D-48B0-BD08-849B51835BB2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1628ED3E-D372-4500-8EDF-5BE88DB5B335}

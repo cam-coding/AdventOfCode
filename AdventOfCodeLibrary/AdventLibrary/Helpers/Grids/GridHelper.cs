@@ -8,6 +8,10 @@ using AdventLibrary.PathFinding;
 
 namespace AdventLibrary
 {
+    /* Note: I probably don't want to use grid directly. Should be using GridObjects
+     * with the GridLocation<T> class for positions
+     */
+
     public static class GridHelper
     {
         /* Grid's are in the form of List<List<T>> aka grid[y][x] where  and
@@ -27,6 +31,12 @@ namespace AdventLibrary
          * GetLength(0) would be 3. for the 3 rows
          * GetLength(1) is the 2nd dimension for the 4 columns.
          * */
+
+        // In case I forgot how I'm supposed to create GridObjects
+        public static GridObject<T> ConvertGridToGridObject<T>(List<List<T>> grid)
+        {
+            return new GridObject<T>(grid);
+        }
 
         public static List<List<int>> GenerateSquareGrid(int n)
         {

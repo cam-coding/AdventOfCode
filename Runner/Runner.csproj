@@ -18,6 +18,7 @@
     <ProjectReference Include="..\Solutions\aoc2022\aoc2022.csproj" />
     <ProjectReference Include="..\Solutions\aoc2023\aoc2023.csproj" />
     <ProjectReference Include="..\Solutions\aoc2024\aoc2024.csproj" />
+    <ProjectReference Include="..\Solutions\aoc2025\aoc2025.csproj" />
   </ItemGroup>
 
   <ItemGroup>

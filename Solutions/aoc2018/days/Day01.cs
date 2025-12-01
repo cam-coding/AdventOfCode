@@ -6,10 +6,11 @@ using AdventLibrary.Helpers;
 
 namespace aoc2018
 {
-    public class Day01: ISolver
+    public class Day01 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -19,35 +20,47 @@ namespace aoc2018
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var numbers = ParseInput.GetNumbersFromFile(_filePath);
-            var nodes = ParseInput.ParseFileAsGraph(_filePath);
-            var grid = ParseInput.ParseFileAsGrid(_filePath);
-            var total = 1000000;
-			var counter = 0;
-			
-			foreach (var line in lines)
-			{
-                var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
-                
-				foreach (var num in nums)
-				{
-				}
+            var counter = 0;
 
-                for (var i = 0; i < 0; i++)
+            foreach (var line in lines)
+            {
+                var nums = AdventLibrary.StringParsing.GetNumbersWithNegativesFromString(line);
+
+                foreach (var num in nums)
                 {
-                    for (var j = 0; j < 0; j++)
-                    {
-                        
-                    }
+                    counter += num;
                 }
-			}
-            return 0;
+            }
+            return counter;
         }
-        
+
         private object Part2()
         {
-            return 0;
+            var lines = ParseInput.GetLinesFromFile(_filePath);
+            var counter = 0;
+            var tracker = new HashSet<int>();
+
+            while (true)
+            {
+                foreach (var line in lines)
+                {
+                    var nums = AdventLibrary.StringParsing.GetNumbersWithNegativesFromString(line);
+
+                    foreach (var num in nums)
+                    {
+                        counter += num;
+                    }
+
+                    if (tracker.Contains(counter))
+                    {
+                        return counter;
+                    }
+                    else
+                    {
+                        tracker.Add(counter);
+                    }
+                }
+            }
         }
     }
 }

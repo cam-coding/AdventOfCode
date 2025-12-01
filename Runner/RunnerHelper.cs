@@ -30,6 +30,7 @@ namespace Runner
                 { "2022", typeof(aoc2022.Day01).Assembly },
                 { "2023", typeof(aoc2023.Day01).Assembly },
                 { "2024", typeof(aoc2024.Day01).Assembly },
+                { "2025", typeof(aoc2025.Day01).Assembly },
             };
 
             var directory = DirectoryHelper.TryGetSolutionDirectoryInfo();

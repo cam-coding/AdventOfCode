@@ -1,3 +1,5 @@
+Fix wrapping list extension. Doesn't handle if it wraps more than once I think.
+
 Default Dictionary class?
 	Gets the value if the key exists else default
 	Sets the value is the key exists else set to default

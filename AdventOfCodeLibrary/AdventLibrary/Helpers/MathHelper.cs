@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Runtime.Intrinsics;
-using AdventLibrary.Extensions;
 using AdventLibrary.Helpers.Grids;
 using Microsoft.Z3;
 
@@ -16,14 +14,49 @@ namespace AdventLibrary.Helpers
             if (input == 0) return 1;
             return 0;
         }
-        public static int GetMiddle(int left, int right)
+
+        /// <summary>
+        /// Gets middle of 0 & num, rounded DOWN.
+        /// </summary>
+        public static T GetMiddle<T>(T num)
+            where T : INumber<T>
         {
-            return left + ((right - left) / 2);
+            return GetMiddle(T.CreateChecked(0), num);
         }
 
-        public static int GetMiddleRoundUp(int left, int right)
+        /// <summary>
+        /// Gets middle of 0 & num, rounded UP.
+        /// </summary>
+        public static T GetMiddleRoundedUp<T>(T num)
+            where T : INumber<T>
         {
-            return left + (((right - left) + 1) / 2);
+            return GetMiddleRoundedUp(T.CreateChecked(0), num);
+        }
+
+        /// <summary>
+        /// Gets middle of two numbers, rounded DOWN.
+        /// </summary>
+        public static T GetMiddle<T>(T num1, T num2)
+            where T : INumber<T>
+        {
+            T low = T.MinNumber(num1, num2);
+            T high = T.MaxNumber(num1, num2);
+            return low + ((high - low) / T.CreateChecked(2));
+        }
+
+        /// <summary>
+        /// Gets middle of two numbers, rounded UP.
+        /// </summary>
+        public static T GetMiddleRoundedUp<T>(T num1, T num2)
+            where T : INumber<T>
+        {
+            if (num1 is float or double)
+            {
+                throw new NotSupportedException();
+            }
+            T low = T.MinNumber(num1, num2);
+            T high = T.MaxNumber(num1, num2);
+            return low + (((high - low) + T.CreateChecked(1)) / T.CreateChecked(2));
         }
 
         public static int LCM(IEnumerable<int> numbers)

@@ -74,6 +74,37 @@ namespace AdventLibrary.Extensions
             return result;
         }
 
+        public static List<int> GetIndexesOfSubstringNonOverlapping(this string str, string substring)
+        {
+            var result = new List<int>();
+
+            var index = 0;
+
+            while (index <= str.Length - substring.Length)
+            {
+                var valid = true;
+                for (var j = 0; j < substring.Length; j++)
+                {
+                    if (str[j + index] != substring[j])
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                if (valid)
+                {
+                    result.Add(index);
+                    index += substring.Length;
+                }
+                else
+                {
+                    index++;
+                }
+            }
+
+            return result;
+        }
+
         public static string ReplaceFirstInstanceOf(this string str, string find, string replacement)
         {
             var index = str.IndexOf(find);
@@ -204,6 +235,17 @@ namespace AdventLibrary.Extensions
             }
 
             return dict.Values.Sum(x => x.Count);
+        }
+
+        /// <summary>
+        /// Get two string, first half and 2nd half. If odd length the 2nd string will be longer
+        /// </summary>
+        public static string[] SplitInHalf(this string str)
+        {
+            var mid = str.Length / 2;
+            var firstString = str.Substring(0, mid);
+            var secondString = str.Substring(mid);
+            return new[] { firstString, secondString };
         }
     }
 }

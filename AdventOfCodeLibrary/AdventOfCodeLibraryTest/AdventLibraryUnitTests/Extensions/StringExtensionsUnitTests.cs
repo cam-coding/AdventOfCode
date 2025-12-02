@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Xunit;
 
-namespace AdventLibraryUnitTests.Helpers
+namespace AdventLibraryUnitTests.Extensions
 {
     public class StringExtensionsUnitTests
     {
@@ -61,6 +61,14 @@ namespace AdventLibraryUnitTests.Helpers
             Assert.Equal(expected, result);
         }
 
+        [Theory]
+        [MemberData(nameof(GetIndexesOfSubstringNonOverlappingData))]
+        public void GetIndexesOfSubstringNonOverlappingTest(string input, string substring, List<int> expected)
+        {
+            var result = input.GetIndexesOfSubstringNonOverlapping(substring);
+            Assert.Equal(expected, result);
+        }
+
         public static IEnumerable<object[]> SubStringIndexesData =>
         new List<object[]>
         {
@@ -69,6 +77,17 @@ namespace AdventLibraryUnitTests.Helpers
             new object[] { "aabaabaa", "aa", new List<int>() { 0, 3, 6} },
             new object[] { "bcb", "aa", new List<int>() },
             new object[] { "aaaaaa", "aa", new List<int>() { 0, 1, 2, 3, 4} },
+        };
+
+        public static IEnumerable<object[]> GetIndexesOfSubstringNonOverlappingData =>
+        new List<object[]>
+        {
+            new object[] { "aaaaaa", "aa", new List<int>() { 0, 2, 4} },
+            new object[] { "aaaaaaa", "aa", new List<int>() { 0, 2, 4} },
+            new object[] { "aa", "aa", new List<int>() { 0} },
+            new object[] { "aabaabaa", "aa", new List<int>() { 0, 3, 6} },
+            new object[] { "bcb", "aa", new List<int>() },
+            new object[] { "aa", "aaa", new List<int>() },
         };
     }
 }

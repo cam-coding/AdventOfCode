@@ -49,8 +49,8 @@ namespace aoc2015
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
 
-            var armourCombinations = _armours.Get0toKCombinations(1);
-            var ringCombinations = _rings.Get0toKCombinations(2);
+            var armourCombinations = _armours.GetCombinationsSize0toN(1);
+            var ringCombinations = _rings.GetCombinationsSize0toN(2);
             var lowestCost = int.MaxValue;
 
             foreach (var weapon in _weapons)
@@ -91,8 +91,8 @@ namespace aoc2015
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
 
-            var armourCombinations = _armours.Get0toKCombinations(1);
-            var ringCombinations = _rings.Get0toKCombinations(2);
+            var armourCombinations = _armours.GetCombinationsSize0toN(1);
+            var ringCombinations = _rings.GetCombinationsSize0toN(2);
             var highestCost = 0;
 
             foreach (var weapon in _weapons)

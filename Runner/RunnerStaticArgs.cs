@@ -4,6 +4,6 @@
     {
         public static string YEAR => "2025";
 
-        public static string DAY => "02";
+        public static string DAY => "03";
     }
 }

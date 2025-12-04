@@ -4,23 +4,25 @@ using AdventLibrary.Helpers;
 using System.Collections.Generic;
 using Xunit;
 
-namespace AdventLibraryUnitTests
+namespace AdventLibraryUnitTests.Extensions
 {
     public class ListExtensionsUnitTests
     {
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t', '(', ')', '=' };
+
         [Theory]
         [MemberData(nameof(GetKCombinationsTestData))]
         public void GetKCombinationsTest(List<int> starting, List<List<int>> expected, int length)
         {
-            var result = starting.GetKCombinations(length);
+            var result = starting.GetCombinationsSizeN(length);
             Assert.Equal(expected, result);
         }
+
         [Theory]
         [MemberData(nameof(Get0ToKCombinationsTestData))]
         public void Get0ToKCombinationsTest(List<int> starting, List<List<int>> expected, int length)
         {
-            var result = starting.Get0toKCombinations(length);
+            var result = starting.GetCombinationsSize0toN(length);
             Assert.Equal(expected, result);
         }
 
@@ -33,10 +35,18 @@ namespace AdventLibraryUnitTests
         }
 
         [Theory]
+        [MemberData(nameof(PermutationsSizedTestData))]
+        public void GetPermutationsSizedTest(List<int> starting, int size, List<List<int>> expected)
+        {
+            var result = starting.GetPermutationsOfSize(size);
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
         [MemberData(nameof(CombinationsWithRepetitionsData))]
         public void GetCombinationsWithRepetitionTest(List<int> starting, List<List<int>> expected, int length)
         {
-            var result = starting.GenerateCombinationsWithRepetition(length);
+            var result = starting.GetCombinationsSizeNWithRepetition(length);
             Assert.Equal(expected, result);
         }
 
@@ -61,7 +71,7 @@ namespace AdventLibraryUnitTests
         {
             var list = new List<int> { 1, 2, 3 };
             var list2 = new List<int> { 123 };
-            var array = new int[] { 1 ,2, 3 };
+            var array = new int[] { 1, 2, 3 };
             Assert.Equal(list.Stringify(), array.Stringify());
 
             Assert.NotEqual(list.Stringify(), list2.Stringify());
@@ -82,7 +92,14 @@ namespace AdventLibraryUnitTests
             Assert.Equal(expected, list.GetWrappedIndex(index));
         }
 
-        #region TestData
+        [Theory]
+        [MemberData(nameof(GetGroupsOfSizeN_TestData))]
+        public void GetGroupsTest(List<int> input, List<List<int>> expected, int length, bool overlap)
+        {
+            var result = input.GetGroupsOfSizeN_Overlapping(length, overlap);
+            Assert.Equal(expected, result);
+        }
+
         public static IEnumerable<object[]> GetKCombinationsTestData()
         {
             yield return new object[]
@@ -159,6 +176,47 @@ namespace AdventLibraryUnitTests
             };
         }
 
+        public static IEnumerable<object[]> GetGroupsOfSizeN_TestData()
+        {
+            yield return new object[]
+            {
+                new List<int>() { 1, 2, 3, 4, 5, 6},
+                new List<List<int>>()
+                {
+                    new List<int>() { 1, 2},
+                    new List<int>() { 3, 4},
+                    new List<int>() { 5, 6},
+                },
+                2,
+                false
+            };
+            yield return new object[]
+            {
+                new List<int>() { 1, 2, 3, 4, 5, 6, 7},
+                new List<List<int>>()
+                {
+                    new List<int>() { 1, 2},
+                    new List<int>() { 3, 4},
+                    new List<int>() { 5, 6},
+                },
+                2,
+                false
+            };
+            yield return new object[]
+            {
+                new List<int>() { 1, 2, 3, 4, 5, 6},
+                new List<List<int>>()
+                {
+                    new List<int>() { 1, 2, 3},
+                    new List<int>() { 2, 3, 4},
+                    new List<int>() { 3, 4, 5},
+                    new List<int>() { 4, 5, 6},
+                },
+                3,
+                true
+            };
+        }
+
         public static IEnumerable<object[]> PermutationsTestData()
         {
             yield return new object[]
@@ -177,6 +235,33 @@ namespace AdventLibraryUnitTests
             yield return new object[]
             {
                 new List<int>() { 1},
+                new List<List<int>>()
+                {
+                    new List<int>() { 1},
+                },
+            };
+        }
+
+        public static IEnumerable<object[]> PermutationsSizedTestData()
+        {
+            yield return new object[]
+            {
+                new List<int>() { 1, 2, 3},
+                2,
+                new List<List<int>>()
+                {
+                    new List<int>() { 1, 2},
+                    new List<int>() { 1, 3},
+                    new List<int>() { 2, 1},
+                    new List<int>() { 2, 3},
+                    new List<int>() { 3, 1},
+                    new List<int>() { 3, 2},
+                },
+            };
+            yield return new object[]
+            {
+                new List<int>() { 1},
+                1,
                 new List<List<int>>()
                 {
                     new List<int>() { 1},
@@ -356,6 +441,5 @@ namespace AdventLibraryUnitTests
                 2,
             };
         }
-        #endregion TestData
     }
 }

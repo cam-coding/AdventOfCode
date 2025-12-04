@@ -73,7 +73,7 @@ namespace aoc2024
             {
                 county++;
                 var fullList = new List<string>(item.Value);
-                var res = fullList.GetJtoKCombinations(best, fullList.Count).ToList();
+                var res = fullList.GetCombinationsSizeMtoN(best, fullList.Count).ToList();
                 /*
                 foreach (var combo in res)
                 {

@@ -196,6 +196,11 @@ namespace AdventLibrary.Extensions
             return CountGroups_NonOverlapping(str, 2, true);
         }
 
+        /// <summary>
+        /// Gets number of substrings of length N in a string. Can specific unique or not.
+        /// </summary>
+        /// ex: "aabbaa" n=2 would return 3.
+        /// If unique, only count unique subgroups. The above example would return 2.
         public static int CountGroups_NonOverlapping(this string str, int size, bool unique = false)
         {
             var dict = new Dictionary<char, List<int>>();

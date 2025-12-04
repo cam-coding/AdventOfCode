@@ -11,6 +11,37 @@ namespace AdventLibrary.Extensions
     // Extending base list class with some helper methods
     public static class ListExtensions
     {
+        public static void CombinationOrPermutations_WriteUp<T>(this List<T> list)
+        {
+            // Permutations: Order is important
+            // repitition example:
+            // 4 digit code to a safe
+            var safeCodePossibilities = GetPermutationsWithRepetitions(new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 4);
+
+            //non - repitition example
+            // you have 6 songs and need to make a playlist using 3 of them
+            var smallPlaylistPossibilities = GetPermutationsOfSize(new List<char>() { 'a', 'b', 'c', 'd', 'e', 'f' }, 3);
+            // or maybe you need all 6 songs in the playlist in some order
+            var playlistPossibilities = GetPermutations(new List<char>() { 'a', 'b', 'c', 'd', 'e', 'f' });
+
+            // another example is there are 6 movies playing in a row and you can only afford 3 of them
+            // the important distinction is you can't see movie 3 then movie 1.
+            var orderedPlaylistPossibilities = GetPermutationsOrderedOfSize(new List<char>() { '1', '2', '3', '4', '5', '6' }, 3);
+
+            // Combinations: Order does not matter!
+            // repitition example: (often called 10 choose 4 or List.Count() choose N)
+            // you can get 3 scoops of ice cream of any flavour. 3 different, 3 all the same, whatever.
+            var iceCreams = GetCombinationsSizeNWithRepetition(new List<string> { "straw", "van", "choc", "mint" }, 3);
+
+            // non repitition example:
+            // you are making teams in gym class and need to choose 2 of the 4 people for your team
+            var myTeam = GetCombinationsSizeN(new List<string> { "bill", "bob", "buck", "boris" }, 2);
+
+            // Note there are also helper methods for combinations of certain size ranges. Maybe you want
+            // at least 2 coins from your wallet and up to 10 coins.
+            // or maybe you are at an artist booth and can buy 0-5 items in any combination.
+        }
+
         public static List<T> GetAllExceptFirstItem<T>(this List<T> list)
         {
             return list.GetRange(1, list.Count - 1);
@@ -221,62 +252,123 @@ namespace AdventLibrary.Extensions
             }
         }
 
+        /// <summary>
+        /// Same as slice but I never remember the word slice or the syntax.
+        /// </summary>
         public static List<T> SubList<T>(this List<T> list, int start, int length)
         {
             return list.Slice(start, length);
         }
 
+        /// <summary>
+        /// Same as slice but I never remember the word slice or the syntax.
+        /// </summary>
         public static List<T> SubList<T>(this List<T> list, int start)
         {
             return SubList(list, start, list.Count - start);
         }
 
-        // lst = [ 1, 2, 3, 4, 5, 6 ] and n = 3, result is [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ], and [ 4, 5, 6 ]
+        /// <summary>
+        /// Get groups from a list of a certain size. Can set overlap value
+        /// </summary>
+        // list = [ 1, 2, 3, 4, 5, 6 ] and n = 3 and overlap == true, result is [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ], and [ 4, 5, 6 ]
+        // list = [ 1, 2, 3, 4, 5, 6 ] and n = 2 and overlap == false, result is [ 1, 2 ], [ 3, 4 ], [ 5, 6 ]
         // great for sliding window problems
-        public static IEnumerable<IEnumerable<T>> GetOverlappingGroupsOfSize<T>(this List<T> list, int length)
+        public static IEnumerable<IEnumerable<T>> GetGroupsOfSizeN_Overlapping<T>(this List<T> list, int length, bool overlap)
         {
             if (list.Count < length)
                 throw new ArgumentException("list must be at least size of length");
             var result = new List<List<T>>();
-            for (var i = 0; i < list.Count - (length - 1); i++)
+            var modifier = overlap ? 1 : length;
+            for (var i = 0; i <= list.Count - length; i += modifier)
             {
                 result.Add(list.Slice(i, length));
             }
             return result;
         }
 
+        /// <summary>
+        /// Gets combinations from a list of a specific size with repetition
+        /// </summary>
+        public static List<List<T>> GetCombinationsSizeNWithRepetition<T>(this List<T> combinationList, int n)
+        {
+            var combinations = new List<List<T>>();
+
+            if (n == 0)
+            {
+                var emptyCombination = new List<T>();
+                combinations.Add(emptyCombination);
+
+                return combinations;
+            }
+
+            if (combinationList.Count == 0)
+            {
+                return combinations;
+            }
+
+            T head = combinationList[0];
+            var copiedCombinationList = new List<T>(combinationList);
+
+            List<List<T>> subcombinations = copiedCombinationList.GetCombinationsSizeNWithRepetition(n - 1);
+
+            foreach (var subcombination in subcombinations)
+            {
+                subcombination.Insert(0, head);
+                combinations.Add(subcombination);
+            }
+
+            combinationList.RemoveAt(0);
+            combinations.AddRange(combinationList.GetCombinationsSizeNWithRepetition(n));
+
+            return combinations;
+        }
+
+        /// <summary>
+        /// Gets combinations from a list of a specific size. NO REPETITION
+        /// </summary>
         // hard to decipher, here are clearer ones https://rosettacode.org/wiki/Combinations#C.2B.2B
         // 1,2,3 and length 2 -> (1,2) (1,3) (2,3)
-        public static List<List<T>> GetKCombinations<T>(this List<T> list, int length) where T : IComparable
+        public static List<List<T>> GetCombinationsSizeN<T>(this List<T> list, int length) where T : IComparable
         {
             if (length == 0) return new List<List<T>>();
             if (length == 1) return list.Select(t => new List<T> { t }).ToList();
-            return list.GetKCombinations(length - 1)
+            return list.GetCombinationsSizeN(length - 1)
                 .SelectMany(t => list.Where(o => o.CompareTo(t.Last()) > 0),
                     (t1, t2) => t1.Concat(new List<T> { t2 }).ToList()).ToList();
         }
 
-        public static List<List<T>> Get0toKCombinations<T>(this List<T> list, int length) where T : IComparable
+        /// <summary>
+        /// Gets combinations from a list of size 1 to N. NO REPETITION
+        /// </summary>
+        public static List<List<T>> GetCombinationsSize0toN<T>(this List<T> list, int length) where T : IComparable
         {
             var result = new List<List<T>>() { new List<T>() };
             for (int i = 1; i <= length; i++)
             {
-                result.AddRange(list.GetKCombinations(i).ToList());
+                result.AddRange(list.GetCombinationsSizeN(i).ToList());
             }
             return result;
         }
 
-        public static List<List<T>> GetJtoKCombinations<T>(this List<T> list, int minLength, int maxLength) where T : IComparable
+        /// <summary>
+        /// Gets combinations from a list size M to N. NO REPETITION
+        /// </summary>
+        public static List<List<T>> GetCombinationsSizeMtoN<T>(this List<T> list, int minLength, int maxLength) where T : IComparable
         {
             var result = new List<List<T>>() { new List<T>() };
             for (int i = minLength; i <= maxLength; i++)
             {
-                result.AddRange(list.GetKCombinations(i).ToList());
+                result.AddRange(list.GetCombinationsSizeN(i).ToList());
             }
             return result;
         }
 
-        // 1,2 -> (1,2) (2,1)
+        /// <summary>
+        /// Get permutations using every item in the list.
+        /// </summary>
+        // 1,2,3 -> (1,2,3) (1,3, 2) (2,1,3) (2,3,1) (3,1,2) (3,2,1)
+        // result is N! lists
         public static IEnumerable<IEnumerable<T>> GetPermutations<T>(this IEnumerable<T> values) where T : IComparable<T>
         {
             if (values.Count() == 1)
@@ -284,8 +376,125 @@ namespace AdventLibrary.Extensions
             return values.SelectMany(v => GetPermutations(values.Where(x => x.CompareTo(v) != 0)), (v, p) => p.Prepend(v));
         }
 
-        // hand made and probably reall inefficient
-        // example [1,2,3] 3
+        /// <summary>
+        /// Generates all permutations of a specified size from the given list.
+        /// </summary>
+        /// Written by AI
+        public static IEnumerable<List<T>> GetPermutationsOfSize<T>(this List<T> items, int size)
+        {
+            if (size == 0)
+            {
+                yield return new List<T>();
+                yield break;
+            }
+
+            if (items.Count == 0)
+            {
+                yield break;
+            }
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                T item = items[i];
+                var remaining = items.Where((x, index) => index != i).ToList();
+
+                foreach (var permutation in GetPermutationsOfSizeHelper(remaining, size - 1, new List<T> { item }))
+                {
+                    yield return permutation;
+                }
+            }
+        }
+
+        private static IEnumerable<List<T>> GetPermutationsOfSizeHelper<T>(List<T> items, int size, List<T> current)
+        {
+            if (size == 0)
+            {
+                yield return new List<T>(current);
+                yield break;
+            }
+
+            if (items.Count == 0)
+            {
+                yield break;
+            }
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                T item = items[i];
+                var remaining = items.Where((x, index) => index != i).ToList();
+                current.Add(item);
+
+                foreach (var permutation in GetPermutationsOfSizeHelper(remaining, size - 1, current))
+                {
+                    yield return permutation;
+                }
+
+                current.RemoveAt(current.Count - 1);
+            }
+        }
+
+        /// <summary>
+        /// Generates all combinations of a specified size from the given list, maintaining order.
+        /// Order within the source list is preserved; only the selection changes.
+        /// </summary>
+        /// <example>
+        /// List { 1, 2, 3, 4 } with size 2 produces: [1,2], [1,3], [1,4], [2,3], [2,4], [3,4]
+        /// </example>
+        public static IEnumerable<List<T>> GetPermutationsOrderedOfSize<T>(this List<T> items, int size)
+        {
+            if (size == 0)
+            {
+                yield return new List<T>();
+                yield break;
+            }
+
+            if (items.Count < size)
+            {
+                yield break;
+            }
+
+            for (int i = 0; i <= items.Count - size; i++)
+            {
+                T item = items[i];
+                var remaining = items.GetRange(i + 1, items.Count - i - 1);
+
+                foreach (var combination in GetPermutationsOrderedOfSizeHelper(remaining, size - 1, new List<T> { item }))
+                {
+                    yield return combination;
+                }
+            }
+        }
+
+        private static IEnumerable<List<T>> GetPermutationsOrderedOfSizeHelper<T>(List<T> items, int size, List<T> current)
+        {
+            if (size == 0)
+            {
+                yield return new List<T>(current);
+                yield break;
+            }
+
+            if (items.Count < size)
+            {
+                yield break;
+            }
+
+            for (int i = 0; i <= items.Count - size; i++)
+            {
+                T item = items[i];
+                var remaining = items.GetRange(i + 1, items.Count - i - 1);
+                current.Add(item);
+
+                foreach (var combination in GetPermutationsOrderedOfSizeHelper(remaining, size - 1, current))
+                {
+                    yield return combination;
+                }
+
+                current.RemoveAt(current.Count - 1);
+            }
+        }
+
+        // hand made and probably really inefficient
+        // example [1,2,3] & 3
         // output = [1,1,1] [1,1,2] [1,1,3] [1,2,1] [1,2,2] [1,2,3] [1,3,1] [1,3,2] [1,3,3]  ...etc
         // returns 27 lists aka listSize ^ n
         public static List<List<T>> GetPermutationsWithRepetitions<T>(this List<T> values, int n)
@@ -326,40 +535,6 @@ namespace AdventLibrary.Extensions
                 list.Add(value);
             }
             return list;
-        }
-
-        public static List<List<T>> GenerateCombinationsWithRepetition<T>(this List<T> combinationList, int k)
-        {
-            var combinations = new List<List<T>>();
-
-            if (k == 0)
-            {
-                var emptyCombination = new List<T>();
-                combinations.Add(emptyCombination);
-
-                return combinations;
-            }
-
-            if (combinationList.Count == 0)
-            {
-                return combinations;
-            }
-
-            T head = combinationList[0];
-            var copiedCombinationList = new List<T>(combinationList);
-
-            List<List<T>> subcombinations = copiedCombinationList.GenerateCombinationsWithRepetition(k - 1);
-
-            foreach (var subcombination in subcombinations)
-            {
-                subcombination.Insert(0, head);
-                combinations.Add(subcombination);
-            }
-
-            combinationList.RemoveAt(0);
-            combinations.AddRange(combinationList.GenerateCombinationsWithRepetition(k));
-
-            return combinations;
         }
 
         public static List<string> GetRealStrings(this List<string> list)

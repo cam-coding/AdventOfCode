@@ -75,7 +75,7 @@ namespace aoc2017
                 if (newGrids.Count > 1)
                 {
                     allGrids = new List<GridObject<char>>() { GetMegaGrid(newGrids) };
-                    var count2 = allGrids[0].GetAllLocationsWhere(c => c == '#').Count;
+                    var count2 = allGrids[0].GetAllLocationsWhereValue(c => c == '#').Count;
                 }
                 else
                 {
@@ -83,7 +83,7 @@ namespace aoc2017
                 }
             }
             var count = 0;
-            return allGrids[0].GetAllLocationsWhere(c => c == '#').Count;
+            return allGrids[0].GetAllLocationsWhereValue(c => c == '#').Count;
         }
 
         private GridObject<char> GetMegaGrid(List<GridObject<char>> grids)

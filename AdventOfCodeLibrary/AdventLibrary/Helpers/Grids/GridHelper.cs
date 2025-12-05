@@ -162,6 +162,9 @@ namespace AdventLibrary
         {
         }
 
+        /// <summary>
+        /// Print grid with no spaces and newlines at the end of each row.
+        /// </summary>
         public static void PrintGrid<T>(List<List<T>> grid)
         {
             var rows = grid.Count;

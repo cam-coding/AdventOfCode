@@ -45,7 +45,7 @@ namespace aoc2018
                     }
                 }
             }
-            return gridObject.GetAllLocationsWhere(x => x > 1).Count();
+            return gridObject.GetAllLocationsWhereValue(x => x > 1).Count();
         }
 
         private object Part2(bool isTest = false)
@@ -80,7 +80,7 @@ namespace aoc2018
                     return nums[0];
                 }
             }
-            return gridObject.GetAllLocationsWhere(x => x > 1).Count();
+            return gridObject.GetAllLocationsWhereValue(x => x > 1).Count();
         }
 
         private bool DoThing(GridObject<int> gridObject, string line)

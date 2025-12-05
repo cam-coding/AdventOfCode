@@ -24,6 +24,16 @@ namespace AdventLibrary.Helpers
             }
         }
 
+        public static bool TryAdd<T>(this HashSet<T> hashset, T value)
+        {
+            if (hashset.Contains(value))
+            {
+                return false;
+            }
+            hashset.Add(value);
+            return true;
+        }
+
         public static string HashObjectSorted<TKey, TValue>(Dictionary<TKey, TValue> dict)
         {
             var str = string.Empty;
@@ -34,6 +44,7 @@ namespace AdventLibrary.Helpers
             }
             return str;
         }
+
         public static string HashObjectSorted<T>(List<T> list)
         {
             var sorted = list.Clone();

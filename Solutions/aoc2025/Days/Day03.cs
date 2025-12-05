@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using System.Reflection.Emit;
 using AdventLibrary;
 using AdventLibrary.Extensions;
@@ -80,13 +81,14 @@ namespace aoc2025
             }
             for (var j = 9; j >= 0; j--)
             {
-                foreach (var index in str.GetIndexesOfSubstring("" + j))
+                var indx = str.IndexOf("" + j);
+                if (indx >= 0)
                 {
-                    var subStr = str.Substring(index + 1);
+                    var subStr = str.Substring(indx + 1);
                     // don't go deeper if there's not enough characters to form a string of the required length
                     if (subStr.Count() >= (_maxLength - length))
                     {
-                        RecursionTime(str.Substring(index + 1), current + str[index]);
+                        RecursionTime(str.Substring(indx + 1), current + str[indx]);
                     }
                 }
             }

@@ -58,7 +58,7 @@ namespace aoc2021
                     }
                 }
             }
-            return grid.GetAllLocationsWhere(x => x > 1).Count;
+            return grid.GetAllLocationsWhereValue(x => x > 1).Count;
         }
     }
 }

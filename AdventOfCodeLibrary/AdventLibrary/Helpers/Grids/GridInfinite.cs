@@ -6,8 +6,8 @@ namespace AdventLibrary.Helpers.Grids
 {
     public class GridInfinite<T>
     {
-        Dictionary<GridLocation<int>, T> _dict;
-        T _defaultValue;
+        private Dictionary<GridLocation<int>, T> _dict;
+        private T _defaultValue;
 
         public GridInfinite()
         {
@@ -101,6 +101,9 @@ namespace AdventLibrary.Helpers.Grids
             return result;
         }
 
+        /// <summary>
+        /// Will return a default value if the neighbour isn't in the dict/grid
+        /// </summary>
         public List<T> GetNeighbourValues(GridLocation<int> currentLocation, List<GridLocation<int>> directions)
         {
             var result = new List<T>();
@@ -117,6 +120,10 @@ namespace AdventLibrary.Helpers.Grids
             }
             return result;
         }
+
+        /// <summary>
+        /// Will only return values that are in the dict/grid
+        /// </summary>
         public List<T> GetNeighbourValues_NoDefaultValues(GridLocation<int> currentLocation, List<GridLocation<int>> directions)
         {
             var result = new List<T>();

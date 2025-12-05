@@ -41,6 +41,9 @@ namespace AdventLibrary.Helpers.Grids
 
         public int MaxY => Height - 1;
 
+        /// <summary>
+        /// Does a deep clone to remove references
+        /// </summary>
         public GridObject<T> Clone()
         {
             return new GridObject<T>(Grid);
@@ -62,6 +65,9 @@ namespace AdventLibrary.Helpers.Grids
             return false;
         }
 
+        /// <summary>
+        /// Returns the value at that location or default value. True if within grid or infinite. False otherwise.
+        /// </summary>
         public bool TryGet(out T value, GridLocation<int> location)
         {
             value = DefaultValue;
@@ -76,6 +82,9 @@ namespace AdventLibrary.Helpers.Grids
             }
         }
 
+        /// <summary>
+        /// X is column & y is Row
+        /// </summary>
         public T Get(int x, int y)
         {
             return Grid[y][x];
@@ -116,30 +125,20 @@ namespace AdventLibrary.Helpers.Grids
             GridHelper.PrintGrid(Grid);
         }
 
+        /// <summary>
+        /// Assumes 0,0 as minimum values in grid.
+        /// </summary>
         public bool WithinGrid(int x, int y)
         {
             return x >= 0 && x < Width && y >= 0 && y < Height;
         }
 
+        /// <summary>
+        /// Assumes 0,0 as minimum values in grid.
+        /// </summary>
         public bool WithinGrid(GridLocation<int> location)
         {
             return location.X >= 0 && location.X < Width && location.Y >= 0 && location.Y < Height;
-        }
-
-        public GridLocation<int> GetFirstLocationWhereCellEqualsValue(T value)
-        {
-            for (var y = 0; y < Height; y++)
-            {
-                for (var x = 0; x < Width; x++)
-                {
-                    if (Get(x, y).Equals(value))
-                    {
-                        return new GridLocation<int>(x, y);
-                    }
-                }
-            }
-
-            return null;
         }
 
         public List<GridLocation<int>> GetAllLocations()
@@ -156,7 +155,30 @@ namespace AdventLibrary.Helpers.Grids
             return listy;
         }
 
-        public List<GridLocation<int>> GetAllLocationsWhere(Func<T, bool> filter = null)
+        /// <summary>
+        /// Pass in a function that uses a grid location to return a bool.
+        /// </summary>
+        public List<GridLocation<int>> GetAllLocationsWhere(Func<GridLocation<int>, bool> filter = null)
+        {
+            var listy = new List<GridLocation<int>>();
+            for (var y = 0; y < Height; y++)
+            {
+                for (var x = 0; x < Width; x++)
+                {
+                    if (filter(new GridLocation<int>(x, y)))
+                    {
+                        listy.Add(new GridLocation<int>(x, y));
+                    }
+                }
+            }
+
+            return listy;
+        }
+
+        /// <summary>
+        /// Pass in a function that uses a cell value to return a bool
+        /// </summary>
+        public List<GridLocation<int>> GetAllLocationsWhereValue(Func<T, bool> filter = null)
         {
             var listy = new List<GridLocation<int>>();
             for (var y = 0; y < Height; y++)
@@ -190,22 +212,52 @@ namespace AdventLibrary.Helpers.Grids
             return listy;
         }
 
-        // Gets 4 neighbours that are directly N/E/S/W aka Up/Right/Down/Left
+        public GridLocation<int> GetFirstLocationWhereCellEqualsValue(T value)
+        {
+            for (var y = 0; y < Height; y++)
+            {
+                for (var x = 0; x < Width; x++)
+                {
+                    if (Get(x, y).Equals(value))
+                    {
+                        return new GridLocation<int>(x, y);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets 4 neighbours that are directly N/E/S/W aka Up/Right/Down/Left
+        /// </summary>
         public List<GridLocation<int>> GetOrthogonalNeighbours(GridLocation<int> location)
         {
             return GetNeighbours(location, Directions.OrthogonalDirections);
         }
 
-        // Gets 4 neighbours that are diagonal NE/SE/SW/NW aka UpRight/DownRight/DownLeft/UpLeft
+        /// <summary>
+        /// Gets 4 neighbours that are diagonal NE/SE/SW/NW aka UpRight/DownRight/DownLeft/UpLeft
+        /// </summary>
         public List<GridLocation<int>> GetDiagonalNeighbours(GridLocation<int> location)
         {
             return GetNeighbours(location, Directions.DiagonalDirections);
         }
 
-        // Gets all 8 neighbours. Diagonal and orthogonal
+        /// <summary>
+        /// Gets all 8 neighbours. Diagonal and orthogonal
+        /// </summary>
         public List<GridLocation<int>> GetAllNeighbours(GridLocation<int> location)
         {
             return GetNeighbours(location, Directions.AllDirections);
+        }
+
+        /// <summary>
+        /// Returns a string representation of the grid. No seperators between columns and '\n' seperator between rows by default.
+        /// </summary>
+        public string Stringify(char seperator = '\n')
+        {
+            return Grid.Stringify(seperator);
         }
 
         private List<GridLocation<int>> GetNeighbours(GridLocation<int> currentLocation, List<GridLocation<int>> directions)

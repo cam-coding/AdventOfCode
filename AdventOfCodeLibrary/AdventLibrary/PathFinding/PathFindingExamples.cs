@@ -255,18 +255,22 @@ namespace AdventLibrary.PathFinding
             // how you want to calculate neighbours.
             var func = exampleGridObject.GetOrthogonalNeighbours;
 
+            // use this to customize
             var aStarGrid = new AStar_GridObject<int>(exampleGridObject, wallValues, func);
-            var astar = AStarFactory.CreateFromGrid(exampleGridObject);
+            var aStartCustomized = new AStarSearcher<GridLocation<int>>(aStarGrid);
+
+            // use this as the default
+            var aStarDefault = AStarFactory.CreateFromGrid(exampleGridObject);
 
             // Run A*
-            astar.Search(startLocation, endLocation);
+            aStarDefault.Search(startLocation, endLocation);
 
             // this will get you the cost of the shortest path going from the start to any location
             // note this doesn't include the value of the starting location
-            var costToReachEnd = astar.GetCost(endLocation);
+            var costToReachEnd = aStarDefault.GetCost(endLocation);
 
             // note this includes the first location
-            var pathToReachEnd = astar.GetPath(endLocation);
+            var pathToReachEnd = aStarDefault.GetPath(endLocation);
         }
 
         /* Use Dijkstra as your search algorithm if you want to:

@@ -26,18 +26,7 @@ namespace aoc2025
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
-            var numbers = input.Longs;
-            var longLines = input.LongLines;
-            var nodes = input.GraphDirected;
-            var grid = input.GridChar;
-            var gridStart = new GridLocation<int>(0, 0);
-            long total = 1000000;
             long count = 0;
-            long number = input.Long;
-
-            for (var i = 0; i < lines.Count; i++)
-            {
-            }
 
             var groups = input.LineGroupsSeperatedByWhiteSpace;
             var listy = new List<(long, long)>();
@@ -63,133 +52,56 @@ namespace aoc2025
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
-            var numbers = input.Longs;
-            var longLines = input.LongLines;
-            var nodes = input.GraphDirected;
-            var grid = input.GridChar;
-            var gridStart = new GridLocation<int>(0, 0);
-            long total = 1000000;
             long count = 0;
-            long number = input.Long;
-
-            for (var i = 0; i < lines.Count; i++)
-            {
-            }
 
             var groups = input.LineGroupsSeperatedByWhiteSpace;
-            var listy = new List<(long, long)>();
+            var freshRanges = new List<(long, long)>();
 
             foreach (var line in groups[0])
             {
                 var nums = line.GetLongsFromString();
-                listy.Add((nums[0], nums[1]));
-            }
+                var willInsert = false;
+                var insertTuple = (nums[0], nums[1]);
 
-            var last = 0;
-
-            while (last != listy.Count)
-            {
-                last = listy.Count;
-                for (var i = 0; i < listy.Count; i++)
+                while (willInsert == false)
                 {
-                    var nums = new List<long>() { listy[i].Item1, listy[i].Item2 };
-                    var matching = listy.Where(x => nums[0] < x.Item1 && nums[1] >= x.Item1).ToList();
-                    var matching2 = listy.Where(x => nums[0] <= x.Item2 && nums[1] > x.Item2).ToList();
-                    if (matching.Count() > 0)
+                    willInsert = true;
+                    var low = Math.Min(insertTuple.Item1, insertTuple.Item2);
+                    var high = Math.Max(insertTuple.Item1, insertTuple.Item2);
+                    for (var i = 0; i < freshRanges.Count; i++)
                     {
-                        var temp = matching[0];
-                        var index = listy.IndexOf(matching[0]);
-                        temp.Item1 = nums[0];
-
-                        if (nums[1] >= temp.Item2)
+                        (long, long) tempTuple = (0, 0);
+                        if (MathHelper.InRange_Inclusive(freshRanges[i], low))
                         {
-                            temp.Item2 = nums[1];
+                            tempTuple = freshRanges[i];
+                            tempTuple.Item2 = Math.Max(tempTuple.Item2, high);
                         }
-                        listy[index] = temp;
-                        listy.RemoveAt(i);
-                        i--;
-                    }
-                    else if (matching2.Count() > 0)
-                    {
-                        var temp = matching2[0];
-                        var index = listy.IndexOf(matching2[0]);
-                        temp.Item2 = nums[1];
-
-                        if (nums[0] <= temp.Item1)
+                        else if (MathHelper.InRange_Inclusive(freshRanges[i], high))
                         {
-                            temp.Item1 = nums[0];
+                            tempTuple = freshRanges[i];
+                            tempTuple.Item1 = Math.Min(tempTuple.Item1, low);
                         }
-                        listy[index] = temp;
-                        listy.RemoveAt(i);
-                        i--;
+                        else if (MathHelper.InRange_Inclusive(insertTuple, freshRanges[i]))
+                        {
+                            tempTuple = insertTuple;
+                        }
+
+                        if (tempTuple != (0, 0))
+                        {
+                            freshRanges.RemoveAt(i);
+                            insertTuple = tempTuple;
+                            willInsert = false;
+                            break;
+                        }
                     }
-                    /*
-                    for (var j = 0; j < listy.Count; j++)
+                    if (willInsert)
                     {
-                        if (i == j) continue;
-                    }*/
-                }
-            }
-            /*
-            foreach (var line in groups[0])
-            {
-                var nums = line.GetLongsFromString();
-                var matching = listy.Where(x => nums[0] < x.Item1 && nums[1] >= x.Item1).ToList();
-                var matching2 = listy.Where(x => nums[0] <= x.Item2 && nums[1] >= x.Item2).ToList();
-                if (matching.Count() > 0)
-                {
-                    var temp = matching[0];
-                    var index = listy.IndexOf(matching[0]);
-                    temp.Item1 = nums[0];
-
-                    if (nums[1] >= temp.Item2)
-                    {
-                        temp.Item2 = nums[1];
-                    }
-                    listy[index] = temp;
-                }
-                else if (matching2.Count() > 0)
-                {
-                    var temp = matching2[0];
-                    var index = listy.IndexOf(matching2[0]);
-                    temp.Item2 = nums[1];
-
-                    if (nums[0] <= temp.Item1)
-                    {
-                        temp.Item1 = nums[0];
-                    }
-                    listy[index] = temp;
-                }
-                else
-                {
-                    listy.Add((nums[0], nums[1]));
-                }
-            }*/
-
-            for (var i = 0; i < listy.Count; i++)
-            {
-                for (var j = i + 1; j < listy.Count; j++)
-                {
-                    if (i == j) continue;
-
-                    var iNums = listy[i];
-                    var jNums = listy[j];
-
-                    if ((iNums.Item1 >= jNums.Item1 && iNums.Item1 <= jNums.Item2)
-                        || iNums.Item2 >= jNums.Item1 && iNums.Item2 <= jNums.Item2)
-                    {
-                        Console.WriteLine("BAD");
-                        listy.RemoveAt(j);
-                        j--;
+                        freshRanges.Add(insertTuple);
                     }
                 }
             }
 
-            foreach (var item in listy)
-            {
-                count += (item.Item2 - item.Item1) + 1;
-            }
-            return count;
+            return freshRanges.Sum(x => (x.Item2 - x.Item1) + 1);
         }
     }
 }

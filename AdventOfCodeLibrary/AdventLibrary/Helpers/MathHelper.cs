@@ -408,5 +408,83 @@ namespace AdventLibrary.Helpers
 
             return true;
         }
+
+        /// <summary>
+        /// Finds if value is in the range, sorts range values automaticaly
+        /// </summary>
+        public static bool InRange_Inclusive<T>(T range1, T range2, T value)
+            where T : INumber<T>
+        {
+            var min = T.MinNumber(range1, range2);
+            var max = T.MaxNumber(range1, range2);
+
+            if (value >= min && value <= max)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Finds if value is in the range, sorts range values automaticaly
+        /// </summary>
+        public static bool InRange_Inclusive<T>((T range1, T range2) range, T value)
+            where T : INumber<T>
+        {
+            return InRange_Inclusive(range.range1, range.range2, value);
+        }
+
+        /// <summary>
+        /// Finds if both values are within the range. All values sorted automatically.
+        /// </summary>
+        public static bool InRange_Inclusive<T>(T range1, T range2, T value1, T value2)
+            where T : INumber<T>
+        {
+            var minRange = T.MinNumber(range1, range2);
+            var maxRange = T.MaxNumber(range1, range2);
+
+            var minValue = T.MinNumber(value1, value2);
+            var maxValue = T.MaxNumber(value1, value2);
+
+            if (minValue >= minRange && maxValue <= maxRange)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Finds if both values are within the range. All values sorted automatically.
+        /// </summary>
+        public static bool InRange_Inclusive<T>((T range1, T range2) range, (T value1, T value2) value)
+            where T : INumber<T>
+        {
+            return InRange_Inclusive(range.range1, range.range2, value.value1, value.value2);
+        }
+
+        /// <summary>
+        /// Finds if value is in the range, sorts range values automaticaly
+        /// </summary>
+        public static bool InRange_Exclusive<T>(T range1, T range2, T value)
+            where T : INumber<T>
+        {
+            var min = T.MinNumber(range1, range2);
+            var max = T.MaxNumber(range1, range2);
+
+            if (value > min && value < max)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Finds if value is in the range, sorts range values automaticaly
+        /// </summary>
+        public static bool InRange_Exclusive<T>((T range1, T range2) range, T value)
+            where T : INumber<T>
+        {
+            return InRange_Exclusive(range.range1, range.range2, value);
+        }
     }
 }

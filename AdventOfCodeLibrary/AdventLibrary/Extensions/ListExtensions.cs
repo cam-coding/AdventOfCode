@@ -715,12 +715,45 @@ namespace AdventLibrary.Extensions
 
         public static T Product<T>(this List<T> list) where T : INumber<T>
         {
+            return Multiply(list);
+        }
+
+        public static T Multiply<T>(this List<T> list) where T : INumber<T>
+        {
             dynamic product = 1;
             foreach (var item in list)
             {
                 product *= item;
             }
             return product;
+        }
+
+        /// <summary>
+        /// Takes a list and swaps rows and columns.
+        /// </summary>
+        public static List<List<T>> InvertList<T>(this List<List<T>> originalList)
+        {
+            var newList = new List<List<T>>();
+            for (var col = 0; col < originalList[0].Count; col++)
+            {
+                var currentCol = new List<T>();
+                for (var row = 0; row < originalList.Count; row++)
+                {
+                    currentCol.Add(originalList[row][col]);
+                }
+                newList.Add(currentCol);
+            }
+            return newList;
+        }
+
+        public static List<List<char>> To2dList(this List<String> list)
+        {
+            var newList = new List<List<char>>();
+            foreach (var str in list)
+            {
+                newList.Add(str.ToList());
+            }
+            return newList;
         }
     }
 }

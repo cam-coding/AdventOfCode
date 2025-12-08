@@ -755,5 +755,63 @@ namespace AdventLibrary.Extensions
             }
             return newList;
         }
+
+        /// <summary>
+        /// Gets all pairs assuming (A,B) is the same as (B,A). AKA Unique pairwise comparison.
+        /// (A,B) and nothing else.
+        /// </summary>
+        public static List<(T, T)> GetPairs_Unique<T>(this List<T> list)
+        {
+            var result = new List<(T, T)>();
+            for (var i = 0; i < list.Count; i++)
+            {
+                for (var j = i + 1; j < list.Count; j++)
+                {
+                    result.Add((list[i], list[j]));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets all pairs assuming from a list excluding pairing with same item.
+        /// (A,B) & (B,A)
+        /// </summary>
+        public static List<(T, T)> GetPairs<T>(this List<T> list)
+        {
+            var result = new List<(T, T)>();
+            for (var i = 0; i < list.Count; i++)
+            {
+                for (var j = 0; j < list.Count; j++)
+                {
+                    if (i == j)
+                    {
+                        continue;
+                    }
+                    result.Add((list[i], list[j]));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets all pairs including pairing with itself.
+        /// (A,B) & (B,A) & (A,A)
+        /// </summary>
+        public static List<(T, T)> GetPairs_IncludingSelfPair<T>(this List<T> list)
+        {
+            var result = new List<(T, T)>();
+            for (var i = 0; i < list.Count; i++)
+            {
+                for (var j = 0; j < list.Count; j++)
+                {
+                    result.Add((list[i], list[j]));
+                }
+            }
+
+            return result;
+        }
     }
 }

@@ -13,5 +13,14 @@ namespace AdventLibrary.Extensions
             }
             return str;
         }
+
+        /// <summary>
+        /// This functionality is already in Remove but I often forget that.
+        /// </summary>
+        public static TValue Pop<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key)
+        {
+            dict.Remove(key, out var value);
+            return value;
+        }
     }
 }

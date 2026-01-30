@@ -324,19 +324,25 @@ namespace AdventLibraryUnitTests.Extensions
             yield return new object[]
             {
                 new List<int>() { 1,2,3},
-                "1:2:3:",
+                "1,2,3",
             };
 
             yield return new object[]
             {
                 new List<int>() { 123},
-                "123:",
+                "123",
             };
 
             yield return new object[]
             {
                 new List<string>() { "a", "b", "c"},
-                "a:b:c:",
+                "a,b,c",
+            };
+
+            yield return new object[]
+            {
+                new List<string>(),
+                "",
             };
         }
 

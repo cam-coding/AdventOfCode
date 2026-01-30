@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -55,14 +56,9 @@ namespace AdventLibrary.Helpers
             return newArray;
         }
 
-        public static string Stringify<T>(this T[] array)
+        public static string Stringify<T>(this T[] array, char separator = DefaultValues.DEFAULT_CHAR_SEPARATOR)
         {
-            var str = string.Empty;
-            foreach (var item in array)
-            {
-                str += item.ToString() + ":";
-            }
-            return str;
+            return string.Join(separator, array);
         }
     }
 

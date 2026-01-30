@@ -1,3 +1,4 @@
+using AdventLibrary.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -566,12 +567,12 @@ namespace AdventLibrary.Extensions
             return str;
         }
 
-        public static string Stringify<T>(this List<T> list, char separator = ',')
+        public static string Stringify<T>(this List<T> list, char separator = DefaultValues.DEFAULT_CHAR_SEPARATOR)
         {
             return string.Join(separator, list);
         }
 
-        public static string Stringify<T>(this List<List<T>> list, char separator = ',')
+        public static string Stringify<T>(this List<List<T>> list, char separator = DefaultValues.DEFAULT_CHAR_SEPARATOR)
         {
             var str = string.Empty;
             foreach (var item in list)

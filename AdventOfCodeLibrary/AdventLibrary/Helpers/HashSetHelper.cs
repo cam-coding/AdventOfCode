@@ -6,14 +6,9 @@ namespace AdventLibrary.Helpers
 {
     public static class HashSetHelper
     {
-        public static string Stringify<T>(this HashSet<T> hashSet)
+        public static string Stringify<T>(this HashSet<T> hashSet, char separator = DefaultValues.DEFAULT_CHAR_SEPARATOR)
         {
-            var str = string.Empty;
-            foreach (var item in hashSet)
-            {
-                str += item.ToString() + ":";
-            }
-            return str;
+            return string.Join(separator, hashSet);
         }
 
         public static void AddRange<T>(this HashSet<T> hashSet, IEnumerable<T> range)

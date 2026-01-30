@@ -11,7 +11,7 @@ namespace AdventLibrary
     public static class GraphVisualizerWrapper
     {
         private static string _graphInputPath = "..\\..\\..\\..\\GraphVisualizerProgram\\graphInput.txt";
-        private static string _graphVisualizerExePath = "..\\..\\..\\..\\GraphVisualizerProgram\\bin\\Debug\\net8.0-windows\\GraphVisualizerProgram.exe";
+        private static string _graphVisualizerExePath = "..\\..\\..\\..\\GraphVisualizerProgram\\bin\\Debug\\net10.0-windows\\GraphVisualizerProgram.exe";
 
         public static void StartVisualizerProgram(Dictionary<string, List<string>> adjListGraph)
         {

@@ -110,7 +110,7 @@ namespace aoc2020
                         valid = valid && (2020 <= num && num <= 2030);
                         break;
                     case "hgt":
-                        num = item.Value.GetNumbersFromString()[0];
+                        num = item.Value.GetIntsFromString()[0];
                         if (item.Value.Contains("cm"))
                         {
                             valid = valid && (150 <= num && num <= 193);

@@ -1,5 +1,12 @@
 Fix wrapping list extension. Doesn't handle if it wraps more than once I think.
 
+Line object:
+	test that the intersection and within line code works properly
+	could also add more things from 2025 day 09
+
+Is within polygon. Is on edge of polygon.
+Get area of polygon, get area of rectangle
+
 Default Dictionary class?
 	Gets the value if the key exists else default
 	Sets the value is the key exists else set to default

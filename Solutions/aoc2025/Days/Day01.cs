@@ -40,7 +40,7 @@ namespace aoc2025
 
             foreach (var line in lines)
             {
-                var num = line.GetNumbersFromString()[0];
+                var num = line.GetIntsFromString()[0];
                 if (line[0] == 'L')
                 {
                     num = num * -1;
@@ -81,7 +81,7 @@ namespace aoc2025
 
             foreach (var line in lines)
             {
-                var num = line.GetNumbersFromString()[0];
+                var num = line.GetIntsFromString()[0];
                 var isNegative = line[0] == 'L';
 
                 for (var i = 0; i < num; i++)

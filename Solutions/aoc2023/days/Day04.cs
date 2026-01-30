@@ -26,8 +26,8 @@ namespace aoc2023
 			foreach (var line in lines)
 			{
                 var tokens = line.Split(delimiterChars);
-                var winners = AdventLibrary.StringParsing.GetNumbersFromString(tokens[1]);
-                var ours = AdventLibrary.StringParsing.GetNumbersFromString(tokens[2]);
+                var winners = AdventLibrary.StringParsing.GetIntsFromString(tokens[1]);
+                var ours = AdventLibrary.StringParsing.GetIntsFromString(tokens[2]);
 
                 double counter = 0;
                 foreach (var number in ours)
@@ -67,8 +67,8 @@ namespace aoc2023
                     }
                 }
                 var tokens = lines[j].Split(delimiterChars);
-                var winners = AdventLibrary.StringParsing.GetNumbersFromString(tokens[1]);
-                var ours = AdventLibrary.StringParsing.GetNumbersFromString(tokens[2]);
+                var winners = AdventLibrary.StringParsing.GetIntsFromString(tokens[1]);
+                var ours = AdventLibrary.StringParsing.GetIntsFromString(tokens[2]);
 
                 long counter = 0;
                 foreach (var item in ours)

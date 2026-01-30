@@ -25,7 +25,7 @@ namespace aoc2015
 			foreach (var line in lines)
 			{
                 var tokens = line.Split(delimiterChars);
-                var nums = StringParsing.GetNumbersFromString(line);
+                var nums = StringParsing.GetIntsFromString(line);
                 if (tokens[0].Equals("toggle"))
                 {
                     for (var i = nums[0]; i <= nums[2]; i++)
@@ -88,7 +88,7 @@ namespace aoc2015
             foreach (var line in lines)
             {
                 var tokens = line.Split(delimiterChars);
-                var nums = StringParsing.GetNumbersFromString(line);
+                var nums = StringParsing.GetIntsFromString(line);
                 if (tokens[0].Equals("toggle"))
                 {
                     for (var i = nums[0]; i <= nums[2]; i++)

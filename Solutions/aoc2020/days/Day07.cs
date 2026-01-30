@@ -39,7 +39,7 @@ namespace aoc2020
                     foreach (var item in inner)
                     {
                         var innerTokens = item.Split("bag").ToList().GetRealStrings(delimiterChars);
-                        var count = innerTokens[0].GetNumbersFromString()[0];
+                        var count = innerTokens[0].GetIntsFromString()[0];
                         var innerKey = innerTokens[0].RemoveDigitsFromString().RemoveWhitespace();
                         if (innerKey.Equals(goldKey))
                         {
@@ -102,7 +102,7 @@ namespace aoc2020
                     foreach (var item in inner)
                     {
                         var innerTokens = item.Split("bag").ToList().GetRealStrings(delimiterChars);
-                        var count = innerTokens[0].GetNumbersFromString()[0];
+                        var count = innerTokens[0].GetIntsFromString()[0];
                         var innerKey = innerTokens[0].RemoveDigitsFromString().RemoveWhitespace();
                         if (innerKey.Equals(goldKey))
                         {

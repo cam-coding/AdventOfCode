@@ -51,7 +51,7 @@ namespace aoc2016
 
                 if (checksum.Equals(tokens[^2]))
                 {
-                    var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+                    var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
                     sum = sum + nums[0];
                 }
             }
@@ -92,7 +92,7 @@ namespace aoc2016
 
                 if (checksum.Equals(tokens[^2]))
                 {
-                    var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+                    var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
                     var shift = nums[0] % 26;
 
                     var listy = line.ToArray();

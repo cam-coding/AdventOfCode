@@ -44,7 +44,7 @@ namespace aoc2016
                                 }
                                 i = end;
                                 var substring = concat.Substring(start, end-start);
-                                var nums = AdventLibrary.StringParsing.GetNumbersFromString(substring);
+                                var nums = AdventLibrary.StringParsing.GetIntsFromString(substring);
                                 markerLength = nums[0];
                                 markerRepeat = nums[1];
                                 inMarker = true;
@@ -98,7 +98,7 @@ namespace aoc2016
                     }
                     i = close;
                     var substring = fullString.Substring(open, close-open);
-                    var nums = AdventLibrary.StringParsing.GetNumbersFromString(substring);
+                    var nums = AdventLibrary.StringParsing.GetIntsFromString(substring);
                     markerLength = nums[0];
                     markerRepeat = nums[1];
                     var newStart = close + 1;
@@ -135,7 +135,7 @@ namespace aoc2016
                     }
                     i = close;
                     var substring = fullString.Substring(open, close-open);
-                    var nums = AdventLibrary.StringParsing.GetNumbersFromString(substring);
+                    var nums = AdventLibrary.StringParsing.GetIntsFromString(substring);
                     markerLength = nums[0];
                     markerRepeat = nums[1];
                     var newStart = close + 1;

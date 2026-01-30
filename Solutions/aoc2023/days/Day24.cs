@@ -7,9 +7,10 @@ using Microsoft.Z3;
 
 namespace aoc2023
 {
-    public class Day24: ISolver
+    public class Day24 : ISolver
     {
         private string _filePath;
+
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -46,11 +47,11 @@ namespace aoc2023
             {
                 for (var j = i + 1; j < lins.Count; j++)
                 {
-                    if (LineHelper<decimal>.DoLinesIntersect(lins[i], lins[j]))
+                    if (lins[i].DoLinesIntersect(lins[j]))
                     {
-                        var coords = LineHelper<decimal>.FindIntersectionPoint(lins[i], lins[j]);
-                        var x = coords.x;
-                        var y = coords.y;
+                        var coords = lins[i].GetLinesIntersectionPoint(lins[j]);
+                        var x = coords.X;
+                        var y = coords.Y;
                         if (rangeMin <= x && x <= rangeMax &&
                             rangeMin <= y && y <= rangeMax)
                         {
@@ -156,7 +157,6 @@ namespace aoc2023
             public long VelocityX { get; set; }
             public long VelocityY { get; set; }
             public long VelocityZ { get; set; }
-
         }
     }
 }

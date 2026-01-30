@@ -27,13 +27,13 @@ namespace aoc2024
 
             foreach (var line in groups[0])
             {
-                var nums = StringParsing.GetNumbersFromString(line);
+                var nums = StringParsing.GetIntsFromString(line);
                 rules.Add((nums[0], nums[1]));
             }
 
             foreach (var line in groups[1])
             {
-                var nums = StringParsing.GetNumbersFromString(line);
+                var nums = StringParsing.GetIntsFromString(line);
                 var valid = true;
                 for (var j = 0; j < nums.Count; j++)
                 {
@@ -68,14 +68,14 @@ namespace aoc2024
 
             foreach (var line in groups[0])
             {
-                var nums = StringParsing.GetNumbersFromString(line);
+                var nums = StringParsing.GetIntsFromString(line);
                 rules.Add((nums[0], nums[1]));
             }
 
             foreach (var line in groups[1])
             {
                 {
-                    var nums = StringParsing.GetNumbersFromString(line);
+                    var nums = StringParsing.GetIntsFromString(line);
                     var everInvalid = false;
                     while (true)
                     {

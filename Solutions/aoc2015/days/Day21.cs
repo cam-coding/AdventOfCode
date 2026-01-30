@@ -68,9 +68,9 @@ namespace aoc2015
                         var armour = equipment.Sum(x => x.armour);
                         var hero = new Battler(100, dmg, armour);
                         var villain = new Battler
-                            (StringParsing.GetNumbersFromString(lines[0]).First(),
-                            StringParsing.GetNumbersFromString(lines[1]).First(),
-                            StringParsing.GetNumbersFromString(lines[2]).First()
+                            (StringParsing.GetIntsFromString(lines[0]).First(),
+                            StringParsing.GetIntsFromString(lines[1]).First(),
+                            StringParsing.GetIntsFromString(lines[2]).First()
                             );
 
                         if (Battle(new List<Battler>() { hero, villain }) == 0)
@@ -110,9 +110,9 @@ namespace aoc2015
                         var armour = equipment.Sum(x => x.armour);
                         var hero = new Battler(100, dmg, armour);
                         var villain = new Battler
-                            (StringParsing.GetNumbersFromString(lines[0]).First(),
-                            StringParsing.GetNumbersFromString(lines[1]).First(),
-                            StringParsing.GetNumbersFromString(lines[2]).First()
+                            (StringParsing.GetIntsFromString(lines[0]).First(),
+                            StringParsing.GetIntsFromString(lines[1]).First(),
+                            StringParsing.GetIntsFromString(lines[2]).First()
                             );
 
                         if (Battle(new List<Battler>() { hero, villain }) == 1)

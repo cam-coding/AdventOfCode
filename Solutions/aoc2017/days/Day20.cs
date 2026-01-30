@@ -39,7 +39,7 @@ namespace aoc2017
 
             for (var i = 0; i < lines.Count; i++)
             {
-                var nums = StringParsing.GetNumbersWithNegativesFromString(lines[i]);
+                var nums = StringParsing.GetIntssWithNegativesFromString(lines[i]);
                 particles.Add(new Particle(i, nums));
             }
 
@@ -72,7 +72,7 @@ namespace aoc2017
 
             for (var i = 0; i < lines.Count; i++)
             {
-                var nums = StringParsing.GetNumbersWithNegativesFromString(lines[i]);
+                var nums = StringParsing.GetIntssWithNegativesFromString(lines[i]);
                 particles.Add(new Particle(i, nums));
             }
 

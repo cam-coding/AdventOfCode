@@ -24,7 +24,7 @@ namespace aoc2016
 			
 			foreach (var line in lines)
 			{
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
                 dict.Add(nums[0]-1,(nums[1],nums[3]));
 			}
 
@@ -62,7 +62,7 @@ namespace aoc2016
 			
 			foreach (var line in lines)
 			{
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
                 dict.Add(nums[0]-1,(nums[1],nums[3]));
 			}
             dict.Add(dict.Count,(11,0));

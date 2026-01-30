@@ -24,7 +24,7 @@ namespace aoc2023
             foreach (var line in lines)
             {
                 var listy = new Dictionary<int, List<int>>();
-                var numbers = StringParsing.GetNumbersWithNegativesFromString(line);
+                var numbers = StringParsing.GetIntssWithNegativesFromString(line);
                 var county = 0;
                 listy.Add(0, numbers);
                 county++;
@@ -66,7 +66,7 @@ namespace aoc2023
             foreach (var line in lines)
             {
                 var listy = new Dictionary<int, List<int>>();
-                var numbers = StringParsing.GetNumbersWithNegativesFromString(line);
+                var numbers = StringParsing.GetIntssWithNegativesFromString(line);
                 var county = 0;
                 listy.Add(0, numbers);
                 county++;

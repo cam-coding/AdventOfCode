@@ -76,9 +76,9 @@ namespace aoc2021
             {
                 var isDivide26 = groups[i][4].Contains("26");
                 _isDivide26List.Add(isDivide26);
-                var xFactor = StringParsing.GetNumbersWithNegativesFromString(groups[i][5])[0];
+                var xFactor = StringParsing.GetIntssWithNegativesFromString(groups[i][5])[0];
                 _xFactorList.Add(xFactor);
-                var yFactor = StringParsing.GetNumbersFromString(groups[i][15])[0];
+                var yFactor = StringParsing.GetIntsFromString(groups[i][15])[0];
                 _yFactorList.Add(yFactor);
             }
             /*
@@ -144,9 +144,9 @@ namespace aoc2021
             {
                 var isDivide26 = groups[i][4].Contains("26");
                 _isDivide26List.Add(isDivide26);
-                var xFactor = StringParsing.GetNumbersWithNegativesFromString(groups[i][5])[0];
+                var xFactor = StringParsing.GetIntssWithNegativesFromString(groups[i][5])[0];
                 _xFactorList.Add(xFactor);
-                var yFactor = StringParsing.GetNumbersFromString(groups[i][15])[0];
+                var yFactor = StringParsing.GetIntsFromString(groups[i][15])[0];
                 _yFactorList.Add(yFactor);
             }
             Recursion3(0, new List<(long z, string max)>() { (0, string.Empty) });

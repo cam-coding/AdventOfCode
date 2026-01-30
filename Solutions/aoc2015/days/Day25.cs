@@ -19,7 +19,7 @@ namespace aoc2015
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var nums = AdventLibrary.StringParsing.GetNumbersFromString(lines[0]);
+            var nums = AdventLibrary.StringParsing.GetIntsFromString(lines[0]);
             var iter = GetCodeNumber(nums[0], nums[1]);
             long current = 20151125;
             for (var i = 1; i < iter; i++)

@@ -34,7 +34,7 @@ namespace aoc2016
 			
 			foreach (var line in lines)
 			{
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
                 if (line[0] == 'v')
                 {
                     if (botLookup.ContainsKey(nums[1]))
@@ -70,7 +70,7 @@ namespace aoc2016
                 return;
             }
             var str = botInstructions[currentBot];
-            var nums = AdventLibrary.StringParsing.GetNumbersFromString(str);
+            var nums = AdventLibrary.StringParsing.GetIntsFromString(str);
             var boxes = botLookup[currentBot];
             var low = Math.Min(boxes[0], boxes[1]);
             var high = Math.Max(boxes[0], boxes[1]);
@@ -153,7 +153,7 @@ namespace aoc2016
 			
 			foreach (var line in lines)
 			{
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
                 if (line[0] == 'v')
                 {
                     if (botLookup.ContainsKey(nums[1]))

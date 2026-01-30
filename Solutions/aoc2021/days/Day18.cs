@@ -120,8 +120,8 @@ namespace aoc2021
                     input = input.Remove(i, sub.Length);
                     input = input.Insert(i, "0");
 
-                    var substringNums = StringParsing.GetNumbersFromString(sub);
-                    var allNums = StringParsing.GetNumbersWithIndexesFromString(input);
+                    var substringNums = StringParsing.GetIntsFromString(sub);
+                    var allNums = StringParsing.GetIntsWithIndexesFromString(input);
 
                     var left = allNums.LastOrDefault(x => x.index < i);
                     if (left != default)
@@ -129,7 +129,7 @@ namespace aoc2021
                         input = input.Remove(left.index, left.number.ToString().Length);
                         input = input.Insert(left.index, (left.number + substringNums[0]).ToString());
                     }
-                    allNums = StringParsing.GetNumbersWithIndexesFromString(input);
+                    allNums = StringParsing.GetIntsWithIndexesFromString(input);
                     var right = allNums.FirstOrDefault(x => x.index > i + 1);
                     if (right != default)
                     {
@@ -147,7 +147,7 @@ namespace aoc2021
         private string Split(string input, out bool didExplode)
         {
             didExplode = false;
-            var allNums = StringParsing.GetNumbersWithIndexesFromString(input);
+            var allNums = StringParsing.GetIntsWithIndexesFromString(input);
             var num = allNums.FirstOrDefault(x => x.number > 9);
             if (num != default)
             {

@@ -26,7 +26,7 @@ namespace aoc2021
         private object Part1()
         {
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
-            var nums = AdventLibrary.StringParsing.GetNumbersFromString(lines[0]);
+            var nums = AdventLibrary.StringParsing.GetIntsFromString(lines[0]);
             var minX = nums[0];
             var maxX = nums[1];
             var minY = nums[2]*-1;
@@ -85,7 +85,7 @@ namespace aoc2021
         private object Part2()
         {
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
-            var nums = AdventLibrary.StringParsing.GetNumbersFromString(lines[0]);
+            var nums = AdventLibrary.StringParsing.GetIntsFromString(lines[0]);
             var minX = nums[0];
             var maxX = nums[1];
             var minY = nums[2]*-1;

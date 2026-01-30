@@ -24,7 +24,7 @@ namespace aoc2016
 			foreach (var line in lines)
 			{
                 var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
 
                 if (tokens[0] == "swap" && nums.Count == 2)
                 {
@@ -74,7 +74,7 @@ namespace aoc2016
             {
                 var line = lines[i];
                 var tokens = line.Split(delimiterChars);
-                var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+                var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
 
                 if (tokens[0] == "swap" && nums.Count == 2)
                 {

@@ -86,7 +86,7 @@ namespace aoc2015
             foreach (var line in lines)
             {
                 var tokens = line.Split(delimiterChars);
-                var distance = AdventLibrary.StringParsing.GetNumbersFromString(line)[0];
+                var distance = AdventLibrary.StringParsing.GetIntsFromString(line)[0];
                 AddToRecords(tokens[0], tokens[2], distance);
                 AddToRecords(tokens[2], tokens[0], distance);
             }

@@ -19,7 +19,7 @@ namespace aoc2021
         {
             var counts = new long[9].ToList();
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
-            var nums = AdventLibrary.StringParsing.GetNumbersFromString(lines.First());
+            var nums = AdventLibrary.StringParsing.GetIntsFromString(lines.First());
 
             foreach (var num in nums)
             {

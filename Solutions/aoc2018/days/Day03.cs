@@ -31,7 +31,7 @@ namespace aoc2018
 
             foreach (var line in lines)
             {
-                var nums = line.GetNumbersFromString();
+                var nums = line.GetIntsFromString();
                 var x = nums[1];
                 var y = nums[2];
                 var width = nums[3];
@@ -57,7 +57,7 @@ namespace aoc2018
 
             foreach (var line in lines)
             {
-                var nums = line.GetNumbersFromString();
+                var nums = line.GetIntsFromString();
                 var x = nums[1];
                 var y = nums[2];
                 var width = nums[3];
@@ -76,7 +76,7 @@ namespace aoc2018
             {
                 if (DoThing(gridObject, line))
                 {
-                    var nums = line.GetNumbersFromString();
+                    var nums = line.GetIntsFromString();
                     return nums[0];
                 }
             }
@@ -85,7 +85,7 @@ namespace aoc2018
 
         private bool DoThing(GridObject<int> gridObject, string line)
         {
-            var nums = line.GetNumbersFromString();
+            var nums = line.GetIntsFromString();
             var x = nums[1];
             var y = nums[2];
             var width = nums[3];

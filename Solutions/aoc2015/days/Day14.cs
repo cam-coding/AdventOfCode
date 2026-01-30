@@ -25,7 +25,7 @@ namespace aoc2015
 			foreach (var line in lines)
 			{
                 var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
 
                 dict.Add(tokens[0], (nums[0], nums[1], nums[2]));
             }
@@ -59,7 +59,7 @@ namespace aoc2015
             foreach (var line in lines)
             {
                 var tokens = line.Split(delimiterChars);
-                var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+                var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
 
                 dict.Add(tokens[0], (nums[0], nums[1], nums[2]));
                 scores.Add(tokens[0], 0);

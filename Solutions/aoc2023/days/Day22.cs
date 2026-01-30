@@ -23,15 +23,15 @@ namespace aoc2023
         private int Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var maxNum = lines.Select(x => StringParsing.GetNumbersFromString(x).Max()).Max();
+            var maxNum = lines.Select(x => StringParsing.GetIntsFromString(x).Max()).Max();
             var allBricks = new List<((int startZ, int startY, int startX), (int endZ, int endY, int endX), int key)>();
             var iter = 1;
             var maxNum2 = 0;
             foreach (var line in lines)
             {
                 var tokens = line.Split('~').ToList().GetRealStrings(delimiterChars);
-                var start = StringParsing.GetNumbersFromString(tokens[0]);
-                var end = StringParsing.GetNumbersFromString(tokens[1]);
+                var start = StringParsing.GetIntsFromString(tokens[0]);
+                var end = StringParsing.GetIntsFromString(tokens[1]);
                 maxNum2 = Math.Max(maxNum2, new List<int>() { start[1], start[0], end[1], end[0] }.Max());
                 allBricks.Add(((start[2], start[1], start[0]), (end[2], end[1], end[0]), iter));
                 iter++;
@@ -106,15 +106,15 @@ namespace aoc2023
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var maxNum = lines.Select(x => StringParsing.GetNumbersFromString(x).Max()).Max();
+            var maxNum = lines.Select(x => StringParsing.GetIntsFromString(x).Max()).Max();
             var allBricks = new List<((int startZ, int startY, int startX), (int endZ, int endY, int endX), int key)>();
             var iter = 1;
             var maxNum2 = 0;
             foreach (var line in lines)
             {
                 var tokens = line.Split('~').ToList().GetRealStrings(delimiterChars);
-                var start = StringParsing.GetNumbersFromString(tokens[0]);
-                var end = StringParsing.GetNumbersFromString(tokens[1]);
+                var start = StringParsing.GetIntsFromString(tokens[0]);
+                var end = StringParsing.GetIntsFromString(tokens[1]);
                 maxNum2 = Math.Max(maxNum2, new List<int>() { start[1], start[0], end[1], end[0] }.Max());
                 allBricks.Add(((start[2], start[1], start[0]), (end[2], end[1], end[0]), iter));
                 iter++;

@@ -29,7 +29,7 @@ namespace aoc2021
 			foreach (var line in lines)
 			{
                 var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetNumbersWithNegativesFromString(line);
+				var nums = AdventLibrary.StringParsing.GetIntssWithNegativesFromString(line);
                 var x = new List<int>() { nums[0], nums[1] };
                 var y = new List<int>() { nums[2], nums[3] };
                 var z = new List<int>() { nums[4], nums[5] };
@@ -77,7 +77,7 @@ namespace aoc2021
             var myCount = lines.Count-2;
             var onCubes = new Dictionary<Tuple<int, int, int>, int>();
             var tokens = lines[myCount].Split(delimiterChars);
-            var nums = AdventLibrary.StringParsing.GetNumbersWithNegativesFromString(lines[myCount]);
+            var nums = AdventLibrary.StringParsing.GetIntssWithNegativesFromString(lines[myCount]);
             var specialX = new List<int>() { nums[0], nums[1] };
             var specialY = new List<int>() { nums[2], nums[3] };
             var specialZ = new List<int>() { nums[4], nums[5] };
@@ -91,7 +91,7 @@ namespace aoc2021
             for (var i = myCount - 1; i >= 0; i--)
             {
                 tokens = lines[myCount].Split(delimiterChars);
-                nums = AdventLibrary.StringParsing.GetNumbersWithNegativesFromString(lines[i]);
+                nums = AdventLibrary.StringParsing.GetIntssWithNegativesFromString(lines[i]);
                 var x = new List<int>() { nums[0], nums[1] };
                 var y = new List<int>() { nums[2], nums[3] };
                 var z = new List<int>() { nums[4], nums[5] };

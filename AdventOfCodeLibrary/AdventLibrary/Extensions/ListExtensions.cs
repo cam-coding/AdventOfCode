@@ -1,47 +1,13 @@
-using Microsoft.Z3;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Threading;
 
 namespace AdventLibrary.Extensions
 {
     // Extending base list class with some helper methods
     public static class ListExtensions
     {
-        public static void CombinationOrPermutations_WriteUp<T>(this List<T> list)
-        {
-            // Permutations: Order is important
-            // repitition example:
-            // 4 digit code to a safe
-            var safeCodePossibilities = GetPermutationsWithRepetitions(new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 4);
-
-            //non - repitition example
-            // you have 6 songs and need to make a playlist using 3 of them
-            var smallPlaylistPossibilities = GetPermutationsOfSize(new List<char>() { 'a', 'b', 'c', 'd', 'e', 'f' }, 3);
-            // or maybe you need all 6 songs in the playlist in some order
-            var playlistPossibilities = GetPermutations(new List<char>() { 'a', 'b', 'c', 'd', 'e', 'f' });
-
-            // another example is there are 6 movies playing in a row and you can only afford 3 of them
-            // the important distinction is you can't see movie 3 then movie 1.
-            var orderedPlaylistPossibilities = GetPermutationsOrderedOfSize(new List<char>() { '1', '2', '3', '4', '5', '6' }, 3);
-
-            // Combinations: Order does not matter!
-            // repitition example: (often called 10 choose 4 or List.Count() choose N)
-            // you can get 3 scoops of ice cream of any flavour. 3 different, 3 all the same, whatever.
-            var iceCreams = GetCombinationsSizeNWithRepetition(new List<string> { "straw", "van", "choc", "mint" }, 3);
-
-            // non repitition example:
-            // you are making teams in gym class and need to choose 2 of the 4 people for your team
-            var myTeam = GetCombinationsSizeN(new List<string> { "bill", "bob", "buck", "boris" }, 2);
-
-            // Note there are also helper methods for combinations of certain size ranges. Maybe you want
-            // at least 2 coins from your wallet and up to 10 coins.
-            // or maybe you are at an artist booth and can buy 0-5 items in any combination.
-        }
-
         public static List<T> GetAllExceptFirstItem<T>(this List<T> list)
         {
             return list.GetRange(1, list.Count - 1);
@@ -230,7 +196,7 @@ namespace AdventLibrary.Extensions
             for (int i = 0; i < n; i++)
             {
                 rotatedList.Insert(0, list[list.Count - 1]);
-                list.RemoveAt(list.Count - 1);
+                // list.RemoveAt(list.Count - 1);
             }
             return rotatedList;
         }
@@ -288,10 +254,24 @@ namespace AdventLibrary.Extensions
         }
 
         /// <summary>
+        /// Gets combinations from a list of size 1 to N. NO REPETITION
+        /// </summary>
+        public static List<List<T>> GetCombinationsSize1toNWithRepetition<T>(this List<T> list, int length) where T : IComparable
+        {
+            var result = new List<List<T>>() { new List<T>() };
+            for (int i = 1; i <= length; i++)
+            {
+                result.AddRange(list.GetCombinationsSizeNWithRepetition(i).ToList());
+            }
+            return result;
+        }
+
+        /// <summary>
         /// Gets combinations from a list of a specific size with repetition
         /// </summary>
-        public static List<List<T>> GetCombinationsSizeNWithRepetition<T>(this List<T> combinationList, int n)
+        public static List<List<T>> GetCombinationsSizeNWithRepetition<T>(this List<T> list, int n)
         {
+            var combinationList = list.Clone();
             var combinations = new List<List<T>>();
 
             if (n == 0)
@@ -308,7 +288,7 @@ namespace AdventLibrary.Extensions
             }
 
             T head = combinationList[0];
-            var copiedCombinationList = new List<T>(combinationList);
+            var copiedCombinationList = combinationList.Clone();
 
             List<List<T>> subcombinations = copiedCombinationList.GetCombinationsSizeNWithRepetition(n - 1);
 
@@ -808,6 +788,26 @@ namespace AdventLibrary.Extensions
                 for (var j = 0; j < list.Count; j++)
                 {
                     result.Add((list[i], list[j]));
+                }
+            }
+
+            return result;
+        }
+
+        public static bool[,] ConvertTo2DArray(this List<List<bool>> list)
+        {
+            int rows = list.Count;
+            int cols = list[0].Count;
+            bool[,] result = new bool[rows, cols];
+
+            for (int r = 0; r < rows; r++)
+            {
+                if (list[r].Count != cols)
+                    throw new ArgumentException("All inner lists must have the same length.");
+
+                for (int c = 0; c < cols; c++)
+                {
+                    result[r, c] = list[r][c];
                 }
             }
 

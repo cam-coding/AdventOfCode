@@ -634,9 +634,9 @@ namespace AdventLibrary
             }
         }
 
-        /* X..      x.x
-         * .X.      .x.
-         * X..      ...
+        /* x..      x.x
+         * .x.      .x.
+         * x..      ...
          **/
 
         public static List<List<T>> RotateGridRight<T>(List<List<T>> grid)

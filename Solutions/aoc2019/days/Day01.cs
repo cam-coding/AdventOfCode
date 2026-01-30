@@ -28,7 +28,7 @@ namespace aoc2019
 			foreach (var line in lines)
 			{
                 var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
                 
 				foreach (var num in nums)
 				{

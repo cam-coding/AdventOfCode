@@ -26,7 +26,7 @@ namespace aoc2021
 			
 			foreach (var line in lines)
 			{
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
                 
                 for (var i = 0; i < nums.Max(); i++)
                 {
@@ -53,7 +53,7 @@ namespace aoc2021
 			
 			foreach (var line in lines)
 			{
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
                 
                 for (var i = nums.Min(); i < nums.Max(); i++)
                 {

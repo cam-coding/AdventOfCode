@@ -35,7 +35,7 @@ namespace aoc2021
                     var line = lines[i];
                     while (!string.IsNullOrWhiteSpace(line))
                     {
-                        var nums = StringParsing.GetNumbersWithNegativesFromString(line);
+                        var nums = StringParsing.GetIntssWithNegativesFromString(line);
                         (int x, int y, int z) toople = (nums[0], nums[1], nums[2]);
                         beacons.Add(toople);
 

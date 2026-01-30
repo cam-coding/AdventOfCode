@@ -44,7 +44,7 @@ namespace aoc2015
             {
                 var line = _lines[pc];
                 var tokens = line.Split(delimiterChars);
-                var nums = StringParsing.GetNumbersWithNegativesFromString(line);
+                var nums = StringParsing.GetIntssWithNegativesFromString(line);
                 var reg = tokens[1][0];
 
                 if (tokens[0].Equals("hlf"))

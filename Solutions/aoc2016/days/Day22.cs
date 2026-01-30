@@ -23,7 +23,7 @@ namespace aoc2016
 			
 			foreach (var line in lines)
 			{
-				var nums = StringParsing.GetNumbersFromString(line);
+				var nums = StringParsing.GetIntsFromString(line);
                 nodes.Add(new Node(nums));
             }
 
@@ -56,7 +56,7 @@ namespace aoc2016
 
             foreach (var line in lines)
             {
-                var nums = StringParsing.GetNumbersFromString(line);
+                var nums = StringParsing.GetIntsFromString(line);
                 var newNode = new Node(nums);
                 nodes.Add(newNode);
                 if (newNode.X > maxX)

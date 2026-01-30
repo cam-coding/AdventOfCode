@@ -10,7 +10,7 @@ namespace AdventLibraryUnitTests
         [MemberData(nameof(Data))]
         public void GetNumbersFromString_ReturnsExpected(List<int> expected, string input)
         {
-            var result = AdventLibrary.StringParsing.GetNumbersFromString(input);
+            var result = AdventLibrary.StringParsing.GetIntsFromString(input);
             Assert.Equal(expected, result);
         }
 

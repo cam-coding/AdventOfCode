@@ -41,7 +41,7 @@ namespace aoc2022
                     cycle += 1; 
                     total += CycleHit(cycle, strength);
                     cycle += 1;
-                    var nums = StringParsing.GetNumbersWithNegativesFromString(tokens[1]);
+                    var nums = StringParsing.GetIntssWithNegativesFromString(tokens[1]);
                     strength += nums.First();
                 }
 			}
@@ -68,7 +68,7 @@ namespace aoc2022
                     cycle += 1;
                     Printer(cycle - 1, strength);
                     cycle += 1;
-                    var nums = StringParsing.GetNumbersWithNegativesFromString(tokens[1]);
+                    var nums = StringParsing.GetIntssWithNegativesFromString(tokens[1]);
                     strength += nums.First();
                 }
                 

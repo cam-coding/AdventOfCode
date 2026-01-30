@@ -37,13 +37,13 @@ namespace AdventLibrary
             return output;
         }
 
-        public static List<int> GetNumbersFromString(this string input)
+        public static List<int> GetIntsFromString(this string input)
         {
             var numbers = Regex.Split(input, @"\D+").ToList().Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => int.Parse(x));
             return numbers.ToList();
         }
 
-        public static List<int> GetNumbersWithNegativesFromString(this string input)
+        public static List<int> GetIntssWithNegativesFromString(this string input)
         {
             return Regex.Matches(input, @"-?[0-9]*?[0-9]+")
                             .Where(x => !string.IsNullOrWhiteSpace(x.Value))
@@ -70,7 +70,7 @@ namespace AdventLibrary
             return numbers.ToList();
         }
 
-        public static List<(int number, int index)> GetNumbersWithIndexesFromString(this string input)
+        public static List<(int number, int index)> GetIntsWithIndexesFromString(this string input)
         {
             var result = new List<(int, int)>();
             for (var i = 0; i < input.Length; i++)

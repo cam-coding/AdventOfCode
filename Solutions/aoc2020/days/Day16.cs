@@ -26,19 +26,19 @@ namespace aoc2020
             List<int> yourTicket;
             while (!string.IsNullOrEmpty(lines[index]))
             {
-                var nums = lines[index].GetNumbersFromString();
+                var nums = lines[index].GetIntsFromString();
                 listy.Add(index, nums);
                 index++;
             }
 
             index += 2;
-            yourTicket = lines[index].GetNumbersFromString();
+            yourTicket = lines[index].GetIntsFromString();
             index += 3;
 
             var total = 0;
             while (index < lines.Count)
             {
-                var nums = lines[index].GetNumbersFromString();
+                var nums = lines[index].GetIntsFromString();
                 foreach (var num in nums)
                 {
                     if (!listy.Any(x => InRange(num, x.Value)))
@@ -65,13 +65,13 @@ namespace aoc2020
             List<int> yourTicket;
             while (!string.IsNullOrEmpty(lines[index]))
             {
-                var nums = lines[index].GetNumbersFromString();
+                var nums = lines[index].GetIntsFromString();
                 lookup.Add(index, nums);
                 index++;
             }
 
             index += 2;
-            yourTicket = lines[index].GetNumbersFromString();
+            yourTicket = lines[index].GetIntsFromString();
             index += 3;
 
             var validTickets = new List<List<int>>();
@@ -83,7 +83,7 @@ namespace aoc2020
             }
             while (index < lines.Count)
             {
-                var nums = lines[index].GetNumbersFromString();
+                var nums = lines[index].GetIntsFromString();
                 var valid = nums.All(currentLineNum => lookup.Any(x => InRange(currentLineNum, x.Value)));
 
                 if (valid)

@@ -31,7 +31,7 @@ namespace aoc2016
                     {
                         continue;
                     }
-                    var num = AdventLibrary.StringParsing.GetNumbersFromString(token).First();
+                    var num = AdventLibrary.StringParsing.GetIntsFromString(token).First();
 
                     if (token[0] == 'L')
                         direction = direction - 1;
@@ -74,7 +74,7 @@ namespace aoc2016
                     {
                         continue;
                     }
-                    var num = AdventLibrary.StringParsing.GetNumbersFromString(token).First();
+                    var num = AdventLibrary.StringParsing.GetIntsFromString(token).First();
                     
                     if (token[0] == 'L')
                         direction = direction - 1;

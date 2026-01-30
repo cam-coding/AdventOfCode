@@ -21,7 +21,7 @@ namespace aoc2015
 			
 			foreach (var line in lines)
 			{
-				var nums = AdventLibrary.StringParsing.GetNumbersWithNegativesFromString(line);
+				var nums = AdventLibrary.StringParsing.GetIntssWithNegativesFromString(line);
                 counter += nums.Sum();
 			}
             return counter;

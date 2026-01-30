@@ -47,15 +47,15 @@ namespace aoc2024
                 var toks = currentLine.GetRealTokens(delimiterChars);
 
                 var aLine = group[0];
-                var aNums = StringParsing.GetNumbersWithNegativesFromString(aLine);
+                var aNums = StringParsing.GetIntssWithNegativesFromString(aLine);
                 var aButton = new GridLocation<long>(aNums[0], aNums[1]);
 
                 var bLine = group[1];
-                var bNums = StringParsing.GetNumbersWithNegativesFromString(bLine);
+                var bNums = StringParsing.GetIntssWithNegativesFromString(bLine);
                 var bButton = new GridLocation<long>(bNums[0], bNums[1]);
 
                 var cLine = group[2];
-                var goalNums = StringParsing.GetNumbersWithNegativesFromString(cLine);
+                var goalNums = StringParsing.GetIntssWithNegativesFromString(cLine);
                 var goal = new GridLocation<long>(goalNums[0] + magic, goalNums[1] + magic);
 
                 var result = SolveLinearSystem(aButton, bButton, goal);

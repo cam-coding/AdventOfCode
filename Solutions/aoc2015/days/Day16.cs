@@ -35,7 +35,7 @@ namespace aoc2015
             for (var i = 0; i < lines.Count; i++)
             {
                 var tokens = lines[i].Split(delimiterChars);
-                var nums = AdventLibrary.StringParsing.GetNumbersFromString(lines[i]);
+                var nums = AdventLibrary.StringParsing.GetIntsFromString(lines[i]);
 
                 var valid = true;
 
@@ -68,7 +68,7 @@ namespace aoc2015
             for (var i = 0; i < lines.Count; i++)
             {
                 var tokens = lines[i].Split(delimiterChars);
-                var nums = AdventLibrary.StringParsing.GetNumbersFromString(lines[i]);
+                var nums = AdventLibrary.StringParsing.GetIntsFromString(lines[i]);
 
                 var valid = true;
 

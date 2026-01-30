@@ -32,7 +32,7 @@ namespace aoc2024
 
             var group1 = groups[0];
             _instructions = StringParsing.GetDigitsFromString(groups[1][0]);
-            MyProgram(StringParsing.GetNumbersFromString(group1[0]).First());
+            MyProgram(StringParsing.GetIntsFromString(group1[0]).First());
 
             return _programOutput;
         }

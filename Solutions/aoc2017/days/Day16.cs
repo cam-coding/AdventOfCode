@@ -39,7 +39,7 @@ namespace aoc2017
 
             foreach (var instruction in StringParsing.GetRealTokens(text, [',']))
             {
-                var nums = StringParsing.GetNumbersFromString(instruction);
+                var nums = StringParsing.GetIntsFromString(instruction);
                 if (instruction[0] == 's')
                 {
                     var num = nums[0];
@@ -95,7 +95,7 @@ namespace aoc2017
             {
                 foreach (var instruction in StringParsing.GetRealTokens(text, [',']))
                 {
-                    var nums = StringParsing.GetNumbersFromString(instruction);
+                    var nums = StringParsing.GetIntsFromString(instruction);
                     if (instruction[0] == 's')
                     {
                         var num = nums[0];
@@ -154,7 +154,7 @@ namespace aoc2017
             {
                 foreach (var instruction in StringParsing.GetRealTokens(text, [',']))
                 {
-                    var nums = StringParsing.GetNumbersFromString(instruction);
+                    var nums = StringParsing.GetIntsFromString(instruction);
                     if (instruction[0] == 's')
                     {
                         var num = nums[0];

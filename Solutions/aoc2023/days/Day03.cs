@@ -41,7 +41,7 @@ namespace aoc2023
 
             for (var j = 0; j < lines.Count; j++)
             {
-                foreach (var numIndex in lines[j].GetNumbersWithIndexesFromString())
+                foreach (var numIndex in lines[j].GetIntsWithIndexesFromString())
                 {
                     var str = "" + numIndex.Item1;
                     var start = numIndex.Item2;
@@ -106,7 +106,7 @@ namespace aoc2023
 
             for (var j = 0; j < lines.Count; j++)
             {
-                foreach (var numIndex in lines[j].GetNumbersWithIndexesFromString())
+                foreach (var numIndex in lines[j].GetIntsWithIndexesFromString())
                 {
                     var str = "" + numIndex.Item1;
                     var start = numIndex.Item2;

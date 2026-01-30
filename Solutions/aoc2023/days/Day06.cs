@@ -28,8 +28,8 @@ namespace aoc2023
             var timer = new Stopwatch();
             timer.Start();
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var times = AdventLibrary.StringParsing.GetNumbersFromString(lines[0]);
-            var distances = AdventLibrary.StringParsing.GetNumbersFromString(lines[1]);
+            var times = AdventLibrary.StringParsing.GetIntsFromString(lines[0]);
+            var distances = AdventLibrary.StringParsing.GetIntsFromString(lines[1]);
             var total = 1;
 
             for (var i = 0; i < times.Count; i++)

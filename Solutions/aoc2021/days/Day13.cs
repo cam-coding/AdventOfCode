@@ -33,7 +33,7 @@ namespace aoc2021
                 }
                 else
                 {
-                    var num = AdventLibrary.StringParsing.GetNumbersFromString(line).First();
+                    var num = AdventLibrary.StringParsing.GetIntsFromString(line).First();
                     if (line.Contains("x"))
                     {
                         grid = Fold(grid, num, false);
@@ -78,7 +78,7 @@ namespace aoc2021
                 }
                 else
                 {
-                    var num = AdventLibrary.StringParsing.GetNumbersFromString(line).First();
+                    var num = AdventLibrary.StringParsing.GetIntsFromString(line).First();
                     if (line.Contains("x"))
                     {
                         grid = Fold(grid, num, false);

@@ -33,17 +33,17 @@ namespace aoc2022
             foreach (var group in groups)
             {
                 counter.Add(0);
-                var monkeyId = StringParsing.GetNumbersFromString(group[0])[0];
-                var items = StringParsing.GetNumbersFromString(group[1]);
+                var monkeyId = StringParsing.GetIntsFromString(group[0])[0];
+                var items = StringParsing.GetIntsFromString(group[1]);
                 var itemQueue = new Queue<long>();
                 foreach (var item in items)
                 {
                     itemQueue.Enqueue(item);
                 }
                 Func<long, long> op = GetOp(group[2]);
-                var divNum = StringParsing.GetNumbersFromString(group[3])[0];
-                var trueNum = StringParsing.GetNumbersFromString(group[4])[0];
-                var falseNum = StringParsing.GetNumbersFromString(group[5])[0];
+                var divNum = StringParsing.GetIntsFromString(group[3])[0];
+                var trueNum = StringParsing.GetIntsFromString(group[4])[0];
+                var falseNum = StringParsing.GetIntsFromString(group[5])[0];
                 Func<long, bool> check = (num) => num % divNum == 0;
                 var monk = new Monkey(monkeyId, itemQueue, op, check, trueNum, falseNum, false);
                 monkeys.Add(monk);
@@ -78,7 +78,7 @@ namespace aoc2022
             foreach (var group in groups)
             {
                 counter.Add(0);
-                var monkeyId = StringParsing.GetNumbersFromString(group[0])[0];
+                var monkeyId = StringParsing.GetIntsFromString(group[0])[0];
                 var items = StringParsing.GetLongsFromString(group[1]);
                 var itemQueue = new Queue<long>();
                 foreach (var item in items)
@@ -86,10 +86,10 @@ namespace aoc2022
                     itemQueue.Enqueue(item);
                 }
                 Func<long, long> op = GetOp(group[2]);
-                var divNum = StringParsing.GetNumbersFromString(group[3])[0];
+                var divNum = StringParsing.GetIntsFromString(group[3])[0];
                 supermod = supermod * divNum;
-                var trueNum = StringParsing.GetNumbersFromString(group[4])[0];
-                var falseNum = StringParsing.GetNumbersFromString(group[5])[0];
+                var trueNum = StringParsing.GetIntsFromString(group[4])[0];
+                var falseNum = StringParsing.GetIntsFromString(group[5])[0];
                 Func<long, bool> check = (num) => num % divNum == 0;
                 var monk = new Monkey(monkeyId, itemQueue, op, check, trueNum, falseNum, true);
                 monkeys.Add(monk);
@@ -127,7 +127,7 @@ namespace aoc2022
                 }
                 else
                 {
-                    num2 = StringParsing.GetNumbersFromString(line)[0];
+                    num2 = StringParsing.GetIntsFromString(line)[0];
                 }
                 if (line.Contains("+"))
                 {

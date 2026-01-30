@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers.Grids;
+using AdventLibrary.PathFinding;
 
-namespace AdventLibrary.PathFinding
+namespace AdventLibrary.Examples
 {
     /* Paste these example into the code
      * and rework them for the day's problem
@@ -113,7 +112,7 @@ namespace AdventLibrary.PathFinding
             // now fullPathHistory has every interconnected node from the starting node
         }
 
-        private static void BFS_AllBestPaths_Example()
+        public static void BFS_AllBestPaths_Example()
         {
             // just examples for compiling
             var grid = new GridObject<int>(new List<List<int>>());
@@ -182,7 +181,7 @@ namespace AdventLibrary.PathFinding
             var length = bestPathLength;
         }
 
-        private static void DFS_Example()
+        public static void DFS_Example()
         {
             var basicGrid = new List<List<int>>();
             var grid = new GridObject<int>(basicGrid);
@@ -211,7 +210,7 @@ namespace AdventLibrary.PathFinding
             DFS.DFSgeneric(start, NeighboursFunc, GoalFunc, WeightFunc);
         }
 
-        private static void DFS_Weightless_Example()
+        public static void DFS_Weightless_Example()
         {
             var dict = new Dictionary<string, List<string>>();
             Func<string, List<string>> NeighboursFunc = (current) =>
@@ -240,7 +239,7 @@ namespace AdventLibrary.PathFinding
          * Be fast AF
          * */
 
-        private static void AStar_Example()
+        public static void AStar_Example()
         {
             var exampleGrid = new List<List<int>>();
             var exampleGridObject = new GridObject<int>(exampleGrid);
@@ -278,7 +277,7 @@ namespace AdventLibrary.PathFinding
          * Find a SINGLE best path from one location to all others
          * */
 
-        private static int Dijkstra_Example()
+        public static int Dijkstra_Example()
         {
             var charGrid = ParseInput.ParseFileAsCharGrid("");
             var grid = new GridObject<char>(charGrid);

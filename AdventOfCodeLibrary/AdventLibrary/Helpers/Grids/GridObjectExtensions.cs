@@ -146,5 +146,25 @@ namespace AdventLibrary.Helpers.Grids
             }
             return newGrids;
         }
+
+        public static void RotateGridRight<T>(this GridObject<T> grid)
+        {
+            grid.Grid = GridHelper.RotateGridRight(grid.Grid);
+        }
+
+        public static void RotateGridLeft<T>(this GridObject<T> grid)
+        {
+            grid.Grid = GridHelper.RotateGridLeft(grid.Grid);
+        }
+
+        public static void FlipAboutHorizontal<T>(this GridObject<T> grid)
+        {
+            GridHelper.FlipAboutHorizontal(grid.Grid);
+        }
+
+        public static void FlipAboutVertical<T>(this GridObject<T> grid)
+        {
+            GridHelper.FlipAboutVertical(grid.Grid);
+        }
     }
 }

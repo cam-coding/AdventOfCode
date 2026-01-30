@@ -45,7 +45,7 @@ namespace aoc2021
 
             foreach (var line in lines)
             {
-                var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+                var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
 
                 if (isPart2 || (nums[0] == nums[2] || nums[1] == nums[3]))
                 {

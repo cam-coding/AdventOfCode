@@ -39,7 +39,7 @@ namespace aoc2023
                 {
 
                     var part = new Part();
-                    var nums = StringParsing.GetNumbersFromString(line);
+                    var nums = StringParsing.GetIntsFromString(line);
                     part.x = nums[0];
                     part.m = nums[1];
                     part.a = nums[2];
@@ -53,7 +53,7 @@ namespace aoc2023
                         foreach (var tok in tokens)
                         {
                             var toks = tok.Split(':', '<', '>').ToList().GetRealStrings(delimiterChars);
-                            var myNums = StringParsing.GetNumbersFromString(tok);
+                            var myNums = StringParsing.GetIntsFromString(tok);
 
                             if (myNums.Count == 0)
                             {
@@ -178,7 +178,7 @@ namespace aoc2023
                 foreach (var tok in tokens)
                 {
                     var toks = tok.Split(':', '<', '>').ToList().GetRealStrings(delimiterChars);
-                    var myNums = StringParsing.GetNumbersFromString(tok);
+                    var myNums = StringParsing.GetIntsFromString(tok);
                     var lookup = toks[^1];
                     if (lookup.Equals("R"))
                     {

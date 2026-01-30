@@ -33,7 +33,7 @@ namespace aoc2016
 			foreach (var line in lines)
 			{
                 var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
                 
 				if (tokens[0].Equals("rect"))
                 {
@@ -89,7 +89,7 @@ namespace aoc2016
 			foreach (var line in lines)
 			{
                 var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetNumbersFromString(line);
+				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
                 
 				if (tokens[0].Equals("rect"))
                 {

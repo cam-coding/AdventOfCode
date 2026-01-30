@@ -2,8 +2,8 @@
 {
     public static class RunnerStaticArgs
     {
-        public static string YEAR => "2025";
+        public static string YEAR => "2023";
 
-        public static string DAY => "8";
+        public static string DAY => "9";
     }
 }

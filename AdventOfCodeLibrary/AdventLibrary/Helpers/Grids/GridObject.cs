@@ -18,6 +18,14 @@ namespace AdventLibrary.Helpers.Grids
             Infinite = false;
         }
 
+        public GridObject(int height, int width)
+        {
+            Height = height;
+            Width = width;
+            DefaultValue = default(T);
+            Infinite = false;
+        }
+
         public List<List<T>> Grid
         {
             get => _grid;

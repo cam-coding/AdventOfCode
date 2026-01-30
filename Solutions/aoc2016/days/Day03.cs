@@ -21,7 +21,7 @@ namespace aoc2016
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var count = 0;
 
-            var nums = lines.Select(x => AdventLibrary.StringParsing.GetNumbersFromString(x)).ToList();
+            var nums = lines.Select(x => AdventLibrary.StringParsing.GetIntsFromString(x)).ToList();
 
             for (var i = 0; i < nums.Count()-2; i = i + 3)
             {
@@ -43,7 +43,7 @@ namespace aoc2016
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var count = 0;
 
-            var nums = lines.Select(x => AdventLibrary.StringParsing.GetNumbersFromString(x)).ToList();
+            var nums = lines.Select(x => AdventLibrary.StringParsing.GetIntsFromString(x)).ToList();
 
             for (var i = 0; i < nums.Count()-2; i = i + 3)
             {

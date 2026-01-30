@@ -18,7 +18,7 @@ namespace aoc2015
 			
 			foreach (var line in lines)
 			{
-				var nums = StringParsing.GetNumbersFromString(line);
+				var nums = StringParsing.GetIntsFromString(line);
                 nums.Sort();
                 var min = nums[0]*nums[1];
                 long current = 0;
@@ -39,7 +39,7 @@ namespace aoc2015
 
             foreach (var line in lines)
             {
-                var nums = StringParsing.GetNumbersFromString(line);
+                var nums = StringParsing.GetIntsFromString(line);
                 nums.Sort();
                 var perm = (nums[0] + nums[1]) * 2;
                 var bow = nums[0] * nums[1] * nums[2];

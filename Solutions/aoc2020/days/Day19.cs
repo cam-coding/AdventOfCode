@@ -31,7 +31,7 @@ namespace aoc2020
                     break;
                 }
                 var tokens = lines[iter].Split(':').ToList().GetRealStrings();
-				var key = StringParsing.GetNumbersFromString(tokens[0])[0];
+				var key = StringParsing.GetIntsFromString(tokens[0])[0];
                 var listy = new List<Rule>();
 
                 if (tokens[1].Contains("\""))
@@ -45,7 +45,7 @@ namespace aoc2020
 
                     foreach (var rule in subRules2)
                     {
-                        var rulesInts = StringParsing.GetNumbersFromString(rule);
+                        var rulesInts = StringParsing.GetIntsFromString(rule);
                         listy.Add(new Rule(rulesInts));
                     }
                 }
@@ -155,7 +155,7 @@ namespace aoc2020
                     break;
                 }
                 var tokens = lines[iter].Split(':').ToList().GetRealStrings();
-                var key = StringParsing.GetNumbersFromString(tokens[0])[0];
+                var key = StringParsing.GetIntsFromString(tokens[0])[0];
                 var listy = new List<Rule>();
 
                 if (tokens[1].Contains("\""))
@@ -169,7 +169,7 @@ namespace aoc2020
 
                     foreach (var rule in subRules2)
                     {
-                        var rulesInts = StringParsing.GetNumbersFromString(rule);
+                        var rulesInts = StringParsing.GetIntsFromString(rule);
                         listy.Add(new Rule(rulesInts));
                     }
                 }

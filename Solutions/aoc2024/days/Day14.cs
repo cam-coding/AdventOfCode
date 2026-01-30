@@ -31,7 +31,7 @@ namespace aoc2024
             var robots = new List<(GridLocation<int>, GridLocation<int>)>();
             foreach (var line in lines)
             {
-                var nums = StringParsing.GetNumbersWithNegativesFromString(line);
+                var nums = StringParsing.GetIntssWithNegativesFromString(line);
                 var pos = new GridLocation<int>(nums[0], nums[1]);
                 var vel = new GridLocation<int>(nums[2], nums[3]);
                 robots.Add((pos, vel));
@@ -110,7 +110,7 @@ namespace aoc2024
             var robots = new List<(GridLocation<int>, GridLocation<int>)>();
             foreach (var line in lines)
             {
-                var nums = StringParsing.GetNumbersWithNegativesFromString(line);
+                var nums = StringParsing.GetIntssWithNegativesFromString(line);
                 var pos = new GridLocation<int>(nums[0], nums[1]);
                 var vel = new GridLocation<int>(nums[2], nums[3]);
                 robots.Add((pos, vel));

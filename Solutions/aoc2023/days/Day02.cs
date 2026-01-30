@@ -26,7 +26,7 @@ namespace aoc2023
             {
                 var valid = true;
                 var game = line.Split(":");
-                var gameNum = AdventLibrary.StringParsing.GetNumbersFromString(game[0])[0];
+                var gameNum = AdventLibrary.StringParsing.GetIntsFromString(game[0])[0];
                 var games = game[1].Split(";");
 
                 foreach (var gm in games)
@@ -73,7 +73,7 @@ namespace aoc2023
                 };
 
                 var game = line.Split(":");
-                var gameNum = AdventLibrary.StringParsing.GetNumbersFromString(game[0])[0];
+                var gameNum = AdventLibrary.StringParsing.GetIntsFromString(game[0])[0];
                 var games = game[1].Split(";");
 
                 foreach (var gm in games)

@@ -24,7 +24,7 @@ namespace aoc2018
 
             foreach (var line in lines)
             {
-                var nums = AdventLibrary.StringParsing.GetNumbersWithNegativesFromString(line);
+                var nums = AdventLibrary.StringParsing.GetIntssWithNegativesFromString(line);
 
                 foreach (var num in nums)
                 {
@@ -44,7 +44,7 @@ namespace aoc2018
             {
                 foreach (var line in lines)
                 {
-                    var nums = AdventLibrary.StringParsing.GetNumbersWithNegativesFromString(line);
+                    var nums = AdventLibrary.StringParsing.GetIntssWithNegativesFromString(line);
 
                     foreach (var num in nums)
                     {

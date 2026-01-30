@@ -60,7 +60,7 @@ namespace aoc2022
 
             for (var i = keyLinePos + 2; i < lines.Count; i++)
             {
-                var movements = StringParsing.GetNumbersFromString(lines[i]);
+                var movements = StringParsing.GetIntsFromString(lines[i]);
 
                 for (var j = 0; j < movements[0]; j++)
                 {
@@ -122,7 +122,7 @@ namespace aoc2022
 
             for (var i = keyLinePos + 2; i < lines.Count; i++)
             {
-                var movements = StringParsing.GetNumbersFromString(lines[i]);
+                var movements = StringParsing.GetIntsFromString(lines[i]);
 
                 var blah = StackHelper.PopMultipleFlipped(stacks[movements[1]], movements[0]);
                 StackHelper.PushMultiple(stacks[movements[2]], blah);

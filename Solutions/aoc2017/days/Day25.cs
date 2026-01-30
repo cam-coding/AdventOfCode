@@ -53,7 +53,7 @@ namespace aoc2017
 
                 stateActions.Add(() =>
                 {
-                    Write(StringParsing.GetNumbersFromString(groups[cur][2])[0]);
+                    Write(StringParsing.GetIntsFromString(groups[cur][2])[0]);
                     var tapeAdjustment = 1;
                     if (groups[cur][3].Contains("left"))
                     {
@@ -66,7 +66,7 @@ namespace aoc2017
 
                 stateActions.Add(() =>
                 {
-                    Write(StringParsing.GetNumbersFromString(groups[cur][6])[0]);
+                    Write(StringParsing.GetIntsFromString(groups[cur][6])[0]);
                     var tapeAdjustment = 1;
                     if (groups[cur][7].Contains("left"))
                     {

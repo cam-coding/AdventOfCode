@@ -37,7 +37,7 @@ namespace aoc2018
 
             lines.Sort();
 
-            var currentGuard = lines[0].GetNumbersFromString().Last();
+            var currentGuard = lines[0].GetIntsFromString().Last();
             var lastAsleep = 0;
             var isAsleep = false;
 
@@ -45,7 +45,7 @@ namespace aoc2018
 
             for (var i = 0; i < lines.Count; i++)
             {
-                var currentMinute = lines[i].GetNumbersFromString()[4];
+                var currentMinute = lines[i].GetIntsFromString()[4];
                 if (lines[i].Contains("guard", StringComparison.OrdinalIgnoreCase))
                 {
                     if (isAsleep)
@@ -55,7 +55,7 @@ namespace aoc2018
                             myDict[currentGuard][j]++;
                         }
                     }
-                    currentGuard = lines[i].GetNumbersFromString().Last();
+                    currentGuard = lines[i].GetIntsFromString().Last();
                     if (!myDict.ContainsKey(currentGuard))
                     {
                         var myList = new List<int>();
@@ -64,7 +64,7 @@ namespace aoc2018
                     }
                     isAsleep = false;
                     lastAsleep = currentMinute;
-                    if (lines[i].GetNumbersFromString()[3] == 23)
+                    if (lines[i].GetIntsFromString()[3] == 23)
                     {
                         lastAsleep = 0;
                     }
@@ -109,7 +109,7 @@ namespace aoc2018
 
             lines.Sort();
 
-            var currentGuard = lines[0].GetNumbersFromString().Last();
+            var currentGuard = lines[0].GetIntsFromString().Last();
             var lastAsleep = 0;
             var isAsleep = false;
 
@@ -117,7 +117,7 @@ namespace aoc2018
 
             for (var i = 0; i < lines.Count; i++)
             {
-                var currentMinute = lines[i].GetNumbersFromString()[4];
+                var currentMinute = lines[i].GetIntsFromString()[4];
                 if (lines[i].Contains("guard", StringComparison.OrdinalIgnoreCase))
                 {
                     if (isAsleep)
@@ -127,7 +127,7 @@ namespace aoc2018
                             myDict[currentGuard][j]++;
                         }
                     }
-                    currentGuard = lines[i].GetNumbersFromString().Last();
+                    currentGuard = lines[i].GetIntsFromString().Last();
                     if (!myDict.ContainsKey(currentGuard))
                     {
                         var myList = new List<int>();
@@ -136,7 +136,7 @@ namespace aoc2018
                     }
                     isAsleep = false;
                     lastAsleep = currentMinute;
-                    if (lines[i].GetNumbersFromString()[3] == 23)
+                    if (lines[i].GetIntsFromString()[3] == 23)
                     {
                         lastAsleep = 0;
                     }

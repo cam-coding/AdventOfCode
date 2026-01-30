@@ -44,10 +44,12 @@ namespace AdventLibraryUnitTests.Extensions
 
         [Theory]
         [MemberData(nameof(CombinationsWithRepetitionsData))]
-        public void GetCombinationsWithRepetitionTest(List<int> starting, List<List<int>> expected, int length)
+        public void GetCombinationsWithRepetitionTest(List<int> list, List<List<int>> expected, int length)
         {
-            var result = starting.GetCombinationsSizeNWithRepetition(length);
+            var starting = list.Clone();
+            var result = list.GetCombinationsSizeNWithRepetition(length);
             Assert.Equal(expected, result);
+            Assert.Equal(starting, list);
         }
 
         [Theory]

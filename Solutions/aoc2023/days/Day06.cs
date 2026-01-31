@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
 using AdventLibrary;
 using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
+using System.Diagnostics;
 
 namespace aoc2023
 {

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 

@@ -1,11 +1,9 @@
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 
 namespace aoc2023
 {
-    public class Day13: ISolver
+    public class Day13 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -18,12 +16,12 @@ namespace aoc2023
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var counter = 0;
+            var counter = 0;
 
             var currentGrid = new List<string>();
 
-			foreach (var line in lines)
-			{
+            foreach (var line in lines)
+            {
                 if (string.IsNullOrWhiteSpace(line))
                 {
                     counter += HandleGrid(currentGrid);
@@ -53,10 +51,10 @@ namespace aoc2023
         // mirror is between return and return + 1;
         private int FindMirror(List<string> lines)
         {
-            for (var i = 0; i < lines.Count-1; i++)
+            for (var i = 0; i < lines.Count - 1; i++)
             {
                 var valid = true;
-                for (var j = 0; j < lines.Count/2; j++)
+                for (var j = 0; j < lines.Count / 2; j++)
                 {
                     var bottom = i - j;
                     var top = i + j + 1;

@@ -1,11 +1,9 @@
 using AdventLibrary;
 using AdventLibrary.Extensions;
-using System;
-using System.Collections.Generic;
 
 namespace aoc2016
 {
-    public class Day25: ISolver
+    public class Day25 : ISolver
     {
         private List<bool> _historyBool;
         private bool _valid;
@@ -38,7 +36,7 @@ namespace aoc2016
                 k++;
             }
         }
-        
+
         private object Part2()
         {
             return 0;

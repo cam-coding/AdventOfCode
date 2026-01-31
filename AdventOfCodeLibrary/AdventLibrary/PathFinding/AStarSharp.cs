@@ -1,8 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Numerics;
 
 /*
@@ -57,7 +52,7 @@ namespace AStarSharp
         {
             get
             {
-               return Grid[0].Count;
+                return Grid[0].Count;
             }
         }
         int GridCols
@@ -75,7 +70,7 @@ namespace AStarSharp
 
         public Stack<Node> FindPath(Vector2 Start, Vector2 End)
         {
-            Node start = new Node(new Vector2((int)(Start.X/Node.NODE_SIZE), (int) (Start.Y/Node.NODE_SIZE)), 1, true);
+            Node start = new Node(new Vector2((int)(Start.X / Node.NODE_SIZE), (int)(Start.Y / Node.NODE_SIZE)), 1, true);
             Node end = new Node(new Vector2((int)(End.X / Node.NODE_SIZE), (int)(End.Y / Node.NODE_SIZE)), 1, true);
 
             Stack<Node> Path = new Stack<Node>();
@@ -84,19 +79,19 @@ namespace AStarSharp
             List<Node> adjacencies;
             Node current = start;
             bool foundEnd = false;
-           
+
             // add start node to Open List
             OpenList.Add(start);
 
-            while(OpenList.Count != 0)
+            while (OpenList.Count != 0)
             {
                 current = OpenList[0];
                 OpenList.Remove(current);
                 ClosedList.Add(current, 0);
                 adjacencies = GetAdjacentNodes(current);
 
- 
-                foreach(Node n in adjacencies)
+
+                foreach (Node n in adjacencies)
                 {
                     if (!ClosedList.ContainsKey(n) && n.Walkable)
                     {
@@ -117,9 +112,9 @@ namespace AStarSharp
                     break;
                 }
             }
-            
+
             // construct path, if end was not closed return null
-            if(!foundEnd)
+            if (!foundEnd)
             {
                 return null;
             }
@@ -131,10 +126,10 @@ namespace AStarSharp
             {
                 Path.Push(temp);
                 temp = temp.Parent;
-            } while (temp != start && temp != null) ;
+            } while (temp != start && temp != null);
             return Path;
         }
-		
+
         private List<Node> GetAdjacentNodes(Node n)
         {
             List<Node> temp = new List<Node>();
@@ -142,19 +137,19 @@ namespace AStarSharp
             int row = (int)n.Position.Y;
             int col = (int)n.Position.X;
 
-            if(row + 1 < GridRows)
+            if (row + 1 < GridRows)
             {
                 temp.Add(Grid[col][row + 1]);
             }
-            if(row - 1 >= 0)
+            if (row - 1 >= 0)
             {
                 temp.Add(Grid[col][row - 1]);
             }
-            if(col - 1 >= 0)
+            if (col - 1 >= 0)
             {
                 temp.Add(Grid[col - 1][row]);
             }
-            if(col + 1 < GridCols)
+            if (col + 1 < GridCols)
             {
                 temp.Add(Grid[col + 1][row]);
             }

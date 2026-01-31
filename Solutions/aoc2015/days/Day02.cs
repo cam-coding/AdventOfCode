@@ -2,7 +2,7 @@ using AdventLibrary;
 
 namespace aoc2015
 {
-    public class Day02: ISolver
+    public class Day02 : ISolver
     {
         private string _filePath;
         public Solution Solve(string filePath, bool isTest = false)
@@ -15,12 +15,12 @@ namespace aoc2015
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             long total = 0;
-			
-			foreach (var line in lines)
-			{
-				var nums = StringParsing.GetIntsFromString(line);
+
+            foreach (var line in lines)
+            {
+                var nums = StringParsing.GetIntsFromString(line);
                 nums.Sort();
-                var min = nums[0]*nums[1];
+                var min = nums[0] * nums[1];
                 long current = 0;
                 current = current + 2 * nums[0] * nums[1];
                 current = current + 2 * nums[1] * nums[2];
@@ -28,10 +28,10 @@ namespace aoc2015
                 current += min;
 
                 total += current;
-			}
+            }
             return total;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);

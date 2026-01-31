@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
 
 namespace aoc2024
 {
-    public class Day03: ISolver
+    public class Day03 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -25,13 +21,13 @@ namespace aoc2024
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
             var longLines = input.LongLines;
-			var numbers = input.Longs;
+            var numbers = input.Longs;
             var nodes = input.GraphDirected;
             var grid = input.GridChar;
             long total = 1000000;
-			long count = 0;
+            long count = 0;
             long number = input.Long;
-            
+
             var ln1 = input.Text;
 
             var indexes = ln1.GetIndexesOfSubstring("mul");

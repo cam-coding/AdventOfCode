@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2023
 {
-    public class Day09: ISolver
+    public class Day09 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -38,7 +34,7 @@ namespace aoc2023
                     county++;
                 }
 
-                for (var j = listy.Count-2; j >= 0; j--)
+                for (var j = listy.Count - 2; j >= 0; j--)
                 {
                     var last = listy[j].Last();
                     listy[j].Add(last + listy[j + 1].Last());

@@ -1,15 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
-using AdventLibrary.Helpers.Grids;
 
 namespace aoc2017
 {
-    public class Day10: ISolver
+    public class Day10 : ISolver
     {
         private string _filePath;
         private char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -25,7 +20,7 @@ namespace aoc2017
         private object Part1(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-			var numbers = input.Longs.Select(x => (int)x);
+            var numbers = input.Longs.Select(x => (int)x);
 
             var length = isTest ? 5 : 256;
             var listy = new List<int>();

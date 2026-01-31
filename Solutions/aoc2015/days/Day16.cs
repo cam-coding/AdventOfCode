@@ -1,9 +1,8 @@
 using AdventLibrary;
-using System.Collections.Generic;
 
 namespace aoc2015
 {
-    public class Day16: ISolver
+    public class Day16 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -59,7 +58,7 @@ namespace aoc2015
             }
             return 0;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
@@ -93,7 +92,7 @@ namespace aoc2015
             return 0;
         }
 
-        Dictionary<string, (int, int)> _dict2 = new Dictionary<string, (int,int)>()
+        Dictionary<string, (int, int)> _dict2 = new Dictionary<string, (int, int)>()
         {
             { "children", (3,3)},
             { "cats", (8,int.MaxValue)},

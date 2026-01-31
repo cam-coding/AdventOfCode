@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 
 namespace aoc2022
 {
-    public class Day10: ISolver
+    public class Day10 : ISolver
     {
-		/*
+        /*
 		var sub = item.Substring(0, 1);
 		Console.WriteLine();
 		*/
@@ -23,11 +20,11 @@ namespace aoc2022
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var strength = 1;
-			var cycle = 1;
+            var cycle = 1;
             var total = 0;
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars);
 
                 total += CycleHit(cycle, strength);
@@ -38,24 +35,25 @@ namespace aoc2022
                 }
                 else
                 {
-                    cycle += 1; 
+                    cycle += 1;
                     total += CycleHit(cycle, strength);
                     cycle += 1;
                     var nums = StringParsing.GetIntssWithNegativesFromString(tokens[1]);
                     strength += nums.First();
                 }
-			}
+            }
 
             return total;
         }
-        
+
         private object Part2()
-        {var lines = ParseInput.GetLinesFromFile(_filePath);
+        {
+            var lines = ParseInput.GetLinesFromFile(_filePath);
             var strength = 1;
-			var cycle = 1;
-			
-			foreach (var line in lines)
-			{
+            var cycle = 1;
+
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars);
 
                 Printer(cycle - 1, strength);
@@ -71,12 +69,12 @@ namespace aoc2022
                     var nums = StringParsing.GetIntssWithNegativesFromString(tokens[1]);
                     strength += nums.First();
                 }
-                
+
                 if (cycle == 271)
                 {
                     return 0;
                 }
-			}
+            }
 
             return 0;
         }
@@ -93,8 +91,9 @@ namespace aoc2022
             {
                 Console.Write("#");
             }
-            else{
-                
+            else
+            {
+
                 Console.Write(".");
             }
         }

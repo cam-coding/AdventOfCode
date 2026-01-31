@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day17: ISolver
+    public class Day17 : ISolver
     {
-		/*
+        /*
 		var sub = item.Substring(0, 1);
 		Console.WriteLine();
 		*/
@@ -29,8 +26,8 @@ namespace aoc2021
             var nums = AdventLibrary.StringParsing.GetIntsFromString(lines[0]);
             var minX = nums[0];
             var maxX = nums[1];
-            var minY = nums[2]*-1;
-            var maxY = nums[3]*-1;
+            var minY = nums[2] * -1;
+            var maxY = nums[3] * -1;
 
             var highest = 0;
             var highestY = 0;
@@ -81,15 +78,15 @@ namespace aoc2021
             }
             return highest;
         }
-        
+
         private object Part2()
         {
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
             var nums = AdventLibrary.StringParsing.GetIntsFromString(lines[0]);
             var minX = nums[0];
             var maxX = nums[1];
-            var minY = nums[2]*-1;
-            var maxY = nums[3]*-1;
+            var minY = nums[2] * -1;
+            var maxY = nums[3] * -1;
             var count = 0;
 
             var highest = 0;
@@ -162,7 +159,7 @@ namespace aoc2021
 
         private bool InsideTarget(int minX, int maxX, int minY, int maxY)
         {
-            return _probeX >= minX  && _probeX <= maxX && _probeY >= minY && _probeY <= maxY;
+            return _probeX >= minX && _probeX <= maxX && _probeY >= minY && _probeY <= maxY;
         }
     }
 }

@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 
 namespace aoc2020
 {
-    public class Day04: ISolver
+    public class Day04 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -25,7 +22,7 @@ namespace aoc2020
             listy.Add(new Dictionary<string, string>());
 
             foreach (var line in lines)
-			{
+            {
                 if (string.IsNullOrWhiteSpace(line))
                 {
                     counter++;
@@ -43,7 +40,7 @@ namespace aoc2020
                         }
                     }
                 }
-			}
+            }
             return listy.Count(x => x.Count >= 7);
         }
 
@@ -85,7 +82,7 @@ namespace aoc2020
             return count;
         }
 
-        private bool IsValid(Dictionary<string,string> dict)
+        private bool IsValid(Dictionary<string, string> dict)
         {
             var valid = true;
             if (dict.Count != 7)
@@ -139,7 +136,7 @@ namespace aoc2020
                         }
                         break;
                     case "ecl":
-                        var colours = new HashSet<string>() { "amb", "blu", "brn", "gry", "grn", "hzl", "oth"};
+                        var colours = new HashSet<string>() { "amb", "blu", "brn", "gry", "grn", "hzl", "oth" };
                         valid = valid && (colours.Contains(item.Value));
                         break;
                     case "pid":

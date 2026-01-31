@@ -1,14 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
 
 namespace aoc2020
 {
-    public class Day18: ISolver
+    public class Day18 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -23,10 +18,10 @@ namespace aoc2020
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             long total = 0;
-			foreach (var line in lines)
+            foreach (var line in lines)
             {
                 var ln = line.RemoveWhitespace();
-                _stack = new List<(string value,bool isNum)>();
+                _stack = new List<(string value, bool isNum)>();
                 var tokens = ln.Select(x => x.ToString());
                 foreach (var token in tokens)
                 {
@@ -36,7 +31,7 @@ namespace aoc2020
                     DoTheThing();
                 }
                 total += long.Parse(_stack[0].value);
-			}
+            }
             return total;
         }
 
@@ -82,7 +77,7 @@ namespace aoc2020
                 _stack.RemoveEverythingAfter(_stack.Count - 4);
                 if (item2.value.Equals("+"))
                 {
-                    _stack.Add(((num1 + num3).ToString(),true));
+                    _stack.Add(((num1 + num3).ToString(), true));
                     DoTheThing();
                 }
                 else if (item2.value.Equals("*"))

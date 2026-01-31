@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2015
 {
-    public class Day05: ISolver
+    public class Day05 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -19,10 +15,10 @@ namespace aoc2015
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var counter = 0;
-			
-			foreach (var line in lines)
-			{
+            var counter = 0;
+
+            foreach (var line in lines)
+            {
                 if (line.Contains("ab") ||
                     line.Contains("cd") ||
                     line.Contains("pq") ||
@@ -45,7 +41,7 @@ namespace aoc2015
                         vowels++;
                     }
 
-                    if (i > 0 && line[i] == line[i-1])
+                    if (i > 0 && line[i] == line[i - 1])
                     {
                         boolDouble = true;
                     }
@@ -56,11 +52,11 @@ namespace aoc2015
                     counter++;
                 }
 
-                
-			}
+
+            }
             return counter;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);

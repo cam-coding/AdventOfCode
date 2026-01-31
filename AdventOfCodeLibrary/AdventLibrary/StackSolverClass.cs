@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace AdventLibrary
 {
     public class StackSolverClass
@@ -13,9 +10,9 @@ namespace AdventLibrary
         {
             _inputString = inputStack;
             _pairs = new Dictionary<char, char>();
-            for (var i = 0; i < pairs.Length; i=i+2)
+            for (var i = 0; i < pairs.Length; i = i + 2)
             {
-                _pairs.Add(pairs[i], pairs[i+1]);
+                _pairs.Add(pairs[i], pairs[i + 1]);
             }
         }
         public StackSolverClass(string inputStack, string pairs)
@@ -25,7 +22,7 @@ namespace AdventLibrary
 
         public Dictionary<char, int> CountsDict { get => _counts; }
 
-        public List<char> LeftoverStack { get { return HasExtras ? _leftoverStack : null;}}
+        public List<char> LeftoverStack { get { return HasExtras ? _leftoverStack : null; } }
 
         public bool HasExtras;
 

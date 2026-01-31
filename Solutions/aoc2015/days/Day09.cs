@@ -1,12 +1,9 @@
 using AdventLibrary;
 using AdventLibrary.PathFinding;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace aoc2015
 {
-    public class Day09: ISolver
+    public class Day09 : ISolver
     {
         private string _filePath;
         private Dictionary<string, List<(string, int)>> _distances = new Dictionary<string, List<(string, int)>>();

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AdventLibrary.Helpers.Grids;
 using System.Numerics;
-using AdventLibrary.Helpers.Grids;
 
 namespace AdventLibrary.CustomObjects
 {

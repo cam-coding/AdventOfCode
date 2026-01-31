@@ -1,11 +1,6 @@
-using System;
-using Xunit;
-using System.Collections.Generic;
 using AdventLibrary;
 using AdventLibrary.Helpers.Grids;
-using System.Collections;
-using System.Linq;
-using AdventLibrary.Extensions;
+using Xunit;
 
 namespace AdventLibraryUnitTests.Helpers.Grids
 {

@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2024
 {

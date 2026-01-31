@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace AdventLibrary.Extensions
+﻿namespace AdventLibrary.Extensions
 {
     public static class LinkedListExtensions
     {

@@ -1,12 +1,9 @@
 using AdventLibrary;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 
 namespace aoc2023
 {
-    public class Day07: ISolver
+    public class Day07 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -21,15 +18,15 @@ namespace aoc2023
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var total = 1000000;
-			var count = 0;
+            var count = 0;
 
             var dict = new Dictionary<string, int>();
 
-			foreach (var line in lines)
-			{
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars);
                 dict.Add(tokens[0], int.Parse(tokens[1]));
-			}
+            }
             var sortedHands = new SortedDictionary<string, int>(dict, new CustomStringComparer());
             var i = 1;
             foreach (var item in sortedHands)

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using AdventLibrary.Extensions;
-using System.Linq;
+﻿using AdventLibrary.Extensions;
 
 namespace AdventLibrary.Helpers.Grids
 {

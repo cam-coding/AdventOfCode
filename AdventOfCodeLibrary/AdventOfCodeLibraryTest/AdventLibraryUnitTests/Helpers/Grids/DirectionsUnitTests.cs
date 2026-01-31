@@ -1,5 +1,4 @@
 ﻿using AdventLibrary.Helpers.Grids;
-using System.Collections.Generic;
 using Xunit;
 
 namespace AdventLibraryUnitTests.Helpers.Grids

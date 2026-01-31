@@ -1,13 +1,10 @@
 using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers.Grids;
-using Microsoft.VisualBasic;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace aoc2024
 {
-    public class Day09: ISolver
+    public class Day09 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -29,7 +26,7 @@ namespace aoc2024
             var grid = input.GridChar;
             var gridStart = new GridLocation<int>(0, 0);
             long total = 1000000;
-			long count = 0;
+            long count = 0;
             long number = input.Long;
 
             var text = input.Text;
@@ -56,7 +53,7 @@ namespace aoc2024
                 }
 
             }
-            for (var i = listy.Count-1; i >= 0; i--)
+            for (var i = listy.Count - 1; i >= 0; i--)
             {
                 if (listy[i] != -1)
                 {

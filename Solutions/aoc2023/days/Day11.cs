@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
-using AdventLibrary.PathFinding;
-using AStarSharp;
 
 namespace aoc2023
 {
-    public class Day11: ISolver
+    public class Day11 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };

@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2015
 {
-    public class Day01: ISolver
+    public class Day01 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -22,9 +18,9 @@ namespace aoc2015
 
             var openCount = 0;
             var closeCount = 0;
-			
-			foreach (var c in lines[0])
-			{
+
+            foreach (var c in lines[0])
+            {
                 if (c == '(')
                 {
                     openCount++;
@@ -33,10 +29,10 @@ namespace aoc2015
                 {
                     closeCount++;
                 }
-			}
-            return openCount-closeCount;
+            }
+            return openCount - closeCount;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);

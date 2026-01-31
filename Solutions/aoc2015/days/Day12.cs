@@ -1,10 +1,9 @@
 using AdventLibrary;
-using System.Linq;
 using System.Text.Json;
 
 namespace aoc2015
 {
-    public class Day12: ISolver
+    public class Day12 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -17,16 +16,16 @@ namespace aoc2015
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var counter = 0;
-			
-			foreach (var line in lines)
-			{
-				var nums = AdventLibrary.StringParsing.GetIntssWithNegativesFromString(line);
+            var counter = 0;
+
+            foreach (var line in lines)
+            {
+                var nums = AdventLibrary.StringParsing.GetIntssWithNegativesFromString(line);
                 counter += nums.Sum();
-			}
+            }
             return counter;
         }
-        
+
         private object Part2()
         {
             string jsonString = ParseInput.GetTextFromFile(_filePath);

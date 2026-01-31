@@ -2,7 +2,7 @@ using AdventLibrary;
 
 namespace aoc2017
 {
-    public class Day05: ISolver
+    public class Day05 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -18,8 +18,8 @@ namespace aoc2017
         private object Part1(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-			var numbers = input.LongsWithNegatives;
-			long count = 0;
+            var numbers = input.LongsWithNegatives;
+            long count = 0;
 
             int index = 0;
 

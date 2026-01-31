@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2016
 {
-    public class Day02: ISolver
-  {
+    public class Day02 : ISolver
+    {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
         public Solution Solve(string filePath, bool isTest = false)
@@ -37,11 +33,11 @@ namespace aoc2016
                 { (0,-2), 'D'},
             };
             var answer = string.Empty;
-			
+
             var x = -2;
             var y = 0;
-			foreach (var line in lines)
-			{
+            foreach (var line in lines)
+            {
 
                 foreach (var c in line)
                 {
@@ -56,16 +52,16 @@ namespace aoc2016
                     if (c == 'R')
                         x = x + 1;
 
-                    x = Math.Min(x, specialX*1);
-                    x = Math.Max(x, specialX*-1);
-                    y = Math.Min(y, specialY*1);
-                    y = Math.Max(y, specialY*-1);
+                    x = Math.Min(x, specialX * 1);
+                    x = Math.Max(x, specialX * -1);
+                    y = Math.Min(y, specialY * 1);
+                    y = Math.Max(y, specialY * -1);
                 }
-                answer = answer + dict[(x,y)];
-			}
+                answer = answer + dict[(x, y)];
+            }
             return answer;
         }
-        
+
         private object Part2()
         {
             return 0;

@@ -1,9 +1,8 @@
 using AdventLibrary;
-using System.Collections.Generic;
 
 namespace aoc2015
 {
-    public class Day23: ISolver
+    public class Day23 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '>', '<', '\t' };
@@ -26,7 +25,7 @@ namespace aoc2015
 
             return _registers['b'];
         }
-        
+
         private object Part2()
         {
             _registers = new Dictionary<char, int>();

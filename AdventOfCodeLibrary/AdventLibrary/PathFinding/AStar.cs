@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using AdventLibrary.Helpers.Grids;
-using AStarSharp;
 
 /*
 * Taken from RedBlobGames https://www.redblobgames.com/pathfinding/a-star/implementation.html#python-dijkstra

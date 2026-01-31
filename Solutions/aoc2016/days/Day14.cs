@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2016
 {
-    public class Day14: ISolver
-  {
+    public class Day14 : ISolver
+    {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
         public Solution Solve(string filePath, bool isTest = false)
@@ -26,13 +22,13 @@ namespace aoc2016
             {
                 while (total < 64 || validKeys[63] < count - 1000)
                 {
-                    byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes("ihaygndm"+count);
+                    byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes("ihaygndm" + count);
                     byte[] hashBytes = _md5.ComputeHash(inputBytes);
 
                     var hash = Convert.ToHexString(hashBytes).ToLower();
-                    for (var i = 0; i < hash.Length-2; i++)
+                    for (var i = 0; i < hash.Length - 2; i++)
                     {
-                        if (hash[i].Equals(hash[i+1]) && hash[i].Equals(hash[i+2]))
+                        if (hash[i].Equals(hash[i + 1]) && hash[i].Equals(hash[i + 2]))
                         {
                             var str = string.Empty + hash[i] + hash[i] + hash[i] + hash[i] + hash[i];
                             dict.Add(count, str);
@@ -71,7 +67,7 @@ namespace aoc2016
 
             return validKeys[63];
         }
-        
+
         private object Part2()
         {
             var total = 0;
@@ -82,7 +78,7 @@ namespace aoc2016
             {
                 while (total < 64 || validKeys[63] < count - 1000)
                 {
-                    var hash = "ihaygndm"+count;
+                    var hash = "ihaygndm" + count;
                     var j = 0;
                     while (j < 2017)
                     {
@@ -92,9 +88,9 @@ namespace aoc2016
                         hash = Convert.ToHexString(hashBytes).ToLower();
                         j++;
                     }
-                    for (var i = 0; i < hash.Length-2; i++)
+                    for (var i = 0; i < hash.Length - 2; i++)
                     {
-                        if (hash[i].Equals(hash[i+1]) && hash[i].Equals(hash[i+2]))
+                        if (hash[i].Equals(hash[i + 1]) && hash[i].Equals(hash[i + 2]))
                         {
                             var str = string.Empty + hash[i] + hash[i] + hash[i] + hash[i] + hash[i];
                             dict.Add(count, str);

@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 
 namespace aoc2017
 {
-    public class Day06: ISolver
+    public class Day06 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -24,11 +20,11 @@ namespace aoc2017
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
-			var numbers = input.Longs;
+            var numbers = input.Longs;
             var nodes = input.GraphDirected;
             var grid = input.GridChar;
             long total = 1000000;
-			long count = 0;
+            long count = 0;
             long number = input.Long;
 
             var dict = DictionaryHelper.CreateIndexDictionary(numbers);
@@ -91,12 +87,12 @@ namespace aoc2017
                 currentHash = HashSetHelper.HashObjectSorted(dict);
             }
 
-            return count- history[currentHash];
+            return count - history[currentHash];
         }
 
         private int GetNext(int current, Dictionary<int, long> dict)
         {
-            if (current == dict.Count-1)
+            if (current == dict.Count - 1)
             {
                 return 0;
             }

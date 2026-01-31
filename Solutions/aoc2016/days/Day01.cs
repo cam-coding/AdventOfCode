@@ -1,10 +1,8 @@
 using AdventLibrary;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace aoc2016
 {
-    public class Day01: ISolver
+    public class Day01 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -20,9 +18,9 @@ namespace aoc2016
             var x = 0;
             var y = 0;
             var direction = 0;
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars);
 
                 foreach (var token in tokens)
@@ -37,7 +35,7 @@ namespace aoc2016
                         direction = direction - 1;
                     else if (token[0] == 'R')
                         direction = direction + 1;
-                    
+
                     if (direction == -1)
                         direction = 3;
                     if (direction == 4)
@@ -52,20 +50,20 @@ namespace aoc2016
                     else if (direction == 3)
                         x = x - num;
                 }
-			}
+            }
             return x + y;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var x = 0;
             var y = 0;
             var direction = 0;
-            var cache = new Dictionary<int,HashSet<int>>();
-			
-			foreach (var line in lines)
-			{
+            var cache = new Dictionary<int, HashSet<int>>();
+
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars);
 
                 foreach (var token in tokens)
@@ -75,12 +73,12 @@ namespace aoc2016
                         continue;
                     }
                     var num = AdventLibrary.StringParsing.GetIntsFromString(token).First();
-                    
+
                     if (token[0] == 'L')
                         direction = direction - 1;
                     else if (token[0] == 'R')
                         direction = direction + 1;
-                    
+
                     if (direction == -1)
                         direction = 3;
                     if (direction == 4)
@@ -112,7 +110,7 @@ namespace aoc2016
                         }
                     }
                 }
-			}
+            }
             return x + y;
         }
     }

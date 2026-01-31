@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day13: ISolver
+    public class Day13 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -18,10 +15,10 @@ namespace aoc2021
         private object Part1()
         {
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
-            var grid = new bool[2000,2000];
-			
-			foreach (var line in lines)
-			{
+            var grid = new bool[2000, 2000];
+
+            foreach (var line in lines)
+            {
                 if (string.IsNullOrWhiteSpace(line))
                 {
 
@@ -29,7 +26,7 @@ namespace aoc2021
                 else if (!line.Contains("fold"))
                 {
                     var tokens = line.Split(delimiterChars);
-                    grid[Convert.ToInt32(tokens[1]),Convert.ToInt32(tokens[0])] = true;
+                    grid[Convert.ToInt32(tokens[1]), Convert.ToInt32(tokens[0])] = true;
                 }
                 else
                 {
@@ -42,13 +39,13 @@ namespace aoc2021
                     {
                         grid = Fold(grid, num, true);
                     }
-            
+
                     var count2 = 0;
                     for (var i = 0; i < 2000; i++)
                     {
-                        for(var j = 0; j < 2000; j++)
+                        for (var j = 0; j < 2000; j++)
                         {
-                            if (grid[i,j])
+                            if (grid[i, j])
                             {
                                 count2++;
                             }
@@ -56,25 +53,25 @@ namespace aoc2021
                     }
                     return count2;
                 }
-			}
+            }
             return 0;
         }
-        
+
         private object Part2()
         {
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
-            var grid = new bool[2000,2000];
-			
-			foreach (var line in lines)
-			{
+            var grid = new bool[2000, 2000];
+
+            foreach (var line in lines)
+            {
                 if (string.IsNullOrWhiteSpace(line))
                 {
-                    
+
                 }
                 else if (!line.Contains("fold"))
                 {
                     var tokens = line.Split(delimiterChars);
-                    grid[Convert.ToInt32(tokens[1]),Convert.ToInt32(tokens[0])] = true;
+                    grid[Convert.ToInt32(tokens[1]), Convert.ToInt32(tokens[0])] = true;
                 }
                 else
                 {
@@ -88,14 +85,14 @@ namespace aoc2021
                         grid = Fold(grid, num, true);
                     }
                 }
-			}
+            }
 
             var count = 0;
             for (var i = 0; i < 2000; i++)
             {
-                for(var j = 0; j < 2000; j++)
+                for (var j = 0; j < 2000; j++)
                 {
-                    if (grid[i,j])
+                    if (grid[i, j])
                     {
                         count++;
                     }
@@ -103,9 +100,9 @@ namespace aoc2021
             }
             for (var i = 0; i < 6; i++)
             {
-                for(var j = 0; j < 39; j++)
+                for (var j = 0; j < 39; j++)
                 {
-                    if (grid[i,j])
+                    if (grid[i, j])
                     {
                         Console.Write("#");
                     }
@@ -121,17 +118,17 @@ namespace aoc2021
 
         private bool[,] Fold(bool[,] grid, int num, bool isYfold)
         {
-            var delta = Math.Min(num, 2000-num);
+            var delta = Math.Min(num, 2000 - num);
             var current = num + delta;
-            for (var i = num-delta; i < num; i++)
+            for (var i = num - delta; i < num; i++)
             {
-                for(var j = 0; j < 2000; j++)
+                for (var j = 0; j < 2000; j++)
                 {
                     if (isYfold)
                     {
-                        if (grid[current,j])
+                        if (grid[current, j])
                         {
-                            grid[i,j] = true;
+                            grid[i, j] = true;
                         }
                     }
                     else
@@ -147,15 +144,15 @@ namespace aoc2021
 
             for (var i = num; i < 2000; i++)
             {
-                for(var j = 0; j < 2000; j++)
+                for (var j = 0; j < 2000; j++)
                 {
                     if (isYfold)
                     {
-                        grid[i,j] = false;
+                        grid[i, j] = false;
                     }
                     else
                     {
-                        grid[j,i] = false;
+                        grid[j, i] = false;
                     }
                 }
             }

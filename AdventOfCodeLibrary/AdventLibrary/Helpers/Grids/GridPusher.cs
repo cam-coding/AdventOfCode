@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace AdventLibrary.Helpers.Grids
+﻿namespace AdventLibrary.Helpers.Grids
 {
     /* Class originally created for 2024 Day 15
      * Similar to grid walker, the guy walks around the grid.

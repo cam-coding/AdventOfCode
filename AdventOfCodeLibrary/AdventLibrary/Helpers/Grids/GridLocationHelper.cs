@@ -1,6 +1,4 @@
 ﻿using AdventLibrary.CustomObjects;
-using System;
-using System.Collections.Generic;
 using System.Numerics;
 
 namespace AdventLibrary.Helpers.Grids
@@ -17,7 +15,7 @@ namespace AdventLibrary.Helpers.Grids
         public static bool DoThesePointsMakeALine<T>(List<GridLocation<T>> points) where T : INumber<T>
         {
             var lines = new List<LineObject<T>>();
-            for (var i = 0; i < points.Count-1; i++)
+            for (var i = 0; i < points.Count - 1; i++)
             {
                 lines.Add(new LineObject<T>(points[i], points[i + 1]));
             }

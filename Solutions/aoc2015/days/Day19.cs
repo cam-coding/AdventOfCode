@@ -1,12 +1,9 @@
 using AdventLibrary;
 using AdventLibrary.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace aoc2015
 {
-    public class Day19: ISolver
+    public class Day19 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -24,7 +21,7 @@ namespace aoc2015
             Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>();
 
             foreach (var line in lines)
-			{
+            {
                 if (line.Contains("=>"))
                 {
                     var tokens = line.Split(delimiterChars);
@@ -36,7 +33,7 @@ namespace aoc2015
                 {
                     baseString = line;
                 }
-			}
+            }
 
             var hashy = new HashSet<string>();
             foreach (var item in dict)

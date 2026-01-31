@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2016
 {
-    public class Day06: ISolver
-  {
+    public class Day06 : ISolver
+    {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
         public Solution Solve(string filePath, bool isTest = false)
@@ -20,14 +16,14 @@ namespace aoc2016
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
 
-            var dict = new Dictionary<int,Dictionary<char,int>>();
+            var dict = new Dictionary<int, Dictionary<char, int>>();
             for (var i = 0; i < lines[0].Length; i++)
             {
                 dict.Add(i, new Dictionary<char, int>());
             }
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 for (var i = 0; i < line.Length; i++)
                 {
                     if (dict[i].ContainsKey(line[i]))
@@ -39,7 +35,7 @@ namespace aoc2016
                         dict[i].Add(line[i], 1);
                     }
                 }
-			}
+            }
 
             var answer = string.Empty;
 
@@ -50,19 +46,19 @@ namespace aoc2016
             }
             return answer;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
 
-            var dict = new Dictionary<int,Dictionary<char,int>>();
+            var dict = new Dictionary<int, Dictionary<char, int>>();
             for (var i = 0; i < lines[0].Length; i++)
             {
                 dict.Add(i, new Dictionary<char, int>());
             }
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 for (var i = 0; i < line.Length; i++)
                 {
                     if (dict[i].ContainsKey(line[i]))
@@ -74,7 +70,7 @@ namespace aoc2016
                         dict[i].Add(line[i], 1);
                     }
                 }
-			}
+            }
 
             var answer = string.Empty;
 

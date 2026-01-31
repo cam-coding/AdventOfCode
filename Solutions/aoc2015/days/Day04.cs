@@ -3,7 +3,7 @@ using AdventLibrary.Helpers;
 
 namespace aoc2015
 {
-    public class Day04: ISolver
+    public class Day04 : ISolver
     {
         private string _filePath;
         public Solution Solve(string filePath, bool isTest = false)
@@ -15,8 +15,8 @@ namespace aoc2015
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			
-			foreach (var line in lines)
+
+            foreach (var line in lines)
             {
 
                 for (var i = 0; i < 10000000; i++)
@@ -29,10 +29,10 @@ namespace aoc2015
                         return i;
                     }
                 }
-			}
+            }
             return 0;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);

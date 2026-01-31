@@ -1,11 +1,9 @@
 using AdventLibrary;
 using AdventLibrary.Extensions;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace aoc2017
 {
-    public class Day04: ISolver
+    public class Day04 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -26,7 +24,7 @@ namespace aoc2017
             var ln2 = lines != null && lines.Count > 1 ? lines[1] : string.Empty;
             long count = 0;
 
-			foreach (var line in lines)
+            foreach (var line in lines)
             {
                 var valid = true;
                 HashSet<string> names = new HashSet<string>();

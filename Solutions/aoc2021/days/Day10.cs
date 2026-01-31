@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day10: ISolver
+    public class Day10 : ISolver
     {
         private string _filePath;
         private Dictionary<char, char> pairs;
@@ -23,28 +20,28 @@ namespace aoc2021
         private object Part1()
         {
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
-			long counter = 0;
-			
-			foreach (var line in lines)
-			{
+            long counter = 0;
+
+            foreach (var line in lines)
+            {
                 counter = counter + StackStuff(line);
-			}
+            }
             return counter;
         }
-        
+
         private object Part2()
         {
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
-			var counter = new List<long>();
-			
-			foreach (var line in lines)
-			{
+            var counter = new List<long>();
+
+            foreach (var line in lines)
+            {
                 var num = StackStuff2(line);
                 if (num != 0)
                 {
                     counter.Add(num);
                 }
-			}
+            }
             counter.Sort();
             return counter[counter.Count / 2];
         }
@@ -114,7 +111,7 @@ namespace aoc2021
             for (var j = 0; j < top; j++)
             {
                 var thing = stacky.Pop();
-                county = county*5 + dict[thing];
+                county = county * 5 + dict[thing];
             }
             return county;
         }

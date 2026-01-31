@@ -1,13 +1,10 @@
 using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace aoc2024
 {
-    public class Day17: ISolver
+    public class Day17 : ISolver
     {
         private string _filePath;
         private string _programOutput;

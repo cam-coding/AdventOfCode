@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day12: ISolver
+    public class Day12 : ISolver
     {
         private string _filePath;
         private Dictionary<string, List<string>> _nodes;
@@ -21,7 +18,7 @@ namespace aoc2021
             _nodes = AdventLibrary.ParseInput.ParseFileAsGraph(_filePath);
             return FindPaths(new List<string>(), "start", 1, false);
         }
-        
+
         private object Part2()
         {
             _nodes = AdventLibrary.ParseInput.ParseFileAsGraph(_filePath);
@@ -34,7 +31,7 @@ namespace aoc2021
             {
                 return 0;
             }
-            if (currentNode.All(x => Char.IsLower(x)) && path.Contains(currentNode) && maxedOut )
+            if (currentNode.All(x => Char.IsLower(x)) && path.Contains(currentNode) && maxedOut)
             {
                 return 0;
             }

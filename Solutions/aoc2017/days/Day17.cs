@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
-using AdventLibrary.Helpers.Grids;
 
 namespace aoc2017
 {
-    public class Day17: ISolver
+    public class Day17 : ISolver
     {
         private string _filePath;
         private char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -24,7 +19,7 @@ namespace aoc2017
         private object Part1(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-			var numbers = input.Longs;
+            var numbers = input.Longs;
 
             var megaIndex = (int)numbers[0];
             var megaList = new List<int>() { 0 };
@@ -45,7 +40,7 @@ namespace aoc2017
             }
 
             var index2017 = megaList.IndexOf(2017);
-            return megaList[index2017+1];
+            return megaList[index2017 + 1];
         }
 
         private object Part2(bool isTest = false)

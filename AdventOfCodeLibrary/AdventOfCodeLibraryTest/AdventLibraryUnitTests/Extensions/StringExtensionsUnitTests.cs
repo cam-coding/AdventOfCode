@@ -1,5 +1,4 @@
 ﻿using AdventLibrary.Extensions;
-using System.Collections.Generic;
 using Xunit;
 
 namespace AdventLibraryUnitTests.Extensions

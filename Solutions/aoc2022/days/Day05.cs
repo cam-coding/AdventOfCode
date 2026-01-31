@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Helpers;
 
 namespace aoc2022
 {
-    public class Day05: ISolver
+    public class Day05 : ISolver
     {
         private string _filePath;
         public Solution Solve(string filePath, bool isTest = false)
@@ -18,7 +15,7 @@ namespace aoc2022
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var counter = 0;
+            var counter = 0;
             var stacks = new List<Stack<char>>();
             // empty stack to make the numbers easier
             stacks.Add(new Stack<char>());
@@ -42,7 +39,7 @@ namespace aoc2022
                     var currentStack = keyLine[i] - '0';
                     stacks.Add(new Stack<char>());
 
-                    for (var j = keyLinePos-1; j >= 0; j--)
+                    for (var j = keyLinePos - 1; j >= 0; j--)
                     {
                         var value = lines[j][i];
                         if (value == ' ')
@@ -76,11 +73,11 @@ namespace aoc2022
             }
             return answer;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var counter = 0;
+            var counter = 0;
             var stacks = new List<Stack<char>>();
             // empty stack to make the numbers easier
             stacks.Add(new Stack<char>());
@@ -104,7 +101,7 @@ namespace aoc2022
                     var currentStack = keyLine[i] - '0';
                     stacks.Add(new Stack<char>());
 
-                    for (var j = keyLinePos-1; j >= 0; j--)
+                    for (var j = keyLinePos - 1; j >= 0; j--)
                     {
                         var value = lines[j][i];
                         if (value == ' ')

@@ -1,8 +1,4 @@
-﻿using AdventLibrary.CustomObjects;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AdventLibrary.Helpers.Grids
+﻿namespace AdventLibrary.Helpers.Grids
 {
     public static class Directions
     {
@@ -139,7 +135,7 @@ namespace AdventLibrary.Helpers.Grids
             cur--;
             if (cur == -1)
             {
-                cur = directions.Count-1;
+                cur = directions.Count - 1;
             }
             return directions[cur];
         }

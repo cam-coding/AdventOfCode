@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using AdventLibrary;
 using AdventLibrary.CustomObjects;
-using AdventLibrary.Helpers;
 using Microsoft.Z3;
 
 namespace aoc2023

@@ -1,12 +1,10 @@
 using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace aoc2021
 {
-    public class Day21: ISolver
+    public class Day21 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -55,7 +53,7 @@ namespace aoc2021
             }
             return "never get here";
         }
-        
+
         private object Part2()
         {
             var input = new InputObjectCollection(_filePath);

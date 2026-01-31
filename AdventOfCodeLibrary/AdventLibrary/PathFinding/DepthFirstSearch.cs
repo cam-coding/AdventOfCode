@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AdventLibrary.Extensions;
-using AdventLibrary.Helpers.Grids;
+﻿using AdventLibrary.Extensions;
 
 namespace AdventLibrary.PathFinding
 {

@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 
 namespace aoc2023
 {
-    public class Day12: ISolver
+    public class Day12 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ':', '-', '>', '<', '+', '=', '\t' };
@@ -20,13 +17,13 @@ namespace aoc2023
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			long count = 0;
+            long count = 0;
 
-			foreach (var line in lines)
-			{
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
 
-				var nums = StringParsing.GetIntsFromString(line);
+                var nums = StringParsing.GetIntsFromString(line);
 
                 _dicty = new Dictionary<DictKey, long>();
                 var temp = BackTrack(tokens[0], nums);

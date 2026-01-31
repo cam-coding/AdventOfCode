@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using AdventLibrary;
-using AdventLibrary.CustomObjects;
 using AdventLibrary.Helpers.Grids;
 using AdventLibrary.PathFinding;
 

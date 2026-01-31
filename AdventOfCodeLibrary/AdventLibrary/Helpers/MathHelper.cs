@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AdventLibrary.Helpers.Grids;
 using System.Numerics;
-using AdventLibrary.Helpers.Grids;
 
 namespace AdventLibrary.Helpers
 {

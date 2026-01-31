@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
+using System.Diagnostics;
 
 namespace aoc2022
 {
-    public class Day06: ISolver
+    public class Day06 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -23,7 +19,7 @@ namespace aoc2022
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var line = lines[0];
             var buffer = new List<char>();
-            
+
             for (var i = 0; i < line.Count(); i++)
             {
                 if (i < 4)
@@ -47,7 +43,7 @@ namespace aoc2022
             Debug.WriteLine("Hello");
             return 0;
         }
-        
+
         private object Part2()
         {
             return 1;

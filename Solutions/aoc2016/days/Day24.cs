@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
 using AdventLibrary;
-using AdventLibrary.Helpers;
+using System.Numerics;
 
 namespace aoc2016
 {
-    public class Day24: ISolver
+    public class Day24 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -39,25 +35,25 @@ namespace aoc2016
                 }
             }
 
-            var dict = new Dictionary<int, Dictionary<int,int>>();
+            var dict = new Dictionary<int, Dictionary<int, int>>();
             var path = pather.FindPath(new Vector2(0, 0), new Vector2(grid.Count - 1, grid[0].Count - 1));
 
             for (var i = 0; i < 8; i++)
             {
                 dict.Add(i, new Dictionary<int, int>());
-                for (var j = i+1; j < 8; j++)
+                for (var j = i + 1; j < 8; j++)
                 {
                     var a = locations[i];
                     var b = locations[j];
                     var distance = pather.FindPath(new Vector2(a.Item1, a.Item2), new Vector2(b.Item1, b.Item2)).Count;
-                    _arr[i,j] = distance;
-                    _arr[j,i] = distance;
+                    _arr[i, j] = distance;
+                    _arr[j, i] = distance;
                 }
             }
             var listy = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
             return TryAllPaths(listy, 0, 0);
         }
-        
+
         private object Part2()
         {
             var grid = ParseInput.ParseFileAsCharGrid(_filePath);
@@ -122,7 +118,7 @@ namespace aoc2016
         {
             if (canChooseFrom.Count == 0)
             {
-                return total + _arr[current,0];
+                return total + _arr[current, 0];
             }
             var best = int.MaxValue;
             foreach (var next in canChooseFrom)

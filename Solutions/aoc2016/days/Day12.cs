@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2016
 {
-    public class Day12: ISolver
-  {
+    public class Day12 : ISolver
+    {
         private string _filePath;
-        private char[] delimiterChars = { ' '};
+        private char[] delimiterChars = { ' ' };
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -23,7 +19,7 @@ namespace aoc2016
             bunny.RunInput();
             return bunny.Registers['a'];
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);

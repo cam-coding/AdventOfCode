@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day04: ISolver
+    public class Day04 : ISolver
     {
         public Solution Solve(string filePath, bool isTest = false)
         {
@@ -43,12 +40,12 @@ namespace aoc2021
                     if (WinningCard(card, called))
                     {
                         var sum = card.SelectMany(x => x).ToList().Where(x => !called.Contains(x)).Sum();
-                        return sum*called.Last();
+                        return sum * called.Last();
                     }
                 }
             }
         }
-        
+
         private object Part2(string filePath)
         {
             var strings = AdventLibrary.ParseInput.GetLinesFromFile(filePath);
@@ -82,7 +79,7 @@ namespace aoc2021
                         if (cardsOG.Count == 1)
                         {
                             var sum = card.SelectMany(x => x).ToList().Where(x => !called.Contains(x)).Sum();
-                            return sum*called.Last();
+                            return sum * called.Last();
                         }
                         else
                         {
@@ -103,9 +100,11 @@ namespace aoc2021
         private List<List<int>> TransposeMatrix(List<List<int>> grid)
         {
             var newGrid = new List<List<int>>();
-            for (var i = 0; i < grid.First().Count; i++) {
+            for (var i = 0; i < grid.First().Count; i++)
+            {
                 newGrid.Add(new List<int>());
-                for (var j = 0; j < grid.Count; j++) {
+                for (var j = 0; j < grid.Count; j++)
+                {
                     newGrid[i].Add(grid[j][i]);
                 }
             }

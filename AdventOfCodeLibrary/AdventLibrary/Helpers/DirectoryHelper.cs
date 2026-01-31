@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Linq;
-
-namespace AdventLibrary.Helpers
+﻿namespace AdventLibrary.Helpers
 {
     public static class DirectoryHelper
     {

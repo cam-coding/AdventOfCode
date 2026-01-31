@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 
@@ -19,7 +17,7 @@ namespace aoc2023
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var nodes = new Dictionary<string,Day25Node>();
+            var nodes = new Dictionary<string, Day25Node>();
             foreach (var line in lines)
             {
                 var tokens = line.Split(':').ToList().GetRealStrings(delimiterChars);
@@ -34,7 +32,7 @@ namespace aoc2023
                     first = new Day25Node(tokens[0]);
                 }
 
-                nodes.TryAdd(first.Key,first);
+                nodes.TryAdd(first.Key, first);
 
 
                 foreach (var item in tokens2)
@@ -50,7 +48,7 @@ namespace aoc2023
                     }
                     temp.ConnectedTo.Add(first);
                     first.ConnectedTo.Add(temp);
-                    nodes.TryAdd(temp.Key,temp);
+                    nodes.TryAdd(temp.Key, temp);
                 }
             }
 
@@ -123,14 +121,14 @@ namespace aoc2023
             return count;
         }
 
-        public string MostUsedConnection(Dictionary<string,int> counts)
+        public string MostUsedConnection(Dictionary<string, int> counts)
         {
             var bestStr = "";
             var highestValue = 0;
 
             foreach (var item in counts)
             {
-                if (item.Value >  highestValue)
+                if (item.Value > highestValue)
                 {
                     bestStr = item.Key;
                     highestValue = item.Value;

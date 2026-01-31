@@ -1,11 +1,4 @@
-﻿using AdventLibrary;
-using AdventLibrary.Helpers.Grids;
-using AdventLibrary.PathFinding;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AdventLibrary.Helpers.Grids;
 using Xunit;
 
 namespace AdventLibraryUnitTests.Helpers.Grids

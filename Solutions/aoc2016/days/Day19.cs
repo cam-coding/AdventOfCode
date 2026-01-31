@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2016
 {
-    public class Day19: ISolver
-  {
+    public class Day19 : ISolver
+    {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
         public Solution Solve(string filePath, bool isTest = false)
@@ -49,7 +45,7 @@ namespace aoc2016
             }
             return masterList[0];
         }
-        
+
         private object Part2()
         {
             // awful brute force

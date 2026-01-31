@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Diagnostics;
 using AdventLibrary;
 
 namespace aoc2023
@@ -38,9 +36,9 @@ namespace aoc2023
                         { "blue", 0 },
                     };
                     var tokens = gm.Split(delimiterChars);
-                    for (var j = 2; j < tokens.Length; j+=3)
+                    for (var j = 2; j < tokens.Length; j += 3)
                     {
-                        var num = int.Parse(tokens[j-1]);
+                        var num = int.Parse(tokens[j - 1]);
                         var colour = tokens[j];
                         maxDict[colour] = num;
                     }

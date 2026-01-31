@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2016
 {
-    public class Day05: ISolver
-  {
+    public class Day05 : ISolver
+    {
         private System.Security.Cryptography.MD5 _md5;
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -29,7 +25,7 @@ namespace aoc2016
             {
                 while (true)
                 {
-                    byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(line+count);
+                    byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(line + count);
                     byte[] hashBytes = _md5.ComputeHash(inputBytes);
 
                     var hash = Convert.ToHexString(hashBytes);
@@ -50,7 +46,7 @@ namespace aoc2016
             }
             return 0;
         }
-        
+
         private object Part2()
         {
             var line = ParseInput.GetLinesFromFile(_filePath)[0];
@@ -63,7 +59,7 @@ namespace aoc2016
             {
                 while (true)
                 {
-                    byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(line+count);
+                    byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(line + count);
                     byte[] hashBytes = _md5.ComputeHash(inputBytes);
 
                     var hash = Convert.ToHexString(hashBytes);

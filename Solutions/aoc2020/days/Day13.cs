@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
-using AdventLibrary.Helpers.Grids;
 
 namespace aoc2020
 {
-    public class Day13: ISolver
+    public class Day13 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -25,7 +21,7 @@ namespace aoc2020
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
-			var numbers = input.Longs;
+            var numbers = input.Longs;
             var time = numbers[0];
             var buses = numbers.GetWithout(0);
 
@@ -42,7 +38,7 @@ namespace aoc2020
                     best = real - time;
                 }
             }
-            return best*bestBus;
+            return best * bestBus;
         }
 
         private object Part2(bool isTest = false)

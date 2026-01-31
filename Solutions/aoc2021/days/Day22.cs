@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
 using AdventLibrary;
+using System.Numerics;
 
 namespace aoc2021
 {
-    public class Day22: ISolver
+    public class Day22 : ISolver
     {
-		/*
+        /*
 		var sub = item.Substring(0, 1);
 		Console.WriteLine();
 		*/
@@ -25,11 +22,11 @@ namespace aoc2021
             return 0;
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var onCubes = new Dictionary<Tuple<int, int, int>, int>();
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetIntssWithNegativesFromString(line);
+                var nums = AdventLibrary.StringParsing.GetIntssWithNegativesFromString(line);
                 var x = new List<int>() { nums[0], nums[1] };
                 var y = new List<int>() { nums[2], nums[3] };
                 var z = new List<int>() { nums[4], nums[5] };
@@ -62,10 +59,10 @@ namespace aoc2021
                         }
                     }
                 }
-			}
+            }
             return onCubes.Count;
         }
-        
+
         private object Part2()
         {
 
@@ -74,7 +71,7 @@ namespace aoc2021
             Breakup(test1, test2);
 
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var myCount = lines.Count-2;
+            var myCount = lines.Count - 2;
             var onCubes = new Dictionary<Tuple<int, int, int>, int>();
             var tokens = lines[myCount].Split(delimiterChars);
             var nums = AdventLibrary.StringParsing.GetIntssWithNegativesFromString(lines[myCount]);
@@ -84,7 +81,7 @@ namespace aoc2021
             var deltaX = (BigInteger)Math.Abs(specialX[0] - specialX[1]);
             var deltaY = (BigInteger)Math.Abs(specialY[0] - specialY[1]);
             var deltaZ = (BigInteger)Math.Abs(specialZ[0] - specialZ[1]);
-            BigInteger count = deltaX*deltaY*deltaZ;
+            BigInteger count = deltaX * deltaY * deltaZ;
             var listOfOff = new List<List<int>>();
             var listOfOn = new List<List<int>>();
 
@@ -101,7 +98,7 @@ namespace aoc2021
                     var onBoxes = new List<List<int>>();
                     if (listOfOff.Any())
                     {
-                        foreach(var off in listOfOff)
+                        foreach (var off in listOfOff)
                         {
                             var brokenUp = Breakup(onBox, off);
 
@@ -129,79 +126,79 @@ namespace aoc2021
         {
             var listOfBoxes = new List<List<int>>();
             if (Intersects(onVertices, offVertices))
+            {
+                if (onVertices[0] < offVertices[0])
                 {
-                    if (onVertices[0] < offVertices[0])
-                    {
-                        //below x?
-                        var mini = Math.Min(onVertices[1], offVertices[0]);
-                        var blah = new List<int>() { onVertices[0], mini, onVertices[2], onVertices[3], onVertices[4], onVertices[5] };
-                        listOfBoxes.Add(blah);
-                    }
-                    else
-                    {
-                        listOfBoxes.Add(null);
-                    }
-                    if (onVertices[1] > offVertices[1])
-                    {
-                        // above x?
-                        var mini = Math.Max(onVertices[0], offVertices[1]);
-                        var blah = new List<int>() { mini, onVertices[1], onVertices[2], onVertices[3], onVertices[4], onVertices[5] };
-                        listOfBoxes.Add(blah);
-                    }
-                    else
-                    {
-                        listOfBoxes.Add(null);
-                    }
-                    if (onVertices[2] < offVertices[2])
-                    {
-                        // below y
-                        var mini = Math.Min(onVertices[3], offVertices[2]);
-                        var blah = new List<int>() { onVertices[0], onVertices[1], onVertices[2], mini, onVertices[4], onVertices[5] };
-                        listOfBoxes.Add(blah);
-                    }
-                    else
-                    {
-                        listOfBoxes.Add(null);
-                    }
-                    if (onVertices[3] > offVertices[3])
-                    {
-                        // above y
-                        var mini = Math.Max(onVertices[2], offVertices[3]);
-                        var blah = new List<int>() { onVertices[0], onVertices[1], mini, onVertices[3], onVertices[4], onVertices[5] };
-                        listOfBoxes.Add(blah);
-                    }
-                    else
-                    {
-                        listOfBoxes.Add(null);
-                    }
-                    if (onVertices[4] < offVertices[4])
-                    {
-                        // below z
-                        var mini = Math.Min(onVertices[5], offVertices[4]);
-                        var blah = new List<int>() { onVertices[0], onVertices[1], onVertices[2], onVertices[3], onVertices[4], mini };
-                        listOfBoxes.Add(blah);
-                    }
-                    else
-                    {
-                        listOfBoxes.Add(null);
-                    }
-                    if (onVertices[5] > offVertices[5])
-                    {
-                        // above z
-                        var mini = Math.Max(onVertices[4], offVertices[5]);
-                        var blah = new List<int>() { onVertices[0], onVertices[1], onVertices[2], onVertices[3], mini, onVertices[5] };
-                        listOfBoxes.Add(blah);
-                    }
-                    else
-                    {
-                        listOfBoxes.Add(null);
-                    }
-                    Console.WriteLine("Hello");
+                    //below x?
+                    var mini = Math.Min(onVertices[1], offVertices[0]);
+                    var blah = new List<int>() { onVertices[0], mini, onVertices[2], onVertices[3], onVertices[4], onVertices[5] };
+                    listOfBoxes.Add(blah);
                 }
                 else
                 {
-                    return null;
+                    listOfBoxes.Add(null);
                 }
+                if (onVertices[1] > offVertices[1])
+                {
+                    // above x?
+                    var mini = Math.Max(onVertices[0], offVertices[1]);
+                    var blah = new List<int>() { mini, onVertices[1], onVertices[2], onVertices[3], onVertices[4], onVertices[5] };
+                    listOfBoxes.Add(blah);
+                }
+                else
+                {
+                    listOfBoxes.Add(null);
+                }
+                if (onVertices[2] < offVertices[2])
+                {
+                    // below y
+                    var mini = Math.Min(onVertices[3], offVertices[2]);
+                    var blah = new List<int>() { onVertices[0], onVertices[1], onVertices[2], mini, onVertices[4], onVertices[5] };
+                    listOfBoxes.Add(blah);
+                }
+                else
+                {
+                    listOfBoxes.Add(null);
+                }
+                if (onVertices[3] > offVertices[3])
+                {
+                    // above y
+                    var mini = Math.Max(onVertices[2], offVertices[3]);
+                    var blah = new List<int>() { onVertices[0], onVertices[1], mini, onVertices[3], onVertices[4], onVertices[5] };
+                    listOfBoxes.Add(blah);
+                }
+                else
+                {
+                    listOfBoxes.Add(null);
+                }
+                if (onVertices[4] < offVertices[4])
+                {
+                    // below z
+                    var mini = Math.Min(onVertices[5], offVertices[4]);
+                    var blah = new List<int>() { onVertices[0], onVertices[1], onVertices[2], onVertices[3], onVertices[4], mini };
+                    listOfBoxes.Add(blah);
+                }
+                else
+                {
+                    listOfBoxes.Add(null);
+                }
+                if (onVertices[5] > offVertices[5])
+                {
+                    // above z
+                    var mini = Math.Max(onVertices[4], offVertices[5]);
+                    var blah = new List<int>() { onVertices[0], onVertices[1], onVertices[2], onVertices[3], mini, onVertices[5] };
+                    listOfBoxes.Add(blah);
+                }
+                else
+                {
+                    listOfBoxes.Add(null);
+                }
+                Console.WriteLine("Hello");
+            }
+            else
+            {
+                return null;
+            }
 
             return listOfBoxes;
         }

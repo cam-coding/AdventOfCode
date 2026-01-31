@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
-using AdventLibrary.Helpers.Grids;
 
 namespace aoc2017
 {
-    public class Day11: ISolver
+    public class Day11 : ISolver
     {
         private string _filePath;
         private Dictionary<string, (int x, int y, int z)> _dict = new Dictionary<string, (int x, int y, int z)>()
@@ -35,7 +29,7 @@ namespace aoc2017
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
-            (int x, int y, int z) current = (0,0,0);
+            (int x, int y, int z) current = (0, 0, 0);
             foreach (var tok in input.Tokens)
             {
                 var val = _dict[tok];

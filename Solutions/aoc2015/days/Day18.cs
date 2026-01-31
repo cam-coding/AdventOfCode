@@ -3,7 +3,7 @@ using AdventLibrary.Extensions;
 
 namespace aoc2015
 {
-    public class Day18: ISolver
+    public class Day18 : ISolver
     {
         private string _filePath;
         public Solution Solve(string filePath, bool isTest = false)
@@ -73,7 +73,7 @@ namespace aoc2015
             }
             return counter;
         }
-        
+
         private object Part2()
         {
             var grid = ParseInput.ParseFileAsBoolGrid(_filePath, '#');

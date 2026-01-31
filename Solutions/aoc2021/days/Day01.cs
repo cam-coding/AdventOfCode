@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using AdventLibrary;
+﻿using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day01: ISolver
+    public class Day01 : ISolver
     {
         public Solution Solve(string filePath, bool isTest = false)
         {
@@ -37,19 +35,19 @@ namespace aoc2021
             }
             return total;
         }
-        
+
         private object Part2(string filePath)
         {
             var increased = 0;
             var numbers = AdventLibrary.ParseInput.GetNumbersFromFile(filePath);
             var groups = new int[numbers.Count];
-            var i=0;
+            var i = 0;
             foreach (var num in numbers)
             {
                 groups[i] = num;
                 if (i > 2)
                 {
-                    if (totalGroup(i-2, i, groups) > totalGroup(i-3, i-1, groups))
+                    if (totalGroup(i - 2, i, groups) > totalGroup(i - 3, i - 1, groups))
                     {
                         increased++;
                     }

@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2015
 {
-    public class Day08: ISolver
+    public class Day08 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -21,11 +17,11 @@ namespace aoc2015
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var codeCounter = 0;
             var realCounter = 0;
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 codeCounter += line.Length;
-                for (var i = 1; i < line.Length-1; i++)
+                for (var i = 1; i < line.Length - 1; i++)
                 {
                     if (line[i] != '\\')
                     {
@@ -33,12 +29,12 @@ namespace aoc2015
                     }
                     else
                     {
-                        if (line[i+1] == '"' || line[i+1] == '\\')
+                        if (line[i + 1] == '"' || line[i + 1] == '\\')
                         {
                             realCounter++;
                             i++;
                         }
-                        else if (line[i+1] == 'x')
+                        else if (line[i + 1] == 'x')
                         {
                             realCounter++;
                             i = i + 3;
@@ -46,10 +42,10 @@ namespace aoc2015
                     }
                 }
 
-			}
+            }
             return codeCounter - realCounter;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
@@ -69,7 +65,7 @@ namespace aoc2015
                     else if (line[i] == '\\')
                     {
                         realCounter += 2; // \ -> \\
-                        if (line[i+1] == '"')
+                        if (line[i + 1] == '"')
                         {
                             realCounter += 2; // " -> \"
                             i++;

@@ -1,11 +1,9 @@
 using AdventLibrary;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace aoc2016
 {
-    public class Day18: ISolver
-  {
+    public class Day18 : ISolver
+    {
         private string _filePath;
         public Solution Solve(string filePath, bool isTest = false)
         {
@@ -17,7 +15,7 @@ namespace aoc2016
         {
             return Solve(40);
         }
-        
+
         private object Part2()
         {
             return Solve(400000);

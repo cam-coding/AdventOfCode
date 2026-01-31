@@ -1,5 +1,4 @@
 using AdventLibrary;
-using System;
 
 namespace aoc2015
 {

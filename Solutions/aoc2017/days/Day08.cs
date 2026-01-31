@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 
 namespace aoc2017
 {
-    public class Day08: ISolver
+    public class Day08 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '+', '\t' };
@@ -24,11 +20,11 @@ namespace aoc2017
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
-			var numbers = input.Longs;
+            var numbers = input.Longs;
             var nodes = input.GraphDirected;
             var grid = input.GridChar;
             long total = 1000000;
-			long count = 0;
+            long count = 0;
             long number = input.Long;
             var dict = new Dictionary<string, int>();
 
@@ -53,7 +49,7 @@ namespace aoc2017
             return dict.Values.Max();
         }
 
-        private bool GetBool(string regKey, string symbol, string value, Dictionary<string,int> dict)
+        private bool GetBool(string regKey, string symbol, string value, Dictionary<string, int> dict)
         {
             var regValue = dict.ContainsKey(regKey) ? dict[regKey] : 0;
             return ComparisonOperatorHelper.RunOperation(symbol, regValue, int.Parse(value));

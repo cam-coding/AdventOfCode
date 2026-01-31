@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace AdventLibrary.Helpers
+﻿namespace AdventLibrary.Helpers
 {
     public static class DictionaryHelper
     {
@@ -24,7 +22,7 @@ namespace AdventLibrary.Helpers
         public static Dictionary<int, T> CreateIndexDictionary<T>(T defaultValue, int size)
         {
             var ret = new Dictionary<int, T>();
-            for (var i  = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
             {
                 ret.Add(i, defaultValue);
             }

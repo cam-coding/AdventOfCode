@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
-using AdventLibrary.Helpers.Grids;
 
 namespace aoc2017
 {
-    public class Day24: ISolver
+    public class Day24 : ISolver
     {
         private string _filePath;
         private char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -51,13 +47,13 @@ namespace aoc2017
 
             Recursion(ports, new List<List<long>>(), 0);
 
-            var length =  _bridges.Keys.Max(x => x.Count);
+            var length = _bridges.Keys.Max(x => x.Count);
             return _bridges.Max(x => x.Key.Count == length ? x.Value : 0);
         }
 
         private void Recursion(List<List<long>> availiblePorts, List<List<long>> history, long currentExposed)
         {
-            for (var i = 0; i <  availiblePorts.Count; i++)
+            for (var i = 0; i < availiblePorts.Count; i++)
             {
                 var port = availiblePorts[i];
                 if (port[0] == currentExposed || port[1] == currentExposed)

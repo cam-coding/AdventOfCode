@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace AdventLibrary
+﻿namespace AdventLibrary
 {
     public static class InputParserFactory
     {

@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
-using AdventLibrary.Helpers.Grids;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace aoc2017
 {
-    public class Day15: ISolver
+    public class Day15 : ISolver
     {
         private string _filePath;
         private char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -29,7 +22,7 @@ namespace aoc2017
                 return 1;
             }
             var input = new InputObjectCollection(_filePath);
-			var numbers = input.Longs;
+            var numbers = input.Longs;
             var count = 0;
 
             var memo = new Dictionary<long, int>();

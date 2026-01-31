@@ -1,10 +1,9 @@
 using AdventLibrary;
 using AdventLibrary.Helpers.Grids;
-using System.Collections.Generic;
 
 namespace aoc2024
 {
-    public class Day04: ISolver
+    public class Day04 : ISolver
     {
         private string _filePath;
 
@@ -21,14 +20,14 @@ namespace aoc2024
         {
             var input = new InputObjectCollection(_filePath);
             var grid = input.GridChar;
-			long count = 0;
+            long count = 0;
             var str = "MAS";
 
             for (var y = 0; y < grid.Height; y++)
             {
                 for (var x = 0; x < grid.Width; x++)
                 {
-                    if (grid.Get(x,y) == 'X')
+                    if (grid.Get(x, y) == 'X')
                     {
                         foreach (var dir in Directions.AllDirections)
                         {
@@ -83,12 +82,12 @@ namespace aoc2024
                                 valid = true;
                             }
                         }
-                        else if((tl == 'M' && tr == 'M'))
+                        else if ((tl == 'M' && tr == 'M'))
+                        {
+                            if (dl == 'S' && dr == 'S')
                             {
-                                if (dl == 'S' && dr == 'S')
-                                {
-                                    valid = true;
-                                }
+                                valid = true;
+                            }
                         }
                         else if ((tl == 'S' && dl == 'S'))
                         {

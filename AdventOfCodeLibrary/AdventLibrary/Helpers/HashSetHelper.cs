@@ -1,5 +1,4 @@
 ﻿using AdventLibrary.Extensions;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 
 namespace AdventLibrary.Helpers

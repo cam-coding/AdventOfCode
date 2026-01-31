@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
-using AdventLibrary.PathFinding;
 
 namespace aoc2023
 {
-    public class Day23: ISolver
+    public class Day23 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -98,7 +93,7 @@ namespace aoc2023
             {
                 var current = q.Dequeue(); // This will contain a list of all the points you visited on the way
                 var cur = current.Last(); // this is just the most recent point
-                if (current == null )
+                if (current == null)
                     continue;
                 if (cur == (max, max - 1))
                 {
@@ -161,7 +156,7 @@ namespace aoc2023
             return best;
         }
 
-        private static int CalcValue(List<(int,int)> listy)
+        private static int CalcValue(List<(int, int)> listy)
         {
             var counter = 0;
             foreach (var item in listy)
@@ -210,7 +205,7 @@ namespace aoc2023
                         }
                         else if (chr == 'v')
                         {
-                            var neigh = new List<Tuple<int, int>>() { new Tuple<int,int>(y+1,x)};
+                            var neigh = new List<Tuple<int, int>>() { new Tuple<int, int>(y + 1, x) };
                             dict.Add(cord, neigh);
                         }
                         else if (chr == '^')

@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2016
 {
-    public class Day08: ISolver
-  {
+    public class Day08 : ISolver
+    {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
         public Solution Solve(string filePath, bool isTest = false)
@@ -21,27 +17,27 @@ namespace aoc2016
             var lines = ParseInput.GetLinesFromFile(_filePath);
 
             // grid[row, column]
-            var grid = new char[6,50];
+            var grid = new char[6, 50];
             for (var i = 0; i < grid.GetLength(0); i++)
             {
                 for (var j = 0; j < grid.GetLength(1); j++)
                 {
-                    grid[i,j] = '.';
+                    grid[i, j] = '.';
                 }
             }
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
-                
-				if (tokens[0].Equals("rect"))
+                var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
+
+                if (tokens[0].Equals("rect"))
                 {
                     for (var i = 0; i < nums[1]; i++)
                     {
                         for (var j = 0; j < nums[0]; j++)
                         {
-                            grid[i,j] = '#';
+                            grid[i, j] = '#';
                         }
                     }
                 }
@@ -59,45 +55,45 @@ namespace aoc2016
                         grid = AdventLibrary.GridHelperWeirdTypes.RotateRowRightWithWrap(grid, nums[0]);
                     }
                 }
-			}
+            }
             var count = 0;
             for (var i = 0; i < grid.GetLength(0); i++)
             {
                 for (var j = 0; j < grid.GetLength(1); j++)
                 {
-                    if (grid[i,j] == 1)
+                    if (grid[i, j] == 1)
                         count++;
                 }
             }
             return count;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
 
             // grid[row, column]
-            var grid = new char[6,50];
+            var grid = new char[6, 50];
             for (var i = 0; i < grid.GetLength(0); i++)
             {
                 for (var j = 0; j < grid.GetLength(1); j++)
                 {
-                    grid[i,j] = '.';
+                    grid[i, j] = '.';
                 }
             }
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
-                
-				if (tokens[0].Equals("rect"))
+                var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
+
+                if (tokens[0].Equals("rect"))
                 {
                     for (var i = 0; i < nums[1]; i++)
                     {
                         for (var j = 0; j < nums[0]; j++)
                         {
-                            grid[i,j] = '#';
+                            grid[i, j] = '#';
                         }
                     }
                 }
@@ -115,7 +111,7 @@ namespace aoc2016
                         grid = AdventLibrary.GridHelperWeirdTypes.RotateRowRightWithWrap(grid, nums[0]);
                     }
                 }
-			}
+            }
             AdventLibrary.GridHelperWeirdTypes.PrintGrid(grid);
 
             return 0;

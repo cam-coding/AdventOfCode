@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 using AdventLibrary.Helpers.Grids;
-using Microsoft.Win32.SafeHandles;
 
 namespace aoc2024
 {

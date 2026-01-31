@@ -1,7 +1,5 @@
-﻿using AdventLibrary;
-using AdventLibrary.Extensions;
+﻿using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
-using System.Collections.Generic;
 using Xunit;
 
 namespace AdventLibraryUnitTests.Extensions

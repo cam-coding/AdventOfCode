@@ -1,10 +1,9 @@
 using AdventLibrary;
 using AdventLibrary.Helpers.Grids;
-using System.Collections.Generic;
 
 namespace aoc2017
 {
-    public class Day22: ISolver
+    public class Day22 : ISolver
     {
         private string _filePath;
         private char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };

@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 using AdventLibrary.Helpers.Grids;
 
 namespace aoc2017
 {
-    public class Day14: ISolver
+    public class Day14 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -33,10 +29,10 @@ namespace aoc2017
 
             for (var i = 0; i < 128; i++)
             {
-                var hasher = new KnotHasher(line+$"-{i}");
+                var hasher = new KnotHasher(line + $"-{i}");
                 var hex = hasher.GenerateHash();
                 var binary = string.Empty;
-                for (var k = 0; k < hex.Length; k+= 2)
+                for (var k = 0; k < hex.Length; k += 2)
                 {
                     binary += ConversionHelper.ConvertBaseToBase(16, 2, hex.Substring(k, 2));
                 }

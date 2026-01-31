@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Helpers;
 
 namespace aoc2016
 {
-    public class Day21: ISolver
+    public class Day21 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -20,11 +17,11 @@ namespace aoc2016
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var str = "abcdefgh";
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
+                var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
 
                 if (tokens[0] == "swap" && nums.Count == 2)
                 {
@@ -64,7 +61,7 @@ namespace aoc2016
             }
             return str;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);

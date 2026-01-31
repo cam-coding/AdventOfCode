@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-
-namespace AdventLibrary.Helpers.Grids
+﻿namespace AdventLibrary.Helpers.Grids
 {
     public class GridWalker
     {

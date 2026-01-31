@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
 
 namespace aoc2024
 {
-    public class Day01: ISolver
+    public class Day01 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -23,7 +18,7 @@ namespace aoc2024
         private object Part1(bool isTest = false)
         {
             var input = new InputObjectCollection(_filePath);
-			long count = 0;
+            long count = 0;
 
             var list1 = input.LongLines.Select(x => x[0]).ToList();
             var list2 = input.LongLines.Select(x => x[1]).ToList();

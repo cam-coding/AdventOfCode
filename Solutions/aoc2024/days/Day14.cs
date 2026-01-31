@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using AdventLibrary;
-using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
 using AdventLibrary.Helpers.Grids;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace aoc2024
 {
-    public class Day14: ISolver
+    public class Day14 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -51,7 +44,7 @@ namespace aoc2024
 
             var myGrid = GridHelper.GenerateGrid(width, height, 0);
             var finalPost = new List<GridLocation<int>>();
-            var county = new List<int>() { 0,0,0,0};
+            var county = new List<int>() { 0, 0, 0, 0 };
             foreach (var robot in robots)
             {
                 var pos = robot.Item1;
@@ -94,12 +87,12 @@ namespace aoc2024
                     }
                 }
             }
-            return county[0] * county[1] * county[2] * county[3] ;
+            return county[0] * county[1] * county[2] * county[3];
         }
 
         private object Part2(bool isTest = false)
         {
-            
+
             if (isTest)
             {
                 return 0;
@@ -151,7 +144,7 @@ namespace aoc2024
                     hashy.Add(posy);
                     grid.Set(posy, '*');
                 }
-                if ( Potential(grid))
+                if (Potential(grid))
                 {
                     grid.Print();
 
@@ -192,37 +185,37 @@ namespace aoc2024
                         {
                             return true;
                         }
+                        /*
+                        for (var j = -1; j < 2; j++)
+                        {
+                        }
+                    }
+                    /*
+                    var cur2 = cur + Directions.DownLeft;
+                    var cur3 = cur + Directions.DownLeft + Directions.DownLeft;
+                    var cur4 = cur + Directions.DownLeft + Directions.DownLeft + Directions.DownLeft;
+                    var cur5 = cur + Directions.DownRight;
+                    var cur6 = cur + Directions.DownRight + Directions.DownRight;
+                    var cur7 = cur + Directions.DownRight + Directions.DownRight + Directions.DownRight;
+                    var cur5 = cur + Directions.DownRight;
+                    var cur6 = cur + Directions.DownRight + Directions.DownRight;
+                    var cur7 = cur + Directions.DownRight + Directions.DownRight + Directions.DownRight;
+                    var valid = true;*/
+                        /*
+                        for (var i = -3; i < 4; i++)
+                        {
+                            if (grid.Get(x + i, y) != '*')
+                            {
+                                valid = false;
+                            }
                             /*
                             for (var j = -1; j < 2; j++)
                             {
                             }
                         }
-                        /*
-                        var cur2 = cur + Directions.DownLeft;
-                        var cur3 = cur + Directions.DownLeft + Directions.DownLeft;
-                        var cur4 = cur + Directions.DownLeft + Directions.DownLeft + Directions.DownLeft;
-                        var cur5 = cur + Directions.DownRight;
-                        var cur6 = cur + Directions.DownRight + Directions.DownRight;
-                        var cur7 = cur + Directions.DownRight + Directions.DownRight + Directions.DownRight;
-                        var cur5 = cur + Directions.DownRight;
-                        var cur6 = cur + Directions.DownRight + Directions.DownRight;
-                        var cur7 = cur + Directions.DownRight + Directions.DownRight + Directions.DownRight;
-                        var valid = true;*/
-                            /*
-                            for (var i = -3; i < 4; i++)
-                            {
-                                if (grid.Get(x + i, y) != '*')
-                                {
-                                    valid = false;
-                                }
-                                /*
-                                for (var j = -1; j < 2; j++)
-                                {
-                                }
-                            }
-                            return valid; */
-                        }
+                        return valid; */
                     }
+                }
             }
             return false;
         }

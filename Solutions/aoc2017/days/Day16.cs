@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
-using AdventLibrary.Helpers.Grids;
 
 namespace aoc2017
 {
-    public class Day16: ISolver
+    public class Day16 : ISolver
     {
         private string _filePath;
         private char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -45,7 +41,7 @@ namespace aoc2017
                     var num = nums[0];
                     var index = programs.Count - num;
                     var sublist = programs.SubList(index);
-                    programs.RemoveEverythingAfter(index-1);
+                    programs.RemoveEverythingAfter(index - 1);
                     programs.InsertRange(0, sublist);
                 }
                 else if (instruction[0] == 'x')

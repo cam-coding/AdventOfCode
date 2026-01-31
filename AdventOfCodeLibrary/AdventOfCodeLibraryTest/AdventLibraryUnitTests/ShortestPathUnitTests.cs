@@ -1,10 +1,8 @@
-using System;
-using Xunit;
-using System.Collections.Generic;
-using AdventLibrary.PathFinding;
-using Xunit.Abstractions;
 using AdventLibrary;
 using AdventLibrary.Helpers.Grids;
+using AdventLibrary.PathFinding;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace AdventLibraryUnitTests
 {

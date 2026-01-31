@@ -1,10 +1,9 @@
 using AdventLibrary;
 using AdventLibrary.Extensions;
-using System.Collections.Generic;
 
 namespace aoc2024
 {
-    public class Day05: ISolver
+    public class Day05 : ISolver
     {
         private string _filePath;
         public Solution Solve(string filePath, bool isTest = false)
@@ -20,7 +19,7 @@ namespace aoc2024
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
-			long count = 0;
+            long count = 0;
 
             var rules = new List<(int a, int b)>();
             var groups = input.LineGroupsSeperatedByWhiteSpace;

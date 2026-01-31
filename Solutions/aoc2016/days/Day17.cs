@@ -1,12 +1,10 @@
 using AdventLibrary;
 using AdventLibrary.Helpers;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace aoc2016
 {
-    public class Day17: ISolver
-  {
+    public class Day17 : ISolver
+    {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
         private char[] openDoors = { 'b', 'c', 'd', 'e', 'f' };
@@ -68,7 +66,7 @@ namespace aoc2016
             }
             return solution;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);

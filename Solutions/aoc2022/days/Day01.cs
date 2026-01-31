@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using AdventLibrary;
-using System.Linq;
+﻿using AdventLibrary;
 
 namespace aoc2022
 {
-    public class Day01: ISolver
+    public class Day01 : ISolver
     {
         public Solution Solve(string filePath, bool isTest = false)
         {
@@ -23,7 +20,7 @@ namespace aoc2022
             var counter = new List<int>();
             counter.Add(0);
 
-            foreach(var line in lines)
+            foreach (var line in lines)
             {
                 if (!line.Equals(string.Empty))
                 {
@@ -38,7 +35,7 @@ namespace aoc2022
 
             return counter.Max();
         }
-        
+
         private object Part2(string filePath)
         {
             var increased = 0;
@@ -50,7 +47,7 @@ namespace aoc2022
             var counter = new List<int>();
             counter.Add(0);
 
-            foreach(var line in lines)
+            foreach (var line in lines)
             {
                 if (!line.Equals(string.Empty))
                 {
@@ -65,7 +62,7 @@ namespace aoc2022
 
             counter.Sort();
 
-            return counter[counter.Count-1] + counter[counter.Count-3] + counter[counter.Count-2];
+            return counter[counter.Count - 1] + counter[counter.Count - 3] + counter[counter.Count - 2];
         }
     }
 }

@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
 using AdventLibrary.Helpers.Grids;
 
 namespace aoc2024
 {
-    public class Day08: ISolver
+    public class Day08 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -26,7 +20,7 @@ namespace aoc2024
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
-			var numbers = input.Longs;
+            var numbers = input.Longs;
             var longLines = input.LongLines;
             var nodes = input.GraphDirected;
             var grid = input.GridChar;
@@ -57,7 +51,7 @@ namespace aoc2024
                 {
                     listy2.Add((item, thing));
                 }
-                dict.Add(item,stuff);
+                dict.Add(item, stuff);
             }
 
             var hashAnswer = new HashSet<GridLocation<int>>();
@@ -67,7 +61,7 @@ namespace aoc2024
                 {
                     foreach (var pair in listy2)
                     {
-                        var loc = new GridLocation<int>(x,y);
+                        var loc = new GridLocation<int>(x, y);
                         var delta = loc - pair.Item2;
 
                         var others = listy2.Where(x => x.Item1 == pair.Item1).ToList();

@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AdventLibrary.CustomObjects;
-using AdventLibrary.Extensions;
+﻿using AdventLibrary.CustomObjects;
 using AdventLibrary.Helpers.Grids;
 
 namespace AdventLibrary.Helpers

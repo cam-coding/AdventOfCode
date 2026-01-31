@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 /*
 * Implementation of the C++ version laid out in "Competitive Programmer’s Handbook" by Antti Laaksonen
 */
@@ -24,20 +21,20 @@ namespace AdventLibrary.PathFinding
     public static class DijkstraTuple
     {
         // if missing item, distance is infinite
-        public static Dictionary<Tuple<int,int>, int> DistanceDictionary;
+        public static Dictionary<Tuple<int, int>, int> DistanceDictionary;
 
-        public static Dictionary<Tuple<int,int>, List<Tuple<int,int>>> Adj;
+        public static Dictionary<Tuple<int, int>, List<Tuple<int, int>>> Adj;
 
-        public static Dictionary<Tuple<int, int>, int> Search(List<List<int>> grid, Tuple<int,int> start)
+        public static Dictionary<Tuple<int, int>, int> Search(List<List<int>> grid, Tuple<int, int> start)
         {
             Adj = GridHelperWeirdTypes.GridToTupleAdjList(grid);
             DistanceDictionary = new Dictionary<Tuple<int, int>, int>();
             var processed = new Dictionary<Tuple<int, int>, bool>();
-            var queue = new PriorityQueue<Tuple<int,int>, int>();
+            var queue = new PriorityQueue<Tuple<int, int>, int>();
             DistanceDictionary.Add(start, 0);
             queue.Enqueue(start, 0);
 
-            while(queue.Count != 0)
+            while (queue.Count != 0)
             {
                 var current = queue.Dequeue();
                 if (processed.ContainsKey(current))

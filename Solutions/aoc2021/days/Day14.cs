@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day14: ISolver
+    public class Day14 : ISolver
     {
         private string _filePath;
         private string _inputString;
@@ -22,9 +19,9 @@ namespace aoc2021
             var i = 0;
             var start = string.Empty;
             var pairs = new Dictionary<string, string>();
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 if (i == 0)
                 {
                     start = line;
@@ -39,20 +36,20 @@ namespace aoc2021
                     pairs.Add(tokens[0], tokens[4]);
                 }
                 i++;
-			}
+            }
 
             for (var j = 0; j < 10; j++)
             {
                 var blah = start;
                 var add = new Dictionary<int, string>();
-                foreach(var item in pairs)
+                foreach (var item in pairs)
                 {
                     var indexes = GetInstancesOf(start, item.Key);
                     foreach (var index in indexes)
                     {
                         if (add.ContainsKey(index))
                         {
-                            add[index+1] = add[index] + item.Value;
+                            add[index + 1] = add[index] + item.Value;
                         }
                         else
                         {
@@ -72,7 +69,7 @@ namespace aoc2021
             }
             return Count(start, pairs);
         }
-        
+
         private object Part2()
         {
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
@@ -80,9 +77,9 @@ namespace aoc2021
             var i = 0;
             var pairs = new Dictionary<string, string>();
             var myStrings = new Dictionary<string, long>();
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 if (i == 0)
                 {
                     start = line;
@@ -96,11 +93,11 @@ namespace aoc2021
                     pairs.Add(tokens[0], tokens[4]);
                 }
                 i++;
-			}
+            }
 
             for (var j = 1; j < start.Length; j++)
             {
-                var sub = start.Substring(j-1, 2);
+                var sub = start.Substring(j - 1, 2);
                 if (myStrings.ContainsKey(sub))
                 {
                     myStrings[sub] = myStrings[sub] + 1;
@@ -113,7 +110,7 @@ namespace aoc2021
 
             for (var j = 0; j < 40; j++)
             {
-                var blah = new Dictionary<string,long>(myStrings);
+                var blah = new Dictionary<string, long>(myStrings);
 
                 foreach (var item in pairs)
                 {
@@ -158,19 +155,19 @@ namespace aoc2021
             var foundIndexes = new List<int>();
             for (int i = main.IndexOf(search); i > -1; i = main.IndexOf(search, i + 1))
             {
-                    foundIndexes.Add(i);
+                foundIndexes.Add(i);
             }
             return foundIndexes;
         }
 
-        private int Count(string input, Dictionary<string,string> pairs)
+        private int Count(string input, Dictionary<string, string> pairs)
         {
             var keys = pairs.Values.ToList();
             var most = 0;
             var least = int.MaxValue;
             foreach (var key in keys)
             {
-                var temp = input.Split(key).Length -1;
+                var temp = input.Split(key).Length - 1;
                 if (temp > most)
                 {
                     most = temp;
@@ -180,10 +177,10 @@ namespace aoc2021
                     least = temp;
                 }
             }
-            return most-least;
+            return most - least;
         }
 
-        private double Count(Dictionary<string,long> pairs)
+        private double Count(Dictionary<string, long> pairs)
         {
             var letterDict = new Dictionary<string, long>();
             foreach (var item in pairs)
@@ -191,8 +188,8 @@ namespace aoc2021
                 AddIfNew(letterDict, item.Key[0].ToString(), item.Value);
             }
             letterDict[_inputString[0].ToString()]++;
-            letterDict[_inputString[_inputString.Length-1].ToString()]++;
-            return letterDict.Max(x => x.Value)-letterDict.Min(x => x.Value);
+            letterDict[_inputString[_inputString.Length - 1].ToString()]++;
+            return letterDict.Max(x => x.Value) - letterDict.Min(x => x.Value);
         }
     }
 }

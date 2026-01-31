@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AdventLibrary.Helpers
+﻿namespace AdventLibrary.Helpers
 {
     public class BitwiseHelper
     {

@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.CustomObjects;
-using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
-using AdventLibrary.Helpers.Grids;
 
 namespace aoc2021
 {
-    public class Day24: ISolver
+    public class Day24 : ISolver
     {
         private string _filePath;
         private Registry _registry;
@@ -40,7 +34,7 @@ namespace aoc2021
             var groups = new List<List<string>>();
             var currentGroup = new List<string>();
 
-            
+
 
 
             for (var i = 0; i < lines.Count; i++)
@@ -65,7 +59,7 @@ namespace aoc2021
              * then just call GetInputGivenOutput and get answer
              * maybe pair an input/out with the digits so far?*/
 
-            _yFactorList = new List<int> {};
+            _yFactorList = new List<int> { };
             _xFactorList = new List<int> { };
             _isDivide26List = new List<bool> { };
             _answer = string.Empty;
@@ -209,7 +203,7 @@ namespace aoc2021
                     }
                 }
             }
-            Recursion2(column+1, newZValues);
+            Recursion2(column + 1, newZValues);
         }
         private void Recursion3(int column, List<(long z, string max)> zValues)
         {

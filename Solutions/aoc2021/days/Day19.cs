@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day19: ISolver
+    public class Day19 : ISolver
     {
-		/*
+        /*
 		var sub = item.Substring(0, 1);
 		Console.WriteLine();
 		*/
@@ -21,7 +18,7 @@ namespace aoc2021
 
         private object Part1()
         {
-            
+
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var i = 0;
             List<List<(int x, int y, int z)>> scanners = new List<List<(int x, int y, int z)>>();
@@ -49,51 +46,51 @@ namespace aoc2021
                 i++;
             }
 
-/*
-            var myTotalScans = new Dictionary<((int from, int to, int permu), (int x, int y, int z))>();
+            /*
+                        var myTotalScans = new Dictionary<((int from, int to, int permu), (int x, int y, int z))>();
 
-            // var myBeacon = scanners[0][0];
-            for (var i = 0; i < scanners.Count; i++)
-            {
-                var possibleScannerPos = new Dictionary<(int x, int y, int z), int>();
-                var scannerPermutation = new Dictionary<(int x, int y, int z), int>();
-                for(var j = 0; j < scanners.Count; j++)
-                {
-                    if (i != j)
-                    {
-                        var allScanners = AllPermutations2(new List<int>() {beacon.x, beacon.y, beacon.z});
-                        var k = 0;
-                        foreach (var scannerPos in allScanners)
+                        // var myBeacon = scanners[0][0];
+                        for (var i = 0; i < scanners.Count; i++)
                         {
-                            (int x, int y, int z) toople = (scannerPos[0] + myBeacon.x, scannerPos[1] + myBeacon.y, scannerPos[2] + myBeacon.z);
-                            if (toople.x == 68 && toople.y == -1246 && toople.z == -43)
+                            var possibleScannerPos = new Dictionary<(int x, int y, int z), int>();
+                            var scannerPermutation = new Dictionary<(int x, int y, int z), int>();
+                            for(var j = 0; j < scanners.Count; j++)
                             {
-                                Console.WriteLine(k);
+                                if (i != j)
+                                {
+                                    var allScanners = AllPermutations2(new List<int>() {beacon.x, beacon.y, beacon.z});
+                                    var k = 0;
+                                    foreach (var scannerPos in allScanners)
+                                    {
+                                        (int x, int y, int z) toople = (scannerPos[0] + myBeacon.x, scannerPos[1] + myBeacon.y, scannerPos[2] + myBeacon.z);
+                                        if (toople.x == 68 && toople.y == -1246 && toople.z == -43)
+                                        {
+                                            Console.WriteLine(k);
+                                        }
+                                        if (possibleScannerPos.ContainsKey(toople))
+                                        {
+                                            possibleScannerPos[toople] = possibleScannerPos[toople] + 1;
+                                        }
+                                        else
+                                        {
+                                            possibleScannerPos.Add(toople, 1);
+                                            scannerPermutation.Add(toople, k);
+                                        }
+                                        k++;
+                                    }
+                                }
                             }
-                            if (possibleScannerPos.ContainsKey(toople))
-                            {
-                                possibleScannerPos[toople] = possibleScannerPos[toople] + 1;
-                            }
-                            else
-                            {
-                                possibleScannerPos.Add(toople, 1);
-                                scannerPermutation.Add(toople, k);
-                            }
-                            k++;
-                        }
-                    }
-                }
 
-                var sortedDict = from entry in possibleScannerPos orderby entry.Value descending select entry;
-                var bestScan = sortedDict.First();
-                var bestScanPermutation = scannerPermutation[bestScan.Key];
+                            var sortedDict = from entry in possibleScannerPos orderby entry.Value descending select entry;
+                            var bestScan = sortedDict.First();
+                            var bestScanPermutation = scannerPermutation[bestScan.Key];
 
-                if (bestScan.Value >= 12)
-                {
-                    (int from, int to, int permu) toople = (i, j, bestScanPermutation);
-                    myTotalScans.Add(toople, bestScan.Key);
-                }
-            }*/
+                            if (bestScan.Value >= 12)
+                            {
+                                (int from, int to, int permu) toople = (i, j, bestScanPermutation);
+                                myTotalScans.Add(toople, bestScan.Key);
+                            }
+                        }*/
             /*
             var possibleScannerPos = new Dictionary<(int x, int y, int z), int>();
             var scannerPermutation = new Dictionary<(int x, int y, int z), int>();
@@ -151,14 +148,14 @@ namespace aoc2021
             {
                 beaconPos.Add(new List<int>() {item[0] + 68, item[1] - 1246, item[2] - 43});
             }*/
-			var numbers = ParseInput.GetNumbersFromFile(_filePath);
+            var numbers = ParseInput.GetNumbersFromFile(_filePath);
             var nodes = ParseInput.ParseFileAsGraph(_filePath);
             var grid = ParseInput.ParseFileAsGrid(_filePath);
             var total = 1000000;
-			var counter = 0;
+            var counter = 0;
             return total;
         }
-        
+
         private object Part2()
         {
             return 0;
@@ -177,26 +174,26 @@ namespace aoc2021
         public List<List<int>> PermuteSpots(List<int> listy)
         {
             var val = new List<List<int>>();
-            val.Add(new List<int>() { listy[0], listy[1], listy[2] } );
-            val.Add(new List<int>() { listy[0], listy[2], listy[1] } );
-            val.Add(new List<int>() { listy[1], listy[0], listy[2] } );
-            val.Add(new List<int>() { listy[1], listy[2], listy[0] } );
-            val.Add(new List<int>() { listy[2], listy[1], listy[0] } );
-            val.Add(new List<int>() { listy[2], listy[0], listy[1] } );
+            val.Add(new List<int>() { listy[0], listy[1], listy[2] });
+            val.Add(new List<int>() { listy[0], listy[2], listy[1] });
+            val.Add(new List<int>() { listy[1], listy[0], listy[2] });
+            val.Add(new List<int>() { listy[1], listy[2], listy[0] });
+            val.Add(new List<int>() { listy[2], listy[1], listy[0] });
+            val.Add(new List<int>() { listy[2], listy[0], listy[1] });
             return val;
         }
 
         public List<List<int>> PermutePosNeg(List<int> listy)
         {
             var val = new List<List<int>>();
-            val.Add(new List<int>() { listy[0], listy[1], listy[2] } );
-            val.Add(new List<int>() { listy[0], listy[1]*-1, listy[2] } );
-            val.Add(new List<int>() { listy[0], listy[1], listy[2]*-1 } );
-            val.Add(new List<int>() { listy[0], listy[1]*-1, listy[2]*-1 } );
-            val.Add(new List<int>() { listy[0]*-1, listy[1], listy[2] } );
-            val.Add(new List<int>() { listy[0]*-1, listy[1]*-1, listy[2] } );
-            val.Add(new List<int>() { listy[0]*-1, listy[1], listy[2]*-1 } );
-            val.Add(new List<int>() { listy[0]*-1, listy[1]*-1, listy[2]*-1 } );
+            val.Add(new List<int>() { listy[0], listy[1], listy[2] });
+            val.Add(new List<int>() { listy[0], listy[1] * -1, listy[2] });
+            val.Add(new List<int>() { listy[0], listy[1], listy[2] * -1 });
+            val.Add(new List<int>() { listy[0], listy[1] * -1, listy[2] * -1 });
+            val.Add(new List<int>() { listy[0] * -1, listy[1], listy[2] });
+            val.Add(new List<int>() { listy[0] * -1, listy[1] * -1, listy[2] });
+            val.Add(new List<int>() { listy[0] * -1, listy[1], listy[2] * -1 });
+            val.Add(new List<int>() { listy[0] * -1, listy[1] * -1, listy[2] * -1 });
             return val;
         }
 
@@ -213,12 +210,12 @@ namespace aoc2021
         public List<List<int>> PermutateFacing(List<int> listy)
         {
             var val = new List<List<int>>();
-            val.Add(new List<int>() { listy[0], listy[1], listy[2] } );
-            val.Add(new List<int>() { listy[0], listy[2], listy[1]*-1 } );
-            val.Add(new List<int>() { listy[0], listy[1]*-1, listy[2]*-1 } );
-            val.Add(new List<int>() { listy[0], listy[2]*-1, listy[1] } );
-            val.Add(new List<int>() { listy[2]*-1, listy[1], listy[0] } );
-            val.Add(new List<int>() { listy[2], listy[1], listy[0]*-1 } );
+            val.Add(new List<int>() { listy[0], listy[1], listy[2] });
+            val.Add(new List<int>() { listy[0], listy[2], listy[1] * -1 });
+            val.Add(new List<int>() { listy[0], listy[1] * -1, listy[2] * -1 });
+            val.Add(new List<int>() { listy[0], listy[2] * -1, listy[1] });
+            val.Add(new List<int>() { listy[2] * -1, listy[1], listy[0] });
+            val.Add(new List<int>() { listy[2], listy[1], listy[0] * -1 });
 
             return val;
         }
@@ -226,11 +223,11 @@ namespace aoc2021
         public List<List<int>> PermutateRotate(List<int> listy)
         {
             var val = new List<List<int>>();
-            val.Add(new List<int>() { listy[0], listy[1], listy[2] } );
-            val.Add(new List<int>() { listy[1]*-1, listy[0], listy[2] } );
-            val.Add(new List<int>() { listy[0]*-1, listy[1]*-1, listy[2] } );
-            val.Add(new List<int>() { listy[1], listy[0]*-1, listy[2] } );
-            
+            val.Add(new List<int>() { listy[0], listy[1], listy[2] });
+            val.Add(new List<int>() { listy[1] * -1, listy[0], listy[2] });
+            val.Add(new List<int>() { listy[0] * -1, listy[1] * -1, listy[2] });
+            val.Add(new List<int>() { listy[1], listy[0] * -1, listy[2] });
+
             return val;
         }
     }

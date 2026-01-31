@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2015
 {
-    public class Day14: ISolver
+    public class Day14 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -21,11 +17,11 @@ namespace aoc2015
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var dict = new Dictionary<string, (int speed, int time, int restTime)>();
             var finish = 2503;
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
+                var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
 
                 dict.Add(tokens[0], (nums[0], nums[1], nums[2]));
             }
@@ -48,7 +44,7 @@ namespace aoc2015
             }
             return best;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);

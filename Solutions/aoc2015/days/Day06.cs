@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2015
 {
-    public class Day06: ISolver
+    public class Day06 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -19,11 +15,11 @@ namespace aoc2015
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var lights = new bool[1000,1000];
+            var lights = new bool[1000, 1000];
             var counter = 0;
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars);
                 var nums = StringParsing.GetIntsFromString(line);
                 if (tokens[0].Equals("toggle"))
@@ -70,7 +66,7 @@ namespace aoc2015
             }
             return counter;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
@@ -115,7 +111,7 @@ namespace aoc2015
                     {
                         for (var j = nums[1]; j <= nums[3]; j++)
                         {
-                            lights[j, i] = Math.Max(0, lights[j,i] - 1);
+                            lights[j, i] = Math.Max(0, lights[j, i] - 1);
                         }
                     }
                 }

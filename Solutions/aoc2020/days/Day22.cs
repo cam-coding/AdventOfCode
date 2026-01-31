@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
 
 namespace aoc2020
 {
-    public class Day22: ISolver
+    public class Day22 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -20,11 +16,11 @@ namespace aoc2020
         private object Part1(bool isTest = false)
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var numbers = ParseInput.GetNumbersFromFile(_filePath);
+            var numbers = ParseInput.GetNumbersFromFile(_filePath);
             var nodes = ParseInput.ParseFileAsGraph(_filePath);
             var grid = ParseInput.ParseFileAsCharGrid(_filePath);
             var total = 1000000;
-			var count = 0;
+            var count = 0;
 
             var ln1 = lines[0];
             var ln2 = lines[1];
@@ -33,14 +29,14 @@ namespace aoc2020
 
             }
 
-			foreach (var line in lines)
-			{
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars).ToList().GetRealStrings(delimiterChars);
-				var nums = StringParsing.GetIntsFromString(line);
+                var nums = StringParsing.GetIntsFromString(line);
 
-				foreach (var num in nums)
-				{
-				}
+                foreach (var num in nums)
+                {
+                }
 
                 for (var i = 0; i < 0; i++)
                 {
@@ -49,7 +45,7 @@ namespace aoc2020
 
                     }
                 }
-			}
+            }
             return 0;
         }
 

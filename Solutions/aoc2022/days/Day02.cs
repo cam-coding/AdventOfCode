@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 
 namespace aoc2022
 {
-    public class Day02: ISolver
+    public class Day02 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -26,23 +23,23 @@ namespace aoc2022
                 {'Y', 'B'},
                 {'Z', 'C'},
             };
-            var values  = new Dictionary<char, int>()
+            var values = new Dictionary<char, int>()
             {
                 {'X', 1},
                 {'Y', 2},
                 {'Z', 3},
             };
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars);
 
                 total += tokens[1][0] - 'W';
                 total += MatchResult(tokens[0][0], replace[tokens[1][0]]);
-			}
+            }
             return total;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
@@ -54,7 +51,7 @@ namespace aoc2022
                 {'B', "CBA"},
                 {'C', "ACB"},
             };
-            var values  = new Dictionary<char, int>()
+            var values = new Dictionary<char, int>()
             {
                 {'X', 2},
                 {'Y', 1},
@@ -72,16 +69,16 @@ namespace aoc2022
                 {1, 3},
                 {2, 0},
             };
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars);
 
                 var pos = values[tokens[1][0]];
                 var myPlay = plays[tokens[0][0]][pos];
                 total += points[myPlay];
                 total += points2[pos];
-			}
+            }
             return total;
         }
 
@@ -91,7 +88,7 @@ namespace aoc2022
             {
                 return 3;
             }
-            return Win(me, opp) ? 6 : 0 ;
+            return Win(me, opp) ? 6 : 0;
         }
 
         private bool Win(char me, char opp)

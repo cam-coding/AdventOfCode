@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
 using AdventLibrary.Helpers.Grids;
 
 namespace aoc2017
 {
-    public class Day25: ISolver
+    public class Day25 : ISolver
     {
         private Dictionary<long, int> _tape;
         private long _currentPosition;
@@ -29,13 +24,13 @@ namespace aoc2017
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
             var groups = input.LineGroupsSeperatedByWhiteSpace;
-			var numbers = input.Longs;
+            var numbers = input.Longs;
             var longLines = input.LongLines;
             var nodes = input.GraphDirected;
             var grid = input.GridChar;
             var gridStart = new GridLocation<int>(0, 0);
             long total = 1000000;
-			long count = 0;
+            long count = 0;
             long number = input.Long;
             var state = 'A';
             _state = 'A';

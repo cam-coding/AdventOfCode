@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
 
 namespace aoc2023
 {
-    public class Day15: ISolver
+    public class Day15 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '>', '<', '+', '\t' };
@@ -41,7 +37,7 @@ namespace aoc2023
             }
             return total;
         }
-        
+
         private object Part2()
         {
             var boxes = new List<List<string>>();
@@ -71,7 +67,7 @@ namespace aoc2023
                         hash = hash % 256;
                     }
                 }
-                
+
                 if (toks.Count == 2)
                 {
                     var focal = int.Parse(toks[1]);

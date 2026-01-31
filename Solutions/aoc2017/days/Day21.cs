@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
 using AdventLibrary.Helpers.Grids;
-using Microsoft.Z3;
 
 namespace aoc2017
 {
-    public class Day21: ISolver
+    public class Day21 : ISolver
     {
         private string _filePath;
         private char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -37,8 +30,8 @@ namespace aoc2017
             var startingGrid = inputParser.GetLinesAsGrid<char>();
             var allGrids = new List<GridObject<char>>() { startingGrid };
 
-			foreach (var line in lines)
-			{
+            foreach (var line in lines)
+            {
                 var tokens = StringParsing.GetRealTokens(line, [' ', '=', '>']);
                 var ruleInput = new GridObject<char>(GetGrid(tokens[0]));
                 var ruleOutput = new GridObject<char>(GetGrid(tokens[1]));
@@ -174,13 +167,13 @@ namespace aoc2017
         private List<GridObject<char>> SubDivideGrid(int special, GridObject<char> grid)
         {
             var newGrids = new List<GridObject<char>>();
-            for (var y = 0; y < grid.Height/special; y++)
+            for (var y = 0; y < grid.Height / special; y++)
             {
                 for (var x = 0; x < grid.Width / special; x++)
                 {
                     newGrids.Add(grid.GetSubGrid(
-                        new GridLocation<int>(x*special, y*special),
-                        new GridLocation<int>((x+1) * special - 1, (y + 1) * special - 1)));
+                        new GridLocation<int>(x * special, y * special),
+                        new GridLocation<int>((x + 1) * special - 1, (y + 1) * special - 1)));
                 }
             }
             return newGrids;

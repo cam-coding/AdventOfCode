@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
 using AdventLibrary.Helpers.Grids;
 
 namespace aoc2022
 {
-    public class Day13: ISolver
+    public class Day13 : ISolver
     {
         private string _filePath;
         private char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -25,13 +20,13 @@ namespace aoc2022
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
-			var numbers = input.Longs;
+            var numbers = input.Longs;
             var longLines = input.LongLines;
             var nodes = input.GraphDirected;
             var grid = input.GridChar;
             var gridStart = new GridLocation<int>(0, 0);
             long total = 1000000;
-			long count = 0;
+            long count = 0;
             long number = input.Long;
 
             for (var i = 0; i < lines.Count; i++)
@@ -39,8 +34,8 @@ namespace aoc2022
 
             }
 
-			foreach (var line in lines)
-			{
+            foreach (var line in lines)
+            {
                 for (var i = 0; i < 0; i++)
                 {
                     for (var j = 0; j < 0; j++)
@@ -48,7 +43,7 @@ namespace aoc2022
 
                     }
                 }
-			}
+            }
             return count;
         }
 

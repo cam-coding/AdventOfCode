@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
-
-namespace AdventLibrary.Helpers.Grids
+﻿namespace AdventLibrary.Helpers.Grids
 {
     /* Designed for: https://adventofcode.com/2023/day/14
      * Will roll all moveable spot in the grid in the desired direction
@@ -51,7 +48,7 @@ namespace AdventLibrary.Helpers.Grids
             for (var x = 0; x < Grid.Width; x++)
             {
                 var freeSpaces = new List<int>();
-                for (var y = Grid.Height - 1; y >= 0 ; y--)
+                for (var y = Grid.Height - 1; y >= 0; y--)
                 {
                     freeSpaces = RollHelperUpDown(
                         freeSpaces,

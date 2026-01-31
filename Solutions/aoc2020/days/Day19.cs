@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
 
 namespace aoc2020
 {
-    public class Day19: ISolver
+    public class Day19 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -31,7 +27,7 @@ namespace aoc2020
                     break;
                 }
                 var tokens = lines[iter].Split(':').ToList().GetRealStrings();
-				var key = StringParsing.GetIntsFromString(tokens[0])[0];
+                var key = StringParsing.GetIntsFromString(tokens[0])[0];
                 var listy = new List<Rule>();
 
                 if (tokens[1].Contains("\""))
@@ -51,7 +47,7 @@ namespace aoc2020
                 }
 
                 _lookup.Add(key, listy);
-			}
+            }
             var subRules = _lookup[0];
             var count = 0;
             for (; iter < lines.Count; iter++)

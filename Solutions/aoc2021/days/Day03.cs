@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day03: ISolver
+    public class Day03 : ISolver
     {
         public Solution Solve(string filePath, bool isTest = false)
         {
@@ -16,7 +13,7 @@ namespace aoc2021
             var grid = ParseInput.ParseFileAsBoolGrid(filePath, '1');
             var width = grid.First().Count;
             var length = grid.Count;
-            var half = length/2;
+            var half = length / 2;
             var gamma = string.Empty;
             var epsilon = string.Empty;
 
@@ -32,18 +29,18 @@ namespace aoc2021
                 }
                 if (count >= half)
                 {
-                    gamma  = gamma  + '1';
-                    epsilon  = epsilon  + '0';
+                    gamma = gamma + '1';
+                    epsilon = epsilon + '0';
                 }
                 else
                 {
-                    gamma  = gamma  + '0';
-                    epsilon  = epsilon  + '1';
+                    gamma = gamma + '0';
+                    epsilon = epsilon + '1';
                 }
             }
             return Convert.ToInt32(gamma, 2) * Convert.ToInt32(epsilon, 2);
         }
-        
+
         private object Part2(string filePath)
         {
             var grid2 = ParseInput.ParseFileAsBoolGrid(filePath, '1');
@@ -51,20 +48,20 @@ namespace aoc2021
             var o2 = grid2.ToList();
             while (o2.Count > 1)
             {
-                var half = Math.Ceiling((double)o2.Count/2);
+                var half = Math.Ceiling((double)o2.Count / 2);
                 var count = o2.Count(x => x[i]);
                 o2 = o2.Where(x => x[i] == count >= half).ToList();
-                i++; 
+                i++;
             }
 
             var co2 = grid2.ToList();
-            i=0;
+            i = 0;
             while (co2.Count > 1)
             {
-                var half = Math.Ceiling((double)co2.Count/2);
+                var half = Math.Ceiling((double)co2.Count / 2);
                 var count = co2.Count(x => x[i]);
                 co2 = co2.Where(x => x[i] == count < half).ToList();
-                i++; 
+                i++;
             }
 
             return ConvertBooleanListToInt(o2.First()) * ConvertBooleanListToInt(co2.First());

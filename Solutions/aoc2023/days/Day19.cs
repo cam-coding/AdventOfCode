@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 
 namespace aoc2023
 {
-    public class Day19: ISolver
+    public class Day19 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -20,11 +17,11 @@ namespace aoc2023
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-            var dict = new Dictionary<string, string> ();
+            var dict = new Dictionary<string, string>();
             var accepted = new List<Part>();
             var myBool = false;
-			foreach (var line in lines)
-			{
+            foreach (var line in lines)
+            {
                 if (string.IsNullOrWhiteSpace(line))
                 {
                     myBool = true;
@@ -120,7 +117,7 @@ namespace aoc2023
                         accepted.Add(part);
                     }
                 }
-			}
+            }
             var county = 0;
 
             foreach (var item in accepted)
@@ -200,7 +197,7 @@ namespace aoc2023
                     }
                     else
                     {
-                        node.Connected.Add((nodes[lookup], cr, 1, num-1));
+                        node.Connected.Add((nodes[lookup], cr, 1, num - 1));
                     }
                 }
             }
@@ -325,7 +322,7 @@ namespace aoc2023
                 return 0;
             }
             long val = 1;
-            val = (long)Math.Max((current.MaxX - current.MinX + 1),1) *
+            val = (long)Math.Max((current.MaxX - current.MinX + 1), 1) *
                 (long)Math.Max((current.MaxA - current.MinA + 1), 1) *
                 (long)Math.Max((current.MaxS - current.MinS + 1), 1) *
                 (long)Math.Max((current.MaxM - current.MinM + 1), 1);

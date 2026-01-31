@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2016
 {
-    public class Day10: ISolver
-  {
+    public class Day10 : ISolver
+    {
         private string _filePath;
         private int specialItem1 = 17;
         private int specialItem2 = 61;
@@ -26,15 +22,15 @@ namespace aoc2016
         private object Part1()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var counter = 0;
+            var counter = 0;
 
             botLookup = new Dictionary<int, List<int>>();
             botInstructions = new Dictionary<int, string>();
             outputBins = new Dictionary<int, List<int>>();
-			
-			foreach (var line in lines)
-			{
-				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
+
+            foreach (var line in lines)
+            {
+                var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
                 if (line[0] == 'v')
                 {
                     if (botLookup.ContainsKey(nums[1]))
@@ -50,7 +46,7 @@ namespace aoc2016
                 {
                     botInstructions.Add(nums[0], line);
                 }
-			}
+            }
 
             while (botLookup.Any(x => x.Value.Count() == 2))
             {
@@ -59,7 +55,7 @@ namespace aoc2016
                     GoTime(key);
                 }
             }
-            
+
             return 0;
         }
 
@@ -141,19 +137,19 @@ namespace aoc2016
                 GoTime(nums[2]);
             }
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
-			var counter = 0;
+            var counter = 0;
 
             botLookup = new Dictionary<int, List<int>>();
             botInstructions = new Dictionary<int, string>();
             outputBins = new Dictionary<int, List<int>>();
-			
-			foreach (var line in lines)
-			{
-				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
+
+            foreach (var line in lines)
+            {
+                var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
                 if (line[0] == 'v')
                 {
                     if (botLookup.ContainsKey(nums[1]))
@@ -169,7 +165,7 @@ namespace aoc2016
                 {
                     botInstructions.Add(nums[0], line);
                 }
-			}
+            }
 
             while (botLookup.Any(x => x.Value.Count() == 2))
             {
@@ -178,7 +174,7 @@ namespace aoc2016
                     GoTime(key);
                 }
             }
-            
+
             return outputBins[0][0] * outputBins[1][0] * outputBins[2][0];
         }
     }

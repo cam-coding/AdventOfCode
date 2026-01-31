@@ -1,14 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2020
 {
-    public class Day16: ISolver
+    public class Day16 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -102,7 +96,7 @@ namespace aoc2020
             }
             while (posistionToPossible.Any(x => x.Count > 1))
             {
-                for (var i =0; i < posistionToPossible.Count; i++)
+                for (var i = 0; i < posistionToPossible.Count; i++)
                 {
                     if (posistionToPossible[i].Count == 1)
                     {

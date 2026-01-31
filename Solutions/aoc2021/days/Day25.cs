@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 
 namespace aoc2021
 {
-    public class Day25: ISolver
+    public class Day25 : ISolver
     {
-		/*
+        /*
 		var sub = item.Substring(0, 1);
 		Console.WriteLine();
 		*/
@@ -22,7 +19,7 @@ namespace aoc2021
         private object Part1()
         {
             var grid = ParseInput.ParseFileAsCharGrid(_filePath);
-			var counter = 0;
+            var counter = 0;
             var moved = true;
 
             while (moved)
@@ -49,9 +46,9 @@ namespace aoc2021
                         }
                     }
                 }
-                
+
                 grid = newGrid.Clone2dList();
-                
+
                 for (var i = 0; i < grid.Count; i++)
                 {
                     for (var j = 0; j < grid[0].Count; j++)
@@ -74,7 +71,7 @@ namespace aoc2021
             }
             return counter;
         }
-        
+
         private object Part2()
         {
             return 0;

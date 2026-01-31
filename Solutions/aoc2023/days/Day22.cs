@@ -1,18 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 
 namespace aoc2023
 {
-    public class Day22: ISolver
+    public class Day22 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
-        private Dictionary<string,int> _history = new Dictionary<string,int>();
-        private Dictionary<int,HashSet<int>> _brickToSupporters = new Dictionary<int, HashSet<int>>();
+        private Dictionary<string, int> _history = new Dictionary<string, int>();
+        private Dictionary<int, HashSet<int>> _brickToSupporters = new Dictionary<int, HashSet<int>>();
         private Dictionary<int, HashSet<int>> _brickToSupporting = new Dictionary<int, HashSet<int>>();
         public Solution Solve(string filePath, bool isTest = false)
         {
@@ -39,13 +36,13 @@ namespace aoc2023
             allBricks.Sort((a, b) => a.Item1.startZ.CompareTo(b.Item1.startZ));
 
             // map x,y coord to first height free and what's underneath that;
-            var topHeight = new Dictionary<(int y, int x), (int,int)>();
+            var topHeight = new Dictionary<(int y, int x), (int, int)>();
 
             for (var i = 0; i <= maxNum2; i++)
             {
                 for (var j = 0; j <= maxNum2; j++)
                 {
-                    topHeight.Add((i, j), (0,0));
+                    topHeight.Add((i, j), (0, 0));
                 }
             }
 

@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2016
 {
-    public class Day07: ISolver
-  {
+    public class Day07 : ISolver
+    {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t', '[', ']' };
         public Solution Solve(string filePath, bool isTest = false)
@@ -20,9 +16,9 @@ namespace aoc2016
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var count = 0;
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 var supernetStrings = new List<string>();
                 var hypernetStrings = new List<string>();
                 var tokens = line.Split(delimiterChars);
@@ -47,7 +43,7 @@ namespace aoc2016
                         count = count + 1;
                     }
                 }
-			}
+            }
             return count;
         }
 
@@ -61,8 +57,8 @@ namespace aoc2016
                 while (end < item.Length)
                 {
                     if (item[start] == item[end] &&
-                        item[start+1] == item[start+2] &&
-                        item[start] != item[start+1])
+                        item[start + 1] == item[start + 2] &&
+                        item[start] != item[start + 1])
                     {
                         return true;
                     }
@@ -72,14 +68,14 @@ namespace aoc2016
             }
             return false;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var count = 0;
-			
-			foreach (var line in lines)
-			{
+
+            foreach (var line in lines)
+            {
                 var supernetStrings = new List<string>();
                 var hypernetStrings = new List<string>();
                 var tokens = line.Split(delimiterChars);
@@ -96,7 +92,7 @@ namespace aoc2016
                         hypernetStrings.Add(tokens[i]);
                     }
                 }
-                
+
                 var foundMatch = false;
                 foreach (var item in supernetStrings)
                 {
@@ -106,9 +102,9 @@ namespace aoc2016
                     while (end < item.Length)
                     {
                         if (item[start] == item[end] &&
-                            item[start] != item[start+1])
+                            item[start] != item[start + 1])
                         {
-                            if (HasMatch(item[start], item[start+1], hypernetStrings))
+                            if (HasMatch(item[start], item[start + 1], hypernetStrings))
                             {
                                 foundMatch = true;
                                 break;
@@ -127,7 +123,7 @@ namespace aoc2016
                 {
                     count++;
                 }
-			}
+            }
             return count;
         }
 
@@ -142,7 +138,7 @@ namespace aoc2016
                 {
                     if (item[start] == char2 &&
                         item[end] == char2 &&
-                        item[start+1] == char1)
+                        item[start + 1] == char1)
                     {
                         return true;
                     }

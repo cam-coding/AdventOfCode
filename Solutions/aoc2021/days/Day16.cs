@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day16: ISolver
+    public class Day16 : ISolver
     {
-		/*
+        /*
 		var sub = item.Substring(0, 1);
 		Console.WriteLine();
 		*/
@@ -54,7 +51,7 @@ namespace aoc2021
             var total = SubPacket(0, longString, out notNeeded, out notNeeded2);
             return total;
         }
-        
+
         private object Part2()
         {
             var lines = AdventLibrary.ParseInput.GetLinesFromFile(_filePath);
@@ -84,7 +81,7 @@ namespace aoc2021
                 var current = 6;
                 var nextString = str.Substring(current, 5);
                 var totalString = string.Empty;
-                while(nextString[0] != '0')
+                while (nextString[0] != '0')
                 {
                     totalString = totalString + nextString.Substring(1, 4);
                     current = current + 5;
@@ -134,7 +131,7 @@ namespace aoc2021
             var currentLocation = 0;
             long litValue1 = 0;
             var litValues = new List<long>();
-            while ( i < count)
+            while (i < count)
             {
                 var usedSpace = 0;
                 versionTotal = versionTotal + SubPacket(0, str.Substring(currentLocation), out usedSpace, out litValue1);

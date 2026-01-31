@@ -1,15 +1,10 @@
 using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.PathFinding;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
 
 namespace aoc2015
 {
-    public class Day13: ISolver
+    public class Day13 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -25,11 +20,11 @@ namespace aoc2015
             var lines = ParseInput.GetLinesFromFile(_filePath);
             _arr = new int[8, 8];
             var guests = new List<int>();
-			var lookup2 = new Dictionary<string, int>();
-			foreach (var line in lines)
-			{
+            var lookup2 = new Dictionary<string, int>();
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars);
-				var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
+                var nums = AdventLibrary.StringParsing.GetIntsFromString(line);
                 var value = nums[0];
 
                 if (tokens[2].Equals("lose"))
@@ -68,7 +63,7 @@ namespace aoc2015
             }
             return total;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);

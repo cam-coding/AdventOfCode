@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2015
 {
-    public class Day17: ISolver
+    public class Day17 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -19,12 +15,12 @@ namespace aoc2015
 
         private object Part1()
         {
-			var numbers = ParseInput.GetNumbersFromFile(_filePath);
+            var numbers = ParseInput.GetNumbersFromFile(_filePath);
             _containers.Clear();
             foreach (var num in numbers)
-			{
+            {
                 _containers.Add(num);
-			}
+            }
             _containers.Sort();
             _containers.Reverse();
 

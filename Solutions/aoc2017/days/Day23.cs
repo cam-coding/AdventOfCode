@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.CustomObjects;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
-using AdventLibrary.Helpers.Grids;
 
 namespace aoc2017
 {
-    public class Day23: ISolver
+    public class Day23 : ISolver
     {
         private string _filePath;
         private char[] _delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -26,7 +22,7 @@ namespace aoc2017
         {
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
-			long count = 0;
+            long count = 0;
             var registers = new Registry(8, 'a', 0);
 
             for (var i = 0; i < lines.Count; i++)
@@ -63,7 +59,7 @@ namespace aoc2017
         private object Part2(bool isTest = false)
         {
             var myCount = 0;
-            for (var i = 106700; i <= 123700; i+= 17)
+            for (var i = 106700; i <= 123700; i += 17)
             {
                 if (!MathHelper.IsPrime(i))
                 {

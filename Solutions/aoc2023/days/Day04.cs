@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using AdventLibrary;
 
 namespace aoc2023
 {
-    public class Day04: ISolver
+    public class Day04 : ISolver
     {
         private string _filePath;
-        private char[] delimiterChars = { ':','|' };
+        private char[] delimiterChars = { ':', '|' };
         public Solution Solve(string filePath, bool isTest = false)
         {
             _filePath = filePath;
@@ -23,8 +20,8 @@ namespace aoc2023
             var lines = ParseInput.GetLinesFromFile(_filePath);
             double total = 0;
 
-			foreach (var line in lines)
-			{
+            foreach (var line in lines)
+            {
                 var tokens = line.Split(delimiterChars);
                 var winners = AdventLibrary.StringParsing.GetIntsFromString(tokens[1]);
                 var ours = AdventLibrary.StringParsing.GetIntsFromString(tokens[2]);
@@ -37,11 +34,11 @@ namespace aoc2023
                         counter++;
                     }
                 }
-                if (counter> 0)
+                if (counter > 0)
                 {
                     total += Math.Pow(2.0, counter - 1);
                 }
-			}
+            }
             return total;
         }
 

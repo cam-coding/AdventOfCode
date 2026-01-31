@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using AdventLibrary;
-using AdventLibrary.Helpers;
+using System.Text.RegularExpressions;
 
 namespace aoc2015
 {
-    public class Day10: ISolver
+    public class Day10 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };

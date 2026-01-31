@@ -1,12 +1,6 @@
 using AdventLibrary;
 using AdventLibrary.Extensions;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using static aoc2016.Day11;
 
 namespace aoc2016
 {
@@ -203,7 +197,7 @@ namespace aoc2016
             return false;
         }
 
-        public  static IEnumerable<IEnumerable<T>> GetKCombs<T>(IEnumerable<T> list, int length) where T : IComparable
+        public static IEnumerable<IEnumerable<T>> GetKCombs<T>(IEnumerable<T> list, int length) where T : IComparable
         {
             if (length == 1) return list.Select(t => new T[] { t });
             return GetKCombs(list, length - 1)

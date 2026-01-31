@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 using AdventLibrary.PathFinding;
 
 namespace aoc2016
 {
-    public class Day13: ISolver
-  {
+    public class Day13 : ISolver
+    {
         private string _filePath;
         private int _solution;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -20,7 +16,7 @@ namespace aoc2016
 
         private object Part1()
         {
-            var visited = new HashSet<(int,int)>();
+            var visited = new HashSet<(int, int)>();
             _solution = 100;
 
             var sol = BreadthFirstSearch.FindShortestPath(1, 1, 31, 39, IsOpen);
@@ -49,23 +45,23 @@ namespace aoc2016
             }
             return count;
         }
-        
+
         private object Part2()
         {
-            var visited = new HashSet<(int,int)>();
+            var visited = new HashSet<(int, int)>();
             var max = 50;
 
             Queue<(int x, int y, int count)> q = new Queue<(int x, int y, int count)>();
-            q.Enqueue((1,1,0));
+            q.Enqueue((1, 1, 0));
             while (q.Count > 0)
             {
                 var current = q.Dequeue();
 
-                if (visited.Contains((current.x,current.y)))
+                if (visited.Contains((current.x, current.y)))
                 {
                     continue;
                 }
-                
+
                 if (!IsOpen(current.x, current.y) ||
                     current.count > max ||
                     current.x < 0 ||
@@ -74,11 +70,11 @@ namespace aoc2016
                     continue;
                 }
 
-                visited.Add((current.x,current.y));
-                q.Enqueue((current.x+1, current.y, current.count + 1));
-                q.Enqueue((current.x-1, current.y, current.count + 1));
-                q.Enqueue((current.x, current.y+1, current.count + 1));
-                q.Enqueue((current.x, current.y-1, current.count + 1));
+                visited.Add((current.x, current.y));
+                q.Enqueue((current.x + 1, current.y, current.count + 1));
+                q.Enqueue((current.x - 1, current.y, current.count + 1));
+                q.Enqueue((current.x, current.y + 1, current.count + 1));
+                q.Enqueue((current.x, current.y - 1, current.count + 1));
             }
 
             return visited.Count();

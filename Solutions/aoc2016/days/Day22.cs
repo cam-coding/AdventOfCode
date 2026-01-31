@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2016
 {
-    public class Day22: ISolver
-  {
+    public class Day22 : ISolver
+    {
         private string _filePath;
         public Solution Solve(string filePath, bool isTest = false)
         {
@@ -19,11 +15,11 @@ namespace aoc2016
         {
             var lines = ParseInput.GetLinesFromFile(_filePath).Skip(2).ToList();
             var nodes = new List<Node>();
-			var counter = 0;
-			
-			foreach (var line in lines)
-			{
-				var nums = StringParsing.GetIntsFromString(line);
+            var counter = 0;
+
+            foreach (var line in lines)
+            {
+                var nums = StringParsing.GetIntsFromString(line);
                 nodes.Add(new Node(nums));
             }
 
@@ -42,7 +38,7 @@ namespace aoc2016
             }
             return counter;
         }
-        
+
         private object Part2()
         {
             // still need to make a logic for this. Doesn't seem hard once you are beside the data.
@@ -81,7 +77,7 @@ namespace aoc2016
                 {
                     insert = '_';
                 }
-                printArray[newNode.X,newNode.Y] = insert;
+                printArray[newNode.X, newNode.Y] = insert;
             }
 
             GridHelperWeirdTypes.PrintGrid(printArray);

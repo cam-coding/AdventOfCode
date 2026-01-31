@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AdventLibrary.Helpers.Grids
+﻿namespace AdventLibrary.Helpers.Grids
 {
     public class HexGridObject<T>
     {
@@ -31,7 +28,7 @@ namespace AdventLibrary.Helpers.Grids
             return Grid[coords];
         }
 
-        public int GetDistance (HexagonCoords start, HexagonCoords end)
+        public int GetDistance(HexagonCoords start, HexagonCoords end)
         {
             var deltaX = Math.Abs(end.X - start.X);
             var deltaY = Math.Abs(end.Y - start.Y);

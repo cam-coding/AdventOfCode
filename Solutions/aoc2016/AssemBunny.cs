@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace aoc2016
+﻿namespace aoc2016
 {
     internal class AssemBunny
     {
@@ -12,7 +9,7 @@ namespace aoc2016
         private int _pc;
         private char[] delimiterChars = { ' ' };
 
-        public AssemBunny(List<string> input) 
+        public AssemBunny(List<string> input)
         {
             _startingInput = input;
             SetupCommands();
@@ -107,7 +104,7 @@ namespace aoc2016
         {
             var value1 = _registers[tokens[1][0]];
             var value2 = _registers[tokens[2][0]];
-            _registers[tokens[3][0]] = _registers[tokens[3][0]] + (value1*value2);
+            _registers[tokens[3][0]] = _registers[tokens[3][0]] + (value1 * value2);
         }
 
         private void Command_Toggle(string line, string[] tokens)

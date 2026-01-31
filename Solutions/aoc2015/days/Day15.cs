@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2015
 {
-    public class Day15: ISolver
+    public class Day15 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -25,7 +21,7 @@ namespace aoc2015
                 {
                     for (var k = 0; k <= ((100 - j) - i); k++)
                     {
-                        for (var m  = 0; m <= (((100 - j) - i) -k); m++)
+                        for (var m = 0; m <= (((100 - j) - i) - k); m++)
                         {
                             var result = Calc(i, j, k, m);
                             if (result > best)
@@ -78,7 +74,7 @@ namespace aoc2015
             }
             return -1;
         }
-        
+
         private object Part2()
         {
             return 0;

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace AdventLibrary
 {
     public static class SolveProblemsGuessingAnswers
@@ -48,7 +44,7 @@ namespace AdventLibrary
             PrintNicely(nameof(finalCount), finalCount);
             PrintNicely(nameof(firstTimeNegative), firstTimeNegative);
             PrintNicely(nameof(firstTimePositive), firstTimePositive);
-            PrintNicely(nameof(i), i-1);
+            PrintNicely(nameof(i), i - 1);
         }
 
         public static void PrintNicely(string name, object value)

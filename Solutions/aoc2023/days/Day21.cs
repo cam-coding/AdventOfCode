@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Security.Cryptography;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.PathFinding;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Collections.Immutable;
 
 namespace aoc2023
 {
-    public class Day21: ISolver
+    public class Day21 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '=', '\t' };
@@ -25,7 +20,7 @@ namespace aoc2023
             var grid = ParseInput.ParseFileAsCharGrid(_filePath);
 
             var numGrid = new List<List<int>>();
-            (int, int) starting = (0,0);
+            (int, int) starting = (0, 0);
             for (var i = 0; i < grid.Count; i++)
             {
                 numGrid.Add(new List<int>());
@@ -130,14 +125,14 @@ namespace aoc2023
                 var f3 = entryPoints[4].Where(x => x.Value < i-mid && x.Value % 2 == 0).Count();
                 listy.Add((f1, f2,f3));
             }*/
-            var listy = new List<(int, int, int,int)>();
+            var listy = new List<(int, int, int, int)>();
             for (int i = 0; i < 26; i++)
             {
                 var f1 = entryPoints[5].Where(x => x.Value <= i && (i - x.Value) % 2 == 0).Count();
                 var f2 = entryPoints[6].Where(x => x.Value <= i && (i - x.Value) % 2 == 0).Count();
                 var f3 = entryPoints[7].Where(x => x.Value <= i && (i - x.Value) % 2 == 0).Count();
                 var f4 = entryPoints[8].Where(x => x.Value <= i && (i - x.Value) % 2 == 0).Count();
-                listy.Add((f1, f2, f3,f4));
+                listy.Add((f1, f2, f3, f4));
             }
 
             var naiveGridsWeCanReach = ((totalSteps / mid) - 1) / 2;
@@ -145,7 +140,7 @@ namespace aoc2023
             var rem = totalSteps % mid;
             while (rem < maxDistanceInGrid)
             {
-                rem = rem + mid*2;
+                rem = rem + mid * 2;
                 gridsWeCanReach -= 1;
             }
 
@@ -240,7 +235,7 @@ namespace aoc2023
             var stepsRemaining = steps - mid + 1;
             var remainingStart = stepsRemaining;
             var doubleMaxes = evenMax + oddMax;
-            var doublesCount = remainingStart / (width*2);
+            var doublesCount = remainingStart / (width * 2);
             var countSoFar = doublesCount * doubleMaxes;
             stepsRemaining = stepsRemaining - ((width * 2) * doublesCount);
             // at this point we are on an odd (for 100 at least)
@@ -356,7 +351,7 @@ namespace aoc2023
                 evenCornerCounts.Add(entryPoints[i].Where(x => x.Value < 600 && x.Value > 65 && x.Value % 2 == 0).Count());
                 oddCornerCounts.Add(entryPoints[i].Where(x => x.Value < 600 && x.Value > 65 && x.Value % 2 == 1).Count());
             }
-            var evenCount = entryPoints[0].Where(x => x.Value < 600 && x.Value  % 2 == 0).Count();
+            var evenCount = entryPoints[0].Where(x => x.Value < 600 && x.Value % 2 == 0).Count();
             var oddCount = entryPoints[0].Where(x => x.Value < 600 && x.Value % 2 == 1).Count();
             var evenCornerCount = entryPoints[4].Where(x => x.Value < 600 && x.Value > 65 && x.Value % 2 == 0).Count();
             var oddCornerCount = entryPoints[4].Where(x => x.Value < 600 && x.Value > 65 && x.Value % 2 == 1).Count();
@@ -428,7 +423,7 @@ namespace aoc2023
             return easyOnes + harder2;
         }
 
-        private void PrintDistanceGrid(List<List<int>> numGrid, List<List<char>> grid, (int,int) starting)
+        private void PrintDistanceGrid(List<List<int>> numGrid, List<List<char>> grid, (int, int) starting)
         {
             var results = DijkstraTuple.Search(numGrid, new Tuple<int, int>(starting.Item1, starting.Item2)).ToImmutableSortedDictionary();
 

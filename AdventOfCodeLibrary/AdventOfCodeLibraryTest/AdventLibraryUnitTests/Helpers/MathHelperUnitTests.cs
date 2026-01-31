@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AdventLibrary.Helpers;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using AdventLibrary.Helpers;
 using Xunit;
 
 namespace AdventLibraryUnitTests.Helpers

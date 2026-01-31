@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
 
 namespace aoc2021
 {
-    public class Day20: ISolver
+    public class Day20 : ISolver
     {
-		/*
+        /*
 		var sub = item.Substring(0, 1);
 		Console.WriteLine();
 		*/
@@ -49,7 +46,7 @@ namespace aoc2021
             // PrintGrid(grid);
             return Count(grid);
         }
-        
+
         private object Part2()
         {
             return 0;
@@ -107,7 +104,7 @@ namespace aoc2021
             return grid;
         }
 
-        public  List<List<bool>> ShiftGrid(List<List<bool>> currentGrid, bool badWhy)
+        public List<List<bool>> ShiftGrid(List<List<bool>> currentGrid, bool badWhy)
         {
             var newGrid = new List<List<bool>>();
 
@@ -122,7 +119,7 @@ namespace aoc2021
                     }
                     else
                     {
-                        newGrid[i].Add(currentGrid[i-1][j-1]);
+                        newGrid[i].Add(currentGrid[i - 1][j - 1]);
                     }
                 }
             }
@@ -139,7 +136,7 @@ namespace aoc2021
                 newGrid.Add(new List<bool>());
                 for (var j = 0; j < currentGrid[0].Count; j++)
                 {
-                    if (i == 0 || j == 0 || i == currentGrid.Count-1 || j == currentGrid[0].Count-1)
+                    if (i == 0 || j == 0 || i == currentGrid.Count - 1 || j == currentGrid[0].Count - 1)
                     {
                         var badNum = currentGrid[0][0] ? 511 : 0;
                         newGrid[i].Add(_answerKey[badNum].Equals('#'));
@@ -158,10 +155,10 @@ namespace aoc2021
         {
             var newGrid = new List<List<bool>>();
 
-            for (var i = x-1; i <= x+1; i++)
+            for (var i = x - 1; i <= x + 1; i++)
             {
                 var listy = new List<bool>();
-                for (var j = y-1; j <= y+1; j++)
+                for (var j = y - 1; j <= y + 1; j++)
                 {
                     listy.Add(grid[i][j]);
                 }

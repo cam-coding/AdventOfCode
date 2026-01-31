@@ -1,9 +1,6 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers.Grids;
+using System.Text.RegularExpressions;
 
 namespace AdventLibrary
 {

@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using AdventLibrary;
 using AdventLibrary.Extensions;
-using AdventLibrary.Helpers;
 
 namespace aoc2015
 {
-    public class Day11: ISolver
+    public class Day11 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
@@ -35,7 +30,7 @@ namespace aoc2015
         private string RollString(string password)
         {
             var arr = password.ToCharArray();
-            for (var j = password.Length-1; j >= 0; j--)
+            for (var j = password.Length - 1; j >= 0; j--)
             {
                 arr[j] = (char)(arr[j] + 1);
                 if (password[j] == 'i' ||
@@ -71,8 +66,8 @@ namespace aoc2015
                 }
                 if (i < password.Length - 2)
                 {
-                    if (password[i] == (password[i+1] - 1) &&
-                        password[i] == (password[i+2] - 2))
+                    if (password[i] == (password[i + 1] - 1) &&
+                        password[i] == (password[i + 2] - 2))
                     {
                         tripleValid = true;
                     }
@@ -80,7 +75,7 @@ namespace aoc2015
             }
             return pairValid && tripleValid;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);

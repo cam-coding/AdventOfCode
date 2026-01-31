@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
 
 namespace aoc2021
 {
-    public class Day11: ISolver
+    public class Day11 : ISolver
     {
-		/*
+        /*
 		var sub = item.Substring(0, 1);
 		Console.WriteLine();
 		*/
@@ -25,7 +22,7 @@ namespace aoc2021
         private object Part1()
         {
             grid = AdventLibrary.ParseInput.ParseFileAsGrid(_filePath);
-			_counter = 0;
+            _counter = 0;
             var blah = AdventLibrary.GridHelperWeirdTypes.GetAllNeighbours(grid, 0, 0);
 
             for (var w = 0; w < 100; w++)
@@ -37,7 +34,7 @@ namespace aoc2021
                         grid[i][j]++;
                     }
                 }
-                while (FlashGrid());
+                while (FlashGrid()) ;
             }
             return _counter;
         }
@@ -75,11 +72,11 @@ namespace aoc2021
         }
 
 
-        
+
         private object Part2()
         {
             grid = AdventLibrary.ParseInput.ParseFileAsGrid(_filePath);
-			_counter = 0;
+            _counter = 0;
             var blah = AdventLibrary.GridHelperWeirdTypes.GetAllNeighbours(grid, 0, 0);
 
             for (var w = 0; w < 10000; w++)
@@ -93,7 +90,7 @@ namespace aoc2021
                 }
                 _counter2 = 0;
 
-                while (FlashGrid());
+                while (FlashGrid()) ;
                 if (_counter2 == 100)
                 {
                     return w;

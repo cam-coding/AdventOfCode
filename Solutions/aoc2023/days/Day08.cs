@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AdventLibrary;
-using AdventLibrary.Helpers;
 
 namespace aoc2023
 {
-    public class Day08: ISolver
+    public class Day08 : ISolver
     {
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t', '(', ')', '=' };
@@ -20,8 +16,8 @@ namespace aoc2023
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var total = 1000000;
-			var counter = 0;
-            var dict = new Dictionary<string, (string,string)>();
+            var counter = 0;
+            var dict = new Dictionary<string, (string, string)>();
             var dir = lines[0];
             for (var j = 2; j < lines.Count; j++)
             {
@@ -52,7 +48,7 @@ namespace aoc2023
             }
             return counter;
         }
-        
+
         private object Part2()
         {
             var lines = ParseInput.GetLinesFromFile(_filePath);
@@ -72,7 +68,7 @@ namespace aoc2023
             }
 
             var i = 0;
-            var repetitionLengthPerPosistion = new Dictionary<int,HashSet<long>>();
+            var repetitionLengthPerPosistion = new Dictionary<int, HashSet<long>>();
             var countPerPosistion = new Dictionary<int, int>();
             for (var j = 0; j < currentPositions.Count; j++)
             {

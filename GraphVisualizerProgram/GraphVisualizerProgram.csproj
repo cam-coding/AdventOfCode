@@ -1,25 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net10.0-windows</TargetFramework>
+        <UseWindowsForms>true</UseWindowsForms>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="GraphInput.txt" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="GraphInput.txt" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="GraphInput.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+    <ItemGroup>
+        <Content Include="GraphInput.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Msagl.GraphViewerGDI" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Msagl.GraphViewerGDI" />
+    </ItemGroup>
 
 </Project>

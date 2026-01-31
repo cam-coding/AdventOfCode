@@ -1,10 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-	  <OutputType>Library</OutputType>
-  </PropertyGroup>
-  <ItemGroup>
-	  <Folder Include="Output\" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+	</PropertyGroup>
+	<ItemGroup>
+		<Folder Include="Output\" />
+	</ItemGroup>
 </Project>

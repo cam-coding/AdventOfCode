@@ -1,20 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
 
-  <ItemGroup>
-	  <ProjectReference Include="..\AdventOfCodeLibrary\AdventLibrary\AdventLibrary.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+	    <ProjectReference Include="..\AdventOfCodeLibrary\AdventLibrary\AdventLibrary.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Update="BoilerPlate.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+    <ItemGroup>
+        <None Update="BoilerPlate.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
 </Project>

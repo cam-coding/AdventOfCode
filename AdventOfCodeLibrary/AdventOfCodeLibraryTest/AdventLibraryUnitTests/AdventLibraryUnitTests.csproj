@@ -1,28 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	  <TargetFramework>net10.0</TargetFramework>
-	  <OutputType>Library</OutputType>
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
+    <PropertyGroup>
+	    <OutputType>Library</OutputType>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio" />
-    <PackageReference Include="coverlet.collector" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="xunit" />
+        <PackageReference Include="xunit.runner.visualstudio" />
+        <PackageReference Include="coverlet.collector" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\AdventLibrary\AdventLibrary.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\AdventLibrary\AdventLibrary.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Update="TestData\Pathfinding\2021day15part1example.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestData\Pathfinding\2021day15part2example.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+    <ItemGroup>
+        <None Update="TestData\Pathfinding\2021day15part1example.txt">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\Pathfinding\2021day15part2example.txt">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
 </Project>

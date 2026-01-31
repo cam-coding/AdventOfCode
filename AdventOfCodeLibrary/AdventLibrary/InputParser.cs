@@ -70,7 +70,7 @@ namespace AdventLibrary
                 }
                 return ret;
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return null;
@@ -82,7 +82,7 @@ namespace AdventLibrary
             {
                 return StringParsing.GetLongsWithNegativesFromString(_text).Select(x => x).ToList();
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return null;
@@ -100,7 +100,7 @@ namespace AdventLibrary
 
                 return numbers;
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return null;
@@ -119,7 +119,7 @@ namespace AdventLibrary
                 }
                 return returnList;
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return null;
@@ -131,7 +131,7 @@ namespace AdventLibrary
             {
                 return StringParsing.GetDigitsFromString(_textNoLineBreaks).Select(x => (long)x).ToList();
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return null;
@@ -149,7 +149,7 @@ namespace AdventLibrary
                 }
                 return returnList;
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return null;
@@ -163,7 +163,7 @@ namespace AdventLibrary
                 var doubles = tokens.Select(x => Double.Parse(x)).ToList();
                 return doubles;
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return null;
@@ -182,7 +182,7 @@ namespace AdventLibrary
                 }
                 return returnList;
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return null;
@@ -239,7 +239,7 @@ namespace AdventLibrary
                 }
                 return new GridObject<T>(grid);
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return null;
@@ -286,7 +286,7 @@ namespace AdventLibrary
                 }
                 return nodes;
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return null;
@@ -341,7 +341,7 @@ namespace AdventLibrary
                 }
                 return nodes;
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return null;
@@ -358,7 +358,7 @@ namespace AdventLibrary
                 }
                 return listy;
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return null;
@@ -380,7 +380,7 @@ namespace AdventLibrary
                 }
                 return list;
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 Console.WriteLine("Input is something other than a grid");
             }
@@ -403,7 +403,7 @@ namespace AdventLibrary
                 }
                 return list;
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 Console.WriteLine("Input is something other than a grid");
             }

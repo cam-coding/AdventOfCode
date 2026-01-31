@@ -1,6 +1,5 @@
 using AdventLibrary;
 using AdventLibrary.CustomObjects;
-using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 
 namespace aoc2017
@@ -75,6 +74,7 @@ namespace aoc2017
              *  QED count the iterations where b isn't prime
              * */
             return myCount;
+            /*
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
             long count = 0;
@@ -83,17 +83,6 @@ namespace aoc2017
 
             for (var i = 0; i < lines.Count; i++)
             {
-                /*
-                if (i == 12)
-                {
-                    i = 20;
-                    registry = RunLines11to19(registry);
-                }
-                if (i == 20)
-                {
-                    i = 24;
-                    registry = RunLines20to23(registry);
-                }*/
                 if (i == 8 || i == 24 || i == 28 || i == 31)
                 {
                     var str = registry.Registers.Stringify();
@@ -126,6 +115,7 @@ namespace aoc2017
                 }
             }
             return count;
+            */
         }
 
         private Registry RunLines11to19(Registry reg)

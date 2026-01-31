@@ -56,7 +56,6 @@ namespace aoc2019
                 }
                 grid = newGrid;
             }
-            return count;
         }
 
         private int CountGrid(GridObject<char> grid)

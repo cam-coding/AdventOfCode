@@ -6,7 +6,6 @@ namespace aoc2016
     public class Day13 : ISolver
     {
         private string _filePath;
-        private int _solution;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
         public Solution Solve(string filePath, bool isTest = false)
         {
@@ -17,8 +16,6 @@ namespace aoc2016
         private object Part1()
         {
             var visited = new HashSet<(int, int)>();
-            _solution = 100;
-
             var sol = BreadthFirstSearch.FindShortestPath(1, 1, 31, 39, IsOpen);
             return sol;
         }

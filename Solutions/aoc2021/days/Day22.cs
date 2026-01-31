@@ -19,7 +19,6 @@ namespace aoc2021
 
         private object Part1()
         {
-            return 0;
             var lines = ParseInput.GetLinesFromFile(_filePath);
             var onCubes = new Dictionary<Tuple<int, int, int>, int>();
 

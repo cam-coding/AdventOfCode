@@ -51,7 +51,6 @@ namespace aoc2021
                     }
                 }
             }
-            return "never get here";
         }
 
         private object Part2()

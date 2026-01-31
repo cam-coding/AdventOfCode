@@ -134,8 +134,6 @@ namespace AdventLibrary.CustomObjects
             decimal x = (otherLine.B * C - B * otherLine.C) / delta;
             decimal y = (A * otherLine.C - otherLine.A * C) / delta;
             return new GridLocation<decimal>(x, y);
-
-            return null;
         }
 
         /// <summary>

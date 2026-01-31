@@ -4,7 +4,6 @@ namespace aoc2016
 {
     public class Day05 : ISolver
     {
-        private System.Security.Cryptography.MD5 _md5;
         private string _filePath;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
         public Solution Solve(string filePath, bool isTest = false)
@@ -44,7 +43,6 @@ namespace aoc2016
                     count++;
                 }
             }
-            return 0;
         }
 
         private object Part2()
@@ -88,7 +86,6 @@ namespace aoc2016
                     count++;
                 }
             }
-            return 0;
         }
     }
 }

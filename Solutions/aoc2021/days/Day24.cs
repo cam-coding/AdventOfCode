@@ -25,7 +25,6 @@ namespace aoc2021
 
         private object Part1(bool isTest = false)
         {
-            return 0;
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
             _registry = new Registry(4, 'w', 0);

@@ -11,9 +11,9 @@ namespace AdventLibrary.CustomObjects
             Suit = new SuitObject(suit);
         }
 
-        public SuitObject? Suit { get; set; }
+        public SuitObject Suit { get; set; }
 
-        public ValueObject? Value { get; set; }
+        public ValueObject Value { get; set; }
 
         public bool HigherBetter { get; set; }
 

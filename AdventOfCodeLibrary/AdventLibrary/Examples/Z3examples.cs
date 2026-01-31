@@ -143,7 +143,6 @@ namespace AdventLibrary.Examples
                 return sum;
             }
             throw new Exception("something went wrong");
-            return -1;
         }
     }
 }

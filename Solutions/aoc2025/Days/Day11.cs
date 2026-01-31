@@ -22,6 +22,7 @@ namespace aoc2025
         private object Part1(bool isTest = false)
         {
             return 0;
+            /*
             var input = new InputObjectCollection(_filePath);
             var lines = input.Lines;
 
@@ -50,7 +51,8 @@ namespace aoc2025
                 adjList.Add(tokens[0], tokens.SubList(1));
             }
 
-            // return BFS_Search(adjList, "you", "out");
+            return BFS_Search(adjList, "you", "out");
+            */
         }
 
         private object Part2(bool isTest = false)

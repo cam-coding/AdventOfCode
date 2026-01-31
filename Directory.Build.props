@@ -6,6 +6,8 @@
 		<GenerateProgramFile>false</GenerateProgramFile>
 		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
 		<NoWarn>0219</NoWarn>
-		<Nullable>enable</Nullable>
+		<Deterministic>true</Deterministic>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisLevel>latest</AnalysisLevel>
     </PropertyGroup>
 </Project>

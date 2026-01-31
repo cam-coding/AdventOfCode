@@ -46,8 +46,6 @@ namespace aoc2016
                 }
                 counter++;
             }
-
-            return 0;
         }
 
         private object Part2()
@@ -85,8 +83,6 @@ namespace aoc2016
                 }
                 counter++;
             }
-
-            return 0;
         }
     }
 }

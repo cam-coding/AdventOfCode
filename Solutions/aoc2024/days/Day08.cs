@@ -141,7 +141,7 @@ namespace aoc2024
                         {
                             slope = ((double)loc.Y - (double)pair.Item2.Y) / ((double)loc.X - (double)pair.Item2.X);
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
                             continue;
                         }
@@ -159,7 +159,7 @@ namespace aoc2024
                             {
                                 slope2 = ((double)pair.Item2.Y - (double)item.Item2.Y) / ((double)pair.Item2.X - (double)item.Item2.X);
                             }
-                            catch (Exception e)
+                            catch (Exception)
                             {
                                 continue;
                             }

@@ -21,7 +21,7 @@
             {
                 return System.IO.File.ReadAllLines(fileName).ToList().Select(x => Int32.Parse(x)).ToList();
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 Console.WriteLine("Input is something other than all numbers");
             }
@@ -81,7 +81,7 @@
                 }
                 return grid;
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 Console.WriteLine("Input is something other than a grid");
             }
@@ -105,7 +105,7 @@
                 }
                 return list;
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 Console.WriteLine("Input is something other than a grid");
             }
@@ -159,7 +159,7 @@
                 }
                 return nodes;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("Input is something other than a graph");
             }

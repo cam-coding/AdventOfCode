@@ -43,7 +43,6 @@ namespace aoc2023
             blah = dist[new Tuple<int, int>(0, 1)];
             blah = dist[new Tuple<int, int>(0, 2)];
             blah = dist[new Tuple<int, int>(0, 3)];*/
-            return 0;
             var grid = ParseInput.ParseFileAsGrid(_filePath);
             return BFS_Generic3(grid);
         }

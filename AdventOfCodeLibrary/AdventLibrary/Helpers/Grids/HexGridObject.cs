@@ -49,9 +49,9 @@
             return result;
         }
 
-        public class Hexagon<T>
+        public class Hexagon<Ty>
         {
-            public Hexagon(HexagonCoords coords, T value = default(T))
+            public Hexagon(HexagonCoords coords, Ty value = default(Ty))
             {
                 Coords = coords;
                 Value = value;
@@ -59,7 +59,7 @@
 
             public HexagonCoords Coords { get; set; }
 
-            public T Value { get; set; }
+            public Ty Value { get; set; }
         }
 
         public class HexagonCoords

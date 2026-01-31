@@ -10,8 +10,6 @@ namespace aoc2021
 		Console.WriteLine();
 		*/
         private string _filePath;
-        private List<List<int>> _grid;
-        private Dictionary<Tuple<int, int>, List<Tuple<int, int>>> graph;
         private char[] delimiterChars = { ' ', ',', '.', ':', '-', '>', '<', '+', '\t' };
 
         public Solution Solve(string filePath, bool isTest = false)

@@ -35,7 +35,6 @@
                 return LessThanOrEqualTo(item1, item2);
             }
             throw new Exception("Unexpected command");
-            return false;
         }
         public static bool Equal(long item1, long item2) { return item1 == item2; }
         public static bool NotEqual(long item1, long item2) { return item1 != item2; }

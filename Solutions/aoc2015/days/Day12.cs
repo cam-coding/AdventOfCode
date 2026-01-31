@@ -35,7 +35,6 @@ namespace aoc2015
                 JsonElement root = document.RootElement;
                 return Walk(root);
             }
-            return 0;
         }
 
         private int Walk(JsonElement current)
@@ -53,7 +52,7 @@ namespace aoc2015
                         count += Walk(value);
                     }
                 }
-                catch (System.Exception e)
+                catch (Exception)
                 {
                     count = 0;
                 }

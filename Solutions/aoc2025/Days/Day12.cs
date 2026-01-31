@@ -2,7 +2,6 @@ using AdventLibrary;
 using AdventLibrary.Extensions;
 using AdventLibrary.Helpers;
 using AdventLibrary.Helpers.Grids;
-using DlxLib;
 using Solution = AdventLibrary.Solution;
 
 namespace aoc2025
@@ -193,6 +192,8 @@ namespace aoc2025
                     }
                 }
 
+                /* Tried this on the night of. Leaving it for fun but it doesn't have net10
+                 *
                 // call external algorithm x nuget package
                 var dlx = new Dlx();
                 var firstTwoSolutions = dlx.Solve<bool>(finalMatrix.ConvertTo2DArray());
@@ -209,7 +210,7 @@ namespace aoc2025
                 catch (Exception e)
                 {
                     // catch and do nothing, we know it failed
-                }
+                }*/
             }
             return count;
         }

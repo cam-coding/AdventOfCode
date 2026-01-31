@@ -3,7 +3,6 @@ using Xunit;
 using System.Collections.Generic;
 using AdventLibrary.PathFinding;
 using Xunit.Abstractions;
-using Microsoft.VisualStudio.TestPlatform.Utilities;
 using AdventLibrary;
 using AdventLibrary.Helpers.Grids;
 

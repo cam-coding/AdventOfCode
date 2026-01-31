@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Z3" Version="4.12.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\AdventOfCodeLibrary\AdventLibrary\AdventLibrary.csproj" />
   </ItemGroup>
 

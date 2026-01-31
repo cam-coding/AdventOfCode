@@ -2,7 +2,10 @@
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
         <LangVersion>latest</LangVersion>
-		<ImplicitUsings>disable</ImplicitUsings>
+		<ImplicitUsings>enable</ImplicitUsings>
 		<GenerateProgramFile>false</GenerateProgramFile>
+		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+		<NoWarn>0219</NoWarn>
+		<Nullable>enable</Nullable>
     </PropertyGroup>
 </Project>
